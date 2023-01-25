@@ -1,0 +1,58 @@
+<?php
+namespace Addons\AntFusion;
+
+class Field {
+    use \Addons\AntFusion\Traits\HasMeta;
+    use \Addons\AntFusion\Traits\ShowInTrait;
+    
+    public $label;
+    public $handle;
+
+    protected $component;
+    protected $rules = [];
+    protected $defaultValue;
+
+    public function __construct($label, $handle) {
+        $this->label = $label;
+        $this->handle = $handle;
+    }
+
+    public static function make($label, $handle) {
+        return new static($label, $handle);
+    }
+
+    public function rules($rules) {
+        $this->rules = $rules;
+        return $this;
+    }
+
+    public function getRules() {
+        return $this->rules;
+    }
+
+    public function default($defaultValue) {
+        $this->defaultValue = $defaultValue;
+        return $this;
+    }
+
+    public function exceptOnForms() {
+        foreach ($this->formViews as $scenario) {
+            $this->exceptShowIn($scenario);
+        }
+        return $this;
+    }
+
+    public function toArray() {
+        return array_merge($this->meta, [
+            'component' => $this->component,
+            'name' => $this->label,
+            'handle' => $this->handle,
+            'default' => $this->defaultValue,
+        ]);
+    }
+
+    protected function hasRequiredRule() {
+        $rules = $this->getRules();
+        return in_array('required', $rules);
+    }
+}
