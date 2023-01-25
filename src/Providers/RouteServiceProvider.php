@@ -38,6 +38,11 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapDataTableRoutes();
     }
 
+    protected function routePath($path) {
+        $basePath = dirname(dirname(dirname(__FILE__)));
+        return $basePath.'/'.$path;
+    }
+
     /**
      * Define the "web" routes for the addon.
      *
@@ -51,7 +56,7 @@ class RouteServiceProvider extends ServiceProvider
             'middleware' => 'web',
             'namespace'  => $this->namespace . '\Web',
         ], function ($router) {
-            require base_path('addons/AntFusion/routes/web.php');
+            require $this->routePath('routes/web.php');
         });
     }
 
@@ -69,13 +74,13 @@ class RouteServiceProvider extends ServiceProvider
             'namespace'  => $this->namespace . '\API',
             'prefix'     => 'api',
         ], function ($router) {
-            require base_path('addons/AntFusion/routes/api.php');
+            require $this->routePath('routes/api.php');
         });
     }
 
     protected function mapDataTableRoutes() {
         Route::group($this->routeDatatableConfiguration(), function () {
-            require base_path('addons/AntFusion/routes/datatable.php');
+            require $this->routePath('routes/datatable.php');
         });
     }
 

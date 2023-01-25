@@ -34,10 +34,12 @@ class AddonServiceProvider extends ServiceProvider
         $this->bootAdminMenu();
         
         $addonName = 'AntFusion';
+        $basePath = dirname(dirname(dirname(__FILE__)));
+
         if (!File::exists(public_path("addons/{$addonName}"))) {
             // Create symlink
             File::link(
-                base_path("addons/{$addonName}/public"),
+                "{$basePath}/public",
                 public_path("addons/{$addonName}")
             );
         }
