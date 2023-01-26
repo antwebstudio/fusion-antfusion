@@ -1,10 +1,11 @@
 <?php
 namespace Addons\AntFusion\Traits;
 
+use Illuminate\Http\Request;
 use Addons\AntFusion\Http\Resources\ResourceResource;
 
 trait CanEdit {
-    public function update($request) {
+    public function update(Request $request) {
         $validated = $request->validate($this->rules());
         $model = $this->model()->find($request->resourceId);
         $model->update($validated);

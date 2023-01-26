@@ -10,7 +10,9 @@ trait HasDataTable {
         $columns = [];
         foreach ($this->getFieldsForDataTable() as $field) {
             if (!is_string($field)) {
-                $columns[] = $field->handle;
+                if ($field->shouldShowIn('index') && !$field->isHidden()) {
+                    $columns[] = $field->handle;
+                }
             } else {
                 $columns[] = $field;
             }
@@ -27,7 +29,15 @@ trait HasDataTable {
     }
 
     public function getSortable() {
-        return $this->getDisplayableColumns();
+        $columns = [];
+        foreach ($this->getFieldsForDataTable() as $field) {
+            if (!is_string($field)) {
+                $columns[] = $field->handle;
+            } else {
+                $columns[] = $field;
+            }
+        }
+        return $columns;
     }
 
     public function getCustomColumnTypes() {
@@ -39,6 +49,10 @@ trait HasDataTable {
                     $columns[$field->handle] = $component;
                 } else if ($this->clickColumnHandle == $field->handle) {
                     $columns[$field->handle] = $this->clickColumnComponent;
+                }
+            } else {
+                if ($this->clickColumnHandle == $field) {
+                    $columns[$field] = $this->clickColumnComponent;
                 }
             }
         }

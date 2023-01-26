@@ -8,6 +8,19 @@ class Fusion extends Field
     protected $fieldType;
     protected $settings = [];
 
+    public static function makeFromField(\Fusion\Models\Field $field)
+    {
+        return static::make($field->name, $field->handle)
+            // ->section($field->fieldable->placement)
+            ->type($field->type)
+            ->mergeSettings($field->settings);
+    }
+
+    public function handlePrefix($prefix) {
+        $this->handle = $prefix.$this->handle;
+        return $this;
+    }
+
     public function type($fieldType) {
         $this->fieldType = $fieldType;
         $this->component = $fieldType.'-fieldtype';
@@ -28,6 +41,7 @@ class Fusion extends Field
     }
 
     public function mergeSettings($settings) {
+        if (is_object($settings)) $settings = $settings->toArray();
         $this->settings = array_merge($this->settings, $settings);
         return $this;
     }
@@ -46,7 +60,7 @@ class Fusion extends Field
     }
 
     public function toArray() {
-        return [
+        return array_merge($this->meta, [
             'component' => $this->component,
             'handle' => $this->handle,
             'field' =>[
@@ -55,6 +69,6 @@ class Fusion extends Field
                 'settings' => $this->getSettings(),
                 'required' => $this->hasRequiredRule(),
             ],
-        ];
+        ]);
     }
 }

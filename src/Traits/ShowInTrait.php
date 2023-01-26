@@ -7,6 +7,7 @@ trait ShowInTrait {
     protected $formViews = ['creating', 'updating'];
     protected $showByDefault = true;
     protected $scenario;
+    protected $hide = false;
 
     public function exceptShowIn($scenario) {
         $this->exceptShowIn[$scenario] = true;
@@ -30,6 +31,15 @@ trait ShowInTrait {
 
     public function setScenario($scenario) {
         $this->scenario = $scenario;
+        return $this;
+    }
+
+    public function isHidden() {
+        return $this->hide;
+    }
+
+    public function hide($hide = true) {
+        $this->hide = $hide;
         return $this;
     }
 }

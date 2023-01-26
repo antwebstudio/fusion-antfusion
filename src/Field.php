@@ -17,8 +17,9 @@ class Field {
         $this->handle = $handle;
     }
 
-    public static function make($label, $handle) {
-        return new static($label, $handle);
+    public static function make(...$arguments)
+    {
+        return new static(...$arguments);
     }
 
     public function rules($rules) {
@@ -47,6 +48,9 @@ class Field {
             'component' => $this->component,
             'name' => $this->label,
             'handle' => $this->handle,
+            'field' => [
+                'handle' => $this->handle,
+            ],
             'default' => $this->defaultValue,
         ]);
     }
@@ -54,5 +58,17 @@ class Field {
     protected function hasRequiredRule() {
         $rules = $this->getRules();
         return in_array('required', $rules);
+    }
+    
+    public function getIndexComponent() {
+        return $this->component;
+    }
+
+    public function hideFromIndex() {
+        return $this->exceptShowIn('index');
+    }
+
+    public function section($sectionName) {
+        return $this->withMeta(['section' => $sectionName]);
     }
 }

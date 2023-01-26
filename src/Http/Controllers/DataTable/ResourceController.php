@@ -14,13 +14,15 @@ class ResourceController extends DataTableController {
 
     public function getRecords(Request $request) {
         $paginate = parent::getRecords($request);
-        $records = $paginate->toArray();
-        $resource = $this->resource();
-        foreach ($records['data'] as &$record) {
-            $record['resource'] = ['handle' => $resource->getHandle()];
-            $record['actions'] = $resource->getActionsForRecord($record);
+        if ($paginate !== []) {
+            $records = $paginate->toArray();
+            $resource = $this->resource();
+            foreach ($records['data'] as &$record) {
+                $record['resource'] = ['handle' => $resource->getHandle()];
+                $record['actions'] = $resource->getActionsForRecord($record);
+            }
         }
-        return $records;
+        return $records ?? ['data' => []];
     }
 
     public function builder() {

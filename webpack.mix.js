@@ -11,7 +11,7 @@ mix.js('resources/js/app.js', 'public/js').vue().setPublicPath('public')
         },
         resolve: {
             alias: {
-                '@': path.resolve(__dirname, '../../vendor/fusioncms/cms/resources/js/'),
+                '@': path.resolve(__dirname, '../../fusioncms/cms/resources/js/'),
             },
         },
     });

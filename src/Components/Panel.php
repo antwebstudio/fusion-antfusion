@@ -39,13 +39,13 @@ class Panel extends Component implements PanelInterface, JsonSerializable {
         //     }
         //     return $array;
         // } else {
-            return [
+            return array_merge($this->meta, [
                 'component' => $this->component,
                 'label' => $this->label,
                 'children' => $this->fieldsArray($this->scenario),
                 'is_panel' => true,
                 'fields' => $this->flatternFieldsArray($this->scenario),
-            ];
+            ]);
         // }
     }
 

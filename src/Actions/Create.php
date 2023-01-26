@@ -7,6 +7,11 @@ class Create extends Action {
     protected $name = 'Create';
     protected $standalone = true;
 
+    public function label($label) {
+        $this->name = $label;
+        return $this;
+    }
+
     public function handle($request, $entries) {
         $resourceSlug = $this->parent->getSlug();
 

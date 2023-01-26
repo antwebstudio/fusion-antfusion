@@ -81,7 +81,7 @@
                         }
 
                         _.each(meta.fields, (field) => {
-                            form[field.field.handle] = record[field.field.handle]
+                            form[field.field.handle] = _.get(record, field.field.handle)
                         })
 
                         vm.meta = meta

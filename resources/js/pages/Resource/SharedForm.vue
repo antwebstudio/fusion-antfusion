@@ -9,9 +9,28 @@
         </portal>
 
         <section-card title="Loading..." v-show="loading"></section-card>
+        
+        <div v-if="! loading">
 
-        <div v-show="! loading">
-            <div v-for="field, index in meta.children" :key="index">
+            <portal to="sidebar-left">
+                <div v-for="field, index in sections.sidebarLeft" :key="index">
+                    <component v-if="field.is_panel" v-model="form" :is="field.component" v-bind="field" 
+                        :form="form"
+                        >
+                        {{ field.text }}
+                    </component>
+
+                    <component v-else v-model="form[field.field.handle]" :is="field.component" v-bind="field" 
+                        :form="form"
+                        :has-error="form.errors.has(field.field.handle)"
+                        :error-message="form.errors.get(field.field.handle)"
+                        >
+                        {{ field.text }}
+                    </component>
+                </div>
+            </portal>
+
+            <div v-for="field, index in sections.body" :key="index">
                 <component v-if="field.is_panel" v-model="form" :is="field.component" v-bind="field" 
                     :form="form"
                     >
@@ -26,6 +45,24 @@
                     {{ field.text }}
                 </component>
             </div>
+
+            <portal to="sidebar-right">
+                <div v-for="field, index in sections.sidebarRight" :key="index">
+                    <component v-if="field.is_panel" v-model="form" :is="field.component" v-bind="field" 
+                        :form="form"
+                        >
+                        {{ field.text }}
+                    </component>
+
+                    <component v-else v-model="form[field.field.handle]" :is="field.component" v-bind="field" 
+                        :form="form"
+                        :has-error="form.errors.has(field.field.handle)"
+                        :error-message="form.errors.get(field.field.handle)"
+                        >
+                        {{ field.text }}
+                    </component>
+                </div>
+            </portal>
         </div>
     </div>
 </template>
@@ -69,9 +106,24 @@ import Flatpickr from '@/ui/Flatpickr/Flatpickr.vue'
         },
 
         computed: {
+            sections() {
+                let body = _.filter(this.children, (field) =>
+                    !field.section || field.section == 'body')
+
+                let sidebarRight = _.filter(this.children, (field) =>
+                    field.section == 'sidebar' || field.section == 'sidebar-right')
+
+                let sidebarLeft = _.filter(this.children, (field) =>
+                    field.section == 'sidebar-left')
+                    
+                return { body, sidebarRight, sidebarLeft }
+            },
+            children() {
+                return this.meta.children
+            },
             fields() {
                 return this.meta.fields
-            }
+            },
         },
 
         methods: {

@@ -139,18 +139,9 @@ class Action {
         return $this->standalone;
     }
 
-    public function isHidden() {
-        return $this->hide;
-    }
-
     public function registerFor($parent) {
         $this->setParent($parent);
         $parent->registerAction($this);
-        return $this;
-    }
-
-    public function hide($hide = true) {
-        $this->hide = $hide;
         return $this;
     }
 }
