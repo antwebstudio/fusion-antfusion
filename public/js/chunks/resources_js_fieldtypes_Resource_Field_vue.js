@@ -4229,8 +4229,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
 /* harmony import */ var pluralize__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! pluralize */ "./node_modules/pluralize/pluralize.js");
 /* harmony import */ var pluralize__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(pluralize__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _services_Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/services/Form */ "../../vendor/fusioncms/cms/resources/js/services/Form.js");
-/* harmony import */ var _mixins_fieldtypes_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/mixins/fieldtypes/field */ "../../vendor/fusioncms/cms/resources/js/mixins/fieldtypes/field.js");
+/* harmony import */ var _services_Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/services/Form */ "../../fusioncms/cms/resources/js/services/Form.js");
+/* harmony import */ var _mixins_fieldtypes_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/mixins/fieldtypes/field */ "../../fusioncms/cms/resources/js/mixins/fieldtypes/field.js");
 /* harmony import */ var _riophae_vue_treeselect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @riophae/vue-treeselect */ "./node_modules/@riophae/vue-treeselect/dist/vue-treeselect.cjs.js");
 /* harmony import */ var _riophae_vue_treeselect__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_riophae_vue_treeselect__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _riophae_vue_treeselect_dist_vue_treeselect_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @riophae/vue-treeselect/dist/vue-treeselect.css */ "./node_modules/@riophae/vue-treeselect/dist/vue-treeselect.css");
@@ -4376,10 +4376,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/mixins/fieldtypes/field.js":
-/*!**************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/mixins/fieldtypes/field.js ***!
-  \**************************************************************************/
+/***/ "../../fusioncms/cms/resources/js/mixins/fieldtypes/field.js":
+/*!*******************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/mixins/fieldtypes/field.js ***!
+  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4425,10 +4425,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/services/Errors.js":
-/*!******************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/services/Errors.js ***!
-  \******************************************************************/
+/***/ "../../fusioncms/cms/resources/js/services/Errors.js":
+/*!***********************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/services/Errors.js ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4492,10 +4492,10 @@ var Errors = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/services/Form.js":
-/*!****************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/services/Form.js ***!
-  \****************************************************************/
+/***/ "../../fusioncms/cms/resources/js/services/Form.js":
+/*!*********************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/services/Form.js ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4503,8 +4503,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Form)
 /* harmony export */ });
-/* harmony import */ var _services_Errors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/services/Errors */ "../../vendor/fusioncms/cms/resources/js/services/Errors.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store */ "../../vendor/fusioncms/cms/resources/js/store/index.js");
+/* harmony import */ var _services_Errors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/services/Errors */ "../../fusioncms/cms/resources/js/services/Errors.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store */ "../../fusioncms/cms/resources/js/store/index.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -4668,10 +4668,10 @@ var Form = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/auth.js":
-/*!*************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/auth.js ***!
-  \*************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/auth.js":
+/*!******************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/auth.js ***!
+  \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4679,7 +4679,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ "../../vendor/fusioncms/cms/node_modules/js-cookie/src/js.cookie.js");
+/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ "../../fusioncms/cms/node_modules/js-cookie/src/js.cookie.js");
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(js_cookie__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4737,10 +4737,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/blueprint.js":
-/*!******************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/blueprint.js ***!
-  \******************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/blueprint.js":
+/*!***********************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/blueprint.js ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4767,10 +4767,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/disks.js":
-/*!**************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/disks.js ***!
-  \**************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/disks.js":
+/*!*******************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/disks.js ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4806,10 +4806,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/fieldtypes.js":
-/*!*******************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/fieldtypes.js ***!
-  \*******************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/fieldtypes.js":
+/*!************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/fieldtypes.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4879,10 +4879,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/filemanager.js":
-/*!********************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/filemanager.js ***!
-  \********************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/filemanager.js":
+/*!*************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/filemanager.js ***!
+  \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4890,7 +4890,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../../vendor/fusioncms/cms/node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../../fusioncms/cms/node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5154,6 +5154,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/api/disks/".concat(disk)).then(function (_ref3) {
         var data = _ref3.data;
         commit('setDisk', data.data);
+        dispatch('reset');
         dispatch('fetchFilesAndDirectories');
       })["catch"](function (errors) {
         return console.log(errors);
@@ -5328,10 +5329,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/form.js":
-/*!*************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/form.js ***!
-  \*************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/form.js":
+/*!******************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/form.js ***!
+  \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5372,10 +5373,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/fusion.js":
-/*!***************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/fusion.js ***!
-  \***************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/fusion.js":
+/*!********************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/fusion.js ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5408,10 +5409,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/inbox.js":
-/*!**************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/inbox.js ***!
-  \**************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/inbox.js":
+/*!*******************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/inbox.js ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5419,7 +5420,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../../vendor/fusioncms/cms/node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../../fusioncms/cms/node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5570,10 +5571,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/index.js":
-/*!**************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/index.js ***!
-  \**************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/index.js":
+/*!*******************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/index.js ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5581,19 +5582,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vue */ "../../vendor/fusioncms/cms/node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuex */ "../../vendor/fusioncms/cms/node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth */ "../../vendor/fusioncms/cms/resources/js/store/auth.js");
-/* harmony import */ var _blueprint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./blueprint */ "../../vendor/fusioncms/cms/resources/js/store/blueprint.js");
-/* harmony import */ var _disks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./disks */ "../../vendor/fusioncms/cms/resources/js/store/disks.js");
-/* harmony import */ var _fieldtypes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fieldtypes */ "../../vendor/fusioncms/cms/resources/js/store/fieldtypes.js");
-/* harmony import */ var _filemanager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./filemanager */ "../../vendor/fusioncms/cms/resources/js/store/filemanager.js");
-/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./form */ "../../vendor/fusioncms/cms/resources/js/store/form.js");
-/* harmony import */ var _fusion__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fusion */ "../../vendor/fusioncms/cms/resources/js/store/fusion.js");
-/* harmony import */ var _inbox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./inbox */ "../../vendor/fusioncms/cms/resources/js/store/inbox.js");
-/* harmony import */ var _navigation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./navigation */ "../../vendor/fusioncms/cms/resources/js/store/navigation.js");
-/* harmony import */ var _notifications__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./notifications */ "../../vendor/fusioncms/cms/resources/js/store/notifications.js");
-/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./settings */ "../../vendor/fusioncms/cms/resources/js/store/settings.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vue */ "../../fusioncms/cms/node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuex */ "../../fusioncms/cms/node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth */ "../../fusioncms/cms/resources/js/store/auth.js");
+/* harmony import */ var _blueprint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./blueprint */ "../../fusioncms/cms/resources/js/store/blueprint.js");
+/* harmony import */ var _disks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./disks */ "../../fusioncms/cms/resources/js/store/disks.js");
+/* harmony import */ var _fieldtypes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fieldtypes */ "../../fusioncms/cms/resources/js/store/fieldtypes.js");
+/* harmony import */ var _filemanager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./filemanager */ "../../fusioncms/cms/resources/js/store/filemanager.js");
+/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./form */ "../../fusioncms/cms/resources/js/store/form.js");
+/* harmony import */ var _fusion__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fusion */ "../../fusioncms/cms/resources/js/store/fusion.js");
+/* harmony import */ var _inbox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./inbox */ "../../fusioncms/cms/resources/js/store/inbox.js");
+/* harmony import */ var _navigation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./navigation */ "../../fusioncms/cms/resources/js/store/navigation.js");
+/* harmony import */ var _notifications__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./notifications */ "../../fusioncms/cms/resources/js/store/notifications.js");
+/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./settings */ "../../fusioncms/cms/resources/js/store/settings.js");
 
 
 
@@ -5626,10 +5627,10 @@ vue__WEBPACK_IMPORTED_MODULE_11__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/navigation.js":
-/*!*******************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/navigation.js ***!
-  \*******************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/navigation.js":
+/*!************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/navigation.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5665,10 +5666,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/notifications.js":
-/*!**********************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/notifications.js ***!
-  \**********************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/notifications.js":
+/*!***************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/notifications.js ***!
+  \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5711,10 +5712,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/settings.js":
-/*!*****************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/settings.js ***!
-  \*****************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/settings.js":
+/*!**********************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/settings.js ***!
+  \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -20216,10 +20217,10 @@ Vue.compile = compileToFunctions;
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/js-cookie/src/js.cookie.js":
-/*!**************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/js-cookie/src/js.cookie.js ***!
-  \**************************************************************************/
+/***/ "../../fusioncms/cms/node_modules/js-cookie/src/js.cookie.js":
+/*!*******************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/js-cookie/src/js.cookie.js ***!
+  \*******************************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -20393,10 +20394,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/lodash/lodash.js":
-/*!****************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/lodash/lodash.js ***!
-  \****************************************************************/
+/***/ "../../fusioncms/cms/node_modules/lodash/lodash.js":
+/*!*********************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/lodash/lodash.js ***!
+  \*********************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 /* module decorator */ module = __webpack_require__.nmd(module);
@@ -37605,10 +37606,10 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/vue/dist/vue.esm.js":
-/*!*******************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/vue/dist/vue.esm.js ***!
-  \*******************************************************************/
+/***/ "../../fusioncms/cms/node_modules/vue/dist/vue.esm.js":
+/*!************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/vue/dist/vue.esm.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -49545,10 +49546,10 @@ Vue.compile = compileToFunctions;
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/vuex/dist/vuex.esm.js":
-/*!*********************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/vuex/dist/vuex.esm.js ***!
-  \*********************************************************************/
+/***/ "../../fusioncms/cms/node_modules/vuex/dist/vuex.esm.js":
+/*!**************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/vuex/dist/vuex.esm.js ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";

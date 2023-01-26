@@ -11,7 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _services_Form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/services/Form */ "../../vendor/fusioncms/cms/resources/js/services/Form.js");
+/* harmony import */ var _services_Form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/services/Form */ "../../fusioncms/cms/resources/js/services/Form.js");
 /* harmony import */ var _SharedForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SharedForm */ "./resources/js/pages/Resource/SharedForm.vue");
 //
 //
@@ -91,7 +91,7 @@ __webpack_require__.r(__webpack_exports__);
         };
 
         _.each(meta.fields, function (field) {
-          form[field.field.handle] = record[field.field.handle];
+          form[field.field.handle] = _.get(record, field.field.handle);
         });
 
         vm.meta = meta;
@@ -120,7 +120,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ui_Flatpickr_Flatpickr_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/ui/Flatpickr/Flatpickr.vue */ "../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue");
+/* harmony import */ var _ui_Flatpickr_Flatpickr_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/ui/Flatpickr/Flatpickr.vue */ "../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -182,6 +219,28 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
+    sections: function sections() {
+      var body = _.filter(this.children, function (field) {
+        return !field.section || field.section == 'body';
+      });
+
+      var sidebarRight = _.filter(this.children, function (field) {
+        return field.section == 'sidebar' || field.section == 'sidebar-right';
+      });
+
+      var sidebarLeft = _.filter(this.children, function (field) {
+        return field.section == 'sidebar-left';
+      });
+
+      return {
+        body: body,
+        sidebarRight: sidebarRight,
+        sidebarLeft: sidebarLeft
+      };
+    },
+    children: function children() {
+      return this.meta.children;
+    },
     fields: function fields() {
       return this.meta.fields;
     }
@@ -191,10 +250,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -202,7 +261,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var flatpickr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flatpickr */ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/index.js");
+/* harmony import */ var flatpickr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flatpickr */ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -283,10 +342,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/services/Errors.js":
-/*!******************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/services/Errors.js ***!
-  \******************************************************************/
+/***/ "../../fusioncms/cms/resources/js/services/Errors.js":
+/*!***********************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/services/Errors.js ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -350,10 +409,10 @@ var Errors = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/services/Form.js":
-/*!****************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/services/Form.js ***!
-  \****************************************************************/
+/***/ "../../fusioncms/cms/resources/js/services/Form.js":
+/*!*********************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/services/Form.js ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -361,8 +420,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Form)
 /* harmony export */ });
-/* harmony import */ var _services_Errors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/services/Errors */ "../../vendor/fusioncms/cms/resources/js/services/Errors.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store */ "../../vendor/fusioncms/cms/resources/js/store/index.js");
+/* harmony import */ var _services_Errors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/services/Errors */ "../../fusioncms/cms/resources/js/services/Errors.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store */ "../../fusioncms/cms/resources/js/store/index.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -526,10 +585,10 @@ var Form = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/auth.js":
-/*!*************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/auth.js ***!
-  \*************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/auth.js":
+/*!******************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/auth.js ***!
+  \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -537,7 +596,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ "../../vendor/fusioncms/cms/node_modules/js-cookie/src/js.cookie.js");
+/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ "../../fusioncms/cms/node_modules/js-cookie/src/js.cookie.js");
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(js_cookie__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -595,10 +654,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/blueprint.js":
-/*!******************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/blueprint.js ***!
-  \******************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/blueprint.js":
+/*!***********************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/blueprint.js ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -625,10 +684,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/disks.js":
-/*!**************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/disks.js ***!
-  \**************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/disks.js":
+/*!*******************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/disks.js ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -664,10 +723,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/fieldtypes.js":
-/*!*******************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/fieldtypes.js ***!
-  \*******************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/fieldtypes.js":
+/*!************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/fieldtypes.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -737,10 +796,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/filemanager.js":
-/*!********************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/filemanager.js ***!
-  \********************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/filemanager.js":
+/*!*************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/filemanager.js ***!
+  \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -748,7 +807,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../../vendor/fusioncms/cms/node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../../fusioncms/cms/node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1012,6 +1071,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/api/disks/".concat(disk)).then(function (_ref3) {
         var data = _ref3.data;
         commit('setDisk', data.data);
+        dispatch('reset');
         dispatch('fetchFilesAndDirectories');
       })["catch"](function (errors) {
         return console.log(errors);
@@ -1186,10 +1246,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/form.js":
-/*!*************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/form.js ***!
-  \*************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/form.js":
+/*!******************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/form.js ***!
+  \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1230,10 +1290,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/fusion.js":
-/*!***************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/fusion.js ***!
-  \***************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/fusion.js":
+/*!********************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/fusion.js ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1266,10 +1326,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/inbox.js":
-/*!**************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/inbox.js ***!
-  \**************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/inbox.js":
+/*!*******************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/inbox.js ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1277,7 +1337,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../../vendor/fusioncms/cms/node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../../fusioncms/cms/node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1428,10 +1488,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/index.js":
-/*!**************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/index.js ***!
-  \**************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/index.js":
+/*!*******************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/index.js ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1439,19 +1499,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vue */ "../../vendor/fusioncms/cms/node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuex */ "../../vendor/fusioncms/cms/node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth */ "../../vendor/fusioncms/cms/resources/js/store/auth.js");
-/* harmony import */ var _blueprint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./blueprint */ "../../vendor/fusioncms/cms/resources/js/store/blueprint.js");
-/* harmony import */ var _disks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./disks */ "../../vendor/fusioncms/cms/resources/js/store/disks.js");
-/* harmony import */ var _fieldtypes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fieldtypes */ "../../vendor/fusioncms/cms/resources/js/store/fieldtypes.js");
-/* harmony import */ var _filemanager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./filemanager */ "../../vendor/fusioncms/cms/resources/js/store/filemanager.js");
-/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./form */ "../../vendor/fusioncms/cms/resources/js/store/form.js");
-/* harmony import */ var _fusion__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fusion */ "../../vendor/fusioncms/cms/resources/js/store/fusion.js");
-/* harmony import */ var _inbox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./inbox */ "../../vendor/fusioncms/cms/resources/js/store/inbox.js");
-/* harmony import */ var _navigation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./navigation */ "../../vendor/fusioncms/cms/resources/js/store/navigation.js");
-/* harmony import */ var _notifications__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./notifications */ "../../vendor/fusioncms/cms/resources/js/store/notifications.js");
-/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./settings */ "../../vendor/fusioncms/cms/resources/js/store/settings.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vue */ "../../fusioncms/cms/node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuex */ "../../fusioncms/cms/node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth */ "../../fusioncms/cms/resources/js/store/auth.js");
+/* harmony import */ var _blueprint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./blueprint */ "../../fusioncms/cms/resources/js/store/blueprint.js");
+/* harmony import */ var _disks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./disks */ "../../fusioncms/cms/resources/js/store/disks.js");
+/* harmony import */ var _fieldtypes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fieldtypes */ "../../fusioncms/cms/resources/js/store/fieldtypes.js");
+/* harmony import */ var _filemanager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./filemanager */ "../../fusioncms/cms/resources/js/store/filemanager.js");
+/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./form */ "../../fusioncms/cms/resources/js/store/form.js");
+/* harmony import */ var _fusion__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fusion */ "../../fusioncms/cms/resources/js/store/fusion.js");
+/* harmony import */ var _inbox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./inbox */ "../../fusioncms/cms/resources/js/store/inbox.js");
+/* harmony import */ var _navigation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./navigation */ "../../fusioncms/cms/resources/js/store/navigation.js");
+/* harmony import */ var _notifications__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./notifications */ "../../fusioncms/cms/resources/js/store/notifications.js");
+/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./settings */ "../../fusioncms/cms/resources/js/store/settings.js");
 
 
 
@@ -1484,10 +1544,10 @@ vue__WEBPACK_IMPORTED_MODULE_11__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/navigation.js":
-/*!*******************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/navigation.js ***!
-  \*******************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/navigation.js":
+/*!************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/navigation.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1523,10 +1583,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/notifications.js":
-/*!**********************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/notifications.js ***!
-  \**********************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/notifications.js":
+/*!***************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/notifications.js ***!
+  \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1569,10 +1629,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/store/settings.js":
-/*!*****************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/store/settings.js ***!
-  \*****************************************************************/
+/***/ "../../fusioncms/cms/resources/js/store/settings.js":
+/*!**********************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/store/settings.js ***!
+  \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1638,10 +1698,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css&":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css& ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1649,14 +1709,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../../addons/AntFusion/node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_node_modules_flatpickr_dist_flatpickr_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! -!../../../../../../../addons/AntFusion/node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../../../node_modules/flatpickr/dist/flatpickr.min.css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../vendor/fusioncms/cms/node_modules/flatpickr/dist/flatpickr.min.css");
+/* harmony import */ var _antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../antweb/fusion-antfusion/node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_node_modules_flatpickr_dist_flatpickr_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! -!../../../../../../antweb/fusion-antfusion/node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../../../node_modules/flatpickr/dist/flatpickr.min.css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../fusioncms/cms/node_modules/flatpickr/dist/flatpickr.min.css");
 // Imports
 
 
-var ___CSS_LOADER_EXPORT___ = _addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-___CSS_LOADER_EXPORT___.i(_addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_node_modules_flatpickr_dist_flatpickr_min_css__WEBPACK_IMPORTED_MODULE_1__["default"]);
+var ___CSS_LOADER_EXPORT___ = _antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.i(_antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_node_modules_flatpickr_dist_flatpickr_min_css__WEBPACK_IMPORTED_MODULE_1__["default"]);
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n", ""]);
 // Exports
@@ -1665,10 +1725,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n", ""]);
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../vendor/fusioncms/cms/node_modules/flatpickr/dist/flatpickr.min.css":
-/*!***********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../vendor/fusioncms/cms/node_modules/flatpickr/dist/flatpickr.min.css ***!
-  \***********************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../fusioncms/cms/node_modules/flatpickr/dist/flatpickr.min.css":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../fusioncms/cms/node_modules/flatpickr/dist/flatpickr.min.css ***!
+  \****************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1676,11 +1736,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../addons/AntFusion/node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../antweb/fusion-antfusion/node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
 // Imports
 
-var ___CSS_LOADER_EXPORT___ = _addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+var ___CSS_LOADER_EXPORT___ = _antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, ".flatpickr-calendar{background:transparent;opacity:0;display:none;text-align:center;visibility:hidden;padding:0;-webkit-animation:none;animation:none;direction:ltr;border:0;font-size:14px;line-height:24px;border-radius:5px;position:absolute;width:307.875px;-webkit-box-sizing:border-box;box-sizing:border-box;-ms-touch-action:manipulation;touch-action:manipulation;background:#fff;-webkit-box-shadow:1px 0 0 #e6e6e6,-1px 0 0 #e6e6e6,0 1px 0 #e6e6e6,0 -1px 0 #e6e6e6,0 3px 13px rgba(0,0,0,0.08);box-shadow:1px 0 0 #e6e6e6,-1px 0 0 #e6e6e6,0 1px 0 #e6e6e6,0 -1px 0 #e6e6e6,0 3px 13px rgba(0,0,0,0.08)}.flatpickr-calendar.open,.flatpickr-calendar.inline{opacity:1;max-height:640px;visibility:visible}.flatpickr-calendar.open{display:inline-block;z-index:99999}.flatpickr-calendar.animate.open{-webkit-animation:fpFadeInDown 300ms cubic-bezier(.23,1,.32,1);animation:fpFadeInDown 300ms cubic-bezier(.23,1,.32,1)}.flatpickr-calendar.inline{display:block;position:relative;top:2px}.flatpickr-calendar.static{position:absolute;top:calc(100% + 2px)}.flatpickr-calendar.static.open{z-index:999;display:block}.flatpickr-calendar.multiMonth .flatpickr-days .dayContainer:nth-child(n+1) .flatpickr-day.inRange:nth-child(7n+7){-webkit-box-shadow:none !important;box-shadow:none !important}.flatpickr-calendar.multiMonth .flatpickr-days .dayContainer:nth-child(n+2) .flatpickr-day.inRange:nth-child(7n+1){-webkit-box-shadow:-2px 0 0 #e6e6e6,5px 0 0 #e6e6e6;box-shadow:-2px 0 0 #e6e6e6,5px 0 0 #e6e6e6}.flatpickr-calendar .hasWeeks .dayContainer,.flatpickr-calendar .hasTime .dayContainer{border-bottom:0;border-bottom-right-radius:0;border-bottom-left-radius:0}.flatpickr-calendar .hasWeeks .dayContainer{border-left:0}.flatpickr-calendar.hasTime .flatpickr-time{height:40px;border-top:1px solid #e6e6e6}.flatpickr-calendar.noCalendar.hasTime .flatpickr-time{height:auto}.flatpickr-calendar:before,.flatpickr-calendar:after{position:absolute;display:block;pointer-events:none;border:solid transparent;content:'';height:0;width:0;left:22px}.flatpickr-calendar.rightMost:before,.flatpickr-calendar.arrowRight:before,.flatpickr-calendar.rightMost:after,.flatpickr-calendar.arrowRight:after{left:auto;right:22px}.flatpickr-calendar.arrowCenter:before,.flatpickr-calendar.arrowCenter:after{left:50%;right:50%}.flatpickr-calendar:before{border-width:5px;margin:0 -5px}.flatpickr-calendar:after{border-width:4px;margin:0 -4px}.flatpickr-calendar.arrowTop:before,.flatpickr-calendar.arrowTop:after{bottom:100%}.flatpickr-calendar.arrowTop:before{border-bottom-color:#e6e6e6}.flatpickr-calendar.arrowTop:after{border-bottom-color:#fff}.flatpickr-calendar.arrowBottom:before,.flatpickr-calendar.arrowBottom:after{top:100%}.flatpickr-calendar.arrowBottom:before{border-top-color:#e6e6e6}.flatpickr-calendar.arrowBottom:after{border-top-color:#fff}.flatpickr-calendar:focus{outline:0}.flatpickr-wrapper{position:relative;display:inline-block}.flatpickr-months{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}.flatpickr-months .flatpickr-month{background:transparent;color:rgba(0,0,0,0.9);fill:rgba(0,0,0,0.9);height:34px;line-height:1;text-align:center;position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;overflow:hidden;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}.flatpickr-months .flatpickr-prev-month,.flatpickr-months .flatpickr-next-month{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;text-decoration:none;cursor:pointer;position:absolute;top:0;height:34px;padding:10px;z-index:3;color:rgba(0,0,0,0.9);fill:rgba(0,0,0,0.9)}.flatpickr-months .flatpickr-prev-month.flatpickr-disabled,.flatpickr-months .flatpickr-next-month.flatpickr-disabled{display:none}.flatpickr-months .flatpickr-prev-month i,.flatpickr-months .flatpickr-next-month i{position:relative}.flatpickr-months .flatpickr-prev-month.flatpickr-prev-month,.flatpickr-months .flatpickr-next-month.flatpickr-prev-month{/*\n      /*rtl:begin:ignore*/left:0/*\n      /*rtl:end:ignore*/}/*\n      /*rtl:begin:ignore*/\n/*\n      /*rtl:end:ignore*/\n.flatpickr-months .flatpickr-prev-month.flatpickr-next-month,.flatpickr-months .flatpickr-next-month.flatpickr-next-month{/*\n      /*rtl:begin:ignore*/right:0/*\n      /*rtl:end:ignore*/}/*\n      /*rtl:begin:ignore*/\n/*\n      /*rtl:end:ignore*/\n.flatpickr-months .flatpickr-prev-month:hover,.flatpickr-months .flatpickr-next-month:hover{color:#959ea9}.flatpickr-months .flatpickr-prev-month:hover svg,.flatpickr-months .flatpickr-next-month:hover svg{fill:#f64747}.flatpickr-months .flatpickr-prev-month svg,.flatpickr-months .flatpickr-next-month svg{width:14px;height:14px}.flatpickr-months .flatpickr-prev-month svg path,.flatpickr-months .flatpickr-next-month svg path{-webkit-transition:fill .1s;transition:fill .1s;fill:inherit}.numInputWrapper{position:relative;height:auto}.numInputWrapper input,.numInputWrapper span{display:inline-block}.numInputWrapper input{width:100%}.numInputWrapper input::-ms-clear{display:none}.numInputWrapper input::-webkit-outer-spin-button,.numInputWrapper input::-webkit-inner-spin-button{margin:0;-webkit-appearance:none}.numInputWrapper span{position:absolute;right:0;width:14px;padding:0 4px 0 2px;height:50%;line-height:50%;opacity:0;cursor:pointer;border:1px solid rgba(57,57,57,0.15);-webkit-box-sizing:border-box;box-sizing:border-box}.numInputWrapper span:hover{background:rgba(0,0,0,0.1)}.numInputWrapper span:active{background:rgba(0,0,0,0.2)}.numInputWrapper span:after{display:block;content:\"\";position:absolute}.numInputWrapper span.arrowUp{top:0;border-bottom:0}.numInputWrapper span.arrowUp:after{border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:4px solid rgba(57,57,57,0.6);top:26%}.numInputWrapper span.arrowDown{top:50%}.numInputWrapper span.arrowDown:after{border-left:4px solid transparent;border-right:4px solid transparent;border-top:4px solid rgba(57,57,57,0.6);top:40%}.numInputWrapper span svg{width:inherit;height:auto}.numInputWrapper span svg path{fill:rgba(0,0,0,0.5)}.numInputWrapper:hover{background:rgba(0,0,0,0.05)}.numInputWrapper:hover span{opacity:1}.flatpickr-current-month{font-size:135%;line-height:inherit;font-weight:300;color:inherit;position:absolute;width:75%;left:12.5%;padding:7.48px 0 0 0;line-height:1;height:34px;display:inline-block;text-align:center;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}.flatpickr-current-month span.cur-month{font-family:inherit;font-weight:700;color:inherit;display:inline-block;margin-left:.5ch;padding:0}.flatpickr-current-month span.cur-month:hover{background:rgba(0,0,0,0.05)}.flatpickr-current-month .numInputWrapper{width:6ch;width:7ch\\0;display:inline-block}.flatpickr-current-month .numInputWrapper span.arrowUp:after{border-bottom-color:rgba(0,0,0,0.9)}.flatpickr-current-month .numInputWrapper span.arrowDown:after{border-top-color:rgba(0,0,0,0.9)}.flatpickr-current-month input.cur-year{background:transparent;-webkit-box-sizing:border-box;box-sizing:border-box;color:inherit;cursor:text;padding:0 0 0 .5ch;margin:0;display:inline-block;font-size:inherit;font-family:inherit;font-weight:300;line-height:inherit;height:auto;border:0;border-radius:0;vertical-align:initial;-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield}.flatpickr-current-month input.cur-year:focus{outline:0}.flatpickr-current-month input.cur-year[disabled],.flatpickr-current-month input.cur-year[disabled]:hover{font-size:100%;color:rgba(0,0,0,0.5);background:transparent;pointer-events:none}.flatpickr-current-month .flatpickr-monthDropdown-months{appearance:menulist;background:transparent;border:none;border-radius:0;box-sizing:border-box;color:inherit;cursor:pointer;font-size:inherit;font-family:inherit;font-weight:300;height:auto;line-height:inherit;margin:-1px 0 0 0;outline:none;padding:0 0 0 .5ch;position:relative;vertical-align:initial;-webkit-box-sizing:border-box;-webkit-appearance:menulist;-moz-appearance:menulist;width:auto}.flatpickr-current-month .flatpickr-monthDropdown-months:focus,.flatpickr-current-month .flatpickr-monthDropdown-months:active{outline:none}.flatpickr-current-month .flatpickr-monthDropdown-months:hover{background:rgba(0,0,0,0.05)}.flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month{background-color:transparent;outline:none;padding:0}.flatpickr-weekdays{background:transparent;text-align:center;overflow:hidden;width:100%;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;height:28px}.flatpickr-weekdays .flatpickr-weekdaycontainer{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}span.flatpickr-weekday{cursor:default;font-size:90%;background:transparent;color:rgba(0,0,0,0.54);line-height:1;margin:0;text-align:center;display:block;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;font-weight:bolder}.dayContainer,.flatpickr-weeks{padding:1px 0 0 0}.flatpickr-days{position:relative;overflow:hidden;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:start;-webkit-align-items:flex-start;-ms-flex-align:start;align-items:flex-start;width:307.875px}.flatpickr-days:focus{outline:0}.dayContainer{padding:0;outline:0;text-align:left;width:307.875px;min-width:307.875px;max-width:307.875px;-webkit-box-sizing:border-box;box-sizing:border-box;display:inline-block;display:-ms-flexbox;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;-ms-flex-wrap:wrap;-ms-flex-pack:justify;-webkit-justify-content:space-around;justify-content:space-around;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0);opacity:1}.dayContainer + .dayContainer{-webkit-box-shadow:-1px 0 0 #e6e6e6;box-shadow:-1px 0 0 #e6e6e6}.flatpickr-day{background:none;border:1px solid transparent;border-radius:150px;-webkit-box-sizing:border-box;box-sizing:border-box;color:#393939;cursor:pointer;font-weight:400;width:14.2857143%;-webkit-flex-basis:14.2857143%;-ms-flex-preferred-size:14.2857143%;flex-basis:14.2857143%;max-width:39px;height:39px;line-height:39px;margin:0;display:inline-block;position:relative;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;text-align:center}.flatpickr-day.inRange,.flatpickr-day.prevMonthDay.inRange,.flatpickr-day.nextMonthDay.inRange,.flatpickr-day.today.inRange,.flatpickr-day.prevMonthDay.today.inRange,.flatpickr-day.nextMonthDay.today.inRange,.flatpickr-day:hover,.flatpickr-day.prevMonthDay:hover,.flatpickr-day.nextMonthDay:hover,.flatpickr-day:focus,.flatpickr-day.prevMonthDay:focus,.flatpickr-day.nextMonthDay:focus{cursor:pointer;outline:0;background:#e6e6e6;border-color:#e6e6e6}.flatpickr-day.today{border-color:#959ea9}.flatpickr-day.today:hover,.flatpickr-day.today:focus{border-color:#959ea9;background:#959ea9;color:#fff}.flatpickr-day.selected,.flatpickr-day.startRange,.flatpickr-day.endRange,.flatpickr-day.selected.inRange,.flatpickr-day.startRange.inRange,.flatpickr-day.endRange.inRange,.flatpickr-day.selected:focus,.flatpickr-day.startRange:focus,.flatpickr-day.endRange:focus,.flatpickr-day.selected:hover,.flatpickr-day.startRange:hover,.flatpickr-day.endRange:hover,.flatpickr-day.selected.prevMonthDay,.flatpickr-day.startRange.prevMonthDay,.flatpickr-day.endRange.prevMonthDay,.flatpickr-day.selected.nextMonthDay,.flatpickr-day.startRange.nextMonthDay,.flatpickr-day.endRange.nextMonthDay{background:#569ff7;-webkit-box-shadow:none;box-shadow:none;color:#fff;border-color:#569ff7}.flatpickr-day.selected.startRange,.flatpickr-day.startRange.startRange,.flatpickr-day.endRange.startRange{border-radius:50px 0 0 50px}.flatpickr-day.selected.endRange,.flatpickr-day.startRange.endRange,.flatpickr-day.endRange.endRange{border-radius:0 50px 50px 0}.flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)),.flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)),.flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1)){-webkit-box-shadow:-10px 0 0 #569ff7;box-shadow:-10px 0 0 #569ff7}.flatpickr-day.selected.startRange.endRange,.flatpickr-day.startRange.startRange.endRange,.flatpickr-day.endRange.startRange.endRange{border-radius:50px}.flatpickr-day.inRange{border-radius:0;-webkit-box-shadow:-5px 0 0 #e6e6e6,5px 0 0 #e6e6e6;box-shadow:-5px 0 0 #e6e6e6,5px 0 0 #e6e6e6}.flatpickr-day.flatpickr-disabled,.flatpickr-day.flatpickr-disabled:hover,.flatpickr-day.prevMonthDay,.flatpickr-day.nextMonthDay,.flatpickr-day.notAllowed,.flatpickr-day.notAllowed.prevMonthDay,.flatpickr-day.notAllowed.nextMonthDay{color:rgba(57,57,57,0.3);background:transparent;border-color:transparent;cursor:default}.flatpickr-day.flatpickr-disabled,.flatpickr-day.flatpickr-disabled:hover{cursor:not-allowed;color:rgba(57,57,57,0.1)}.flatpickr-day.week.selected{border-radius:0;-webkit-box-shadow:-5px 0 0 #569ff7,5px 0 0 #569ff7;box-shadow:-5px 0 0 #569ff7,5px 0 0 #569ff7}.flatpickr-day.hidden{visibility:hidden}.rangeMode .flatpickr-day{margin-top:1px}.flatpickr-weekwrapper{float:left}.flatpickr-weekwrapper .flatpickr-weeks{padding:0 12px;-webkit-box-shadow:1px 0 0 #e6e6e6;box-shadow:1px 0 0 #e6e6e6}.flatpickr-weekwrapper .flatpickr-weekday{float:none;width:100%;line-height:28px}.flatpickr-weekwrapper span.flatpickr-day,.flatpickr-weekwrapper span.flatpickr-day:hover{display:block;width:100%;max-width:none;color:rgba(57,57,57,0.3);background:transparent;cursor:default;border:none}.flatpickr-innerContainer{display:block;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden}.flatpickr-rContainer{display:inline-block;padding:0;-webkit-box-sizing:border-box;box-sizing:border-box}.flatpickr-time{text-align:center;outline:0;display:block;height:0;line-height:40px;max-height:40px;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}.flatpickr-time:after{content:\"\";display:table;clear:both}.flatpickr-time .numInputWrapper{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;width:40%;height:40px;float:left}.flatpickr-time .numInputWrapper span.arrowUp:after{border-bottom-color:#393939}.flatpickr-time .numInputWrapper span.arrowDown:after{border-top-color:#393939}.flatpickr-time.hasSeconds .numInputWrapper{width:26%}.flatpickr-time.time24hr .numInputWrapper{width:49%}.flatpickr-time input{background:transparent;-webkit-box-shadow:none;box-shadow:none;border:0;border-radius:0;text-align:center;margin:0;padding:0;height:inherit;line-height:inherit;color:#393939;font-size:14px;position:relative;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield}.flatpickr-time input.flatpickr-hour{font-weight:bold}.flatpickr-time input.flatpickr-minute,.flatpickr-time input.flatpickr-second{font-weight:400}.flatpickr-time input:focus{outline:0;border:0}.flatpickr-time .flatpickr-time-separator,.flatpickr-time .flatpickr-am-pm{height:inherit;float:left;line-height:inherit;color:#393939;font-weight:bold;width:2%;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-align-self:center;-ms-flex-item-align:center;align-self:center}.flatpickr-time .flatpickr-am-pm{outline:0;width:18%;cursor:pointer;text-align:center;font-weight:400}.flatpickr-time input:hover,.flatpickr-time .flatpickr-am-pm:hover,.flatpickr-time input:focus,.flatpickr-time .flatpickr-am-pm:focus{background:#eee}.flatpickr-input[readonly]{cursor:pointer}@-webkit-keyframes fpFadeInDown{from{opacity:0;-webkit-transform:translate3d(0,-20px,0);transform:translate3d(0,-20px,0)}to{opacity:1;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@keyframes fpFadeInDown{from{opacity:0;-webkit-transform:translate3d(0,-20px,0);transform:translate3d(0,-20px,0)}to{opacity:1;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}", ""]);
 // Exports
@@ -1689,10 +1749,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".flatpickr-calendar{background:transpa
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css&":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css& ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1700,9 +1760,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _addons_AntFusion_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../../addons/AntFusion/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _addons_AntFusion_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_addons_AntFusion_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_addons_AntFusion_node_modules_vue_loader_lib_loaders_stylePostLoader_js_addons_AntFusion_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_2_addons_AntFusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../../addons/AntFusion/node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../../../../../../addons/AntFusion/node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../addons/AntFusion/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!../../../../../../../addons/AntFusion/node_modules/vue-loader/lib/index.js??vue-loader-options!./Flatpickr.vue?vue&type=style&index=0&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _antweb_fusion_antfusion_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../antweb/fusion-antfusion/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _antweb_fusion_antfusion_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_antweb_fusion_antfusion_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_antweb_fusion_antfusion_node_modules_vue_loader_lib_loaders_stylePostLoader_js_antweb_fusion_antfusion_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_2_antweb_fusion_antfusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../antweb/fusion-antfusion/node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../../../../../antweb/fusion-antfusion/node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../antweb/fusion-antfusion/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!../../../../../../antweb/fusion-antfusion/node_modules/vue-loader/lib/index.js??vue-loader-options!./Flatpickr.vue?vue&type=style&index=0&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css&");
 
             
 
@@ -1711,11 +1771,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _addons_AntFusion_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_addons_AntFusion_node_modules_vue_loader_lib_loaders_stylePostLoader_js_addons_AntFusion_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_2_addons_AntFusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _antweb_fusion_antfusion_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_antweb_fusion_antfusion_node_modules_vue_loader_lib_loaders_stylePostLoader_js_antweb_fusion_antfusion_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_2_antweb_fusion_antfusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_addons_AntFusion_node_modules_vue_loader_lib_loaders_stylePostLoader_js_addons_AntFusion_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_2_addons_AntFusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_antweb_fusion_antfusion_node_modules_vue_loader_lib_loaders_stylePostLoader_js_antweb_fusion_antfusion_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_2_antweb_fusion_antfusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -1797,10 +1857,10 @@ component.options.__file = "resources/js/pages/Resource/SharedForm.vue"
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue":
-/*!**************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue ***!
-  \**************************************************************************/
+/***/ "../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue":
+/*!*******************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue ***!
+  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1808,10 +1868,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Flatpickr_vue_vue_type_template_id_ce8bb08e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Flatpickr.vue?vue&type=template&id=ce8bb08e& */ "../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=template&id=ce8bb08e&");
-/* harmony import */ var _Flatpickr_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Flatpickr.vue?vue&type=script&lang=js& */ "../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=script&lang=js&");
-/* harmony import */ var _Flatpickr_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Flatpickr.vue?vue&type=style&index=0&lang=css& */ "../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _addons_AntFusion_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../../../addons/AntFusion/node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _Flatpickr_vue_vue_type_template_id_30d6c414___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Flatpickr.vue?vue&type=template&id=30d6c414& */ "../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=template&id=30d6c414&");
+/* harmony import */ var _Flatpickr_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Flatpickr.vue?vue&type=script&lang=js& */ "../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=script&lang=js&");
+/* harmony import */ var _Flatpickr_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Flatpickr.vue?vue&type=style&index=0&lang=css& */ "../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _antweb_fusion_antfusion_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../../antweb/fusion-antfusion/node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -1820,10 +1880,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = (0,_addons_AntFusion_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+var component = (0,_antweb_fusion_antfusion_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _Flatpickr_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Flatpickr_vue_vue_type_template_id_ce8bb08e___WEBPACK_IMPORTED_MODULE_0__.render,
-  _Flatpickr_vue_vue_type_template_id_ce8bb08e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _Flatpickr_vue_vue_type_template_id_30d6c414___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Flatpickr_vue_vue_type_template_id_30d6c414___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
   null,
@@ -1833,7 +1893,7 @@ var component = (0,_addons_AntFusion_node_modules_vue_loader_lib_runtime_compone
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue"
+component.options.__file = "fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -1870,10 +1930,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************/
+/***/ "../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1881,20 +1941,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _addons_AntFusion_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_addons_AntFusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../addons/AntFusion/node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../addons/AntFusion/node_modules/vue-loader/lib/index.js??vue-loader-options!./Flatpickr.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_addons_AntFusion_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_addons_AntFusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _antweb_fusion_antfusion_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_antweb_fusion_antfusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../antweb/fusion-antfusion/node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../antweb/fusion-antfusion/node_modules/vue-loader/lib/index.js??vue-loader-options!./Flatpickr.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_antweb_fusion_antfusion_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_antweb_fusion_antfusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css&":
-/*!***********************************************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css& ***!
-  \***********************************************************************************************************/
+/***/ "../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _addons_AntFusion_node_modules_style_loader_dist_cjs_js_addons_AntFusion_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_addons_AntFusion_node_modules_vue_loader_lib_loaders_stylePostLoader_js_addons_AntFusion_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_2_addons_AntFusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../addons/AntFusion/node_modules/style-loader/dist/cjs.js!../../../../../../../addons/AntFusion/node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../../../../../../addons/AntFusion/node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../addons/AntFusion/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!../../../../../../../addons/AntFusion/node_modules/vue-loader/lib/index.js??vue-loader-options!./Flatpickr.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _antweb_fusion_antfusion_node_modules_style_loader_dist_cjs_js_antweb_fusion_antfusion_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_antweb_fusion_antfusion_node_modules_vue_loader_lib_loaders_stylePostLoader_js_antweb_fusion_antfusion_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_2_antweb_fusion_antfusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../antweb/fusion-antfusion/node_modules/style-loader/dist/cjs.js!../../../../../../antweb/fusion-antfusion/node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../../../../../antweb/fusion-antfusion/node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../antweb/fusion-antfusion/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!../../../../../../antweb/fusion-antfusion/node_modules/vue-loader/lib/index.js??vue-loader-options!./Flatpickr.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=style&index=0&lang=css&");
 
 
 /***/ }),
@@ -1933,19 +1993,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=template&id=ce8bb08e&":
-/*!*********************************************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=template&id=ce8bb08e& ***!
-  \*********************************************************************************************************/
+/***/ "../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=template&id=30d6c414&":
+/*!**************************************************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=template&id=30d6c414& ***!
+  \**************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _addons_AntFusion_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_addons_AntFusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_template_id_ce8bb08e___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _addons_AntFusion_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_addons_AntFusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_template_id_ce8bb08e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _antweb_fusion_antfusion_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_antweb_fusion_antfusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_template_id_30d6c414___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _antweb_fusion_antfusion_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_antweb_fusion_antfusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_template_id_30d6c414___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _addons_AntFusion_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_addons_AntFusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_template_id_ce8bb08e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../addons/AntFusion/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../addons/AntFusion/node_modules/vue-loader/lib/index.js??vue-loader-options!./Flatpickr.vue?vue&type=template&id=ce8bb08e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=template&id=ce8bb08e&");
+/* harmony import */ var _antweb_fusion_antfusion_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_antweb_fusion_antfusion_node_modules_vue_loader_lib_index_js_vue_loader_options_Flatpickr_vue_vue_type_template_id_30d6c414___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../antweb/fusion-antfusion/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../antweb/fusion-antfusion/node_modules/vue-loader/lib/index.js??vue-loader-options!./Flatpickr.vue?vue&type=template&id=30d6c414& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=template&id=30d6c414&");
 
 
 /***/ }),
@@ -2071,88 +2131,236 @@ var render = function () {
         attrs: { title: "Loading..." },
       }),
       _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: !_vm.loading,
-              expression: "! loading",
-            },
-          ],
-        },
-        _vm._l(_vm.meta.children, function (field, index) {
-          return _c(
+      !_vm.loading
+        ? _c(
             "div",
-            { key: index },
             [
-              field.is_panel
-                ? _c(
-                    field.component,
-                    _vm._b(
-                      {
-                        tag: "component",
-                        attrs: { form: _vm.form },
-                        model: {
-                          value: _vm.form,
-                          callback: function ($$v) {
-                            _vm.form = $$v
-                          },
-                          expression: "form",
-                        },
-                      },
-                      "component",
-                      field,
-                      false
-                    ),
+              _c(
+                "portal",
+                { attrs: { to: "sidebar-left" } },
+                _vm._l(_vm.sections.sidebarLeft, function (field, index) {
+                  return _c(
+                    "div",
+                    { key: index },
                     [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(field.text) +
-                          "\n            "
-                      ),
-                    ]
-                  )
-                : _c(
-                    field.component,
-                    _vm._b(
-                      {
-                        tag: "component",
-                        attrs: {
-                          form: _vm.form,
-                          "has-error": _vm.form.errors.has(field.field.handle),
-                          "error-message": _vm.form.errors.get(
-                            field.field.handle
+                      field.is_panel
+                        ? _c(
+                            field.component,
+                            _vm._b(
+                              {
+                                tag: "component",
+                                attrs: { form: _vm.form },
+                                model: {
+                                  value: _vm.form,
+                                  callback: function ($$v) {
+                                    _vm.form = $$v
+                                  },
+                                  expression: "form",
+                                },
+                              },
+                              "component",
+                              field,
+                              false
+                            ),
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(field.text) +
+                                  "\n                "
+                              ),
+                            ]
+                          )
+                        : _c(
+                            field.component,
+                            _vm._b(
+                              {
+                                tag: "component",
+                                attrs: {
+                                  form: _vm.form,
+                                  "has-error": _vm.form.errors.has(
+                                    field.field.handle
+                                  ),
+                                  "error-message": _vm.form.errors.get(
+                                    field.field.handle
+                                  ),
+                                },
+                                model: {
+                                  value: _vm.form[field.field.handle],
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.form, field.field.handle, $$v)
+                                  },
+                                  expression: "form[field.field.handle]",
+                                },
+                              },
+                              "component",
+                              field,
+                              false
+                            ),
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(field.text) +
+                                  "\n                "
+                              ),
+                            ]
                           ),
-                        },
-                        model: {
-                          value: _vm.form[field.field.handle],
-                          callback: function ($$v) {
-                            _vm.$set(_vm.form, field.field.handle, $$v)
-                          },
-                          expression: "form[field.field.handle]",
-                        },
-                      },
-                      "component",
-                      field,
-                      false
-                    ),
+                    ],
+                    1
+                  )
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.sections.body, function (field, index) {
+                return _c(
+                  "div",
+                  { key: index },
+                  [
+                    field.is_panel
+                      ? _c(
+                          field.component,
+                          _vm._b(
+                            {
+                              tag: "component",
+                              attrs: { form: _vm.form },
+                              model: {
+                                value: _vm.form,
+                                callback: function ($$v) {
+                                  _vm.form = $$v
+                                },
+                                expression: "form",
+                              },
+                            },
+                            "component",
+                            field,
+                            false
+                          ),
+                          [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(field.text) +
+                                "\n            "
+                            ),
+                          ]
+                        )
+                      : _c(
+                          field.component,
+                          _vm._b(
+                            {
+                              tag: "component",
+                              attrs: {
+                                form: _vm.form,
+                                "has-error": _vm.form.errors.has(
+                                  field.field.handle
+                                ),
+                                "error-message": _vm.form.errors.get(
+                                  field.field.handle
+                                ),
+                              },
+                              model: {
+                                value: _vm.form[field.field.handle],
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.form, field.field.handle, $$v)
+                                },
+                                expression: "form[field.field.handle]",
+                              },
+                            },
+                            "component",
+                            field,
+                            false
+                          ),
+                          [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(field.text) +
+                                "\n            "
+                            ),
+                          ]
+                        ),
+                  ],
+                  1
+                )
+              }),
+              _vm._v(" "),
+              _c(
+                "portal",
+                { attrs: { to: "sidebar-right" } },
+                _vm._l(_vm.sections.sidebarRight, function (field, index) {
+                  return _c(
+                    "div",
+                    { key: index },
                     [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(field.text) +
-                          "\n            "
-                      ),
-                    ]
-                  ),
+                      field.is_panel
+                        ? _c(
+                            field.component,
+                            _vm._b(
+                              {
+                                tag: "component",
+                                attrs: { form: _vm.form },
+                                model: {
+                                  value: _vm.form,
+                                  callback: function ($$v) {
+                                    _vm.form = $$v
+                                  },
+                                  expression: "form",
+                                },
+                              },
+                              "component",
+                              field,
+                              false
+                            ),
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(field.text) +
+                                  "\n                "
+                              ),
+                            ]
+                          )
+                        : _c(
+                            field.component,
+                            _vm._b(
+                              {
+                                tag: "component",
+                                attrs: {
+                                  form: _vm.form,
+                                  "has-error": _vm.form.errors.has(
+                                    field.field.handle
+                                  ),
+                                  "error-message": _vm.form.errors.get(
+                                    field.field.handle
+                                  ),
+                                },
+                                model: {
+                                  value: _vm.form[field.field.handle],
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.form, field.field.handle, $$v)
+                                  },
+                                  expression: "form[field.field.handle]",
+                                },
+                              },
+                              "component",
+                              field,
+                              false
+                            ),
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(field.text) +
+                                  "\n                "
+                              ),
+                            ]
+                          ),
+                    ],
+                    1
+                  )
+                }),
+                0
+              ),
             ],
-            1
+            2
           )
-        }),
-        0
-      ),
+        : _vm._e(),
     ],
     1
   )
@@ -2164,10 +2372,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=template&id=ce8bb08e&":
-/*!************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../vendor/fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=template&id=ce8bb08e& ***!
-  \************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=template&id=30d6c414&":
+/*!*****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../fusioncms/cms/resources/js/ui/Flatpickr/Flatpickr.vue?vue&type=template&id=30d6c414& ***!
+  \*****************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2348,10 +2556,10 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/index.js":
-/*!***************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/index.js ***!
-  \***************************************************************************/
+/***/ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/index.js":
+/*!********************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/flatpickr/dist/esm/index.js ***!
+  \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2359,13 +2567,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _types_options__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types/options */ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/types/options.js");
-/* harmony import */ var _l10n_default__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./l10n/default */ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/l10n/default.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/index.js");
-/* harmony import */ var _utils_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/dom */ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/dom.js");
-/* harmony import */ var _utils_dates__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/dates */ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/dates.js");
-/* harmony import */ var _utils_formatting__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/formatting */ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/formatting.js");
-/* harmony import */ var _utils_polyfills__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/polyfills */ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/polyfills.js");
+/* harmony import */ var _types_options__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types/options */ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/types/options.js");
+/* harmony import */ var _l10n_default__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./l10n/default */ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/l10n/default.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/index.js");
+/* harmony import */ var _utils_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/dom */ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/dom.js");
+/* harmony import */ var _utils_dates__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/dates */ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/dates.js");
+/* harmony import */ var _utils_formatting__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/formatting */ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/formatting.js");
+/* harmony import */ var _utils_polyfills__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/polyfills */ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/polyfills.js");
 /* harmony import */ var _utils_polyfills__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_utils_polyfills__WEBPACK_IMPORTED_MODULE_6__);
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
@@ -4417,10 +4625,10 @@ if (typeof window !== "undefined") {
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/l10n/default.js":
-/*!**********************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/l10n/default.js ***!
-  \**********************************************************************************/
+/***/ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/l10n/default.js":
+/*!***************************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/flatpickr/dist/esm/l10n/default.js ***!
+  \***************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4505,10 +4713,10 @@ var english = {
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/types/options.js":
-/*!***********************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/types/options.js ***!
-  \***********************************************************************************/
+/***/ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/types/options.js":
+/*!****************************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/flatpickr/dist/esm/types/options.js ***!
+  \****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4604,10 +4812,10 @@ var defaults = {
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/dates.js":
-/*!*********************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/dates.js ***!
-  \*********************************************************************************/
+/***/ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/dates.js":
+/*!**************************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/dates.js ***!
+  \**************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4623,9 +4831,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "duration": () => (/* binding */ duration),
 /* harmony export */   "getDefaultHours": () => (/* binding */ getDefaultHours)
 /* harmony export */ });
-/* harmony import */ var _formatting__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./formatting */ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/formatting.js");
-/* harmony import */ var _types_options__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../types/options */ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/types/options.js");
-/* harmony import */ var _l10n_default__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../l10n/default */ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/l10n/default.js");
+/* harmony import */ var _formatting__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./formatting */ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/formatting.js");
+/* harmony import */ var _types_options__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../types/options */ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/types/options.js");
+/* harmony import */ var _l10n_default__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../l10n/default */ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/l10n/default.js");
 
 
 
@@ -4773,10 +4981,10 @@ function getDefaultHours(config) {
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/dom.js":
-/*!*******************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/dom.js ***!
-  \*******************************************************************************/
+/***/ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/dom.js":
+/*!************************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/dom.js ***!
+  \************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4847,10 +5055,10 @@ function getEventTarget(event) {
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/formatting.js":
-/*!**************************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/formatting.js ***!
-  \**************************************************************************************/
+/***/ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/formatting.js":
+/*!*******************************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/formatting.js ***!
+  \*******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4861,7 +5069,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "tokenRegex": () => (/* binding */ tokenRegex),
 /* harmony export */   "formats": () => (/* binding */ formats)
 /* harmony export */ });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/index.js");
 
 var doNothing = function () { return undefined; };
 var monthToStr = function (monthNumber, shorthand, locale) { return locale.months[shorthand ? "shorthand" : "longhand"][monthNumber]; };
@@ -5000,10 +5208,10 @@ var formats = {
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/index.js":
-/*!*********************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/index.js ***!
-  \*********************************************************************************/
+/***/ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/index.js":
+/*!**************************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/index.js ***!
+  \**************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5035,10 +5243,10 @@ var arrayify = function (obj) {
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/polyfills.js":
-/*!*************************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/flatpickr/dist/esm/utils/polyfills.js ***!
-  \*************************************************************************************/
+/***/ "../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/polyfills.js":
+/*!******************************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/flatpickr/dist/esm/utils/polyfills.js ***!
+  \******************************************************************************/
 /***/ (() => {
 
 "use strict";
@@ -5068,10 +5276,10 @@ if (typeof Object.assign !== "function") {
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/js-cookie/src/js.cookie.js":
-/*!**************************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/js-cookie/src/js.cookie.js ***!
-  \**************************************************************************/
+/***/ "../../fusioncms/cms/node_modules/js-cookie/src/js.cookie.js":
+/*!*******************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/js-cookie/src/js.cookie.js ***!
+  \*******************************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -5245,10 +5453,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/lodash/lodash.js":
-/*!****************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/lodash/lodash.js ***!
-  \****************************************************************/
+/***/ "../../fusioncms/cms/node_modules/lodash/lodash.js":
+/*!*********************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/lodash/lodash.js ***!
+  \*********************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 /* module decorator */ module = __webpack_require__.nmd(module);
@@ -22457,10 +22665,10 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/vue/dist/vue.esm.js":
-/*!*******************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/vue/dist/vue.esm.js ***!
-  \*******************************************************************/
+/***/ "../../fusioncms/cms/node_modules/vue/dist/vue.esm.js":
+/*!************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/vue/dist/vue.esm.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -34397,10 +34605,10 @@ Vue.compile = compileToFunctions;
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/node_modules/vuex/dist/vuex.esm.js":
-/*!*********************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/node_modules/vuex/dist/vuex.esm.js ***!
-  \*********************************************************************/
+/***/ "../../fusioncms/cms/node_modules/vuex/dist/vuex.esm.js":
+/*!**************************************************************!*\
+  !*** ../../fusioncms/cms/node_modules/vuex/dist/vuex.esm.js ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";

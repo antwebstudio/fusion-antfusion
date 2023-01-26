@@ -11,7 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _mixins_fieldtype__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/mixins/fieldtype */ "../../vendor/fusioncms/cms/resources/js/mixins/fieldtype.js");
+/* harmony import */ var _mixins_fieldtype__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/mixins/fieldtype */ "../../fusioncms/cms/resources/js/mixins/fieldtype.js");
 //
 //
 //
@@ -58,10 +58,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../vendor/fusioncms/cms/resources/js/mixins/fieldtype.js":
-/*!*******************************************************************!*\
-  !*** ../../vendor/fusioncms/cms/resources/js/mixins/fieldtype.js ***!
-  \*******************************************************************/
+/***/ "../../fusioncms/cms/resources/js/mixins/fieldtype.js":
+/*!************************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/mixins/fieldtype.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
