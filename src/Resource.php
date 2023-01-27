@@ -13,7 +13,10 @@ abstract class Resource {
     use \Addons\AntFusion\Traits\HasFields;
     use \Addons\AntFusion\Traits\HasActions;
     
+    protected $name;
     protected $model;
+    protected $slug;
+    protected $handle;
     protected $icon = 'grip-horizontal';
     protected $clickColumnHandle = 'name';
     protected $clickColumnComponent = 'antfusion-edit-link';
@@ -36,15 +39,15 @@ abstract class Resource {
     }
 
     public function getName() {
-        return Str::title(class_basename(static::class));
+        return $this->name ?? Str::title(class_basename(static::class));
     }
 
     public function getHandle() {
-        return Str::snake(class_basename(static::class));
+        return $this->handle ?? Str::snake(class_basename(static::class));
     }
 
     public function getSlug() {
-        return Str::kebab(class_basename(static::class));
+        return $this->slug ?? Str::kebab(class_basename(static::class));
     }
 
     public function getIcon() {

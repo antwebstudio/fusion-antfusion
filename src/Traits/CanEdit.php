@@ -13,30 +13,43 @@ trait CanEdit {
 
     public function editMeta($resourceId) {
         $model = $this->model()->find($resourceId);
-        $name = static::getName();
+
         return [
-            'title' => 'Edit '.$name,
+            'title' => $this->getEditTitle($model),
+            'subtitle' => $this->getEditSubtitle($model),
             'resource' => new ResourceResource($this),
             'record' => $this->getEditRecord($model),
-            'actions' => [
-                [
-                    'component' => 'ui-button',
-                    'to' => '/resource/'.$this->getHandle(),
-                    'text' => 'Back',
-                    'class' => 'mr-2',
-                ],
-                [
-                    'component' => 'submit-button',
-                    'text' => 'Save',
-                    'variant' => 'primary',
-                ],
-            ],
+            'actions' => $this->getEditPageActions($model),
             'fields' => $this->flatternFieldsArray('updating'),
             'children' => $this->fieldsArray('updating'),
         ];
     }
 
+    protected function getEditPageActions($model) {
+        return [
+            [
+                'component' => 'ui-button',
+                'to' => '/resource/'.$this->getHandle(),
+                'text' => 'Back',
+                'class' => 'mr-2',
+            ],
+            [
+                'component' => 'submit-button',
+                'text' => 'Save',
+                'variant' => 'primary',
+            ],
+        ];
+    }
+
+    protected function getEditTitle($model) {
+        return 'Edit '.$this->getName();
+    }
+
     protected function getEditRecord($model) {
         return $model;
+    }
+
+    protected function getEditSubtitle($model) {
+        return $model->name;
     }
 }

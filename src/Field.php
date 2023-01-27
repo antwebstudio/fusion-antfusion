@@ -4,6 +4,7 @@ namespace Addons\AntFusion;
 class Field {
     use \Addons\AntFusion\Traits\HasMeta;
     use \Addons\AntFusion\Traits\ShowInTrait;
+    use \Addons\AntFusion\Traits\CanSort;
     
     public $label;
     public $handle;

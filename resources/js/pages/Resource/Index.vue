@@ -6,9 +6,18 @@
 
         <portal to="actions">
             <div>
-                <component @submitted="load" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
-                    {{ action.text }}
-                </component>
+                <span v-for="action, index in actions" :key="index">
+                    <component v-if="!action.dropdown" @submitted="load" :is="action.component" v-bind="action">
+                        {{ action.text }}
+                    </component>
+                </span>
+                <ui-actions :id="'entry_actions'" :key="'entry_actions'">
+                    <div v-for="action, index in actions" :key="index">
+                        <component v-if="action.dropdown" @submitted="load" :is="action.component" v-bind="action">
+                            {{ action.text }}
+                        </component>
+                    </div>
+                </ui-actions>
             </div>
         </portal>
 

@@ -1,7 +1,7 @@
 <template>
     <div class="resource-page">
         <portal to="title">
-            <page-title :icon="resource.icon || 'pencil-alt'" :subtitle="resource.description">{{ meta.title }}</page-title>
+            <page-title :icon="resource.icon || 'pencil-alt'" :subtitle="meta.subtitle">{{ meta.title }}</page-title>
         </portal>
 
         <shared-form

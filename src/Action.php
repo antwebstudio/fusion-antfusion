@@ -21,7 +21,14 @@ class Action {
 
     protected $hide = false;
 
+    protected $dropdown = false;
+
     protected $component;
+
+    public static function make(...$arguments)
+    {
+        return new static(...$arguments);
+    }
 
     public function performAction($request) {
         $request->validate($this->rules());
@@ -102,6 +109,7 @@ class Action {
             'fields' => $this->fieldsArray(),
             'cssClass' => $this->getCssClass(),
             'variant' => $this->primary ? 'primary' : null,
+            'dropdown' => $this->dropdown,
         ]);
     }
 
@@ -142,6 +150,12 @@ class Action {
     public function registerFor($parent) {
         $this->setParent($parent);
         $parent->registerAction($this);
+        return $this;
+    }
+
+    public function asDropdown($dropdown = true) {
+        $this->component = 'ui-dropdown-link';
+        $this->dropdown = $dropdown;
         return $this;
     }
 }

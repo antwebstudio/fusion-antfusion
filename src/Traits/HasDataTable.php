@@ -32,7 +32,9 @@ trait HasDataTable {
         $columns = [];
         foreach ($this->getFieldsForDataTable() as $field) {
             if (!is_string($field)) {
-                $columns[] = $field->handle;
+                if ($field->isSortable()) {
+                    $columns[] = $field->handle;
+                }
             } else {
                 $columns[] = $field;
             }
@@ -103,5 +105,9 @@ trait HasDataTable {
 
     public function getExemptFromBulkActions() {
         return [];
+    }
+
+    public function getDataTableRecords($records) {
+        return $records;
     }
 }

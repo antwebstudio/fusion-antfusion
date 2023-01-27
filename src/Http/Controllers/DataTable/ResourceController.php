@@ -15,8 +15,9 @@ class ResourceController extends DataTableController {
     public function getRecords(Request $request) {
         $paginate = parent::getRecords($request);
         if ($paginate !== []) {
-            $records = $paginate->toArray();
             $resource = $this->resource();
+            $paginate = $resource->getDataTableRecords($paginate);
+            $records = json_decode($paginate->toJson(), true);
             foreach ($records['data'] as &$record) {
                 $record['resource'] = ['handle' => $resource->getHandle()];
                 $record['actions'] = $resource->getActionsForRecord($record);
