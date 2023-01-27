@@ -37,6 +37,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -184,23 +193,69 @@ var render = function () {
       _c("portal", { attrs: { to: "actions" } }, [
         _c(
           "div",
-          _vm._l(_vm.actions, function (action, index) {
-            return _c(
-              action.component,
-              _vm._b(
-                { key: index, tag: "component", on: { submitted: _vm.load } },
-                "component",
-                action,
-                false
-              ),
-              [
-                _vm._v(
-                  "\n                " + _vm._s(action.text) + "\n            "
-                ),
-              ]
-            )
-          }),
-          1
+          [
+            _vm._l(_vm.actions, function (action, index) {
+              return _c(
+                "span",
+                { key: index },
+                [
+                  !action.dropdown
+                    ? _c(
+                        action.component,
+                        _vm._b(
+                          { tag: "component", on: { submitted: _vm.load } },
+                          "component",
+                          action,
+                          false
+                        ),
+                        [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(action.text) +
+                              "\n                "
+                          ),
+                        ]
+                      )
+                    : _vm._e(),
+                ],
+                1
+              )
+            }),
+            _vm._v(" "),
+            _c(
+              "ui-actions",
+              { key: "entry_actions", attrs: { id: "entry_actions" } },
+              _vm._l(_vm.actions, function (action, index) {
+                return _c(
+                  "div",
+                  { key: index },
+                  [
+                    action.dropdown
+                      ? _c(
+                          action.component,
+                          _vm._b(
+                            { tag: "component", on: { submitted: _vm.load } },
+                            "component",
+                            action,
+                            false
+                          ),
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(action.text) +
+                                "\n                    "
+                            ),
+                          ]
+                        )
+                      : _vm._e(),
+                  ],
+                  1
+                )
+              }),
+              0
+            ),
+          ],
+          2
         ),
       ]),
       _vm._v(" "),

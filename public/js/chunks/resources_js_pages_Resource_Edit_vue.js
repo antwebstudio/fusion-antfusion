@@ -2039,7 +2039,7 @@ var render = function () {
             {
               attrs: {
                 icon: _vm.resource.icon || "pencil-alt",
-                subtitle: _vm.resource.description,
+                subtitle: _vm.meta.subtitle,
               },
             },
             [_vm._v(_vm._s(_vm.meta.title))]
