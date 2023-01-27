@@ -29,7 +29,7 @@ trait HasDataTable {
     }
 
     public function getSortable() {
-        $columns = [];
+        $columns = ['id'];
         foreach ($this->getFieldsForDataTable() as $field) {
             if (!is_string($field)) {
                 if ($field->isSortable()) {

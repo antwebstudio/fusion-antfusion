@@ -19,7 +19,7 @@ class ResourceController extends DataTableController {
             $paginate = $resource->getDataTableRecords($paginate);
             $records = json_decode($paginate->toJson(), true);
             foreach ($records['data'] as &$record) {
-                $record['resource'] = ['handle' => $resource->getHandle()];
+                $record['resource'] = ['slug' => $resource->getSlug(), 'handle' => $resource->getHandle()];
                 $record['actions'] = $resource->getActionsForRecord($record);
             }
         }

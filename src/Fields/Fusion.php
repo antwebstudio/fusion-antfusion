@@ -21,6 +21,10 @@ class Fusion extends Field
         return $this;
     }
 
+    public function asName() {
+        return $this->setComponent('ui-title-group');
+    }
+
     public function type($fieldType) {
         $this->fieldType = $fieldType;
         $this->component = $fieldType.'-fieldtype';

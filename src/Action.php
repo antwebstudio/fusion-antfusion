@@ -98,7 +98,7 @@ class Action {
     }
 
     public function toArray() {
-        $actionSlug = $this->getHandle();
+        $actionSlug = $this->getSlug();
 
         return array_merge($this->meta, [
             'component' => $this->getComponent(),

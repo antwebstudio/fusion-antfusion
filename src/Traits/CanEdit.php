@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Addons\AntFusion\Http\Resources\ResourceResource;
 
 trait CanEdit {
+    protected $nameColumnHandle;
+
     public function update(Request $request) {
         $validated = $request->validate($this->rules());
         $model = $this->model()->find($request->resourceId);
@@ -29,7 +31,7 @@ trait CanEdit {
         return [
             [
                 'component' => 'ui-button',
-                'to' => '/resource/'.$this->getHandle(),
+                'to' => '/resource/'.$this->getSlug(),
                 'text' => 'Back',
                 'class' => 'mr-2',
             ],
@@ -50,6 +52,7 @@ trait CanEdit {
     }
 
     protected function getEditSubtitle($model) {
-        return $model->name;
+        $handle = $this->nameColumnHandle ?? ($this->clickColumnHandle ?? 'name');
+        return $model->{$handle};
     }
 }

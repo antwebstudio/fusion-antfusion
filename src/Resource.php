@@ -27,7 +27,7 @@ abstract class Resource {
         $name = $this->getName();
         $icon = $this->getIcon();
         
-        app()->bind('resources.'.$handle, function() {
+        app()->bind('resources.'.$slug, function() {
             return $this;
         });
 
@@ -39,7 +39,7 @@ abstract class Resource {
     }
 
     public function getName() {
-        return $this->name ?? Str::title(class_basename(static::class));
+        return $this->name ?? Str::headline(class_basename(static::class));
     }
 
     public function getHandle() {
@@ -104,7 +104,7 @@ abstract class Resource {
     }
 
     public function getActionUrl($actionSlug) {
-        return '/api/antfusion/resource/'.$this->getHandle().'/action/'.$actionSlug;
+        return '/api/antfusion/resource/'.$this->getSlug().'/action/'.$actionSlug;
     }
 
     protected function fieldsDefaultValues() {
@@ -133,7 +133,7 @@ abstract class Resource {
                 'is' => 'resource-datatable',
                 'show_order' => false,
                 'id' => 'data-table',
-                'endpoint' => '/datatable/antfusion/resource/'.$this->getHandle(),
+                'endpoint' => '/datatable/antfusion/resource/'.$this->getSlug(),
                 'filters' => $this->filtersArray(),
                 'actions' => [
                     [

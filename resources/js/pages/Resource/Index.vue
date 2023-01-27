@@ -11,7 +11,7 @@
                         {{ action.text }}
                     </component>
                 </span>
-                <ui-actions :id="'entry_actions'" :key="'entry_actions'">
+                <ui-actions v-if="dropdownActions && dropdownActions.length" :id="'entry_actions'" :key="'entry_actions'">
                     <div v-for="action, index in actions" :key="index">
                         <component v-if="action.dropdown" @submitted="load" :is="action.component" v-bind="action">
                             {{ action.text }}
@@ -40,6 +40,11 @@ export default {
             meta: null,
             resource: null,
             actions: null,
+        }
+    },
+    computed: {
+        dropdownActions() {
+            return this.actions.filter(action => action.dropdown)
         }
     },
     beforeRouteUpdate(to, from, next) {

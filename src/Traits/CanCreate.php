@@ -17,7 +17,7 @@ trait CanCreate {
             'actions' => [
                 [
                     'component' => 'ui-button',
-                    'to' => '/resource/'.$this->getHandle(),
+                    'to' => '/resource/'.$this->getSlug(),
                     'text' => 'Back',
                     'class' => 'mr-2',
                 ],
