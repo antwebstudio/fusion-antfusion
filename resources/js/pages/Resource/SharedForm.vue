@@ -10,8 +10,8 @@
 
         <section-card title="Loading..." v-show="loading"></section-card>
         
-        <div v-if="! loading">
-
+		<!-- NOTE: use v-if here will cause the form value incorrect after/when there is validation failed when submitting the form - all value of taxonomy field will become nulls -->
+        <div v-show="! loading">
             <portal to="sidebar-left">
                 <div v-for="field, index in sections.sidebarLeft" :key="index">
                     <component v-if="field.is_panel" v-model="form" :is="field.component" v-bind="field" 

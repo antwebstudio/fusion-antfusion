@@ -1,10 +1,11 @@
 <?php
 namespace Addons\AntFusion\Traits;
 
+use Illuminate\Http\Request;
 use Addons\AntFusion\Http\Resources\ResourceResource;
 
 trait CanCreate {
-    public function create($request) {
+    public function create(Request $request) {
         $validated = $request->validate($this->rules());
         $this->model()->create(array_merge($this->fieldsDefaultValues(), $validated));
     }
