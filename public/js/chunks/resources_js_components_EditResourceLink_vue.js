@@ -121,10 +121,7 @@ var render = function () {
           attrs: {
             to: {
               name: "antfusion.resource.edit",
-              params: {
-                resource: _vm.record.resource.handle,
-                id: _vm.record.id,
-              },
+              params: { resource: _vm.record.resource.slug, id: _vm.record.id },
             },
           },
         },

@@ -2110,7 +2110,9 @@ var render = function () {
               ),
               [
                 _vm._v(
-                  "\n                " + _vm._s(action.text) + "\n            "
+                  "\n                    " +
+                    _vm._s(action.text) +
+                    "\n                "
                 ),
               ]
             )
@@ -2131,236 +2133,245 @@ var render = function () {
         attrs: { title: "Loading..." },
       }),
       _vm._v(" "),
-      !_vm.loading
-        ? _c(
-            "div",
-            [
-              _c(
-                "portal",
-                { attrs: { to: "sidebar-left" } },
-                _vm._l(_vm.sections.sidebarLeft, function (field, index) {
-                  return _c(
-                    "div",
-                    { key: index },
-                    [
-                      field.is_panel
-                        ? _c(
-                            field.component,
-                            _vm._b(
-                              {
-                                tag: "component",
-                                attrs: { form: _vm.form },
-                                model: {
-                                  value: _vm.form,
-                                  callback: function ($$v) {
-                                    _vm.form = $$v
-                                  },
-                                  expression: "form",
-                                },
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.loading,
+              expression: "! loading",
+            },
+          ],
+        },
+        [
+          _vm._v("\n" + _vm._s(_vm.form) + "\n            "),
+          _c(
+            "portal",
+            { attrs: { to: "sidebar-left" } },
+            _vm._l(_vm.sections.sidebarLeft, function (field, index) {
+              return _c(
+                "div",
+                { key: index },
+                [
+                  field.is_panel
+                    ? _c(
+                        field.component,
+                        _vm._b(
+                          {
+                            tag: "component",
+                            attrs: { form: _vm.form },
+                            model: {
+                              value: _vm.form,
+                              callback: function ($$v) {
+                                _vm.form = $$v
                               },
-                              "component",
-                              field,
-                              false
-                            ),
-                            [
-                              _vm._v(
-                                "\n                    " +
-                                  _vm._s(field.text) +
-                                  "\n                "
-                              ),
-                            ]
-                          )
-                        : _c(
-                            field.component,
-                            _vm._b(
-                              {
-                                tag: "component",
-                                attrs: {
-                                  form: _vm.form,
-                                  "has-error": _vm.form.errors.has(
-                                    field.field.handle
-                                  ),
-                                  "error-message": _vm.form.errors.get(
-                                    field.field.handle
-                                  ),
-                                },
-                                model: {
-                                  value: _vm.form[field.field.handle],
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.form, field.field.handle, $$v)
-                                  },
-                                  expression: "form[field.field.handle]",
-                                },
-                              },
-                              "component",
-                              field,
-                              false
-                            ),
-                            [
-                              _vm._v(
-                                "\n                    " +
-                                  _vm._s(field.text) +
-                                  "\n                "
-                              ),
-                            ]
-                          ),
-                    ],
-                    1
-                  )
-                }),
-                0
-              ),
-              _vm._v(" "),
-              _vm._l(_vm.sections.body, function (field, index) {
-                return _c(
-                  "div",
-                  { key: index },
-                  [
-                    field.is_panel
-                      ? _c(
-                          field.component,
-                          _vm._b(
-                            {
-                              tag: "component",
-                              attrs: { form: _vm.form },
-                              model: {
-                                value: _vm.form,
-                                callback: function ($$v) {
-                                  _vm.form = $$v
-                                },
-                                expression: "form",
-                              },
+                              expression: "form",
                             },
-                            "component",
-                            field,
-                            false
-                          ),
-                          [
-                            _vm._v(
-                              "\n                " +
-                                _vm._s(field.text) +
-                                "\n            "
-                            ),
-                          ]
-                        )
-                      : _c(
-                          field.component,
-                          _vm._b(
-                            {
-                              tag: "component",
-                              attrs: {
-                                form: _vm.form,
-                                "has-error": _vm.form.errors.has(
-                                  field.field.handle
-                                ),
-                                "error-message": _vm.form.errors.get(
-                                  field.field.handle
-                                ),
-                              },
-                              model: {
-                                value: _vm.form[field.field.handle],
-                                callback: function ($$v) {
-                                  _vm.$set(_vm.form, field.field.handle, $$v)
-                                },
-                                expression: "form[field.field.handle]",
-                              },
-                            },
-                            "component",
-                            field,
-                            false
-                          ),
-                          [
-                            _vm._v(
-                              "\n                " +
-                                _vm._s(field.text) +
-                                "\n            "
-                            ),
-                          ]
+                          },
+                          "component",
+                          field,
+                          false
                         ),
-                  ],
-                  1
-                )
-              }),
-              _vm._v(" "),
-              _c(
-                "portal",
-                { attrs: { to: "sidebar-right" } },
-                _vm._l(_vm.sections.sidebarRight, function (field, index) {
-                  return _c(
-                    "div",
-                    { key: index },
-                    [
-                      field.is_panel
-                        ? _c(
-                            field.component,
-                            _vm._b(
-                              {
-                                tag: "component",
-                                attrs: { form: _vm.form },
-                                model: {
-                                  value: _vm.form,
-                                  callback: function ($$v) {
-                                    _vm.form = $$v
-                                  },
-                                  expression: "form",
-                                },
-                              },
-                              "component",
-                              field,
-                              false
-                            ),
-                            [
-                              _vm._v(
-                                "\n                    " +
-                                  _vm._s(field.text) +
-                                  "\n                "
-                              ),
-                            ]
-                          )
-                        : _c(
-                            field.component,
-                            _vm._b(
-                              {
-                                tag: "component",
-                                attrs: {
-                                  form: _vm.form,
-                                  "has-error": _vm.form.errors.has(
-                                    field.field.handle
-                                  ),
-                                  "error-message": _vm.form.errors.get(
-                                    field.field.handle
-                                  ),
-                                },
-                                model: {
-                                  value: _vm.form[field.field.handle],
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.form, field.field.handle, $$v)
-                                  },
-                                  expression: "form[field.field.handle]",
-                                },
-                              },
-                              "component",
-                              field,
-                              false
-                            ),
-                            [
-                              _vm._v(
-                                "\n                    " +
-                                  _vm._s(field.text) +
-                                  "\n                "
-                              ),
-                            ]
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(field.text) +
+                              "\n                    "
                           ),
-                    ],
-                    1
-                  )
-                }),
-                0
-              ),
-            ],
-            2
-          )
-        : _vm._e(),
+                        ]
+                      )
+                    : _c(
+                        field.component,
+                        _vm._b(
+                          {
+                            tag: "component",
+                            attrs: {
+                              form: _vm.form,
+                              "has-error": _vm.form.errors.has(
+                                field.field.handle
+                              ),
+                              "error-message": _vm.form.errors.get(
+                                field.field.handle
+                              ),
+                            },
+                            model: {
+                              value: _vm.form[field.field.handle],
+                              callback: function ($$v) {
+                                _vm.$set(_vm.form, field.field.handle, $$v)
+                              },
+                              expression: "form[field.field.handle]",
+                            },
+                          },
+                          "component",
+                          field,
+                          false
+                        ),
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(field.text) +
+                              "\n                    "
+                          ),
+                        ]
+                      ),
+                ],
+                1
+              )
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _vm._l(_vm.sections.body, function (field, index) {
+            return _c(
+              "div",
+              { key: index },
+              [
+                field.is_panel
+                  ? _c(
+                      field.component,
+                      _vm._b(
+                        {
+                          tag: "component",
+                          attrs: { form: _vm.form },
+                          model: {
+                            value: _vm.form,
+                            callback: function ($$v) {
+                              _vm.form = $$v
+                            },
+                            expression: "form",
+                          },
+                        },
+                        "component",
+                        field,
+                        false
+                      ),
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(field.text) +
+                            "\n                "
+                        ),
+                      ]
+                    )
+                  : _c(
+                      field.component,
+                      _vm._b(
+                        {
+                          tag: "component",
+                          attrs: {
+                            form: _vm.form,
+                            "has-error": _vm.form.errors.has(
+                              field.field.handle
+                            ),
+                            "error-message": _vm.form.errors.get(
+                              field.field.handle
+                            ),
+                          },
+                          model: {
+                            value: _vm.form[field.field.handle],
+                            callback: function ($$v) {
+                              _vm.$set(_vm.form, field.field.handle, $$v)
+                            },
+                            expression: "form[field.field.handle]",
+                          },
+                        },
+                        "component",
+                        field,
+                        false
+                      ),
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(field.text) +
+                            "\n                "
+                        ),
+                      ]
+                    ),
+              ],
+              1
+            )
+          }),
+          _vm._v(" "),
+          _c(
+            "portal",
+            { attrs: { to: "sidebar-right" } },
+            _vm._l(_vm.sections.sidebarRight, function (field, index) {
+              return _c(
+                "div",
+                { key: index },
+                [
+                  field.is_panel
+                    ? _c(
+                        field.component,
+                        _vm._b(
+                          {
+                            tag: "component",
+                            attrs: { form: _vm.form },
+                            model: {
+                              value: _vm.form,
+                              callback: function ($$v) {
+                                _vm.form = $$v
+                              },
+                              expression: "form",
+                            },
+                          },
+                          "component",
+                          field,
+                          false
+                        ),
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(field.text) +
+                              "\n                    "
+                          ),
+                        ]
+                      )
+                    : _c(
+                        field.component,
+                        _vm._b(
+                          {
+                            tag: "component",
+                            attrs: {
+                              form: _vm.form,
+                              "has-error": _vm.form.errors.has(
+                                field.field.handle
+                              ),
+                              "error-message": _vm.form.errors.get(
+                                field.field.handle
+                              ),
+                            },
+                            model: {
+                              value: _vm.form[field.field.handle],
+                              callback: function ($$v) {
+                                _vm.$set(_vm.form, field.field.handle, $$v)
+                              },
+                              expression: "form[field.field.handle]",
+                            },
+                          },
+                          "component",
+                          field,
+                          false
+                        ),
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(field.text) +
+                              "\n                    "
+                          ),
+                        ]
+                      ),
+                ],
+                1
+              )
+            }),
+            0
+          ),
+        ],
+        2
+      ),
     ],
     1
   )
