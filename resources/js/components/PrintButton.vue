@@ -1,12 +1,15 @@
 <template>
     <span> 
-        <ui-button @click.prevent="print">{{ text }}</ui-button>
+        <ui-button v-if="!loading" @click.prevent="print">{{ text }}</ui-button>
     </span>
 </template>
 
 <script>
 export default {
     props: {
+        loading: {
+            default: false,
+        },
         text: {
             default: "Print"
         }

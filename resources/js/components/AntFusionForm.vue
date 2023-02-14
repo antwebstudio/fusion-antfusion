@@ -2,14 +2,14 @@
     <div>
         <portal to="actions">
             <span class="print:hidden">
-                <component @submitted="submitted" :parent="componentData" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
+                <component @load="$emit('load')" @loaded="$emit('loaded')" @submitted="submitted" :loading="loading" :parent="componentData" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
                     {{ action.text }}
                 </component>
             </span>
         </portal>
 
         <div v-for="field in fields" :key="field.handle">
-            <component :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
+            <component @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
                 :has-error="form.errors.has(field.handle)"
                 :error-message="form.errors.get(field.handle)"
                 >
@@ -24,6 +24,10 @@ import Form from '@/services/Form'
 
 export default {
     props: {
+        loading: {
+            default: false
+        },
+
         actions: {
 
         },

@@ -6,7 +6,7 @@
 
         <portal to="actions">
             <span class="print:hidden">
-                <component @submitted="load" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
+                <component :loading="loading" @load="onLoading" @loaded="onLoaded" @submitted="load" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
                     {{ action.text }}
                 </component>
             </span>
@@ -14,6 +14,8 @@
 
         <div v-if="meta && meta.components">
             <component
+                :loading="loading"
+                @load="onLoading" @loaded="onLoaded"
                 v-for="(component, index) in meta.components" :key="index"
                 :is="component.component"
                 v-bind="component"
@@ -27,10 +29,24 @@
 export default {
     data() {
         return {
+            loadingCount: 0,
             meta: null,
             page: null,
             resource: null,
             actions: null,
+        }
+    },
+    methods: {
+        onLoading() {
+            this.loadingCount++
+        },
+        onLoaded() {
+            this.loadingCount--
+        }
+    },
+    computed: {
+        loading() {
+            return this.loadingCount > 0
         }
     },
     beforeRouteUpdate(to, from, next) {
