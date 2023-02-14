@@ -36,14 +36,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      loadingCount: 0,
       meta: null,
       page: null,
       resource: null,
       actions: null
     };
+  },
+  methods: {
+    onLoading: function onLoading() {
+      this.loadingCount++;
+    },
+    onLoaded: function onLoaded() {
+      this.loadingCount--;
+    }
+  },
+  computed: {
+    loading: function loading() {
+      return this.loadingCount > 0;
+    }
   },
   beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
     var _this = this;
@@ -192,7 +208,16 @@ var render = function () {
             return _c(
               action.component,
               _vm._b(
-                { key: index, tag: "component", on: { submitted: _vm.load } },
+                {
+                  key: index,
+                  tag: "component",
+                  attrs: { loading: _vm.loading },
+                  on: {
+                    load: _vm.onLoading,
+                    loaded: _vm.onLoaded,
+                    submitted: _vm.load,
+                  },
+                },
                 "component",
                 action,
                 false
@@ -215,7 +240,12 @@ var render = function () {
               return _c(
                 component.component,
                 _vm._b(
-                  { key: index, tag: "component" },
+                  {
+                    key: index,
+                    tag: "component",
+                    attrs: { loading: _vm.loading },
+                    on: { load: _vm.onLoading, loaded: _vm.onLoaded },
+                  },
                   "component",
                   component,
                   false

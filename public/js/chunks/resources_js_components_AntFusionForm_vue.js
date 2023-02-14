@@ -36,6 +36,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
+    loading: {
+      "default": false
+    },
     actions: {},
     fields: {}
   },
@@ -797,7 +800,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/api/disks/".concat(disk)).then(function (_ref3) {
         var data = _ref3.data;
         commit('setDisk', data.data);
-        dispatch('reset');
         dispatch('fetchFilesAndDirectories');
       })["catch"](function (errors) {
         return console.log(errors);
@@ -1526,8 +1528,16 @@ var render = function () {
                 {
                   key: index,
                   tag: "component",
-                  attrs: { parent: _vm.componentData },
-                  on: { submitted: _vm.submitted },
+                  attrs: { loading: _vm.loading, parent: _vm.componentData },
+                  on: {
+                    load: function ($event) {
+                      return _vm.$emit("load")
+                    },
+                    loaded: function ($event) {
+                      return _vm.$emit("loaded")
+                    },
+                    submitted: _vm.submitted,
+                  },
                 },
                 "component",
                 action,
@@ -1555,9 +1565,18 @@ var render = function () {
                 {
                   tag: "component",
                   attrs: {
+                    loading: _vm.loading,
                     parent: _vm.componentData,
                     "has-error": _vm.form.errors.has(field.handle),
                     "error-message": _vm.form.errors.get(field.handle),
+                  },
+                  on: {
+                    load: function ($event) {
+                      return _vm.$emit("load")
+                    },
+                    loaded: function ($event) {
+                      return _vm.$emit("loaded")
+                    },
                   },
                   model: {
                     value: _vm.form[field.handle],

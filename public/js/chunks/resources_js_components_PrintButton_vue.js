@@ -19,6 +19,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
+    loading: {
+      "default": false
+    },
     text: {
       "default": "Print"
     }
@@ -119,18 +122,20 @@ var render = function () {
   return _c(
     "span",
     [
-      _c(
-        "ui-button",
-        {
-          on: {
-            click: function ($event) {
-              $event.preventDefault()
-              return _vm.print.apply(null, arguments)
+      !_vm.loading
+        ? _c(
+            "ui-button",
+            {
+              on: {
+                click: function ($event) {
+                  $event.preventDefault()
+                  return _vm.print.apply(null, arguments)
+                },
+              },
             },
-          },
-        },
-        [_vm._v(_vm._s(_vm.text))]
-      ),
+            [_vm._v(_vm._s(_vm.text))]
+          )
+        : _vm._e(),
     ],
     1
   )

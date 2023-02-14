@@ -860,7 +860,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/api/disks/".concat(disk)).then(function (_ref3) {
         var data = _ref3.data;
         commit('setDisk', data.data);
-        dispatch('reset');
         dispatch('fetchFilesAndDirectories');
       })["catch"](function (errors) {
         return console.log(errors);
