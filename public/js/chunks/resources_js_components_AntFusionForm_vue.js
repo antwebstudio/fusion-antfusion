@@ -40,24 +40,62 @@ __webpack_require__.r(__webpack_exports__);
       "default": false
     },
     actions: {},
-    fields: {}
+    fields: {},
+    syncDependantFieldUrl: {}
   },
   data: function data() {
     return {
+      fieldsByHandle: {},
       form: new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"]()
     };
   },
   methods: {
+    registerWatch: function registerWatch(field) {
+      var _this = this;
+
+      field.dependsOn.forEach(function (attribute) {
+        // console.log('register watch for form ' + attribute)
+        _this.$watch('form.' + attribute, function (value, oldValue) {
+          _this.syncDependantFields(field, attribute);
+        }, {
+          deep: true
+        });
+      });
+    },
+    syncDependantFields: function syncDependantFields(fieldToBeUpdated, dependsOnAttribute) {
+      var _this2 = this;
+
+      var params = {
+        field: fieldToBeUpdated.handle,
+        path: fieldToBeUpdated.path,
+        attribute: dependsOnAttribute,
+        form: this.form.data()
+      };
+      axios.patch(this.syncDependantFieldUrl, params).then(function (response) {
+        var field = response.data;
+
+        _this2.$set(_this2.fieldsByHandle, field.id, field); // console.log(field)
+
+      });
+    },
     submitted: function submitted() {
       this.$emit('submitted', this.form);
       bus().$emit('refresh-form', this.form);
     }
   },
   mounted: function mounted() {
+    var _this3 = this;
+
     var form = {};
 
     _.each(this.fields, function (field) {
       form[field.handle] = field["default"];
+
+      _this3.$set(_this3.fieldsByHandle, field.id, field);
+
+      if (field.dependsOn) {
+        _this3.registerWatch(field);
+      }
     });
 
     this.form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](form, true);
@@ -1554,15 +1592,23 @@ var render = function () {
         ),
       ]),
       _vm._v(" "),
-      _vm._l(_vm.fields, function (field) {
+      _vm._l(_vm.fieldsByHandle, function (field) {
         return _c(
           "div",
-          { key: field.handle },
+          { key: field.id },
           [
             _c(
               field.component,
               _vm._b(
                 {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !field.hide,
+                      expression: "!field.hide",
+                    },
+                  ],
                   tag: "component",
                   attrs: {
                     loading: _vm.loading,
