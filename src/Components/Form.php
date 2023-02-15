@@ -13,6 +13,11 @@ class Form extends Component {
             'component' => $this->component,
             'actions' => $this->actionsArray(),
             'fields' => $this->fieldsArray(),
+            'syncDependantFieldUrl' => $this->getSyncDependantFieldUrl(),
         ];
+    }
+
+    protected function getSyncDependantFieldUrl() {
+        return route('antfusion.page.sync_fields', ['page' => $this->parent->getSlug()]);
     }
 }

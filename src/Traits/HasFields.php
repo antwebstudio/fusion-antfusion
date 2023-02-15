@@ -12,6 +12,7 @@ trait HasFields {
         $fieldsArray = [];
         foreach ($fields as $field) {
             if (!is_string($field) && (!isset($scenario) || $field->shouldShowIn($scenario))) {
+                $field->setParent($this);
                 $fieldsArray[] = $field->setScenario($scenario)->toArray();
             }
         }

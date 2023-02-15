@@ -8,6 +8,11 @@ class Fusion extends Field
     protected $fieldType;
     protected $settings = [];
 
+    public function __construct($label, $handle) {
+        parent::__construct($label, $handle);
+        $this->type($this->fieldType);
+    }
+
     public static function makeFromField(\Fusion\Models\Field $field)
     {
         return static::make($field->name, $field->handle)
@@ -66,6 +71,7 @@ class Fusion extends Field
     public function toArray() {
         return array_merge($this->meta, [
             'component' => $this->component,
+            'id' => $this->id ?? $this->handle,
             'handle' => $this->handle,
             'field' =>[
                 'name' => $this->label,
@@ -73,6 +79,8 @@ class Fusion extends Field
                 'settings' => $this->getSettings(),
                 'required' => $this->hasRequiredRule(),
             ],
+            'dependsOn' => $this->getDependsOnArray(),
+            'path' => $this->getPath(),
         ]);
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 class Page {
     use \Addons\AntFusion\Traits\HasActions;
     use \Addons\AntFusion\Traits\HasComponents;
+    use \Addons\AntFusion\Traits\HasPath;
 
     protected $name;
 

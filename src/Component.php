@@ -1,9 +1,12 @@
 <?php
 namespace Addons\AntFusion;
 
+use Illuminate\Support\Str;
+
 class Component {
     use \Addons\AntFusion\Traits\HasActions;
     use \Addons\AntFusion\Traits\HasParent;
+    use \Addons\AntFusion\Traits\HasPath;
     use \Addons\AntFusion\Traits\ShowInTrait;
     use \Addons\AntFusion\Traits\HasMeta;
 
@@ -11,6 +14,14 @@ class Component {
         if (isset($this->parent)) {
             return $this->parent->getActionUrl($actionSlug);
         }
+    }
+
+    public function getHandle() {
+        return Str::snake(class_basename(static::class));
+    }
+
+    public function getSlug() {
+        return Str::kebab(class_basename(static::class));
     }
 
     public static function make(...$arguments)

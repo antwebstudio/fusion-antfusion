@@ -18,4 +18,5 @@ Route::get('antfusion/report/{report}', 'ReportController@index');
 // Page
 Route::get('antfusion/page/{page}', 'PageController@index');
 Route::post('antfusion/page/{page}/action/{action}', 'PageController@performAction');
+Route::patch('antfusion/page/{page}/sync-fields', 'PageController@updateDependantField')->name('antfusion.page.sync_fields');
 

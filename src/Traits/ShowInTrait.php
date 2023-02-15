@@ -38,8 +38,13 @@ trait ShowInTrait {
         return $this->hide;
     }
 
+    public function show($hide = true) {
+        return $this->hide(false);
+    }
+
     public function hide($hide = true) {
         $this->hide = $hide;
+        $this->withMeta(['hide' => $hide]);
         return $this;
     }
 }

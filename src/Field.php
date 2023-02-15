@@ -1,14 +1,20 @@
 <?php
 namespace Addons\AntFusion;
 
+use Illuminate\Support\Str;
+
 class Field {
     use \Addons\AntFusion\Traits\HasMeta;
     use \Addons\AntFusion\Traits\ShowInTrait;
     use \Addons\AntFusion\Traits\CanSort;
+    use \Addons\AntFusion\Traits\HasDependants;
+    use \Addons\AntFusion\Traits\HasPath;
+    use \Addons\AntFusion\Traits\HasParent;
     
     public $label;
     public $handle;
 
+    protected $id;
     protected $component;
     protected $rules = [];
     protected $defaultValue;
@@ -16,6 +22,14 @@ class Field {
     public function __construct($label, $handle) {
         $this->label = $label;
         $this->handle = $handle;
+    }
+
+    public function getHandle() {
+        return $this->handle;
+    }
+
+    public function getSlug() {
+        return Str::kebab($this->handle);
     }
 
     public static function make(...$arguments)
@@ -47,12 +61,15 @@ class Field {
     public function toArray() {
         return array_merge($this->meta, [
             'component' => $this->component,
+            'id' => $this->id ?? $this->handle,
             'name' => $this->label,
             'handle' => $this->handle,
             'field' => [
                 'handle' => $this->handle,
             ],
             'default' => $this->defaultValue,
+            'dependsOn' => $this->getDependsOnArray(),
+            'path' => $this->getPath(),
         ]);
     }
 
@@ -71,5 +88,10 @@ class Field {
 
     public function section($sectionName) {
         return $this->withMeta(['section' => $sectionName]);
+    }
+
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
     }
 }

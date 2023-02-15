@@ -8,8 +8,8 @@
             </span>
         </portal>
 
-        <div v-for="field in fields" :key="field.handle">
-            <component @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
+        <div v-for="field in fieldsByHandle" :key="field.id">
+            <component v-show="!field.hide" @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
                 :has-error="form.errors.has(field.handle)"
                 :error-message="form.errors.get(field.handle)"
                 >
@@ -35,13 +35,38 @@ export default {
         fields: {
 
         },
+        syncDependantFieldUrl: {
+
+        },
     },
     data() {
         return {
+            fieldsByHandle: {},
             form: new Form(),
         }
     },
     methods: {
+        registerWatch(field) {
+            field.dependsOn.forEach((attribute) => {
+                // console.log('register watch for form ' + attribute)
+                this.$watch('form.' + attribute, (value, oldValue) => {
+                    this.syncDependantFields(field, attribute)
+                }, { deep: true });
+            })
+        },
+        syncDependantFields(fieldToBeUpdated, dependsOnAttribute) {
+            let params = {
+                field: fieldToBeUpdated.handle,
+                path: fieldToBeUpdated.path,
+                attribute: dependsOnAttribute,
+                form: this.form.data(),
+            }
+            axios.patch(this.syncDependantFieldUrl, params).then((response) => {
+                let field = response.data
+                this.$set(this.fieldsByHandle, field.id, field)
+                // console.log(field)
+            })
+        },
         submitted() {
             this.$emit('submitted', this.form)
             bus().$emit('refresh-form', this.form)
@@ -51,6 +76,10 @@ export default {
         let form = {}
         _.each(this.fields, (field) => {
             form[field.handle] = field.default
+            this.$set(this.fieldsByHandle, field.id, field)
+            if (field.dependsOn) {
+                this.registerWatch(field)
+            }
         })
         this.form = new Form(form, true)
     },
