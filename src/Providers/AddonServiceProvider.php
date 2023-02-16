@@ -36,6 +36,9 @@ class AddonServiceProvider extends ServiceProvider
         $addonName = 'AntFusion';
         $basePath = dirname(dirname(dirname(__FILE__)));
 
+        if (!File::isDirectory(public_path("addons"))) {
+            File::makeDirectory(public_path("addons"));
+        }
         if (!File::exists(public_path("addons/{$addonName}"))) {
             // Create symlink
             File::link(

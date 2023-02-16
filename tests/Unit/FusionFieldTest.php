@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Fusion\Models\Field;
 use Fusion\Models\Section;
 use Fusion\Models\Blueprint;
-use App\Helpers\Fusion as FusionHelper;
+use Ant\FusionHelper\Helpers\Fusion as FusionHelper;
 use Addons\AntFusion\Fields\Fusion as FusionField;
 
 class FusionFieldTest extends TestCase

@@ -12,6 +12,7 @@ abstract class Resource {
     use \Addons\AntFusion\Traits\HasDataTable;
     use \Addons\AntFusion\Traits\HasFields;
     use \Addons\AntFusion\Traits\HasActions;
+    use \Addons\AntFusion\Traits\HasPath;
     
     protected $name;
     protected $model;
@@ -70,7 +71,7 @@ abstract class Resource {
         if (isset($this->model)) {
             return app($this->model);
         } else {
-
+            return app('App\\Models\\'.class_basename(static::class));
         }
     }
 
