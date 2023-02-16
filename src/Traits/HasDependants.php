@@ -25,6 +25,6 @@ trait HasDependants {
             $request->attribute => $request->form[$request->attribute] ?? null
         ]));
         call_user_func_array($this->dependantCallback[$request->attribute], [$this, $request, $formData]);
-        return $this->toArray();
+        return $this->toArrayWithoutDependant();
     }
 }

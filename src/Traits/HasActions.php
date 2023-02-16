@@ -24,7 +24,7 @@ trait HasActions {
     protected function initActions() {
         if (!isset($this->initializedActions)) {
             $this->initializedActions = [];
-            foreach ($this->actions() as $action) {
+            foreach ((array) $this->actions() as $action) {
                 $this->initializedActions[$action->getHandle()] = $action;
                 $action->setParent($this);
             }

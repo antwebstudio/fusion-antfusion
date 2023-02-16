@@ -16,6 +16,8 @@
                 {{ field.text }}
             </component>
         </div>
+
+        <input type="hidden" :name="name" :value="JSON.stringify(this.form.data())" />
     </div>
 </template>
 
@@ -24,6 +26,9 @@ import Form from '@/services/Form'
 
 export default {
     props: {
+        name: {
+            default: '_antfusion_form'
+        },
         loading: {
             default: false
         },
@@ -34,6 +39,12 @@ export default {
 
         fields: {
 
+        },
+        values: {
+            default: {}
+        },
+        errors: {
+            default: {}
         },
         syncDependantFieldUrl: {
 
@@ -75,13 +86,15 @@ export default {
     mounted() {
         let form = {}
         _.each(this.fields, (field) => {
-            form[field.handle] = field.default
+            form[field.handle] = this.values[field.handle] || field.default
             this.$set(this.fieldsByHandle, field.id, field)
             if (field.dependsOn) {
                 this.registerWatch(field)
             }
         })
+
         this.form = new Form(form, true)
+        this.form.errors.record( { errors: this.errors } )
     },
     computed: {
         componentData() {

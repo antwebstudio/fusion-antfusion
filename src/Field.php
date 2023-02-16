@@ -59,6 +59,15 @@ class Field {
     }
 
     public function toArray() {
+        $request = request();
+        if (isset($request)) {
+            return $this->toArrayWithDependant($request);
+        } else {
+            return $this->toArrayWithoutDependant($request);
+        }
+    }
+
+    public function toArrayWithoutDependant() {
         return array_merge($this->meta, [
             'component' => $this->component,
             'id' => $this->id ?? $this->handle,

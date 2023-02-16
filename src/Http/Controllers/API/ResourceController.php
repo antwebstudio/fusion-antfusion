@@ -4,6 +4,7 @@ namespace Addons\AntFusion\Http\Controllers\API;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Addons\AntFusion\Http\Resources\ResourceResource;
+use Illuminate\Support\Str;
 
 class ResourceController extends Controller
 {
@@ -41,5 +42,12 @@ class ResourceController extends Controller
     public function index(Request $request) {
         $resource = app('resources.'.$request->resource);
         return $resource->toIndexArray();
+    }
+
+    public function updateDependantField(Request $request) 
+    {
+        $resource = app('resources.'.$request->resource);
+        $field = $resource->getComponentByPath(Str::after($request->path, '.'));
+        return $field->toArrayWithDependant($request);
     }
 }
