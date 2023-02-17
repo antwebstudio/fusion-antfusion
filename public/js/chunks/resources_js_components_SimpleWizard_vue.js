@@ -1,9 +1,9 @@
-(self["webpackChunktinymcefieldtype"] = self["webpackChunktinymcefieldtype"] || []).push([["resources_js_components_AntFusionForm_vue"],{
+(self["webpackChunktinymcefieldtype"] = self["webpackChunktinymcefieldtype"] || []).push([["resources_js_components_SimpleWizard_vue"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AntFusionForm.vue?vue&type=script&lang=js&":
-/*!********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AntFusionForm.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SimpleWizard.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SimpleWizard.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -39,51 +39,83 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    name: {
-      "default": '_antfusion_form'
-    },
-    loading: {
-      "default": false
-    },
-    actions: {},
-    children: {},
-    fields: {},
-    values: {
+    validateUrl: {},
+    syncDependantFieldUrl: {},
+    path: {},
+    steps: {},
+    value: {},
+    form: {},
+    footer: {},
+    nextButton: {
       "default": {}
     },
-    errors: {
+    prevButton: {
       "default": {}
     },
-    syncDependantFieldUrl: {}
+    submitButton: {
+      "default": {}
+    }
+  },
+  watch: {
+    fieldValues: {
+      handler: function handler(value) {
+        var _this = this;
+
+        // let form = 
+        Object.keys(value).forEach(function (key) {
+          _this.form[key] = value[key];
+        });
+        this.$emit('input', this.form);
+      },
+      deep: true
+    }
   },
   data: function data() {
     return {
       componentsByHandle: {},
-      form: new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"]()
+      currentStep: 0,
+      fieldValues: this.form
     };
   },
-  methods: {
-    registerWatch: function registerWatch(field) {
-      var _this = this;
+  computed: {
+    hasPreviousStep: function hasPreviousStep() {
+      return this.currentStep > 0;
+    },
+    hasNextStep: function hasNextStep() {
+      return this.currentStep < this.steps.length - 1;
+    }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
 
-      field.dependsOn.forEach(function (attribute) {
+    _.each(this.steps, function (step) {
+      _.each(step.children, function (component, fieldKey) {
+        _this2.$set(_this2.componentsByHandle, component.id, component);
+
+        if (component.dependsOn) {
+          _this2.registerWatch(component, step.children, fieldKey);
+        }
+      });
+    });
+  },
+  methods: {
+    registerWatch: function registerWatch(fieldToBeUpdated, fieldCollections, fieldKey) {
+      var _this3 = this;
+
+      fieldToBeUpdated.dependsOn.forEach(function (attribute) {
         // console.log('register watch for form ' + attribute)
-        _this.$watch('form.' + attribute, function (value, oldValue) {
-          _this.syncDependantFields(field, attribute);
+        _this3.$watch('form.' + attribute, function (value, oldValue) {
+          _this3.syncDependantFields(fieldToBeUpdated, attribute, fieldCollections, fieldKey);
         }, {
           deep: true
         });
       });
     },
-    syncDependantFields: function syncDependantFields(fieldToBeUpdated, dependsOnAttribute) {
-      var _this2 = this;
+    syncDependantFields: function syncDependantFields(fieldToBeUpdated, dependsOnAttribute, fieldCollections, fieldKey) {
+      var _this4 = this;
 
       var params = {
         field: fieldToBeUpdated.handle,
@@ -93,46 +125,39 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.patch(this.syncDependantFieldUrl, params).then(function (response) {
         var field = response.data;
+        console.log('before', fieldCollections[fieldKey]);
 
-        _this2.$set(_this2.componentsByHandle, field.id, field); // console.log(field)
+        _this4.$set(fieldCollections, fieldKey, field);
 
+        console.log('after', fieldCollections[fieldKey]); // this.$set(this.componentsByHandle, field.id, field)
+        // console.log(field)
       });
     },
-    submitted: function submitted() {
-      this.$emit('submitted', this.form);
-      bus().$emit('refresh-form', this.form);
-    }
-  },
-  mounted: function mounted() {
-    var _this3 = this;
+    validate: function validate() {
+      var params = {
+        step: this.currentStep,
+        path: this.path,
+        form: this.form.data()
+      };
+      return axios.post(this.validateUrl, params);
+    },
+    next: function next() {
+      var _this5 = this;
 
-    var form = {};
+      if (this.hasNextStep) {
+        this.validate().then(function (response) {
+          _this5.currentStep++;
+        })["catch"](function (error) {
+          console.log(error.response.data);
 
-    _.each(this.fields, function (field) {
-      form[field.handle] = _this3.values[field.handle] || field["default"];
-      console.log('field', field);
-      console.log('set ' + field.handle, _this3.values[field.handle], field["default"]);
-      console.log('value', form[field.handle]);
-    });
-
-    var components = this.children || this.fields;
-
-    _.each(components, function (component) {
-      _this3.$set(_this3.componentsByHandle, component.id, component);
-
-      if (component.dependsOn) {
-        _this3.registerWatch(component);
+          _this5.form.errors.record(error.response.data);
+        });
       }
-    });
-
-    this.form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](form, true);
-    this.form.errors.record({
-      errors: this.errors
-    });
-  },
-  computed: {
-    componentData: function componentData() {
-      return this.form;
+    },
+    prev: function prev() {
+      if (this.hasPreviousStep) {
+        this.currentStep--;
+      }
     }
   }
 });
@@ -1495,10 +1520,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/AntFusionForm.vue":
-/*!***************************************************!*\
-  !*** ./resources/js/components/AntFusionForm.vue ***!
-  \***************************************************/
+/***/ "./resources/js/components/SimpleWizard.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/SimpleWizard.vue ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1506,8 +1531,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _AntFusionForm_vue_vue_type_template_id_31989854___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AntFusionForm.vue?vue&type=template&id=31989854& */ "./resources/js/components/AntFusionForm.vue?vue&type=template&id=31989854&");
-/* harmony import */ var _AntFusionForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AntFusionForm.vue?vue&type=script&lang=js& */ "./resources/js/components/AntFusionForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _SimpleWizard_vue_vue_type_template_id_46032328___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SimpleWizard.vue?vue&type=template&id=46032328& */ "./resources/js/components/SimpleWizard.vue?vue&type=template&id=46032328&");
+/* harmony import */ var _SimpleWizard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SimpleWizard.vue?vue&type=script&lang=js& */ "./resources/js/components/SimpleWizard.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -1517,9 +1542,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _AntFusionForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AntFusionForm_vue_vue_type_template_id_31989854___WEBPACK_IMPORTED_MODULE_0__.render,
-  _AntFusionForm_vue_vue_type_template_id_31989854___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _SimpleWizard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SimpleWizard_vue_vue_type_template_id_46032328___WEBPACK_IMPORTED_MODULE_0__.render,
+  _SimpleWizard_vue_vue_type_template_id_46032328___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
   null,
@@ -1529,15 +1554,15 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/AntFusionForm.vue"
+component.options.__file = "resources/js/components/SimpleWizard.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/AntFusionForm.vue?vue&type=script&lang=js&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/components/AntFusionForm.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************/
+/***/ "./resources/js/components/SimpleWizard.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/SimpleWizard.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1545,32 +1570,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AntFusionForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AntFusionForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AntFusionForm.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AntFusionForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SimpleWizard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SimpleWizard.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SimpleWizard.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SimpleWizard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/AntFusionForm.vue?vue&type=template&id=31989854&":
-/*!**********************************************************************************!*\
-  !*** ./resources/js/components/AntFusionForm.vue?vue&type=template&id=31989854& ***!
-  \**********************************************************************************/
+/***/ "./resources/js/components/SimpleWizard.vue?vue&type=template&id=46032328&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/SimpleWizard.vue?vue&type=template&id=46032328& ***!
+  \*********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AntFusionForm_vue_vue_type_template_id_31989854___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AntFusionForm_vue_vue_type_template_id_31989854___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SimpleWizard_vue_vue_type_template_id_46032328___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SimpleWizard_vue_vue_type_template_id_46032328___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AntFusionForm_vue_vue_type_template_id_31989854___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AntFusionForm.vue?vue&type=template&id=31989854& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AntFusionForm.vue?vue&type=template&id=31989854&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SimpleWizard_vue_vue_type_template_id_46032328___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SimpleWizard.vue?vue&type=template&id=46032328& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SimpleWizard.vue?vue&type=template&id=46032328&");
 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AntFusionForm.vue?vue&type=template&id=31989854&":
-/*!*************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AntFusionForm.vue?vue&type=template&id=31989854& ***!
-  \*************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SimpleWizard.vue?vue&type=template&id=46032328&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SimpleWizard.vue?vue&type=template&id=46032328& ***!
+  \************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1586,130 +1611,139 @@ var render = function () {
   return _c(
     "div",
     [
-      _c("portal", { attrs: { to: "actions" } }, [
-        _c(
-          "span",
-          { staticClass: "print:hidden" },
-          _vm._l(_vm.actions, function (action, index) {
-            return _c(
-              action.component,
-              _vm._b(
-                {
-                  key: index,
-                  tag: "component",
-                  attrs: { loading: _vm.loading, parent: _vm.componentData },
-                  on: {
-                    load: function ($event) {
-                      return _vm.$emit("load")
-                    },
-                    loaded: function ($event) {
-                      return _vm.$emit("loaded")
-                    },
-                    submitted: _vm.submitted,
-                  },
-                },
-                "component",
-                action,
-                false
-              ),
-              [
-                _vm._v(
-                  "\n                " + _vm._s(action.text) + "\n            "
-                ),
-              ]
-            )
-          }),
-          1
-        ),
-      ]),
-      _vm._v("\n    " + _vm._s(_vm.syncDependantFieldUrl) + "\n    \n    "),
-      _vm._l(_vm.componentsByHandle, function (field) {
-        return _c(
-          "div",
-          { key: field.id },
-          [
-            !field.is_panel
-              ? _c(
-                  field.component,
-                  _vm._b(
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: !field.hide,
-                          expression: "!field.hide",
+      _vm._v("\n    wizard" + _vm._s(_vm.syncDependantFieldUrl) + "\n    "),
+      _vm._v(" "),
+      _vm._l(_vm.steps, function (step, index) {
+        return _c("div", { key: index }, [
+          index == _vm.currentStep
+            ? _c(
+                "div",
+                _vm._l(step.children, function (field, index) {
+                  return _c(
+                    field.component,
+                    _vm._b(
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !field.hide,
+                            expression: "!field.hide",
+                          },
+                        ],
+                        key: index,
+                        tag: "component",
+                        attrs: {
+                          "has-error": _vm.form.errors.has(field.field.handle),
+                          "error-message": _vm.form.errors.get(
+                            field.field.handle
+                          ),
                         },
-                      ],
-                      tag: "component",
-                      attrs: {
-                        loading: _vm.loading,
-                        parent: _vm.componentData,
-                        "has-error": _vm.form.errors.has(field.handle),
-                        "error-message": _vm.form.errors.get(field.handle),
-                      },
-                      on: {
-                        load: function ($event) {
-                          return _vm.$emit("load")
-                        },
-                        loaded: function ($event) {
-                          return _vm.$emit("loaded")
+                        model: {
+                          value: _vm.fieldValues[field.field.handle],
+                          callback: function ($$v) {
+                            _vm.$set(_vm.fieldValues, field.field.handle, $$v)
+                          },
+                          expression: "fieldValues[field.field.handle]",
                         },
                       },
-                      model: {
-                        value: _vm.form[field.handle],
-                        callback: function ($$v) {
-                          _vm.$set(_vm.form, field.handle, $$v)
-                        },
-                        expression: "form[field.handle]",
-                      },
-                    },
-                    "component",
-                    field,
-                    false
-                  ),
-                  [_vm._v("\n            " + _vm._s(field.text) + "\n        ")]
-                )
-              : _c(
-                  field.component,
-                  _vm._b(
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: !field.hide,
-                          expression: "!field.hide",
-                        },
-                      ],
-                      tag: "component",
-                      attrs: {
-                        form: _vm.form,
-                        "sync-dependant-field-url": _vm.syncDependantFieldUrl,
-                      },
-                      model: {
-                        value: _vm.form,
-                        callback: function ($$v) {
-                          _vm.form = $$v
-                        },
-                        expression: "form",
-                      },
-                    },
-                    "component",
-                    field,
-                    false
-                  ),
-                  [_vm._v("\n            " + _vm._s(field.text) + "\n        ")]
-                ),
-          ],
-          1
-        )
+                      "component",
+                      field,
+                      false
+                    ),
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(field.text) +
+                          "\n            "
+                      ),
+                    ]
+                  )
+                }),
+                1
+              )
+            : _vm._e(),
+        ])
       }),
       _vm._v(" "),
-      _c("input", {
-        attrs: { type: "hidden", name: _vm.name },
-        domProps: { value: JSON.stringify(this.form.data()) },
-      }),
+      _c(
+        "div",
+        _vm._b({}, "div", _vm.footer, false),
+        [
+          _c(
+            "ui-button",
+            _vm._b(
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.hasPreviousStep,
+                    expression: "hasPreviousStep",
+                  },
+                ],
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.prev.apply(null, arguments)
+                  },
+                },
+              },
+              "ui-button",
+              _vm.prevButton,
+              false
+            ),
+            [_vm._v(_vm._s(_vm.prevButton.text))]
+          ),
+          _vm._v(" "),
+          _c(
+            "ui-button",
+            _vm._b(
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.hasNextStep,
+                    expression: "hasNextStep",
+                  },
+                ],
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.next.apply(null, arguments)
+                  },
+                },
+              },
+              "ui-button",
+              _vm.nextButton,
+              false
+            ),
+            [_vm._v(_vm._s(_vm.nextButton.text))]
+          ),
+          _vm._v(" "),
+          _c(
+            "ui-button",
+            _vm._b(
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.hasNextStep,
+                    expression: "!hasNextStep",
+                  },
+                ],
+              },
+              "ui-button",
+              _vm.submitButton,
+              false
+            ),
+            [_vm._v(_vm._s(_vm.submitButton.text))]
+          ),
+        ],
+        1
+      ),
     ],
     2
   )
