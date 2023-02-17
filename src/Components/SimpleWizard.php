@@ -10,6 +10,7 @@ use Addons\AntFusion\Contracts\Panel as PanelInterface;
 
 class SimpleWizard extends Component implements PanelInterface, JsonSerializable {
     use \Addons\AntFusion\Traits\HasFields;
+    use \Addons\AntFusion\Traits\HasPath;
     
     protected $component = 'antfusion-simple-wizard';
 
@@ -52,7 +53,7 @@ class SimpleWizard extends Component implements PanelInterface, JsonSerializable
         foreach ($this->steps as $fields) {
             $step = [];
             foreach ($fields as $field) {
-                $step[] = $field->toArray();
+                $step[] = $field->setParent($this)->toArray();
             }
             $steps[] = [
                 'children' => $step,

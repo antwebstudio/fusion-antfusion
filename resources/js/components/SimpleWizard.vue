@@ -1,9 +1,11 @@
 <template>
     <div>
+        wizard{{ syncDependantFieldUrl }}
         <!-- {{ steps }} -->
         <div v-for="step, index in steps" :key="index">
             <div v-if="index == currentStep">
                 <component 
+                    v-show="!field.hide" 
                     v-model="fieldValues[field.field.handle]"
                     v-for="field, index in step.children" :key="index"
                     :is="field.component" v-bind="field" 
@@ -28,6 +30,9 @@ import Form from '@/services/Form'
 export default {
     props: {
         validateUrl: {
+
+        },
+        syncDependantFieldUrl: {
 
         },
         path: {
@@ -69,6 +74,7 @@ export default {
     },
     data() {
         return {
+            componentsByHandle: {},
             currentStep: 0,
             fieldValues: this.form,
         }
@@ -81,7 +87,41 @@ export default {
             return this.currentStep < this.steps.length - 1
         },
     },
+    mounted() {
+        _.each(this.steps, (step) => {
+            _.each(step.children, (component, fieldKey) => {
+                this.$set(this.componentsByHandle, component.id, component)
+                if (component.dependsOn) {
+                    this.registerWatch(component, step.children, fieldKey)
+                }
+            })
+        })
+    },
     methods: {
+        registerWatch(fieldToBeUpdated, fieldCollections, fieldKey) {
+            fieldToBeUpdated.dependsOn.forEach((attribute) => {
+                // console.log('register watch for form ' + attribute)
+                this.$watch('form.' + attribute, (value, oldValue) => {
+                    this.syncDependantFields(fieldToBeUpdated, attribute, fieldCollections, fieldKey)
+                }, { deep: true });
+            })
+        },
+        syncDependantFields(fieldToBeUpdated, dependsOnAttribute, fieldCollections, fieldKey) {
+            let params = {
+                field: fieldToBeUpdated.handle,
+                path: fieldToBeUpdated.path,
+                attribute: dependsOnAttribute,
+                form: this.form.data(),
+            }
+            axios.patch(this.syncDependantFieldUrl, params).then((response) => {
+                let field = response.data
+                console.log('before', fieldCollections[fieldKey])
+                this.$set(fieldCollections, fieldKey, field)
+                console.log('after', fieldCollections[fieldKey])
+                // this.$set(this.componentsByHandle, field.id, field)
+                // console.log(field)
+            })
+        },
         validate() {
             let params = {
                 step: this.currentStep,

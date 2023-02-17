@@ -16,8 +16,9 @@
                 {{ field.text }}
             </component>
 
-            <component v-else v-model="form" :is="field.component" v-bind="field" 
+            <component v-else v-model="form" v-show="!field.hide" :is="field.component" v-bind="field" 
                 :form="form"
+                :sync-dependant-field-url="syncDependantFieldUrl"
                 >
                 {{ field.text }}
             </component>
