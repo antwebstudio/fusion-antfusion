@@ -7,11 +7,17 @@
                 </component>
             </span>
         </portal>
-
-        <div v-for="field in fieldsByHandle" :key="field.id">
-            <component v-show="!field.hide" @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
+        
+        <div v-for="field in componentsByHandle" :key="field.id">
+            <component v-if="!field.is_panel" v-show="!field.hide" @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
                 :has-error="form.errors.has(field.handle)"
                 :error-message="form.errors.get(field.handle)"
+                >
+                {{ field.text }}
+            </component>
+
+            <component v-else v-model="form" :is="field.component" v-bind="field" 
+                :form="form"
                 >
                 {{ field.text }}
             </component>
@@ -36,7 +42,9 @@ export default {
         actions: {
 
         },
+        children: {
 
+        },
         fields: {
 
         },
@@ -52,7 +60,7 @@ export default {
     },
     data() {
         return {
-            fieldsByHandle: {},
+            componentsByHandle: {},
             form: new Form(),
         }
     },
@@ -74,7 +82,7 @@ export default {
             }
             axios.patch(this.syncDependantFieldUrl, params).then((response) => {
                 let field = response.data
-                this.$set(this.fieldsByHandle, field.id, field)
+                this.$set(this.componentsByHandle, field.id, field)
                 // console.log(field)
             })
         },
@@ -87,9 +95,16 @@ export default {
         let form = {}
         _.each(this.fields, (field) => {
             form[field.handle] = this.values[field.handle] || field.default
-            this.$set(this.fieldsByHandle, field.id, field)
-            if (field.dependsOn) {
-                this.registerWatch(field)
+            console.log('field', field)
+            console.log('set '+field.handle, this.values[field.handle], field.default)
+            console.log('value', form[field.handle])
+        })
+
+        let components = this.children || this.fields
+        _.each(components, (component) => {
+            this.$set(this.componentsByHandle, component.id, component)
+            if (component.dependsOn) {
+                this.registerWatch(component)
             }
         })
 

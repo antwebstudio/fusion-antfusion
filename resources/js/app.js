@@ -21,6 +21,7 @@ window.Fusion.booting(function(Vue, router, store) {
     Vue.component('resource-fieldtype', () => import('./fieldtypes/Resource/Field'))
     Vue.component('resource-fieldtype-setting', () => import('./fieldtypes/Resource/Settings'))
     Vue.component('filter-tabs', () => import('./components/FilterTabs'))
+    Vue.component('antfusion-simple-wizard', () => import('./components/SimpleWizard'))
 
 	router.addRoutes([
 		{

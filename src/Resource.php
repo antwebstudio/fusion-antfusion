@@ -153,4 +153,8 @@ abstract class Resource {
             'actions' => $this->getActionsForIndex(),
         ];
     }
+
+    public function getPath() {
+        return 'resources:'.$this->getSlug();
+    }
 }
