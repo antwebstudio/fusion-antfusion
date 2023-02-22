@@ -1,6 +1,5 @@
 <template>
     <div>
-        wizard{{ syncDependantFieldUrl }}
         <!-- {{ steps }} -->
         <div v-for="step, index in steps" :key="index">
             <div v-if="index == currentStep">

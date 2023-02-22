@@ -7,6 +7,8 @@
                 </component>
             </span>
         </portal>
+
+        <div v-if="debug">{{ form }}</div>
         
         <div v-for="field in componentsByHandle" :key="field.id">
             <component v-if="!field.is_panel" v-show="!field.hide" @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
@@ -33,6 +35,9 @@ import Form from '@/services/Form'
 
 export default {
     props: {
+        debug: {
+            default: false,
+        },
         name: {
             default: '_antfusion_form'
         },
