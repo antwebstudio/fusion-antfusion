@@ -596,6 +596,8 @@ __webpack_require__.r(__webpack_exports__);
             return _this3.getRecords();
           }, _this3.refresh);
         }
+
+        _this3.$emit('loaded', _this3.records);
       });
     },
     isSortable: function isSortable(column) {
@@ -1929,6 +1931,7 @@ var render = function () {
                           : _vm._e(),
                         _vm._v(" "),
                         _vm._l(_vm.displayable, function (column, index) {
+                          var _obj
                           return _c(
                             "th",
                             {
@@ -1941,11 +1944,14 @@ var render = function () {
                                 },
                               ],
                               key: column[_vm.primaryKey] || index,
-                              class: {
-                                sortable: _vm.isSortable(column),
-                                active: _vm.sort.key === column,
-                                "w-96": column === "url",
-                              },
+                              class:
+                                ((_obj = {
+                                  sortable: _vm.isSortable(column),
+                                  active: _vm.sort.key === column,
+                                  "w-96": column === "url",
+                                }),
+                                (_obj["th-" + column] = true),
+                                _obj),
                             },
                             [
                               _vm.isSortable(column)
@@ -2167,7 +2173,7 @@ var render = function () {
                                 expression: "hasActions && ! hasSelections",
                               },
                             ],
-                            staticClass: "w-20",
+                            staticClass: "w-20 col-actions",
                           },
                           [_vm._v(" ")]
                         ),
@@ -2219,7 +2225,7 @@ var render = function () {
                           _vm._l(_vm.displayable, function (column) {
                             return _c(
                               "td",
-                              { key: column },
+                              { key: column, class: "td-" + column },
                               [
                                 _c("span", { staticClass: "column-label" }, [
                                   _vm._v(
@@ -2254,7 +2260,10 @@ var render = function () {
                           _vm.hasActions
                             ? _c(
                                 "td",
-                                { staticClass: "table__actions w-20" },
+                                {
+                                  staticClass:
+                                    "'table__actions w-20 col-actions'",
+                                },
                                 [_vm._t("actions", null, { record: record })],
                                 2
                               )
@@ -2476,6 +2485,60 @@ var render = function () {
                       "Confirm Bulk " +
                       this.allowedBulkActions[_vm.action].name,
                   },
+                  scopedSlots: _vm._u(
+                    [
+                      {
+                        key: "footer",
+                        fn: function () {
+                          return [
+                            _c(
+                              "ui-button",
+                              {
+                                staticClass: "ml-3",
+                                attrs: {
+                                  loading: _vm.working,
+                                  variant: "primary",
+                                },
+                                on: {
+                                  click: function ($event) {
+                                    $event.preventDefault()
+                                    return _vm.confirmBulkAction.apply(
+                                      null,
+                                      arguments
+                                    )
+                                  },
+                                },
+                              },
+                              [_vm._v("Confirm")]
+                            ),
+                            _vm._v(" "),
+                            !_vm.working
+                              ? _c(
+                                  "ui-button",
+                                  {
+                                    attrs: { variant: "secondary" },
+                                    on: {
+                                      click: function ($event) {
+                                        $event.preventDefault()
+                                        return _vm.cancelBulkAction.apply(
+                                          null,
+                                          arguments
+                                        )
+                                      },
+                                    },
+                                  },
+                                  [_vm._v("Cancel")]
+                                )
+                              : _vm._e(),
+                          ]
+                        },
+                        proxy: true,
+                      },
+                    ],
+                    null,
+                    false,
+                    907495711
+                  ),
                   model: {
                     value: _vm.showBulkActionConfirmation,
                     callback: function ($$v) {
@@ -2496,52 +2559,7 @@ var render = function () {
                         "?"
                     ),
                   ]),
-                  _vm._v(" "),
-                  _c(
-                    "template",
-                    { slot: "footer" },
-                    [
-                      _c(
-                        "ui-button",
-                        {
-                          staticClass: "ml-3",
-                          attrs: { loading: _vm.working, variant: "primary" },
-                          on: {
-                            click: function ($event) {
-                              $event.preventDefault()
-                              return _vm.confirmBulkAction.apply(
-                                null,
-                                arguments
-                              )
-                            },
-                          },
-                        },
-                        [_vm._v("Confirm")]
-                      ),
-                      _vm._v(" "),
-                      !_vm.working
-                        ? _c(
-                            "ui-button",
-                            {
-                              attrs: { variant: "secondary" },
-                              on: {
-                                click: function ($event) {
-                                  $event.preventDefault()
-                                  return _vm.cancelBulkAction.apply(
-                                    null,
-                                    arguments
-                                  )
-                                },
-                              },
-                            },
-                            [_vm._v("Cancel")]
-                          )
-                        : _vm._e(),
-                    ],
-                    1
-                  ),
-                ],
-                2
+                ]
               )
             : _vm._e(),
         ],
