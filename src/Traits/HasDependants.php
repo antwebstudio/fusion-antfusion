@@ -24,7 +24,19 @@ trait HasDependants {
         $formData = json_decode(json_encode([
             $request->attribute => $request->form[$request->attribute] ?? null
         ]));
-        call_user_func_array($this->dependantCallback[$request->attribute], [$this, $request, $formData]);
+        $this->processDependency($request, $formData, $request->has('attribute') ? [$request->attribute] : null);   
         return $this->toArrayWithoutDependant();
+    }
+
+    public function processDependency($request,  $formData = null, $attributes = null) {
+        if (count($this->dependantCallback)) {
+            $formData = $formData ?? json_decode(json_encode($request->form));
+            $attributes = $attributes ?? array_keys($this->dependantCallback);
+
+            foreach ($attributes as $attribute) {
+                call_user_func_array($this->dependantCallback[$attribute], [$this, $request, $formData]);
+            }
+        }
+        return $this;
     }
 }

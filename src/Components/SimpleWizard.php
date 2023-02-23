@@ -18,6 +18,8 @@ class SimpleWizard extends Component implements Panel, JsonSerializable {
 
     protected $fields = [];
 
+    protected $errorMessages = [];
+
     public function steps($steps) {
         $this->steps = $steps;
         foreach ($this->steps as $fields) {
@@ -26,8 +28,13 @@ class SimpleWizard extends Component implements Panel, JsonSerializable {
         return $this;
     }
 
+    public function mergeErrorMessages($messages) {
+        $this->errorMessages = array_merge($this->errorMessages, $messages);
+        return $this;
+    }
+
     public function validateStep($step, $request) {
-        return Validator::make($request->form, $this->getStepRules($step))->validate();
+        return Validator::make($request->form, $this->getStepRules($step), $this->errorMessages)->validate();
     }
 
     protected function getStepRules($step, $scenario = null) {
@@ -35,9 +42,9 @@ class SimpleWizard extends Component implements Panel, JsonSerializable {
         foreach ($this->steps[$step] as $field) {
             if (!is_string($field) && (!isset($scenario) || $field->shouldShowIn($scenario))) {
                 if ($field instanceof Panel) {
-                    $rules = array_merge($rules, $field->setScenario($scenario)->rules());
+                    $rules = array_merge($rules, $field->setScenario($scenario)->processDependency(request())->rules());
                 } else {
-                    $rules[$field->handle] = $field->setScenario($scenario)->getRules();
+                    $rules[$field->handle] = $field->setScenario($scenario)->processDependency(request())->getRules();
                 }
             }
         }

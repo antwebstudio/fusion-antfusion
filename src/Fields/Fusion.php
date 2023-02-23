@@ -68,7 +68,7 @@ class Fusion extends Field
         return array_merge($defaultSettings[$this->fieldType] ?? [], $this->settings);
     }
 
-    public function toArray() {
+    public function toArrayWithoutDependant() {
         return array_merge($this->meta, [
             'component' => $this->component,
             'id' => $this->id ?? $this->handle,

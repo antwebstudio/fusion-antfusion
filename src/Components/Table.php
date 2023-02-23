@@ -34,7 +34,7 @@ class Table extends Component implements Panel {
         if (is_string($header)) {
             $this->rows[] = Fusion::make('Table Header Row', 'table_header_row')->setComponent('antfusion-html-table-header-row')->withMeta([
                 'content' => $header,
-            ]);
+            ])->hideFromIndex();
         }
         return $this;
     }
