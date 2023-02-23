@@ -124,7 +124,7 @@ var render = function () {
   return _c(
     _vm.as,
     _vm._b(
-      { tag: "component", attrs: { form: _vm.form } },
+      { tag: "component", attrs: { form: _vm.form, errors: _vm.form.errors } },
       "component",
       _vm.props,
       false
@@ -139,11 +139,22 @@ var render = function () {
                 {
                   key: index,
                   tag: "component",
-                  attrs: { form: _vm.form, record: _vm.record },
+                  attrs: {
+                    form: _vm.form,
+                    errors: _vm.form.errors,
+                    record: _vm.record,
+                  },
                   on: {
                     updated: function ($event) {
                       return _vm.$emit("updated")
                     },
+                  },
+                  model: {
+                    value: _vm.form[childComponent.handle],
+                    callback: function ($$v) {
+                      _vm.$set(_vm.form, childComponent.handle, $$v)
+                    },
+                    expression: "form[childComponent.handle]",
                   },
                 },
                 "component",
@@ -162,7 +173,11 @@ var render = function () {
                           {
                             key: index,
                             tag: "component",
-                            attrs: { form: _vm.form, record: _vm.record },
+                            attrs: {
+                              form: _vm.form,
+                              errors: _vm.form.errors,
+                              record: _vm.record,
+                            },
                           },
                           "component",
                           grandchild,
