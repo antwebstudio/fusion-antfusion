@@ -22,6 +22,8 @@ window.Fusion.booting(function(Vue, router, store) {
     Vue.component('resource-fieldtype-setting', () => import('./fieldtypes/Resource/Settings'))
     Vue.component('filter-tabs', () => import('./components/FilterTabs'))
     Vue.component('antfusion-simple-wizard', () => import('./components/SimpleWizard'))
+    Vue.component('antfusion-html-table', () => import('./components/Table'))
+    Vue.component('antfusion-html-table-header-row', () => import('./components/TableHeaderRow'))
 
 	router.addRoutes([
 		{

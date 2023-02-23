@@ -6,9 +6,9 @@ use Illuminate\Support\Str;
 use Addons\AntFusion\Component;
 use Addons\AntFusion\Components\Tabs;
 use Illuminate\Support\Facades\Validator;
-use Addons\AntFusion\Contracts\Panel as PanelInterface;
+use Addons\AntFusion\Contracts\Panel;
 
-class SimpleWizard extends Component implements PanelInterface, JsonSerializable {
+class SimpleWizard extends Component implements Panel, JsonSerializable {
     use \Addons\AntFusion\Traits\HasFields;
     use \Addons\AntFusion\Traits\HasPath;
     
@@ -34,7 +34,11 @@ class SimpleWizard extends Component implements PanelInterface, JsonSerializable
         $rules = [];
         foreach ($this->steps[$step] as $field) {
             if (!is_string($field) && (!isset($scenario) || $field->shouldShowIn($scenario))) {
-                $rules[$field->handle] = $field->setScenario($scenario)->getRules();
+                if ($field instanceof Panel) {
+                    $rules = array_merge($rules, $field->setScenario($scenario)->rules());
+                } else {
+                    $rules[$field->handle] = $field->setScenario($scenario)->getRules();
+                }
             }
         }
         return $rules;

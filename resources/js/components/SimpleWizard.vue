@@ -1,25 +1,41 @@
 <template>
     <div>
-        <!-- {{ steps }} -->
         <div v-for="step, index in steps" :key="index">
             <div v-if="index == currentStep">
-                <component 
-                    v-show="!field.hide" 
-                    v-model="fieldValues[field.field.handle]"
-                    v-for="field, index in step.children" :key="index"
-                    :is="field.component" v-bind="field" 
-                    :has-error="form.errors.has(field.field.handle)"
-                    :error-message="form.errors.get(field.field.handle)"
-                    >
-                    {{ field.text }}
-                </component>
+                <div v-for="field, index in step.children" :key="index">
+                    <component 
+                        v-if="!field.is_panel" 
+                        v-show="!field.hide" 
+                        v-model="fieldValues[field.field.handle]"
+                        :is="field.component" v-bind="field" 
+                        :errors="form.errors"
+                        :hasError="form.errors.has(field.field.handle)"
+                        :errorMessage="form.errors.get(field.field.handle)"
+                        >
+                        {{ field.text }}
+                    </component>
+
+                    <component 
+                        v-else
+                        v-show="!field.hide" 
+                        v-model="fieldValues"
+                        :form="form"
+                        :errors="form.errors"
+                        :is="field.component" v-bind="field" 
+                        >
+                        {{ field.text }}
+                    </component>
+                </div>
             </div>
         </div>
 
         <div v-bind="footer">
-            <ui-button v-bind="prevButton" v-show="hasPreviousStep" @click.prevent="prev">{{ prevButton.text }}</ui-button>
-            <ui-button v-bind="nextButton" v-show="hasNextStep" @click.prevent="next">{{ nextButton.text }}</ui-button>
-            <ui-button v-bind="submitButton" v-show="!hasNextStep">{{ submitButton.text }}</ui-button>
+            <ui-button :disabled="loading" v-bind="prevButton" v-show="hasPreviousStep" @click.prevent="prev">{{ prevButton.text }}</ui-button>
+            <ui-button :disabled="loading" v-bind="nextButton" v-show="hasNextStep" @click.prevent="next">{{ nextButton.text }}</ui-button>
+            <ui-button :disabled="loading" v-bind="submitButton" v-show="!hasNextStep" @click.prevent="submit">{{ submitButton.text }}</ui-button>
+            
+            <!-- Hidden submit button used to trigger form submit -->
+            <button v-show="false" ref="submit" />
         </div>
     </div>
 </template>
@@ -49,6 +65,9 @@ export default {
         footer: {
             
         },
+        validateOnLastStep: {
+            default: true,
+        },
         nextButton: {
             default: {}
         },
@@ -73,6 +92,7 @@ export default {
     },
     data() {
         return {
+            loading: false,
             componentsByHandle: {},
             currentStep: 0,
             fieldValues: this.form,
@@ -129,14 +149,26 @@ export default {
             }
             return axios.post(this.validateUrl, params)
         },
+        submit() {
+            this.next()
+        },
         next() {
-            if (this.hasNextStep) {
+            if (this.hasNextStep || this.validateOnLastStep) {
+                this.loading = true
                 this.validate().then((response) => {
-                    this.currentStep++
+                    this.loading = false
+                    if (this.hasNextStep) {
+                        this.currentStep++
+                    } else {
+                        this.$refs.submit.click()
+                    }
                 }).catch((error) => {
+                    this.loading = false
                     console.log(error.response.data)
                     this.form.errors.record(error.response.data)
                 })
+            } else {
+                this.$refs.submit.click()
             }
         },
         prev() {
