@@ -18,6 +18,6 @@ class Form extends Component {
     }
 
     protected function getSyncDependantFieldUrl() {
-        return route('antfusion.page.sync_fields', ['page' => $this->parent->getSlug()]);
+        return route('antfusion.page.sync_fields', ['page' => $this->getRoot()->getSlug()]);
     }
 }

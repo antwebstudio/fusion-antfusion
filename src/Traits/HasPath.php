@@ -32,8 +32,10 @@ trait HasPath {
             throw new \Exception('Component do not have any children.');
         }
 
+        
         if (!isset($this->componentsBySlug[$slug])) {
             foreach ($components as $component) {
+                $component->setParent($this);
                 $this->componentsBySlug[$component->getSlug()] = $component;
             }
         }

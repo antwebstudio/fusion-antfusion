@@ -6,16 +6,17 @@ use Illuminate\Support\Str;
 use Addons\AntFusion\Component;
 use Addons\AntFusion\Contracts\Panel as PanelInterface;
 
-class Panel extends Component implements PanelInterface, JsonSerializable {
+class Panel extends Component implements PanelInterface {
     use \Addons\AntFusion\Traits\HasFields;
+
+    protected $label = '';
+
+    protected $fields = [];
+
+    protected $component = 'ui-card';
+
+    protected $childComponent = 'panel-body';
     
-    protected $component = 'antfusion-panel';
-
-    protected $label;
-
-    protected $fields;
-
-    protected $scenario;
 
     public function __construct($label, $fields)
     {
@@ -23,33 +24,32 @@ class Panel extends Component implements PanelInterface, JsonSerializable {
         $this->fields = $fields;
     }
 
+    public function toArray() {
+        $children = [];
+        // foreach ($this->fields as $name => $tab) {
+            $grandchildren = [];
+            foreach ($this->fields as $component) {
+                $grandchildren[] = $component->setParent($this)->toArray();
+            }
+            $children[] = [
+                'component' => $this->childComponent,
+                // 'name' => $name,
+                'label' => $this->label,
+                'children' => $grandchildren,
+            ];
+        // }
+
+        return [
+            'is_panel' => true,
+            'component' => 'nested-component',
+            'debug' => false,
+            'as' => $this->component,
+            'children' => $children,
+            'fields' => $children,
+        ];
+    }
+
     public function fields() {
         return $this->fields;
-    }
-
-    public function jsonSerialize() {
-        return $this->toArray();
-    }
-
-    public function toArray() {
-        // if (!isset($this->scenario)) {
-        //     $array = [];
-        //     foreach ($this->fields as $field) {
-        //         $array[] = $field->toArray();
-        //     }
-        //     return $array;
-        // } else {
-            return array_merge($this->meta, [
-                'component' => $this->component,
-                'label' => $this->label,
-                'children' => $this->fieldsArray($this->scenario),
-                'is_panel' => true,
-                'fields' => $this->flatternFieldsArray($this->scenario),
-            ]);
-        // }
-    }
-
-    public function shouldShowIn($scenario) {
-        return true;
     }
 }
