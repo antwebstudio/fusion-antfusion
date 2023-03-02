@@ -10,6 +10,8 @@ class Component {
     use \Addons\AntFusion\Traits\ShowInTrait;
     use \Addons\AntFusion\Traits\HasMeta;
 
+    protected $slug;
+
     public function getActionUrl($actionSlug) {
         if (isset($this->parent)) {
             return $this->parent->getActionUrl($actionSlug);
@@ -21,7 +23,7 @@ class Component {
     }
 
     public function getSlug() {
-        return Str::kebab(class_basename(static::class));
+        return $this->slug ?? Str::kebab(class_basename(static::class));
     }
 
     public static function make(...$arguments)

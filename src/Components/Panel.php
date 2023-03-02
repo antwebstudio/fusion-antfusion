@@ -18,10 +18,13 @@ class Panel extends Component implements PanelInterface {
     protected $childComponent = 'panel-body';
     
 
-    public function __construct($label, $fields)
+    public function __construct($label, $fields, $slug = null)
     {
         $this->label = $label;
         $this->fields = $fields;
+        if (isset($slug)) {
+            $this->slug = $slug;
+        }
     }
 
     public function toArray() {
@@ -39,14 +42,14 @@ class Panel extends Component implements PanelInterface {
             ];
         // }
 
-        return [
+        return array_merge($this->meta, [
             'is_panel' => true,
             'component' => 'nested-component',
             'debug' => false,
             'as' => $this->component,
             'children' => $children,
             'fields' => $children,
-        ];
+        ]);
     }
 
     public function fields() {
