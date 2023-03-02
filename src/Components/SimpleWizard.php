@@ -42,7 +42,7 @@ class SimpleWizard extends Component implements Panel, JsonSerializable {
         foreach ($this->steps[$step] as $field) {
             if (!is_string($field) && (!isset($scenario) || $field->shouldShowIn($scenario))) {
                 if ($field instanceof Panel) {
-                    $rules = array_merge($rules, $field->setScenario($scenario)->processDependency(request())->rules());
+                    $rules = array_merge($rules, $field->setScenario($scenario)->processDependency(request())->getRules());
                 } else {
                     $rules[$field->handle] = $field->setScenario($scenario)->processDependency(request())->getRules();
                 }

@@ -32,7 +32,7 @@ class Action {
     }
 
     public function performAction($request) {
-        $request->validate($this->rules());
+        $request->validate($this->getRules());
 
         if ($request->has('resourceIds')) {
             $models = $this->parent->findByIds($request->resourceIds);

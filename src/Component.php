@@ -10,7 +10,14 @@ class Component {
     use \Addons\AntFusion\Traits\ShowInTrait;
     use \Addons\AntFusion\Traits\HasMeta;
 
+    protected $id;
+
     protected $slug;
+
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
+    }
 
     public function getActionUrl($actionSlug) {
         if (isset($this->parent)) {

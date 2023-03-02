@@ -6,11 +6,15 @@ use Illuminate\Support\Str;
 trait HasPath {
     protected $componentsBySlug = [];
 
+    public function getPathSlug() {
+        return $this->id ?? $this->getSlug();
+    }
+
     public function getPath() {
         if (isset($this->parent)) {
-            return $this->parent->getPath().'.'.$this->getSlug();
+            return $this->parent->getPath().'.'.$this->getPathSlug();
         }
-        return $this->getSlug();
+        return $this->getPathSlug();
     }
 
     public function getComponentByPath($path) {
@@ -36,7 +40,7 @@ trait HasPath {
         if (!isset($this->componentsBySlug[$slug])) {
             foreach ($components as $component) {
                 $component->setParent($this);
-                $this->componentsBySlug[$component->getSlug()] = $component;
+                $this->componentsBySlug[$component->getPathSlug()] = $component;
             }
         }
         if (isset($this->componentsBySlug[$slug])) {

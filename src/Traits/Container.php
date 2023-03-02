@@ -9,7 +9,7 @@ trait Container {
         return $this;
     }
 
-    public function getRules() {
-        return $this->rules();
-    }
+    // public function getRules() {
+    //     return $this->rules();
+    // }
 }

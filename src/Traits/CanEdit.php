@@ -8,7 +8,7 @@ trait CanEdit {
     protected $nameColumnHandle;
 
     public function update(Request $request) {
-        $validated = $request->validate($this->rules());
+        $validated = $request->validate($this->getRules());
         $model = $this->model()->find($request->resourceId);
         $model->update($validated);
     }

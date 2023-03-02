@@ -49,7 +49,7 @@ trait HasFields {
         return $rules;
     }
 
-    public function rules() {
+    public function getRules() {
         return $this->fieldsRules();
     }
 }
