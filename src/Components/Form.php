@@ -9,12 +9,13 @@ class Form extends Component {
     protected $component = 'antfusion-form';
 
     public function toArray() {
-        return [
+        return array_merge($this->meta, [
             'component' => $this->component,
             'actions' => $this->actionsArray(),
             'fields' => $this->fieldsArray(),
+            'children' => $this->fieldsArray(),
             'syncDependantFieldUrl' => $this->getSyncDependantFieldUrl(),
-        ];
+        ]);
     }
 
     protected function getSyncDependantFieldUrl() {

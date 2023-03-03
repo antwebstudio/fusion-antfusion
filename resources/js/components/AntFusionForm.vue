@@ -10,8 +10,9 @@
 
         <div v-if="debug">{{ form }}</div>
         
-        <div v-for="field in componentsByHandle" :key="field.id">
+        <div v-bind="$props" v-for="field in children" :key="field.id">
             <component v-if="!field.is_panel" v-show="!field.hide" @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
+                :form="form"
                 :has-error="form.errors.has(field.handle)"
                 :error-message="form.errors.get(field.handle)"
                 >
@@ -32,8 +33,10 @@
 
 <script>
 import Form from '@/services/Form'
+import DependantField from '../mixins/dependant-field'
 
 export default {
+    mixins: [DependantField],
     props: {
         debug: {
             default: false,
@@ -66,32 +69,11 @@ export default {
     },
     data() {
         return {
-            componentsByHandle: {},
+            // componentsByHandle: {},
             form: new Form(),
         }
     },
     methods: {
-        registerWatch(field) {
-            field.dependsOn.forEach((attribute) => {
-                // console.log('register watch for form ' + attribute)
-                this.$watch('form.' + attribute, (value, oldValue) => {
-                    this.syncDependantFields(field, attribute)
-                }, { deep: true });
-            })
-        },
-        syncDependantFields(fieldToBeUpdated, dependsOnAttribute) {
-            let params = {
-                field: fieldToBeUpdated.handle,
-                path: fieldToBeUpdated.path,
-                attribute: dependsOnAttribute,
-                form: this.form.data(),
-            }
-            axios.patch(this.syncDependantFieldUrl, params).then((response) => {
-                let field = response.data
-                this.$set(this.componentsByHandle, field.id, field)
-                // console.log(field)
-            })
-        },
         submitted() {
             this.$emit('submitted', this.form)
             bus().$emit('refresh-form', this.form)
@@ -106,13 +88,8 @@ export default {
             console.log('value', form[field.handle])
         })
 
-        let components = this.children || this.fields
-        _.each(components, (component) => {
-            this.$set(this.componentsByHandle, component.id, component)
-            if (component.dependsOn) {
-                this.registerWatch(component)
-            }
-        })
+        // let components = this.children || this.fields
+        this.registerComponentsDependency(this.children)
 
         this.form = new Form(form, true)
         this.form.errors.record( { errors: this.errors } )

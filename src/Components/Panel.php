@@ -43,9 +43,9 @@ class Panel extends Component implements PanelInterface {
         // }
 
         return array_merge($this->meta, [
+            'id' => $this->id ?? $this->getHandle(),
             'is_panel' => true,
             'component' => 'nested-component',
-            'debug' => false,
             'as' => $this->component,
             'children' => $children,
             'fields' => $children,
