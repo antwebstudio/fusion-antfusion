@@ -48,7 +48,7 @@ class Panel extends Component implements PanelInterface {
             'component' => 'nested-component',
             'as' => $this->component,
             'children' => $children,
-            'fields' => $children,
+            'fields' => $this->flatternFieldsArray(),
         ]);
     }
 

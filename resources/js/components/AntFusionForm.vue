@@ -88,11 +88,11 @@ export default {
             console.log('value', form[field.handle])
         })
 
-        // let components = this.children || this.fields
-        this.registerComponentsDependency(this.children)
-
         this.form = new Form(form, true)
         this.form.errors.record( { errors: this.errors } )
+
+        // Register after the form is initialized
+        this.registerComponentsDependency(this.children, this.form)
     },
     computed: {
         componentData() {

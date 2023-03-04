@@ -42,7 +42,7 @@ class Tabs extends Component implements Panel {
             'component' => 'nested-component',
             'as' => $this->component,
             'children' => $children,
-            'fields' => $children,
+            'fields' => $this->flatternFieldsArray(),
         ];
     }
 

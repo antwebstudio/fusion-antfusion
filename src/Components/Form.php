@@ -12,7 +12,7 @@ class Form extends Component {
         return array_merge($this->meta, [
             'component' => $this->component,
             'actions' => $this->actionsArray(),
-            'fields' => $this->fieldsArray(),
+            'fields' => $this->flatternFieldsArray(),
             'children' => $this->fieldsArray(),
             'syncDependantFieldUrl' => $this->getSyncDependantFieldUrl(),
         ]);

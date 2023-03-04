@@ -1,33 +1,44 @@
 export default {
 	methods: {
-        registerComponentsDependency(children) {
+        registerComponentsDependency(children, form) {
             _.each(children, (component, fieldKey) => {
                 // this.$set(this.componentsByHandle, component.id, component)
                 if (component.dependsOn) {
-                    this.registerWatch(component, children, fieldKey)
+                    this.registerWatch(form, component, children, fieldKey)
+                }
+
+                if (component.children) {
+                    // console.log('register for children', component.children)
+                    this.registerComponentsDependency(component.children, form)
                 }
             })  
         },
-        registerWatch(fieldToBeUpdated, fieldCollections, fieldKey) {
+        registerWatch(form, fieldToBeUpdated, fieldCollections, fieldKey) {
             fieldToBeUpdated.dependsOn.forEach((attribute) => {
                 // console.log('register watch for form ' + attribute)
                 this.$watch('form.' + attribute, (value, oldValue) => {
-                    this.syncDependantFields(fieldToBeUpdated, attribute, fieldCollections, fieldKey)
+                    // form[attribute] = value
+                    // console.log('attribute '+ attribute + ' updated', form.data(), this.form.formdata())
+                    this.syncDependantFields(form, fieldToBeUpdated, attribute, fieldCollections, fieldKey)
                 }, { deep: true });
             })
         },
-        syncDependantFields(fieldToBeUpdated, dependsOnAttribute, fieldCollections, fieldKey) {
+        syncDependantFields(form, fieldToBeUpdated, dependsOnAttribute, fieldCollections, fieldKey) {
             let params = {
                 field: fieldToBeUpdated.handle,
                 path: fieldToBeUpdated.path,
                 attribute: dependsOnAttribute,
-                form: this.form.data(),
+                form: form.data(),
             }
+            // console.log('sync field', this.form.data(), form.data())
             axios.patch(this.syncDependantFieldUrl, params).then((response) => {
                 let field = response.data
-                console.log('before', fieldCollections[fieldKey])
+                // console.log('before', fieldCollections[fieldKey])
                 this.$set(fieldCollections, fieldKey, field)
-                console.log('after', fieldCollections[fieldKey])
+
+                // console.log('field updated '+ fieldKey)
+
+                // console.log('after', fieldCollections[fieldKey])
                 // this.$set(this.componentsByHandle, field.id, field)
                 // console.log(field)
             })

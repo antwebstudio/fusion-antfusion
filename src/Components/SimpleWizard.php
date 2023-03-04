@@ -75,6 +75,7 @@ class SimpleWizard extends Component implements Panel, JsonSerializable {
             'validateUrl' => route('antfusion.wizard.validate'),
             'is_panel' => true,
             'component' => $this->component,
+            'fields' => $this->flatternFieldsArray(),
             'as' => $this->component,
             'steps' => $steps,
             'path' => $this->getPath(),
