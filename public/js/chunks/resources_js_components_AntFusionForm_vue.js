@@ -48,6 +48,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -83,6 +84,8 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     submitted: function submitted() {
       this.$emit('submitted', this.form);
+    },
+    refreshed: function refreshed() {
       bus().$emit('refresh-form', this.form);
     }
   },
@@ -1647,6 +1650,7 @@ var render = function () {
                       return _vm.$emit("loaded")
                     },
                     submitted: _vm.submitted,
+                    refreshed: _vm.refreshed,
                   },
                 },
                 "component",
@@ -1695,6 +1699,7 @@ var render = function () {
                           "error-message": _vm.form.errors.get(field.handle),
                         },
                         on: {
+                          refreshed: _vm.refreshed,
                           load: function ($event) {
                             return _vm.$emit("load")
                           },
@@ -1738,13 +1743,7 @@ var render = function () {
                           form: _vm.form,
                           "sync-dependant-field-url": _vm.syncDependantFieldUrl,
                         },
-                        model: {
-                          value: _vm.form,
-                          callback: function ($$v) {
-                            _vm.form = $$v
-                          },
-                          expression: "form",
-                        },
+                        on: { refreshed: _vm.refreshed },
                       },
                       "component",
                       field,

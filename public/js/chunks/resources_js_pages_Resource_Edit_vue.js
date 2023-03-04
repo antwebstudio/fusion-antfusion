@@ -2131,6 +2131,7 @@ var render = function () {
         ],
         attrs: { title: "Loading..." },
       }),
+      _vm._v("\n        " + _vm._s(_vm.form) + "\n\t\t"),
       _vm._v(" "),
       _c(
         "div",
@@ -2157,17 +2158,7 @@ var render = function () {
                     ? _c(
                         field.component,
                         _vm._b(
-                          {
-                            tag: "component",
-                            attrs: { form: _vm.form },
-                            model: {
-                              value: _vm.form,
-                              callback: function ($$v) {
-                                _vm.form = $$v
-                              },
-                              expression: "form",
-                            },
-                          },
+                          { tag: "component", attrs: { form: _vm.form } },
                           "component",
                           field,
                           false
@@ -2230,17 +2221,7 @@ var render = function () {
                   ? _c(
                       field.component,
                       _vm._b(
-                        {
-                          tag: "component",
-                          attrs: { form: _vm.form },
-                          model: {
-                            value: _vm.form,
-                            callback: function ($$v) {
-                              _vm.form = $$v
-                            },
-                            expression: "form",
-                          },
-                        },
+                        { tag: "component", attrs: { form: _vm.form } },
                         "component",
                         field,
                         false
@@ -2304,17 +2285,7 @@ var render = function () {
                     ? _c(
                         field.component,
                         _vm._b(
-                          {
-                            tag: "component",
-                            attrs: { form: _vm.form },
-                            model: {
-                              value: _vm.form,
-                              callback: function ($$v) {
-                                _vm.form = $$v
-                              },
-                              expression: "form",
-                            },
-                          },
+                          { tag: "component", attrs: { form: _vm.form } },
                           "component",
                           field,
                           false

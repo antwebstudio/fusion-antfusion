@@ -147,39 +147,37 @@ var render = function () {
         return _vm.children
           ? _c(
               childComponent.component,
-              _vm._b(
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: !childComponent.hide,
-                      expression: "! childComponent.hide",
+              _vm._g(
+                _vm._b(
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !childComponent.hide,
+                        expression: "! childComponent.hide",
+                      },
+                    ],
+                    key: index,
+                    tag: "component",
+                    attrs: {
+                      form: _vm.form,
+                      errors: _vm.form.errors,
+                      record: _vm.record,
                     },
-                  ],
-                  key: index,
-                  tag: "component",
-                  attrs: {
-                    form: _vm.form,
-                    errors: _vm.form.errors,
-                    record: _vm.record,
-                  },
-                  on: {
-                    updated: function ($event) {
-                      return _vm.$emit("updated")
+                    model: {
+                      value: _vm.form[childComponent.handle],
+                      callback: function ($$v) {
+                        _vm.$set(_vm.form, childComponent.handle, $$v)
+                      },
+                      expression: "form[childComponent.handle]",
                     },
                   },
-                  model: {
-                    value: _vm.form[childComponent.handle],
-                    callback: function ($$v) {
-                      _vm.$set(_vm.form, childComponent.handle, $$v)
-                    },
-                    expression: "form[childComponent.handle]",
-                  },
-                },
-                "component",
-                childComponent,
-                false
+                  "component",
+                  childComponent,
+                  false
+                ),
+                _vm.$listeners
               ),
               [
                 _vm.debug
@@ -192,34 +190,37 @@ var render = function () {
                   return childComponent.children
                     ? _c(
                         grandchild.component,
-                        _vm._b(
-                          {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: !grandchild.hide,
-                                expression: "! grandchild.hide",
+                        _vm._g(
+                          _vm._b(
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: !grandchild.hide,
+                                  expression: "! grandchild.hide",
+                                },
+                              ],
+                              key: index,
+                              tag: "component",
+                              attrs: {
+                                form: _vm.form,
+                                errors: _vm.form.errors,
+                                record: _vm.record,
                               },
-                            ],
-                            key: index,
-                            tag: "component",
-                            attrs: {
-                              form: _vm.form,
-                              errors: _vm.form.errors,
-                              record: _vm.record,
-                            },
-                            model: {
-                              value: _vm.form[grandchild.handle],
-                              callback: function ($$v) {
-                                _vm.$set(_vm.form, grandchild.handle, $$v)
+                              model: {
+                                value: _vm.form[grandchild.handle],
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.form, grandchild.handle, $$v)
+                                },
+                                expression: "form[grandchild.handle]",
                               },
-                              expression: "form[grandchild.handle]",
                             },
-                          },
-                          "component",
-                          grandchild,
-                          false
+                            "component",
+                            grandchild,
+                            false
+                          ),
+                          _vm.$listeners
                         ),
                         [
                           _vm.debug
