@@ -46,11 +46,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_dependant_field__WEBPACK_IMPORTED_MODULE_1__["default"]],
   props: {
+    classes: {},
     debug: {
       "default": false
     },
@@ -1663,96 +1666,108 @@ var render = function () {
       _vm._v(" "),
       _vm.debug ? _c("div", [_vm._v(_vm._s(_vm.form))]) : _vm._e(),
       _vm._v(" "),
-      _vm._l(_vm.children, function (field) {
-        return _c(
-          "div",
-          _vm._b({ key: field.id }, "div", _vm.$props, false),
-          [
-            !field.is_panel
-              ? _c(
-                  field.component,
-                  _vm._b(
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: !field.hide,
-                          expression: "!field.hide",
+      _c(
+        "div",
+        { class: _vm.classes },
+        [
+          _vm._l(_vm.children, function (field) {
+            return [
+              !field.is_panel
+                ? _c(
+                    field.component,
+                    _vm._b(
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !field.hide,
+                            expression: "!field.hide",
+                          },
+                        ],
+                        key: field.id,
+                        tag: "component",
+                        attrs: {
+                          loading: _vm.loading,
+                          parent: _vm.componentData,
+                          form: _vm.form,
+                          "has-error": _vm.form.errors.has(field.handle),
+                          "error-message": _vm.form.errors.get(field.handle),
                         },
-                      ],
-                      tag: "component",
-                      attrs: {
-                        loading: _vm.loading,
-                        parent: _vm.componentData,
-                        form: _vm.form,
-                        "has-error": _vm.form.errors.has(field.handle),
-                        "error-message": _vm.form.errors.get(field.handle),
+                        on: {
+                          load: function ($event) {
+                            return _vm.$emit("load")
+                          },
+                          loaded: function ($event) {
+                            return _vm.$emit("loaded")
+                          },
+                        },
+                        model: {
+                          value: _vm.form[field.handle],
+                          callback: function ($$v) {
+                            _vm.$set(_vm.form, field.handle, $$v)
+                          },
+                          expression: "form[field.handle]",
+                        },
                       },
-                      on: {
-                        load: function ($event) {
-                          return _vm.$emit("load")
+                      "component",
+                      field,
+                      false
+                    ),
+                    [
+                      _vm._v(
+                        "\n            " + _vm._s(field.text) + "\n        "
+                      ),
+                    ]
+                  )
+                : _c(
+                    field.component,
+                    _vm._b(
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !field.hide,
+                            expression: "!field.hide",
+                          },
+                        ],
+                        key: field.id,
+                        tag: "component",
+                        attrs: {
+                          form: _vm.form,
+                          "sync-dependant-field-url": _vm.syncDependantFieldUrl,
                         },
-                        loaded: function ($event) {
-                          return _vm.$emit("loaded")
+                        model: {
+                          value: _vm.form,
+                          callback: function ($$v) {
+                            _vm.form = $$v
+                          },
+                          expression: "form",
                         },
                       },
-                      model: {
-                        value: _vm.form[field.handle],
-                        callback: function ($$v) {
-                          _vm.$set(_vm.form, field.handle, $$v)
-                        },
-                        expression: "form[field.handle]",
-                      },
-                    },
-                    "component",
-                    field,
-                    false
+                      "component",
+                      field,
+                      false
+                    ),
+                    [
+                      _vm._v(
+                        "\n            " + _vm._s(field.text) + "\n        "
+                      ),
+                    ]
                   ),
-                  [_vm._v("\n            " + _vm._s(field.text) + "\n        ")]
-                )
-              : _c(
-                  field.component,
-                  _vm._b(
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: !field.hide,
-                          expression: "!field.hide",
-                        },
-                      ],
-                      tag: "component",
-                      attrs: {
-                        form: _vm.form,
-                        "sync-dependant-field-url": _vm.syncDependantFieldUrl,
-                      },
-                      model: {
-                        value: _vm.form,
-                        callback: function ($$v) {
-                          _vm.form = $$v
-                        },
-                        expression: "form",
-                      },
-                    },
-                    "component",
-                    field,
-                    false
-                  ),
-                  [_vm._v("\n            " + _vm._s(field.text) + "\n        ")]
-                ),
-          ],
-          1
-        )
-      }),
+            ]
+          }),
+        ],
+        2
+      ),
       _vm._v(" "),
       _c("input", {
         attrs: { type: "hidden", name: _vm.name },
         domProps: { value: JSON.stringify(this.form.data()) },
       }),
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []

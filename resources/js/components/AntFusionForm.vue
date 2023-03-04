@@ -10,8 +10,9 @@
 
         <div v-if="debug">{{ form }}</div>
         
-        <div v-bind="$props" v-for="field in children" :key="field.id">
-            <component v-if="!field.is_panel" v-show="!field.hide" @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
+        <div :class="classes">
+            <template v-for="field in children">
+            <component :key="field.id" v-if="!field.is_panel" v-show="!field.hide" @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
                 :form="form"
                 :has-error="form.errors.has(field.handle)"
                 :error-message="form.errors.get(field.handle)"
@@ -19,12 +20,13 @@
                 {{ field.text }}
             </component>
 
-            <component v-else v-model="form" v-show="!field.hide" :is="field.component" v-bind="field" 
+            <component :key="field.id" v-else v-model="form" v-show="!field.hide" :is="field.component" v-bind="field" 
                 :form="form"
                 :sync-dependant-field-url="syncDependantFieldUrl"
                 >
                 {{ field.text }}
             </component>
+            </template>
         </div>
 
         <input type="hidden" :name="name" :value="JSON.stringify(this.form.data())" />
@@ -38,6 +40,9 @@ import DependantField from '../mixins/dependant-field'
 export default {
     mixins: [DependantField],
     props: {
+        classes: {
+            
+        },
         debug: {
             default: false,
         },
