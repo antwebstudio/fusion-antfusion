@@ -14,7 +14,7 @@
         <div v-show="! loading">
             <portal to="sidebar-left">
                 <div v-for="field, index in sections.sidebarLeft" :key="index">
-                    <component v-if="field.is_panel" v-model="form" :is="field.component" v-bind="field" 
+                    <component v-if="field.is_panel" :is="field.component" v-bind="field" 
                         :form="form"
                         >
                         {{ field.text }}
@@ -31,7 +31,7 @@
             </portal>
 
             <div v-for="field, index in sections.body" :key="index">
-                <component v-if="field.is_panel" v-model="form" :is="field.component" v-bind="field" 
+                <component v-if="field.is_panel" :is="field.component" v-bind="field" 
                     :form="form"
                     >
                     {{ field.text }}
@@ -48,7 +48,7 @@
 
             <portal to="sidebar-right">
                 <div v-for="field, index in sections.sidebarRight" :key="index">
-                    <component v-if="field.is_panel" v-model="form" :is="field.component" v-bind="field" 
+                    <component v-if="field.is_panel" :is="field.component" v-bind="field" 
                         :form="form"
                         >
                         {{ field.text }}

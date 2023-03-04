@@ -2,7 +2,7 @@
     <div>
         <portal to="actions">
             <span class="print:hidden">
-                <component @load="$emit('load')" @loaded="$emit('loaded')" @submitted="submitted" :loading="loading" :parent="componentData" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
+                <component @load="$emit('load')" @loaded="$emit('loaded')" @submitted="submitted" @refreshed="refreshed" :loading="loading" :parent="componentData" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
                     {{ action.text }}
                 </component>
             </span>
@@ -12,7 +12,7 @@
         
         <div :class="classes">
             <template v-for="field in children">
-            <component :key="field.id" v-if="!field.is_panel" v-show="!field.hide" @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
+            <component :key="field.id" v-if="!field.is_panel" v-show="!field.hide" @refreshed="refreshed" @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
                 :form="form"
                 :has-error="form.errors.has(field.handle)"
                 :error-message="form.errors.get(field.handle)"
@@ -20,7 +20,8 @@
                 {{ field.text }}
             </component>
 
-            <component :key="field.id" v-else v-model="form" v-show="!field.hide" :is="field.component" v-bind="field" 
+            <component :key="field.id" v-else v-show="!field.hide" :is="field.component" v-bind="field" 
+                @refreshed="refreshed" 
                 :form="form"
                 :sync-dependant-field-url="syncDependantFieldUrl"
                 >
@@ -81,8 +82,10 @@ export default {
     methods: {
         submitted() {
             this.$emit('submitted', this.form)
-            bus().$emit('refresh-form', this.form)
         },
+        refreshed() {
+            bus().$emit('refresh-form', this.form)
+        }
     },
     mounted() {
         let form = {}
