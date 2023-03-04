@@ -236,6 +236,7 @@ var render = function () {
       _vm.meta && _vm.meta.components
         ? _c(
             "div",
+            { staticClass: "flex" },
             _vm._l(_vm.meta.components, function (component, index) {
               return _c(
                 component.component,

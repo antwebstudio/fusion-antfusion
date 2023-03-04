@@ -12,6 +12,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services_Form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/services/Form */ "../../fusioncms/cms/resources/js/services/Form.js");
+/* harmony import */ var _mixins_dependant_field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/dependant-field */ "./resources/js/mixins/dependant-field.js");
+//
 //
 //
 //
@@ -45,7 +47,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mixins: [_mixins_dependant_field__WEBPACK_IMPORTED_MODULE_1__["default"]],
   props: {
     debug: {
       "default": false
@@ -69,74 +73,105 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      componentsByHandle: {},
+      // componentsByHandle: {},
       form: new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"]()
     };
   },
   methods: {
-    registerWatch: function registerWatch(field) {
-      var _this = this;
-
-      field.dependsOn.forEach(function (attribute) {
-        // console.log('register watch for form ' + attribute)
-        _this.$watch('form.' + attribute, function (value, oldValue) {
-          _this.syncDependantFields(field, attribute);
-        }, {
-          deep: true
-        });
-      });
-    },
-    syncDependantFields: function syncDependantFields(fieldToBeUpdated, dependsOnAttribute) {
-      var _this2 = this;
-
-      var params = {
-        field: fieldToBeUpdated.handle,
-        path: fieldToBeUpdated.path,
-        attribute: dependsOnAttribute,
-        form: this.form.data()
-      };
-      axios.patch(this.syncDependantFieldUrl, params).then(function (response) {
-        var field = response.data;
-
-        _this2.$set(_this2.componentsByHandle, field.id, field); // console.log(field)
-
-      });
-    },
     submitted: function submitted() {
       this.$emit('submitted', this.form);
       bus().$emit('refresh-form', this.form);
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this = this;
 
     var form = {};
 
     _.each(this.fields, function (field) {
-      form[field.handle] = _this3.values[field.handle] || field["default"];
+      form[field.handle] = _this.values[field.handle] || field["default"];
       console.log('field', field);
-      console.log('set ' + field.handle, _this3.values[field.handle], field["default"]);
+      console.log('set ' + field.handle, _this.values[field.handle], field["default"]);
       console.log('value', form[field.handle]);
-    });
-
-    var components = this.children || this.fields;
-
-    _.each(components, function (component) {
-      _this3.$set(_this3.componentsByHandle, component.id, component);
-
-      if (component.dependsOn) {
-        _this3.registerWatch(component);
-      }
     });
 
     this.form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](form, true);
     this.form.errors.record({
       errors: this.errors
-    });
+    }); // Register after the form is initialized
+
+    this.registerComponentsDependency(this.children, this.form);
   },
   computed: {
     componentData: function componentData() {
       return this.form;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/mixins/dependant-field.js":
+/*!************************************************!*\
+  !*** ./resources/js/mixins/dependant-field.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  methods: {
+    registerComponentsDependency: function registerComponentsDependency(children, form) {
+      var _this = this;
+
+      _.each(children, function (component, fieldKey) {
+        // this.$set(this.componentsByHandle, component.id, component)
+        if (component.dependsOn) {
+          _this.registerWatch(form, component, children, fieldKey);
+        }
+
+        if (component.children) {
+          // console.log('register for children', component.children)
+          _this.registerComponentsDependency(component.children, form);
+        }
+      });
+    },
+    registerWatch: function registerWatch(form, fieldToBeUpdated, fieldCollections, fieldKey) {
+      var _this2 = this;
+
+      fieldToBeUpdated.dependsOn.forEach(function (attribute) {
+        // console.log('register watch for form ' + attribute)
+        _this2.$watch('form.' + attribute, function (value, oldValue) {
+          // form[attribute] = value
+          // console.log('attribute '+ attribute + ' updated', form.data(), this.form.formdata())
+          _this2.syncDependantFields(form, fieldToBeUpdated, attribute, fieldCollections, fieldKey);
+        }, {
+          deep: true
+        });
+      });
+    },
+    syncDependantFields: function syncDependantFields(form, fieldToBeUpdated, dependsOnAttribute, fieldCollections, fieldKey) {
+      var _this3 = this;
+
+      var params = {
+        field: fieldToBeUpdated.handle,
+        path: fieldToBeUpdated.path,
+        attribute: dependsOnAttribute,
+        form: form.data()
+      }; // console.log('sync field', this.form.data(), form.data())
+
+      axios.patch(this.syncDependantFieldUrl, params).then(function (response) {
+        var field = response.data; // console.log('before', fieldCollections[fieldKey])
+
+        _this3.$set(fieldCollections, fieldKey, field); // console.log('field updated '+ fieldKey)
+        // console.log('after', fieldCollections[fieldKey])
+        // this.$set(this.componentsByHandle, field.id, field)
+        // console.log(field)
+
+      });
     }
   }
 });
@@ -1628,10 +1663,10 @@ var render = function () {
       _vm._v(" "),
       _vm.debug ? _c("div", [_vm._v(_vm._s(_vm.form))]) : _vm._e(),
       _vm._v(" "),
-      _vm._l(_vm.componentsByHandle, function (field) {
+      _vm._l(_vm.children, function (field) {
         return _c(
           "div",
-          { key: field.id },
+          _vm._b({ key: field.id }, "div", _vm.$props, false),
           [
             !field.is_panel
               ? _c(
@@ -1650,6 +1685,7 @@ var render = function () {
                       attrs: {
                         loading: _vm.loading,
                         parent: _vm.componentData,
+                        form: _vm.form,
                         "has-error": _vm.form.errors.has(field.handle),
                         "error-message": _vm.form.errors.get(field.handle),
                       },

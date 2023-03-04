@@ -149,6 +149,14 @@ var render = function () {
               childComponent.component,
               _vm._b(
                 {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !childComponent.hide,
+                      expression: "! childComponent.hide",
+                    },
+                  ],
                   key: index,
                   tag: "component",
                   attrs: {
@@ -186,12 +194,27 @@ var render = function () {
                         grandchild.component,
                         _vm._b(
                           {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: !grandchild.hide,
+                                expression: "! grandchild.hide",
+                              },
+                            ],
                             key: index,
                             tag: "component",
                             attrs: {
                               form: _vm.form,
                               errors: _vm.form.errors,
                               record: _vm.record,
+                            },
+                            model: {
+                              value: _vm.form[grandchild.handle],
+                              callback: function ($$v) {
+                                _vm.$set(_vm.form, grandchild.handle, $$v)
+                              },
+                              expression: "form[grandchild.handle]",
                             },
                           },
                           "component",
