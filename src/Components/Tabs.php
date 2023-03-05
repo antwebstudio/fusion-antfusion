@@ -25,6 +25,7 @@ class Tabs extends Component implements Panel {
 
     public function toArray() {
         $children = [];
+        $isFirst = true;
         foreach ($this->tabs as $name => $tab) {
             $grandchildren = [];
             foreach ($tab as $component) {
@@ -32,9 +33,11 @@ class Tabs extends Component implements Panel {
             }
             $children[] = [
                 'component' => $this->tabComponent,
+                'hide' => ! $isFirst,
                 'name' => $name,
                 'children' => $grandchildren,
             ];
+            $isFirst = false;
         }
 
         return [

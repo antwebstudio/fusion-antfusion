@@ -17,16 +17,18 @@ class Page {
 
     protected $pageType = 'page';
 
+    protected $registerMenu = true;
+
     public function getActionUrl($actionSlug) {
         return '/api/antfusion/page/'.$this->getSlug().'/action/'.$actionSlug;
     }
 
     public function getHandle() {
-        return Str::snake($this->name);
+        return Str::snake($this->name ?? class_basename(static::class));
     }
 
     public function getSlug() {
-        return Str::kebab($this->name);
+        return Str::kebab($this->name ?? class_basename(static::class));
     }
 
     public function getIcon() {
@@ -45,7 +47,7 @@ class Page {
     public function toArray() {
         $pageArray = $this->pageArray();
         $pageArray['page'] = [
-            'title' => $this->name,
+            'title' => $this->name ?? Str::headline(class_basename(static::class)),
         ];
         $pageArray['components'] = $this->componentsArray();
         $pageArray['actions'] = $this->actionsArray();
@@ -59,10 +61,20 @@ class Page {
     }
 
     public function menu() {
-        Menu::set('admin.page-'.$this->getSlug(), [
-            'title' => $this->name,
-            'to'    => '/'.$this->pageType.'/'.$this->getSlug(),
-            'icon'  => 'grip-horizontal',
-        ]);
+        if ($this->registerMenu) {
+            Menu::set('admin.page-'.$this->getSlug(), [
+                'title' => $this->name ?? Str::headline(class_basename(static::class)),
+                'to'    => '/'.$this->pageType.'/'.$this->getSlug(),
+                'icon'  => 'grip-horizontal',
+            ]);
+        }
     }
+
+    public function components() {
+        return [
+            \Addons\AntFusion\Components\ArrayComponent::make([
+                'component' => $this->component,
+            ]),
+        ];
+    }   
 }

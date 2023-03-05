@@ -56,7 +56,7 @@ abstract class Resource {
     }
 
     public function findByIds($resourceIds) {
-        return $this->model()->whereIn('id', $resourceIds)->get();
+        return $this->model()->withoutGlobalScopes()->whereIn('id', $resourceIds)->get();
     }
 
     public function findOrFail($resourceId) {

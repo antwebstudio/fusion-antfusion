@@ -9,12 +9,12 @@ trait CanEdit {
 
     public function update(Request $request) {
         $validated = $request->validate($this->getRules());
-        $model = $this->model()->find($request->resourceId);
+        $model = $this->model()->withoutGlobalScopes()->find($request->resourceId);
         $model->update($validated);
     }
 
     public function editMeta($resourceId) {
-        $model = $this->model()->find($resourceId);
+        $model = $this->model()->withoutGlobalScopes()->find($resourceId);
 
         return [
             'title' => $this->getEditTitle($model),

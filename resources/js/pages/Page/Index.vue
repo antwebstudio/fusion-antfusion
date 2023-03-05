@@ -12,7 +12,7 @@
             </span>
         </portal>
 
-        <div v-if="meta && meta.components" class="flex">
+        <div v-if="meta && meta.components">
             <component
                 :loading="loading"
                 @load="onLoading" @loaded="onLoaded"

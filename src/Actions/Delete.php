@@ -7,6 +7,8 @@ class Delete extends Action {
     protected $name = 'Delete';
 
     protected $destructive = true;
+    
+    protected $successMessage = 'Deleted successfully';
 
     public function __construct()
     {
@@ -22,7 +24,7 @@ class Delete extends Action {
             });
         });
         return [
-            'message' => 'Deleted successfully.'
+            'message' => $this->successMessage,
         ];
     }
 }

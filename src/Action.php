@@ -51,6 +51,11 @@ class Action {
         return $this->onlyShowIn('inline');
     }
 
+    public function setName($name) {
+        $this->name = $name;
+        return $this;
+    }
+
     public function getName() {
         return $this->name;
     }
@@ -157,6 +162,16 @@ class Action {
     public function asDropdown($dropdown = true) {
         $this->component = 'ui-dropdown-link';
         $this->dropdown = $dropdown;
+        return $this;
+    }
+
+    public function whenFilterActived($filter, $value) {
+        $filterHandle = app($filter)->getHandle();
+        if ((request()->filter[$filterHandle] ?? null) == $value) {
+            $this->show();
+        } else {
+            $this->hide();
+        }
         return $this;
     }
 }

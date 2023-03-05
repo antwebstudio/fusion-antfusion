@@ -15,7 +15,7 @@ class Filter {
         return Str::snake(class_basename(static::class));
     }
 
-    protected function getHandle() {
+    public function getHandle() {
         return Str::snake(class_basename(static::class));
     }
 
