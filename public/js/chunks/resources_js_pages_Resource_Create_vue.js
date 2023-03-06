@@ -2128,7 +2128,6 @@ var render = function () {
         ],
         attrs: { title: "Loading..." },
       }),
-      _vm._v("\n        " + _vm._s(_vm.form) + "\n\t\t"),
       _vm._v(" "),
       _c(
         "div",
