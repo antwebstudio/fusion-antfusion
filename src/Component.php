@@ -14,6 +14,8 @@ class Component {
 
     protected $slug;
 
+    protected $component;
+
     public function setId($id) {
         $this->id = $id;
         return $this;
@@ -36,5 +38,26 @@ class Component {
     public static function make(...$arguments)
     {
         return new static(...$arguments);
+    }
+
+    public function toArray() {
+        $component = $this->component ?? Str::kebab(class_basename(static::class));
+        return array_merge($this->meta, [
+            'component' => $component,
+            'components' => $this->childrenToArray(),
+        ]);
+    }
+
+    public function components() {
+        return [];
+    }
+
+    protected function childrenToArray()
+    {
+        $children = [];
+        foreach ($this->components() as $component) {
+            $children[] = $component->toArray();
+        }
+        return $children;
     }
 }
