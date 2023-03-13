@@ -278,7 +278,11 @@ var render = function () {
               return _c(
                 component.is,
                 _vm._b(
-                  { key: index, tag: "component", staticClass: "form__group" },
+                  {
+                    key: component.id,
+                    tag: "component",
+                    staticClass: "form__group",
+                  },
                   "component",
                   component,
                   false

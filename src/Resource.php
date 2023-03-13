@@ -133,7 +133,7 @@ abstract class Resource {
             [
                 'is' => 'resource-datatable',
                 'show_order' => false,
-                'id' => 'data-table',
+                'id' => 'data-table-'.$this->getSlug(),
                 'endpoint' => '/datatable/antfusion/resource/'.$this->getSlug(),
                 'filters' => $this->filtersArray(),
                 'actions' => [

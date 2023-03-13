@@ -24,7 +24,7 @@
         <div v-if="meta && meta.components">
             <component
                 class="form__group"
-                v-for="(component, index) in meta.components" :key="index"
+                v-for="(component, index) in meta.components" :key="component.id"
                 :is="component.is"
                 v-bind="component"
                 >
