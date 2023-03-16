@@ -8,6 +8,8 @@ class Fusion extends Field
     protected $fieldType;
     protected $settings = [];
 
+    protected $indexComponent;
+
     public function __construct($label, $handle) {
         parent::__construct($label, $handle);
         $this->type($this->fieldType);
@@ -42,11 +44,16 @@ class Fusion extends Field
         return $this;
     }
 
+    public function setIndexComponent($component) {
+        $this->indexComponent = $component;
+        return $this;
+    }
+
     public function getIndexComponent() {
         $indexComponent = [
             'datetime' => 'resource-datetime',
         ];
-        return $indexComponent[$this->fieldType] ?? null;
+        return $this->indexComponent ?? ($indexComponent[$this->fieldType] ?? null);
     }
 
     public function mergeSettings($settings) {

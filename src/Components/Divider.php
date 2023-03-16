@@ -8,7 +8,7 @@ class Divider extends Action {
         $this->onlyInline();
     }
 
-    public function toArrayForDetail() {
+    public function toArrayForDetail($record) {
         return [
             'component' => 'ui-dropdown-divider',
         ];

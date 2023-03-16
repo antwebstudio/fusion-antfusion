@@ -3,7 +3,7 @@ namespace Addons\AntFusion;
 
 use Illuminate\Support\Str;
 
-class Action {
+abstract class Action {
     use \Addons\AntFusion\Traits\HasFields;
     use \Addons\AntFusion\Traits\HasParent;
     use \Addons\AntFusion\Traits\HasMeta;
@@ -99,14 +99,14 @@ class Action {
     }
 
     public function primary($primary = true) {
-        $this->primary = $primary;
-        return $this;
+        return $this->withMeta(['variant' => 'primary']);
     }
 
     public function toArray() {
         $actionSlug = $this->getSlug();
 
         return array_merge($this->meta, [
+            'id' => unique_id(),
             'component' => $this->getComponent(),
             'text' => $this->name,
             'title' => $this->name,
@@ -114,14 +114,19 @@ class Action {
             'to' => $this->getActionUrl($actionSlug), // currently needed or else resource index page will not shown properly
             'fields' => $this->fieldsArray(),
             'cssClass' => $this->getCssClass(),
-            'variant' => $this->primary ? 'primary' : null,
             'dropdown' => $this->dropdown,
         ]);
     }
 
-    public function toArrayForDetail() {
+    public function toArrayForDetail($record) {
         $array = $this->toArray();
-        $array['component'] = 'action-dropdown-link';
+        
+        if ($this->hasFields()) {
+            $array['asDropdown'] = true;
+            $array['component'] = 'action-button';
+        } else {
+            $array['component'] = 'action-dropdown-link';
+        }
         unset($array['to']); // currently needed or else resource actions will not working properly
         return $array;
     }
@@ -161,6 +166,7 @@ class Action {
 
     public function asDropdown($dropdown = true) {
         $this->component = 'ui-dropdown-link';
+        $this->withMeta(['asDropdown' => true]);
         $this->dropdown = $dropdown;
         return $this;
     }

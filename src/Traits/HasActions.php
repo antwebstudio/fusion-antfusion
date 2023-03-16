@@ -31,13 +31,13 @@ trait HasActions {
         }
     }
 
-    protected function actionsArrayForDetail() {
+    protected function actionsArrayForDetail($record) {
         $this->initActions();
 
         $actionsArray = [];
         foreach ($this->initializedActions as $action) {
             if (!$action->isStandalone() && !$action->isHidden()) {
-                $actionsArray[] = $action->toArrayForDetail();
+                $actionsArray[] = $action->toArrayForDetail($record);
             }
         }
         return $actionsArray;

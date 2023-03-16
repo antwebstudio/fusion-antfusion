@@ -59,6 +59,10 @@ abstract class Resource {
         return $this->model()->withoutGlobalScopes()->whereIn('id', $resourceIds)->get();
     }
 
+    public function find($resourceId) {
+        return $this->model()->find($resourceId);
+    }
+
     public function findOrFail($resourceId) {
         return $this->model()->findOrFail($resourceId);
     }
@@ -80,7 +84,7 @@ abstract class Resource {
     }
 
     public function getDropDownActionsForRecord($record) {
-        return $this->actionsArrayForDetail();
+        return $this->actionsArrayForDetail($record);
     }
 
     public function getActionsForRecord($record) {

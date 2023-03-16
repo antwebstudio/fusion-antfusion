@@ -1,10 +1,10 @@
 <template>
-    <span>
-        <ui-button v-modal:[modalName]>{{ text }}</ui-button>
+    <fragment>
+        <ui-dropdown-link v-bind="$props" v-if="asDropdown" @click="openModalForm()">{{ text }}</ui-dropdown-link>
+        <ui-button v-else :variant="variant" @click.prevent="openModalForm()">{{ text }}</ui-button>
 
         <portal to="modals">
             <ui-modal :name="modalName" :title="title" :key="modalName" @input="modalChanged">
-                
                 <span v-if="form">
                     <component v-model="form[field.handle]" v-for="field, index in fields" :key="field.handle" :is="field.component" v-bind="field"
                         :parent="componentData"
@@ -23,7 +23,7 @@
                 </template>
             </ui-modal>
         </portal>
-    </span>
+    </fragment>
 </template>
 
 <script>
@@ -31,8 +31,20 @@ import Form from "@/services/Form"
 
 export default {
     props: {
+        id: {
+
+        },
+        variant: {
+
+        },
+        route: {
+
+        },
         parent: {
 
+        },
+        asDropdown: {
+            default: false,
         },
         confirmButtonText: {
             default: 'OK',
@@ -54,7 +66,10 @@ export default {
         },
         fields: {
 
-        }
+        },
+        record: {
+            default: {}
+        },
     },
     data() {
         return {
@@ -64,7 +79,7 @@ export default {
     },
     computed: {
         modalName() {
-            return 'action'
+            return 'action-' + this._uid
         },
         componentData() {
             return {
@@ -79,16 +94,31 @@ export default {
         initForm() {
             let fields = {}
             this.fields.forEach((field) => {
-                fields[field.handle] = null
+                fields[field.handle] = this.record[field.handle] || null
             })
             this.form = new Form(fields)
         },
+        openModalForm() {
+            this.openModal(this.modalName)
+        },
         submit() {
             this.loading = true
-            this.form.post(this.url).then((response) => {
+            let params = this.form.data()
+            params = { ...params, route: this.route }
+            if (this.record.id) {
+                params = { ...params, resourceIds: [this.record.id] }
+            }
+            axios.post(this.url, params).then((response) => {
                 this.loading = false
                 this.$emit('submitted')
                 this.closeModal(this.modalName)
+
+                if (response.data.message) {
+                    toast(response.data.message, 'success')
+                }
+                if (response.data.redirect) {
+                    location.href = response.data.redirect
+                }
             }).catch((error) => {
                 this.loading = false
                 if (error.errors) {
@@ -113,7 +143,10 @@ export default {
             if (isActive && this.resetWhenClose) {
                 this.initForm()
             }
-        }
+        },
+        toggle() { // Needed so that ui-dropdown-link can work normally
+            this.$parent.toggle()
+        },
     }
 }
 </script>
