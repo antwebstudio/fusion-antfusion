@@ -27,7 +27,7 @@ class ResourceController extends DataTableController {
     }
 
     public function builder() {
-        return $this->resource()->query();
+        return $this->resource()->dataTableQuery();
     }
 
     public function getDisplayableColumns()

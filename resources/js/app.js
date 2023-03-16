@@ -1,7 +1,10 @@
 import DateRangePicker from 'vue2-daterange-picker'
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import Fragment from 'vue-fragment'
 
 window.Fusion.booting(function(Vue, router, store) {
+    Vue.use(Fragment.Plugin)
+
     Vue.component('date-range-picker', DateRangePicker)
     Vue.component('antfusion-form', () => import('./components/AntFusionForm'))
     Vue.component('antfusion-datatable', () => import('./components/DataTable'))

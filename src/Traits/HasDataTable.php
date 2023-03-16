@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Addons\AntFusion\Contracts\Panel;
 
 trait HasDataTable {
+    public function dataTableQuery() {
+        return $this->query();
+    }
+
     public function getDisplayableColumns() {
         $columns = [];
         foreach ($this->getFieldsForDataTable() as $field) {

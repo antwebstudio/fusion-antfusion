@@ -137,6 +137,11 @@ export default {
             }
         }
     },
+    mounted() {
+        bus().$on('refresh', () => {
+            this.reload()
+        })
+    },
     methods: {
         reload() {
             bus().$emit('refresh-datatable-' + this.id)

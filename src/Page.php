@@ -19,6 +19,10 @@ class Page {
 
     protected $registerMenu = true;
 
+    public function getTitle() {
+        return $this->name ?? Str::headline(class_basename(static::class));
+    }
+
     public function getActionUrl($actionSlug) {
         return '/api/antfusion/page/'.$this->getSlug().'/action/'.$actionSlug;
     }
@@ -47,11 +51,12 @@ class Page {
     public function toArray() {
         $pageArray = $this->pageArray();
         $pageArray['page'] = [
-            'title' => $this->name ?? Str::headline(class_basename(static::class)),
+            'title' => $this->getTitle(),
         ];
         $pageArray['components'] = $this->componentsArray();
         $pageArray['actions'] = $this->actionsArray();
         $pageArray['component'] = $this->component;
+        $pageArray['debug'] = config('app.debug');
 
         return $pageArray;
     }
@@ -63,7 +68,7 @@ class Page {
     public function menu() {
         if ($this->registerMenu) {
             Menu::set('admin.page-'.$this->getSlug(), [
-                'title' => $this->name ?? Str::headline(class_basename(static::class)),
+                'title' => $this->getTitle(),
                 'to'    => '/'.$this->pageType.'/'.$this->getSlug(),
                 'icon'  => 'grip-horizontal',
             ]);
