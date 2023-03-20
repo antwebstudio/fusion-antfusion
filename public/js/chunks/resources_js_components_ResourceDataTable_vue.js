@@ -141,6 +141,13 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {},
+  mounted: function mounted() {
+    var _this = this;
+
+    bus().$on('refresh', function () {
+      _this.reload();
+    });
+  },
   methods: {
     reload: function reload() {
       bus().$emit('refresh-datatable-' + this.id);
@@ -291,7 +298,10 @@ var render = function () {
                                     key: index,
                                     tag: "component",
                                     attrs: { record: table.record },
-                                    on: { updated: _vm.reload },
+                                    on: {
+                                      submitted: _vm.reload,
+                                      updated: _vm.reload,
+                                    },
                                   },
                                   "component",
                                   action,

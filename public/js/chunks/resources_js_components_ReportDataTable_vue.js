@@ -147,6 +147,13 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
+  mounted: function mounted() {
+    var _this = this;
+
+    bus().$on('refresh', function () {
+      _this.reload();
+    });
+  },
   methods: {
     reload: function reload() {
       bus().$emit('refresh-datatable-' + this.id);

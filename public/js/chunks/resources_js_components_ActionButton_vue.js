@@ -12,6 +12,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services_Form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/services/Form */ "../../fusioncms/cms/resources/js/services/Form.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
 //
 //
 //
@@ -43,7 +50,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
+    id: {},
+    variant: {},
+    route: {},
     parent: {},
+    asDropdown: {
+      "default": false
+    },
     confirmButtonText: {
       "default": 'OK'
     },
@@ -62,7 +75,10 @@ __webpack_require__.r(__webpack_exports__);
     title: {
       "default": null
     },
-    fields: {}
+    fields: {},
+    record: {
+      "default": {}
+    }
   },
   data: function data() {
     return {
@@ -72,7 +88,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     modalName: function modalName() {
-      return 'action';
+      return 'action-' + this._uid;
     },
     componentData: function componentData() {
       return {
@@ -85,27 +101,51 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     initForm: function initForm() {
+      var _this = this;
+
       var fields = {};
       this.fields.forEach(function (field) {
-        fields[field.handle] = null;
+        fields[field.handle] = _this.record[field.handle] || null;
       });
       this.form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](fields);
     },
+    openModalForm: function openModalForm() {
+      this.openModal(this.modalName);
+    },
     submit: function submit() {
-      var _this = this;
+      var _this2 = this;
 
       this.loading = true;
-      this.form.post(this.url).then(function (response) {
-        _this.loading = false;
+      var params = this.form.data();
+      params = _objectSpread(_objectSpread({}, params), {}, {
+        route: this.route
+      });
 
-        _this.$emit('submitted');
+      if (this.record.id) {
+        params = _objectSpread(_objectSpread({}, params), {}, {
+          resourceIds: [this.record.id]
+        });
+      }
 
-        _this.closeModal(_this.modalName);
+      axios.post(this.url, params).then(function (response) {
+        _this2.loading = false;
+
+        _this2.$emit('submitted');
+
+        _this2.closeModal(_this2.modalName);
+
+        if (response.data.message) {
+          toast(response.data.message, 'success');
+        }
+
+        if (response.data.redirect) {
+          location.href = response.data.redirect;
+        }
       })["catch"](function (error) {
-        _this.loading = false;
+        _this2.loading = false;
 
         if (error.errors) {
-          _this.errors = error.errors;
+          _this2.errors = error.errors;
           var message = Object.keys(error.errors).map(function (key) {
             return error.errors[key].join(' ');
           }).join(' ');
@@ -125,6 +165,10 @@ __webpack_require__.r(__webpack_exports__);
       if (isActive && this.resetWhenClose) {
         this.initForm();
       }
+    },
+    toggle: function toggle() {
+      // Needed so that ui-dropdown-link can work normally
+      this.$parent.toggle();
     }
   }
 });
@@ -1575,21 +1619,39 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "span",
+    "fragment",
     [
-      _c(
-        "ui-button",
-        {
-          directives: [
+      _vm._v("\n    route: " + _vm._s(_vm.route) + "\n    "),
+      _vm.asDropdown
+        ? _c(
+            "ui-dropdown-link",
+            _vm._b(
+              {
+                on: {
+                  click: function ($event) {
+                    return _vm.openModalForm()
+                  },
+                },
+              },
+              "ui-dropdown-link",
+              _vm.$props,
+              false
+            ),
+            [_vm._v(_vm._s(_vm.text))]
+          )
+        : _c(
+            "ui-button",
             {
-              name: "modal",
-              rawName: "v-modal:[modalName]",
-              arg: _vm.modalName,
+              attrs: { variant: _vm.variant },
+              on: {
+                click: function ($event) {
+                  $event.preventDefault()
+                  return _vm.openModalForm()
+                },
+              },
             },
-          ],
-        },
-        [_vm._v(_vm._s(_vm.text))]
-      ),
+            [_vm._v(_vm._s(_vm.text))]
+          ),
       _vm._v(" "),
       _c(
         "portal",
