@@ -47,4 +47,11 @@ trait ShowInTrait {
         $this->withMeta(['hide' => $hide]);
         return $this;
     }
+
+    public function canSee($callable) {
+        if (!call_user_func_array($callable, [request()])) {
+            $this->hide();
+        }
+        return $this;
+    }
 }

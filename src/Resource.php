@@ -13,6 +13,7 @@ abstract class Resource {
     use \Addons\AntFusion\Traits\HasFields;
     use \Addons\AntFusion\Traits\HasActions;
     use \Addons\AntFusion\Traits\HasPath;
+    use \Addons\AntFusion\Traits\HasFilters;
     
     protected $name;
     protected $model;
@@ -114,18 +115,6 @@ abstract class Resource {
 
     protected function fieldsDefaultValues() {
         return [];
-    }
-
-    protected function filters() {
-        return [];
-    }
-
-    protected function filtersArray() {
-        $array = [];
-        foreach ($this->filters() as $filter) {
-            $array[] = $filter->toArray();
-        }
-        return $array;
     }
 
     public function toIndexArray() {
