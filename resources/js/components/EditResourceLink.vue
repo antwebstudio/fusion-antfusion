@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center">
+    <div class="items-center">
         <router-link :to="{ name: 'antfusion.resource.edit', params: { resource: record.resource.slug, id: record.id } }">{{ value }}</router-link>
     </div>
 </template>

@@ -121,13 +121,17 @@ abstract class Resource {
         return $this->toArray();
     }
 
+    protected function getDataTableEndpoint() {
+        return '/datatable/antfusion/resource/'.$this->getSlug();
+    }
+
     public function toArray() {
         $components = [
             [
                 'is' => 'resource-datatable',
                 'show_order' => false,
                 'id' => 'data-table-'.$this->getSlug(),
-                'endpoint' => '/datatable/antfusion/resource/'.$this->getSlug(),
+                'endpoint' => $this->getDataTableEndpoint(),
                 'filters' => $this->filtersArray(),
                 'actions' => [
                     [

@@ -34,7 +34,9 @@ class Fusion extends Field
 
     public function type($fieldType) {
         $this->fieldType = $fieldType;
-        $this->component = $fieldType.'-fieldtype';
+        if (isset($this->fieldType)) {
+            $this->component = $fieldType.'-fieldtype';
+        }
         return $this;
     }
 
@@ -53,7 +55,16 @@ class Fusion extends Field
         $indexComponent = [
             'datetime' => 'resource-datetime',
         ];
-        return $this->indexComponent ?? ($indexComponent[$this->fieldType] ?? null);
+
+        if (isset($this->indexComponent)) {
+            return $this->indexComponent;
+        } else if (isset($indexComponent[$this->fieldType])) {
+            return $indexComponent[$this->fieldType];
+        } else if (isset($this->fieldType)) {
+            return $this->fieldType.'-fieldtype-index';
+        } else if (isset($this->component)) {
+            // return $this->component;
+        }
     }
 
     public function mergeSettings($settings) {
