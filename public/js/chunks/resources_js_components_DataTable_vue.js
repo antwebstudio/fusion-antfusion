@@ -324,8 +324,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -666,6 +664,9 @@ __webpack_require__.r(__webpack_exports__);
       bus().$on('refresh-datatable-' + this.id, function (data) {
         _this5.getRecords();
       });
+    },
+    isComponentExist: function isComponentExist(componentName) {
+      return componentName in this.$options.components;
     }
   },
   created: function created() {
@@ -2050,114 +2051,93 @@ var render = function () {
                               },
                             ],
                             attrs: {
-                              colspan:
-                                _vm.displayable.length > 2
-                                  ? _vm.displayable.length - 1
-                                  : _vm.displayable.length,
+                              colspan: _vm.hasActions
+                                ? _vm.displayable.length + 1
+                                : _vm.displayable.length,
                             },
                           },
                           [
-                            _c("span", { staticClass: "table__heading" }, [
+                            _c("span", { staticClass: "table__heading flex" }, [
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(this.selected.length) +
                                   " record" +
                                   _vm._s(this.selected.length > 1 ? "s" : "") +
-                                  " selected\n                        "
+                                  " selected\n                        \n                            "
                               ),
-                            ]),
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "th",
-                          {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: _vm.hasSelections,
-                                expression: "hasSelections",
-                              },
-                            ],
-                            staticClass: "w-48",
-                            attrs: {
-                              colspan: _vm.displayable.length > 2 ? 2 : 1,
-                            },
-                          },
-                          [
-                            _c("div", { staticClass: "bulk-actions" }, [
-                              _c(
-                                "select",
-                                {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.action,
-                                      expression: "action",
-                                    },
-                                  ],
-                                  staticClass:
-                                    "field-select field-select--sm field-select--bordered",
-                                  attrs: {
-                                    name: "bulk-actions",
-                                    id: "bulk-actions",
-                                  },
-                                  on: {
-                                    change: [
-                                      function ($event) {
-                                        var $$selectedVal =
-                                          Array.prototype.filter
-                                            .call(
-                                              $event.target.options,
-                                              function (o) {
-                                                return o.selected
-                                              }
-                                            )
-                                            .map(function (o) {
-                                              var val =
-                                                "_value" in o
-                                                  ? o._value
-                                                  : o.value
-                                              return val
-                                            })
-                                        _vm.action = $event.target.multiple
-                                          ? $$selectedVal
-                                          : $$selectedVal[0]
-                                      },
-                                      function ($event) {
-                                        _vm.showBulkActionConfirmation = true
+                              _c("div", { staticClass: "ml-auto" }, [
+                                _c(
+                                  "select",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.action,
+                                        expression: "action",
                                       },
                                     ],
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "option",
-                                    {
-                                      attrs: { selected: "", disabled: "" },
-                                      domProps: { value: null },
+                                    staticClass:
+                                      "field-select field-select--sm field-select--bordered",
+                                    attrs: {
+                                      name: "bulk-actions",
+                                      id: "bulk-actions",
                                     },
-                                    [_vm._v("Bulk Actions")]
-                                  ),
-                                  _vm._v(" "),
-                                  _vm._l(
-                                    _vm.allowedBulkActions,
-                                    function (action, index) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          key: action.name,
-                                          domProps: { value: index },
+                                    on: {
+                                      change: [
+                                        function ($event) {
+                                          var $$selectedVal =
+                                            Array.prototype.filter
+                                              .call(
+                                                $event.target.options,
+                                                function (o) {
+                                                  return o.selected
+                                                }
+                                              )
+                                              .map(function (o) {
+                                                var val =
+                                                  "_value" in o
+                                                    ? o._value
+                                                    : o.value
+                                                return val
+                                              })
+                                          _vm.action = $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
                                         },
-                                        [_vm._v(_vm._s(action.name))]
-                                      )
-                                    }
-                                  ),
-                                ],
-                                2
-                              ),
+                                        function ($event) {
+                                          _vm.showBulkActionConfirmation = true
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "option",
+                                      {
+                                        attrs: { selected: "", disabled: "" },
+                                        domProps: { value: null },
+                                      },
+                                      [_vm._v("Bulk Actions")]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm._l(
+                                      _vm.allowedBulkActions,
+                                      function (action, index) {
+                                        return _c(
+                                          "option",
+                                          {
+                                            key: action.name,
+                                            domProps: { value: index },
+                                          },
+                                          [_vm._v(_vm._s(action.name))]
+                                        )
+                                      }
+                                    ),
+                                  ],
+                                  2
+                                ),
+                              ]),
                             ]),
                           ]
                         ),
@@ -2237,7 +2217,10 @@ var render = function () {
                                   column,
                                   function () {
                                     return [
-                                      _vm.column_types[column]
+                                      _vm.column_types[column] &&
+                                      _vm.isComponentExist(
+                                        _vm.column_types[column]
+                                      )
                                         ? _c(_vm.column_types[column], {
                                             tag: "component",
                                             attrs: {

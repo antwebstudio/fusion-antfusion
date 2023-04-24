@@ -113,7 +113,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "flex items-center" },
+    { staticClass: "items-center" },
     [
       _c(
         "router-link",
