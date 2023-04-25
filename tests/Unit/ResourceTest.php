@@ -4,6 +4,7 @@ namespace Tests\Unit\AntFusion;
 
 use Tests\TestCase;
 use App\AntFusion\Resource;
+use Addons\AntFusion\Action;
 
 class ResourceTest extends TestCase
 {
@@ -53,6 +54,28 @@ class ResourceTest extends TestCase
         $resource = new TestAntFusionResource3;
         $serialized = $resource->createMeta();
     }
+
+    public function testGetDropDownActionsForRecord()
+    {
+        $user = \App\Models\User::factory()->create();
+        $resource = new TestAntFusionResource4;
+        $actions = $resource->getDropDownActionsForRecord($user);
+
+        $this->assertCount(1, $actions);
+
+        // dd($actions);
+    }
+
+    public function testGetNonDropDownActionsForRecord()
+    {
+        $user = \App\Models\User::factory()->create();
+        $resource = new TestAntFusionResource4;
+        $actions = $resource->getNonDropDownActionsForRecord($user);
+
+        $this->assertCount(1, $actions);
+
+        // dd($actions);
+    }
 }
 
 class TestAntFusionResource extends Resource
@@ -97,4 +120,31 @@ class TestAntFusionResource3 extends Resource
                 ]),
         ];
     }
+}
+
+class TestAntFusionResource4 extends Resource
+{
+    public function actions() 
+    {
+        return [
+            (new TestAntFusionTestAction)->asDropdown(),
+            (new TestAntFusionTestAction2)->standalone(),
+            (new TestAntFusionTestAction3),
+        ];
+    }
+}
+
+class TestAntFusionTestAction extends Action
+{
+    
+}
+
+class TestAntFusionTestAction2 extends Action
+{
+    
+}
+
+class TestAntFusionTestAction3 extends Action
+{
+    protected $dropdown = false;
 }

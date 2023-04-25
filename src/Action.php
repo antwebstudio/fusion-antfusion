@@ -26,6 +26,8 @@ abstract class Action {
 
     protected $component;
 
+    protected $whenRecord;
+
     public static function make(...$arguments)
     {
         return new static(...$arguments);
@@ -57,7 +59,7 @@ abstract class Action {
     }
 
     public function getName() {
-        return $this->name;
+        return $this->name ?? Str::headline(class_basename(static::class));
     }
 
     public function handle($request, $models) {
@@ -108,12 +110,13 @@ abstract class Action {
         return array_merge($this->meta, [
             'id' => unique_id(),
             'component' => $this->getComponent(),
-            'text' => $this->name,
-            'title' => $this->name,
+            'text' => $this->getName(),
+            'title' => $this->getName(),
             'url' => $this->getActionUrl($actionSlug),
             'to' => $this->getActionUrl($actionSlug), // currently needed or else resource index page will not shown properly
             'fields' => $this->fieldsArray(),
             'cssClass' => $this->getCssClass(),
+            'asDropdown' => $this->dropdown,
             'dropdown' => $this->dropdown,
         ]);
     }
@@ -122,10 +125,10 @@ abstract class Action {
         $array = $this->toArray();
         
         if ($this->hasFields()) {
-            $array['asDropdown'] = true;
-            $array['component'] = 'action-button';
+            // $array['asDropdown'] = true;
+            // $array['component'] = 'action-button';
         } else {
-            $array['component'] = 'action-dropdown-link';
+            // $array['component'] = 'action-dropdown-link';
         }
         unset($array['to']); // currently needed or else resource actions will not working properly
         return $array;
@@ -140,10 +143,12 @@ abstract class Action {
     }
 
     protected function getComponent() {
-        if ($this->hasFields()) {
-            return 'action-button';
-        } else if (isset($this->component)) {
+        if (isset($this->component)) {
             return $this->component;
+        } else if ($this->hasFields()) {
+            return 'action-button';
+        } else if ($this->isDropdown()) {
+            return 'action-dropdown-link';
         } else {
             return 'ui-button';
         }
@@ -152,6 +157,11 @@ abstract class Action {
     protected function hasFields() {
         $fields = $this->fields();
         return is_array($fields) && count($fields);
+    }
+
+    public function standalone($value = true) {
+        $this->standalone = $value;
+        return $this;
     }
 
     public function isStandalone() {
@@ -164,10 +174,26 @@ abstract class Action {
         return $this;
     }
 
+    public function isDropdown() {
+        return $this->dropdown;
+    }
+
     public function asDropdown($dropdown = true) {
-        $this->component = 'ui-dropdown-link';
+        // $this->component = 'ui-dropdown-link';
         $this->withMeta(['asDropdown' => true]);
         $this->dropdown = $dropdown;
+        return $this;
+    }
+
+    public function isShowForRecord($record) {
+        if (isset($this->whenRecord)) {
+            return call_user_func_array($this->whenRecord, [$record]);
+        }
+        return true;
+    }
+
+    public function whenRecord($callback) {
+        $this->whenRecord = $callback;
         return $this;
     }
 

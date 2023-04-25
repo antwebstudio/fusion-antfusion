@@ -34,6 +34,7 @@ class Link extends Action {
 
     public function onlyInline() {
         $this->standalone = false;
+        $this->dropdown = true;
         return $this->onlyShowIn('inline');
     }
 }

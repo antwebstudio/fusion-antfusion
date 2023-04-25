@@ -5,7 +5,7 @@ use Addons\AntFusion\Field;
 
 class Fusion extends Field 
 {
-    protected $fieldType;
+    protected $fieldType = 'input';
     protected $settings = [];
 
     protected $indexComponent;

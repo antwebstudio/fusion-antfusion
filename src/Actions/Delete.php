@@ -10,6 +10,8 @@ class Delete extends Action {
     
     protected $successMessage = 'Deleted successfully';
 
+    protected $dropdown = true;
+
     public function __construct()
     {
         $this->confirmText('Are you sure you want to delete this?');

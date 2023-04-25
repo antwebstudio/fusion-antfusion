@@ -4,10 +4,11 @@
         <ui-button v-else :variant="variant" @click.prevent="openModalForm()">{{ text }}</ui-button>
 
         <portal to="modals">
-            <ui-modal :name="modalName" :title="title" :key="modalName" @input="modalChanged">
+            <ui-modal :name="modalName" :title="modalTitle" :key="modalName" @input="modalChanged">
                 <span v-if="form">
                     <component v-model="form[field.handle]" v-for="field, index in fields" :key="field.handle" :is="field.component" v-bind="field"
                         :parent="componentData"
+                        :record="record"
                         :has-error="form.errors.has(field.handle)"
                         :error-message="form.errors.get(field.handle)"
                         :errors="form.errors"
@@ -80,6 +81,12 @@ export default {
     computed: {
         modalName() {
             return 'action-' + this._uid
+        },
+        modalTitle() {
+            if (this.confirmTitle) {
+                return this.confirmTitle
+            }
+            return this.title
         },
         componentData() {
             return {

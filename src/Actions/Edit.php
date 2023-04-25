@@ -5,6 +5,7 @@ use Addons\AntFusion\Action;
 
 class Edit extends Action {
     protected $name = 'Edit';
+    protected $dropdown = true;
 
     public function __construct()
     {

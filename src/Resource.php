@@ -84,13 +84,9 @@ abstract class Resource {
         return $this->actionsArray();
     }
 
-    public function getDropDownActionsForRecord($record) {
-        return $this->actionsArrayForDetail($record);
-    }
-
     public function getActionsForRecord($record) {
         if ($this->hasAction()) {
-            return [
+            return array_merge($this->getNonDropDownActionsForRecord($record), [
                 [
                     'component' => 'nested-component',
                     'as' => 'ui-actions',
@@ -99,7 +95,7 @@ abstract class Resource {
                     ],
                     'children' => $this->getDropDownActionsForRecord($record),
                 ],
-            ];
+            ]);
         } else {
             return [];
         }
@@ -133,13 +129,6 @@ abstract class Resource {
                 'id' => 'data-table-'.$this->getSlug(),
                 'endpoint' => $this->getDataTableEndpoint(),
                 'filters' => $this->filtersArray(),
-                'actions' => [
-                    [
-                        // 'component' => 'ui-actions',
-                        'component' => 'ui-button',
-                        'text' => 'Edit',
-                    ],
-                ],
             ],
         ];
 

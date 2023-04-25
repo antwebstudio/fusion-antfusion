@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\AntFusion;
 
+use Addons\AntFusion\Component;
 use Tests\TestCase;
 use Illuminate\Support\Str;
 use Addons\AntFusion\Traits\HasPath;
@@ -42,7 +43,7 @@ class PanelTest extends TestCase
     }
 }
 
-class PanelTestTestComponent {
+class PanelTestTestComponent extends Component {
     use HasPath;
     use HasParent;
 

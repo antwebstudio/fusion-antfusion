@@ -8,7 +8,7 @@
         </ui-dropdown-link>
         
         <portal to="modals" v-if="needConfirmation">
-            <ui-modal :name="modalName" :title="confirmTitle" :key="modalName">
+            <ui-modal :name="modalName" :title="modalTitle" :key="modalName">
                 <p>{{ confirmText }}</p>
 
                 <template v-slot:footer="entry">
@@ -71,6 +71,12 @@ export default {
     computed: {
         needConfirmation() {
             return this.confirmText
+        },
+        modalTitle() {
+            if (this.confirmTitle) {
+                return this.confirmTitle
+            }
+            return this.title
         },
         modalName() {
             return 'action-link-confirmation-' + this._uid

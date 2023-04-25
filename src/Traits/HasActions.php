@@ -31,6 +31,30 @@ trait HasActions {
         }
     }
 
+    public function getDropDownActionsForRecord($record) {
+        return $this->getActionsByFilterForRecord($record, function($action) use($record) {
+            return !$action->isStandalone() && !$action->isHidden() && $action->isDropDown() && $action->isShowForRecord($record);
+        });
+    }
+
+    public function getNonDropDownActionsForRecord($record) {
+        return $this->getActionsByFilterForRecord($record, function($action) use($record) {
+            return !$action->isStandalone() && !$action->isHidden() && !$action->isDropDown() && $action->isShowForRecord($record);
+        });
+    }
+
+    protected function getActionsByFilterForRecord($record, $filterCallback) {
+        $this->initActions();
+
+        $actionsArray = [];
+        foreach ($this->initializedActions as $action) {
+            if (call_user_func_array($filterCallback, [$action, $record])) {
+                $actionsArray[] = $action->toArrayForDetail($record);
+            }
+        }
+        return $actionsArray;
+    }
+
     protected function actionsArrayForDetail($record) {
         $this->initActions();
 
