@@ -62,6 +62,13 @@ __webpack_require__.r(__webpack_exports__);
     needConfirmation: function needConfirmation() {
       return this.confirmText;
     },
+    modalTitle: function modalTitle() {
+      if (this.confirmTitle) {
+        return this.confirmTitle;
+      }
+
+      return this.title;
+    },
     modalName: function modalName() {
       return 'action-link-confirmation-' + this._uid;
     }
@@ -235,7 +242,7 @@ var render = function () {
                 "ui-modal",
                 {
                   key: _vm.modalName,
-                  attrs: { name: _vm.modalName, title: _vm.confirmTitle },
+                  attrs: { name: _vm.modalName, title: _vm.modalTitle },
                   scopedSlots: _vm._u(
                     [
                       {

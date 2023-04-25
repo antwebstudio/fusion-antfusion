@@ -90,6 +90,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     modalName: function modalName() {
       return 'action-' + this._uid;
     },
+    modalTitle: function modalTitle() {
+      if (this.confirmTitle) {
+        return this.confirmTitle;
+      }
+
+      return this.title;
+    },
     componentData: function componentData() {
       return {
         parent: this.parent
@@ -1621,7 +1628,6 @@ var render = function () {
   return _c(
     "fragment",
     [
-      _vm._v("\n    route: " + _vm._s(_vm.route) + "\n    "),
       _vm.asDropdown
         ? _c(
             "ui-dropdown-link",
@@ -1661,7 +1667,7 @@ var render = function () {
             "ui-modal",
             {
               key: _vm.modalName,
-              attrs: { name: _vm.modalName, title: _vm.title },
+              attrs: { name: _vm.modalName, title: _vm.modalTitle },
               on: { input: _vm.modalChanged },
               scopedSlots: _vm._u([
                 {
@@ -1726,6 +1732,7 @@ var render = function () {
                             tag: "component",
                             attrs: {
                               parent: _vm.componentData,
+                              record: _vm.record,
                               "has-error": _vm.form.errors.has(field.handle),
                               "error-message": _vm.form.errors.get(
                                 field.handle
