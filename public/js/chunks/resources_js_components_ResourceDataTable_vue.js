@@ -284,7 +284,7 @@ var render = function () {
                 key: "actions",
                 fn: function (table) {
                   return [
-                    table.record.actions.length
+                    table.record.actions && table.record.actions.length
                       ? _c(
                           "div",
                           { staticClass: "flex" },
