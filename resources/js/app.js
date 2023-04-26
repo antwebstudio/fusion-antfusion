@@ -22,6 +22,7 @@ window.Fusion.booting(function(Vue, router, store) {
     Vue.component('report-datatable', () => import('./components/ReportDataTable'))
     Vue.component('resource-datatable', () => import('./components/ResourceDataTable'))
     Vue.component('resource-datetime', () => import('./components/ResourceDateTime'))
+    Vue.component('resource-date', () => import('./components/ResourceDate'))
     Vue.component('resource-fieldtype', () => import('./fieldtypes/Resource/Field'))
     Vue.component('resource-fieldtype-setting', () => import('./fieldtypes/Resource/Settings'))
     Vue.component('filter-tabs', () => import('./components/FilterTabs'))

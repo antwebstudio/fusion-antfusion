@@ -54,6 +54,7 @@ class Fusion extends Field
     public function getIndexComponent() {
         $indexComponent = [
             'datetime' => 'resource-datetime',
+            'date' => 'resource-date',
         ];
 
         if (isset($this->indexComponent)) {
@@ -63,7 +64,7 @@ class Fusion extends Field
         } else if (isset($this->fieldType)) {
             return $this->fieldType.'-fieldtype-index';
         } else if (isset($this->component)) {
-            // return $this->component;
+            return $this->component;
         }
     }
 

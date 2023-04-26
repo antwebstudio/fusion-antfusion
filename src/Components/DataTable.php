@@ -18,6 +18,10 @@ class DataTable extends Component
         ]);
     }
 
+    public function noSearch() {
+        return $this->withMeta(['no-search' => true]);
+    }
+
     public function toArray() {
         return array_merge(parent::toArray(), [
             'filters' => $this->filtersArray(),

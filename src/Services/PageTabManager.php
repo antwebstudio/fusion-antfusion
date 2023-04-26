@@ -6,12 +6,17 @@ class PageTabManager {
 
     protected $tabAttributes = [];
 
-    public function registerTab($label, $componentName, $attributes = []) {
-        $key = $label.'-'.$componentName;
+    public function registerTab($label, $component, $attributes = []) {
+        if (is_callable($component)) {
+            $component = call_user_func_array($component, []);
+            $key = $label.'-'.get_class($component);
+        } else {
+            $key = $label.'-'.$component;
+        }
         $this->tabs[$key] = [
             'label' => $label,
             'order' => count($this->tabs),
-            'component' => $componentName,
+            'component' => $component,
         ];
         $this->tabAttributes[$key] = $attributes;
     }

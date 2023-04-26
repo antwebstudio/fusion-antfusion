@@ -22,6 +22,8 @@ abstract class Resource {
     protected $icon = 'grip-horizontal';
     protected $clickColumnHandle = 'name';
     protected $clickColumnComponent = 'antfusion-edit-link';
+    protected $mainResource;
+    protected $mainResourceId;
 
     public function register() {
         $handle = $this->getHandle();
@@ -117,8 +119,18 @@ abstract class Resource {
         return $this->toArray();
     }
 
+    public function mainResource($mainResource, $mainResourceId) {
+        $this->mainResource = $mainResource;
+        $this->mainResourceId = $mainResourceId;
+        return $this;
+    }
+
     protected function getDataTableEndpoint() {
-        return '/datatable/antfusion/resource/'.$this->getSlug();
+        if (isset($this->mainResource)) {
+            return '/datatable/antfusion/resource/'.$this->mainResource.'/'.$this->mainResourceId.'/'.$this->getSlug();
+        } else {
+            return '/datatable/antfusion/resource/'.$this->getSlug();
+        }
     }
 
     public function toArray() {

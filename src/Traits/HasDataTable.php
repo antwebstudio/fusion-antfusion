@@ -10,6 +10,10 @@ trait HasDataTable {
         return $this->query();
     }
 
+    public function getDataTableComponent() {
+        return new \Addons\AntFusion\Components\DataTable($this->getDataTableEndpoint());
+    }
+
     public function getDisplayableColumns() {
         $columns = [];
         foreach ($this->getFieldsForDataTable() as $field) {
