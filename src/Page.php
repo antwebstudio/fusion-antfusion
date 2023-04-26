@@ -52,6 +52,7 @@ class Page {
         $pageArray = $this->pageArray();
         $pageArray['page'] = [
             'title' => $this->getTitle(),
+            'icon' => $this->getIcon(),
         ];
         $pageArray['components'] = $this->componentsArray();
         $pageArray['actions'] = $this->actionsArray();
@@ -70,7 +71,7 @@ class Page {
             Menu::set('admin.page-'.$this->getSlug(), [
                 'title' => $this->getTitle(),
                 'to'    => '/'.$this->pageType.'/'.$this->getSlug(),
-                'icon'  => 'grip-horizontal',
+                'icon'  => $this->getIcon(),
             ]);
         }
     }
