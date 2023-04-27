@@ -146,7 +146,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
 
         if (response.data.redirect) {
-          location.href = response.data.redirect;
+          if (response.data.target) {
+            window.open(response.data.redirect, response.data.target);
+          } else {
+            // location.href = response.data.redirect
+            _this2.$router.push(response.data.redirect);
+          }
         }
       })["catch"](function (error) {
         _this2.loading = false;

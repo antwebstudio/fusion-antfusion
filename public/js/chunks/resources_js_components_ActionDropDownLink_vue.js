@@ -102,7 +102,11 @@ __webpack_require__.r(__webpack_exports__);
         console.log('action button', response);
 
         if (response.data.redirect) {
-          _this.$router.push(response.data.redirect);
+          if (response.data.target) {
+            window.open(response.data.redirect, response.data.target);
+          } else {
+            _this.$router.push(response.data.redirect);
+          }
         } else {
           _this.loading = false;
           toast(response.data.message, 'success');
