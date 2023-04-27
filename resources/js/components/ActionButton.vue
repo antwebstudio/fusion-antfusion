@@ -124,7 +124,12 @@ export default {
                     toast(response.data.message, 'success')
                 }
                 if (response.data.redirect) {
-                    location.href = response.data.redirect
+                    if (response.data.target) {
+                        window.open(response.data.redirect, response.data.target)
+                    } else {
+                        // location.href = response.data.redirect
+                        this.$router.push(response.data.redirect)
+                    }
                 }
             }).catch((error) => {
                 this.loading = false

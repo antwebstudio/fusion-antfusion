@@ -17,13 +17,14 @@ class ResourceController extends DataTableController {
         if ($paginate !== []) {
             $resource = $this->resource();
             $paginate = $resource->getDataTableRecords($paginate);
-            $records = json_decode($paginate->toJson(), true);
-            foreach ($records['data'] as &$record) {
+            $records = collect($paginate->all())->keyBy('id');
+            $return = json_decode($paginate->toJson(), true);
+            foreach ($return['data'] as $i => &$record) {
                 $record['resource'] = ['slug' => $resource->getSlug(), 'handle' => $resource->getHandle()];
-                $record['actions'] = $resource->getActionsForRecord($record);
+                $record['actions'] = $resource->getActionsForRecord($records[$record['id']]);
             }
         }
-        return $records ?? ['data' => []];
+        return $return ?? ['data' => []];
     }
 
     public function builder() {

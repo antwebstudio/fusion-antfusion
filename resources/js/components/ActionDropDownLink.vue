@@ -105,7 +105,11 @@ export default {
             axios.post(this.url, { resourceIds: [this.record.id] }).then((response) => {
                 console.log('action button', response)
                 if (response.data.redirect) {
-                    this.$router.push(response.data.redirect)
+                    if (response.data.target) {
+                        window.open(response.data.redirect, response.data.target)
+                    } else {
+                        this.$router.push(response.data.redirect)
+                    }
                 } else {
                     this.loading = false
                     toast(response.data.message, 'success')

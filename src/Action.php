@@ -50,6 +50,8 @@ abstract class Action {
     }
 
     public function onlyInline() {
+        $this->standalone = false;
+        $this->dropdown = true;
         return $this->onlyShowIn('inline');
     }
 

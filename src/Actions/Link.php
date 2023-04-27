@@ -6,6 +6,7 @@ use Addons\AntFusion\Action;
 class Link extends Action {
     protected $redirect;
     protected $standalone = true;
+    protected $target;
 
     public function __construct($name, $url)
     {
@@ -28,6 +29,7 @@ class Link extends Action {
             $redirect = $this->redirect;
         }
         return [
+            'target' => $this->target,
             'redirect' => $redirect,
         ];
     }
@@ -36,5 +38,14 @@ class Link extends Action {
         $this->standalone = false;
         $this->dropdown = true;
         return $this->onlyShowIn('inline');
+    }
+
+    public function target($target) {
+        $this->target = $target;
+        return $this;
+    }
+
+    public function openInNewTab() {
+        return $this->target('_blank');
     }
 }

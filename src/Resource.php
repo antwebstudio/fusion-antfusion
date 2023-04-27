@@ -88,16 +88,21 @@ abstract class Resource {
 
     public function getActionsForRecord($record) {
         if ($this->hasAction()) {
-            return array_merge($this->getNonDropDownActionsForRecord($record), [
-                [
+            $actions = $this->getNonDropDownActionsForRecord($record);
+            $dropdownActions = $this->getDropDownActionsForRecord($record);
+
+            if (count($dropdownActions)) {
+                $dropdown = [
                     'component' => 'nested-component',
                     'as' => 'ui-actions',
                     'props' => [
                         
                     ],
-                    'children' => $this->getDropDownActionsForRecord($record),
-                ],
-            ]);
+                    'children' => $dropdownActions,
+                ];
+                $actions[] = $dropdown;
+            }
+            return $actions;
         } else {
             return [];
         }

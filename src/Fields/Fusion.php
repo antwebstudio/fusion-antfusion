@@ -64,7 +64,8 @@ class Fusion extends Field
         } else if (isset($this->fieldType)) {
             return $this->fieldType.'-fieldtype-index';
         } else if (isset($this->component)) {
-            return $this->component;
+            // Use setIndexComponent instead of setComponent
+            // return $this->component;
         }
     }
 
