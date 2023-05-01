@@ -82,7 +82,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     record: {
       "default": {}
     },
-    load_record: {}
+    load_record: {
+      "default": {}
+    }
   },
   data: function data() {
     return {
