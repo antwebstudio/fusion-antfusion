@@ -73,7 +73,7 @@ export default {
             default: {}
         },
         load_record: {
-
+            default: {}
         },
     },
     data() {
