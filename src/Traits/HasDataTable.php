@@ -101,7 +101,7 @@ trait HasDataTable {
     public function getBulkActions() {
         $actions = [];
         foreach ($this->actions() as $action) {
-            if (!$action->isStandalone() && !$action->isHidden() && $action->shouldShowIn('index')) {
+            if (!$action->isStandalone() && !$action->isHidden() && $action->shouldShowIn('index') && $action->shouldShowIn('bulk')) {
                 $actions[] = [
                     'route' => $action->getBulkActionUrl($this->getSlug()),
                     'name' => $action->getName(),

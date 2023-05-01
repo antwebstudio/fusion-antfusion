@@ -29,6 +29,7 @@
 
 <script>
 import Form from "@/services/Form"
+import _ from "lodash"
 
 export default {
     props: {
@@ -71,6 +72,9 @@ export default {
         record: {
             default: {}
         },
+        load_record: {
+
+        },
     },
     data() {
         return {
@@ -101,7 +105,9 @@ export default {
         initForm() {
             let fields = {}
             this.fields.forEach((field) => {
-                fields[field.handle] = this.record[field.handle] || null
+                if (this.load_record[field.handle]) {
+                    fields[field.handle] = _.get(this.record, this.load_record[field.handle])
+                }
             })
             this.form = new Form(fields)
         },

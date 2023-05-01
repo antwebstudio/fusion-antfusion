@@ -45,6 +45,10 @@ abstract class Action {
         return $this->handle($request, collect($models ?? []));
     }
 
+    public function exceptShowInBulkAction() {
+        return $this->exceptShowIn('bulk');
+    }
+
     public function exceptOnIndex() {
         return $this->exceptShowIn('index');
     }
