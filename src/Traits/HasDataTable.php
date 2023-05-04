@@ -105,6 +105,7 @@ trait HasDataTable {
                 $actions[] = [
                     'route' => $action->getBulkActionUrl($this->getSlug()),
                     'name' => $action->getName(),
+                    'params' => $action->toArray(),
                 ];
             }
         }
