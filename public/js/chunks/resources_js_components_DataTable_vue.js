@@ -324,6 +324,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2057,88 +2059,242 @@ var render = function () {
                             },
                           },
                           [
-                            _c("span", { staticClass: "table__heading flex" }, [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(this.selected.length) +
-                                  " record" +
-                                  _vm._s(this.selected.length > 1 ? "s" : "") +
-                                  " selected\n                        \n                            "
-                              ),
-                              _c("div", { staticClass: "ml-auto" }, [
-                                _c(
-                                  "select",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.action,
-                                        expression: "action",
-                                      },
-                                    ],
-                                    staticClass:
-                                      "field-select field-select--sm field-select--bordered",
-                                    attrs: {
-                                      name: "bulk-actions",
-                                      id: "bulk-actions",
-                                    },
-                                    on: {
-                                      change: [
-                                        function ($event) {
-                                          var $$selectedVal =
-                                            Array.prototype.filter
-                                              .call(
-                                                $event.target.options,
-                                                function (o) {
-                                                  return o.selected
-                                                }
-                                              )
-                                              .map(function (o) {
-                                                var val =
-                                                  "_value" in o
-                                                    ? o._value
-                                                    : o.value
-                                                return val
-                                              })
-                                          _vm.action = $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
-                                        },
-                                        function ($event) {
-                                          _vm.showBulkActionConfirmation = true
-                                        },
-                                      ],
-                                    },
-                                  },
-                                  [
-                                    _c(
-                                      "option",
-                                      {
-                                        attrs: { selected: "", disabled: "" },
-                                        domProps: { value: null },
-                                      },
-                                      [_vm._v("Bulk Actions")]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm._l(
-                                      _vm.allowedBulkActions,
-                                      function (action, index) {
-                                        return _c(
-                                          "option",
-                                          {
-                                            key: action.name,
-                                            domProps: { value: index },
-                                          },
-                                          [_vm._v(_vm._s(action.name))]
-                                        )
-                                      }
-                                    ),
-                                  ],
-                                  2
+                            _c(
+                              "span",
+                              { staticClass: "table__heading flex" },
+                              [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(this.selected.length) +
+                                    " record" +
+                                    _vm._s(
+                                      this.selected.length > 1 ? "s" : ""
+                                    ) +
+                                    " selected\n                        \n                            "
                                 ),
-                              ]),
-                            ]),
+                                _vm._t(
+                                  "bulkActions",
+                                  function () {
+                                    return [
+                                      _c("div", { staticClass: "ml-auto" }, [
+                                        _c(
+                                          "select",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: _vm.action,
+                                                expression: "action",
+                                              },
+                                            ],
+                                            staticClass:
+                                              "field-select field-select--sm field-select--bordered",
+                                            attrs: {
+                                              name: "bulk-actions",
+                                              id: "bulk-actions",
+                                            },
+                                            on: {
+                                              change: [
+                                                function ($event) {
+                                                  var $$selectedVal =
+                                                    Array.prototype.filter
+                                                      .call(
+                                                        $event.target.options,
+                                                        function (o) {
+                                                          return o.selected
+                                                        }
+                                                      )
+                                                      .map(function (o) {
+                                                        var val =
+                                                          "_value" in o
+                                                            ? o._value
+                                                            : o.value
+                                                        return val
+                                                      })
+                                                  _vm.action = $event.target
+                                                    .multiple
+                                                    ? $$selectedVal
+                                                    : $$selectedVal[0]
+                                                },
+                                                function ($event) {
+                                                  _vm.showBulkActionConfirmation = true
+                                                },
+                                              ],
+                                            },
+                                          },
+                                          [
+                                            _c(
+                                              "option",
+                                              {
+                                                attrs: {
+                                                  selected: "",
+                                                  disabled: "",
+                                                },
+                                                domProps: { value: null },
+                                              },
+                                              [_vm._v("Bulk Actions")]
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              _vm.allowedBulkActions,
+                                              function (action, index) {
+                                                return _c(
+                                                  "option",
+                                                  {
+                                                    key: action.name,
+                                                    domProps: { value: index },
+                                                  },
+                                                  [_vm._v(_vm._s(action.name))]
+                                                )
+                                              }
+                                            ),
+                                          ],
+                                          2
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "portal",
+                                        { attrs: { to: "modals" } },
+                                        [
+                                          _vm.action !== null
+                                            ? _c(
+                                                "ui-modal",
+                                                {
+                                                  attrs: {
+                                                    name: "confirm-bulk-action",
+                                                    title:
+                                                      "Confirm Bulk " +
+                                                      _vm.allowedBulkActions[
+                                                        _vm.action
+                                                      ].name,
+                                                  },
+                                                  scopedSlots: _vm._u(
+                                                    [
+                                                      {
+                                                        key: "footer",
+                                                        fn: function () {
+                                                          return [
+                                                            _c(
+                                                              "ui-button",
+                                                              {
+                                                                staticClass:
+                                                                  "ml-3",
+                                                                attrs: {
+                                                                  loading:
+                                                                    _vm.working,
+                                                                  variant:
+                                                                    "primary",
+                                                                },
+                                                                on: {
+                                                                  click:
+                                                                    function (
+                                                                      $event
+                                                                    ) {
+                                                                      $event.preventDefault()
+                                                                      return _vm.confirmBulkAction.apply(
+                                                                        null,
+                                                                        arguments
+                                                                      )
+                                                                    },
+                                                                },
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "Confirm"
+                                                                ),
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            !_vm.working
+                                                              ? _c(
+                                                                  "ui-button",
+                                                                  {
+                                                                    attrs: {
+                                                                      variant:
+                                                                        "secondary",
+                                                                    },
+                                                                    on: {
+                                                                      click:
+                                                                        function (
+                                                                          $event
+                                                                        ) {
+                                                                          $event.preventDefault()
+                                                                          return _vm.cancelBulkAction.apply(
+                                                                            null,
+                                                                            arguments
+                                                                          )
+                                                                        },
+                                                                    },
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Cancel"
+                                                                    ),
+                                                                  ]
+                                                                )
+                                                              : _vm._e(),
+                                                          ]
+                                                        },
+                                                        proxy: true,
+                                                      },
+                                                    ],
+                                                    null,
+                                                    false,
+                                                    907495711
+                                                  ),
+                                                  model: {
+                                                    value:
+                                                      _vm.showBulkActionConfirmation,
+                                                    callback: function ($$v) {
+                                                      _vm.showBulkActionConfirmation =
+                                                        $$v
+                                                    },
+                                                    expression:
+                                                      "showBulkActionConfirmation",
+                                                  },
+                                                },
+                                                [
+                                                  _c("p", [
+                                                    _vm._v(
+                                                      "Are you sure you want to perform this action against "
+                                                    ),
+                                                    _c("b", [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.selected.length
+                                                        )
+                                                      ),
+                                                    ]),
+                                                    _vm._v(
+                                                      " record" +
+                                                        _vm._s(
+                                                          _vm.selected.length >
+                                                            1
+                                                            ? "s"
+                                                            : ""
+                                                        ) +
+                                                        "?"
+                                                    ),
+                                                  ]),
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                        ],
+                                        1
+                                      ),
+                                    ]
+                                  },
+                                  {
+                                    allowedBulkActions: _vm.allowedBulkActions,
+                                    selected: _vm.selected,
+                                    parent: this,
+                                  }
+                                ),
+                              ],
+                              2
+                            ),
                           ]
                         ),
                         _vm._v(" "),
@@ -2453,101 +2609,6 @@ var render = function () {
             2
           )
         : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "portal",
-        { attrs: { to: "modals" } },
-        [
-          _vm.action !== null
-            ? _c(
-                "ui-modal",
-                {
-                  attrs: {
-                    name: "confirm-bulk-action",
-                    title:
-                      "Confirm Bulk " +
-                      this.allowedBulkActions[_vm.action].name,
-                  },
-                  scopedSlots: _vm._u(
-                    [
-                      {
-                        key: "footer",
-                        fn: function () {
-                          return [
-                            _c(
-                              "ui-button",
-                              {
-                                staticClass: "ml-3",
-                                attrs: {
-                                  loading: _vm.working,
-                                  variant: "primary",
-                                },
-                                on: {
-                                  click: function ($event) {
-                                    $event.preventDefault()
-                                    return _vm.confirmBulkAction.apply(
-                                      null,
-                                      arguments
-                                    )
-                                  },
-                                },
-                              },
-                              [_vm._v("Confirm")]
-                            ),
-                            _vm._v(" "),
-                            !_vm.working
-                              ? _c(
-                                  "ui-button",
-                                  {
-                                    attrs: { variant: "secondary" },
-                                    on: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
-                                        return _vm.cancelBulkAction.apply(
-                                          null,
-                                          arguments
-                                        )
-                                      },
-                                    },
-                                  },
-                                  [_vm._v("Cancel")]
-                                )
-                              : _vm._e(),
-                          ]
-                        },
-                        proxy: true,
-                      },
-                    ],
-                    null,
-                    false,
-                    907495711
-                  ),
-                  model: {
-                    value: _vm.showBulkActionConfirmation,
-                    callback: function ($$v) {
-                      _vm.showBulkActionConfirmation = $$v
-                    },
-                    expression: "showBulkActionConfirmation",
-                  },
-                },
-                [
-                  _c("p", [
-                    _vm._v(
-                      "Are you sure you want to perform this action against "
-                    ),
-                    _c("b", [_vm._v(_vm._s(this.selected.length))]),
-                    _vm._v(
-                      " record" +
-                        _vm._s(this.selected.length > 1 ? "s" : "") +
-                        "?"
-                    ),
-                  ]),
-                ]
-              )
-            : _vm._e(),
-        ],
-        1
-      ),
     ],
     1
   )
