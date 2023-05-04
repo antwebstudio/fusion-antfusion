@@ -116,12 +116,12 @@ export default {
         },
         submit() {
             this.loading = true
-            let params = this.form.data()
-            params = { ...params, route: this.route }
+            let params = this.form.formdata()
+            params.append('route', this.route)
             if (this.record.id) {
-                params = { ...params, resourceIds: [this.record.id] }
+                params.append('resourceIds[]', this.record.id)
             }
-            axios.post(this.url, params).then((response) => {
+            this.form.submit('post', this.url, params).then((response) => {
                 this.loading = false
                 this.$emit('submitted')
                 this.closeModal(this.modalName)
