@@ -15,7 +15,6 @@
                 
                 <portal to="modals">
                     <ui-modal v-if="action !== null" name="confirm-bulk-action" :title="'Confirm Bulk ' + parent.allowedBulkActions[action].name" v-model="showBulkActionConfirmation">
-                        {{ form }}
                         <div v-if="parent.allowedBulkActions[action].params && parent.allowedBulkActions[action].params.fields.length">
                             <span v-if="form">
                                 <component v-model="form[field.handle]" v-for="field, index in parent.allowedBulkActions[action].params.fields" :key="field.handle" :is="field.component" v-bind="field"
