@@ -76,6 +76,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -87,6 +89,7 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       "default": true
     },
+    metrics: {},
     filters: {},
     refresh: {
       type: Number | Boolean,
@@ -181,6 +184,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       filterValues: {},
+      metricValues: {},
       form: null,
       action: null,
       fields: [],
@@ -197,6 +201,9 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    updateMetrics: function updateMetrics(metricValues) {
+      this.metricValues = metricValues;
+    },
     cancelBulkAction: function cancelBulkAction(dataTable) {
       this.action = null;
       this.showBulkActionConfirmation = false;
@@ -1695,6 +1702,33 @@ var render = function () {
   return _c(
     "div",
     [
+      _c(
+        "div",
+        { staticClass: "flex" },
+        _vm._l(_vm.metrics, function (card) {
+          return _c(
+            card.component,
+            _vm._b(
+              {
+                key: card.handle,
+                tag: "component",
+                model: {
+                  value: _vm.metricValues[card.handle],
+                  callback: function ($$v) {
+                    _vm.$set(_vm.metricValues, card.handle, $$v)
+                  },
+                  expression: "metricValues[card.handle]",
+                },
+              },
+              "component",
+              card,
+              false
+            )
+          )
+        }),
+        1
+      ),
+      _vm._v(" "),
       _vm._l(_vm.filters, function (filter) {
         return _c(
           "span",
@@ -1730,6 +1764,7 @@ var render = function () {
         _vm._b(
           {
             attrs: { filters: _vm.filterValues },
+            on: { "update-metrics": _vm.updateMetrics },
             scopedSlots: _vm._u([
               {
                 key: "bulkActions",
@@ -1877,11 +1912,6 @@ var render = function () {
                                 },
                               },
                               [
-                                _vm._v(
-                                  "\n                    " +
-                                    _vm._s(_vm.form) +
-                                    "\n                    "
-                                ),
                                 parent.allowedBulkActions[_vm.action].params &&
                                 parent.allowedBulkActions[_vm.action].params
                                   .fields.length

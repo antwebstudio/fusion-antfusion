@@ -139,16 +139,16 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.closeModal(_this2.modalName);
 
-        if (response.data.message) {
-          toast(response.data.message, 'success');
+        if (response.message) {
+          toast(response.message, 'success');
         }
 
-        if (response.data.redirect) {
-          if (response.data.target) {
-            window.open(response.data.redirect, response.data.target);
+        if (response.redirect) {
+          if (response.target) {
+            window.open(response.redirect, response.target);
           } else {
-            // location.href = response.data.redirect
-            _this2.$router.push(response.data.redirect);
+            // location.href = response.redirect
+            _this2.$router.push(response.redirect);
           }
         }
       })["catch"](function (error) {

@@ -13,6 +13,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _ui_Table_Table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/ui/Table/Table */ "../../fusioncms/cms/resources/js/ui/Table/Table.vue");
 /* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -29,8 +31,37 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    getQueryParameters: function getQueryParameters() {
+    getRecords: function getRecords() {
       var _this = this;
+
+      this.loading = true;
+      return axios.get("".concat(this.endpoint, "?").concat(this.getQueryParameters())).then(function (response) {
+        _this.records = response.data.records.data;
+        _this.displayable = response.data.displayable;
+        _this.sortable = response.data.sortable;
+        _this.column_names = response.data.column_names;
+        _this.column_types = response.data.column_types;
+        _this.bulk_actions = response.data.bulk_actions;
+        _this.bulk_actions_exempt = response.data.bulk_actions_exempt;
+        _this.pagination.totalRecords = response.data.records.total;
+        _this.pagination.totalPages = response.data.records.last_page;
+
+        _this.$emit('update-metrics', response.data.metrics);
+
+        _this.loading = false;
+        _this.initialLoad = false;
+
+        if (_this.refresh && !self._timer) {
+          _this._timer = setTimeout(function () {
+            return _this.getRecords();
+          }, _this.refresh);
+        }
+
+        _this.$emit('loaded', _this.records);
+      });
+    },
+    getQueryParameters: function getQueryParameters() {
+      var _this2 = this;
 
       var params = {
         sort: (this.sort.order === 'desc' ? '-' : '') + this.sort.key,
@@ -39,9 +70,15 @@ __webpack_require__.r(__webpack_exports__);
       };
 
       if (this.filters) {
+        console.log('filters', this.filters);
         Object.keys(this.filters).forEach(function (key) {
-          params['filter[' + key + ']'] = _this.filters[key];
+          if (_typeof(_this2.filters[key]) == 'object') {
+            params['filter[' + key + '][]'] = _this2.filters[key];
+          } else {
+            params['filter[' + key + ']'] = _this2.filters[key];
+          }
         });
+        console.log(params);
       }
 
       if (this.search !== '') {
