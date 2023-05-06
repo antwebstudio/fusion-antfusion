@@ -107,6 +107,8 @@ export default {
             this.fields.forEach((field) => {
                 if (this.load_record[field.handle]) {
                     fields[field.handle] = _.get(this.record, this.load_record[field.handle])
+                } else {
+                    fields[field.handle] = null
                 }
             })
             this.form = new Form(fields)
