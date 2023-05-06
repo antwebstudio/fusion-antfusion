@@ -114,6 +114,8 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.forEach(function (field) {
         if (_this.load_record[field.handle]) {
           fields[field.handle] = lodash__WEBPACK_IMPORTED_MODULE_1___default().get(_this.record, _this.load_record[field.handle]);
+        } else {
+          fields[field.handle] = null;
         }
       });
       this.form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](fields);

@@ -70,7 +70,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       };
 
       if (this.filters) {
-        console.log('filters', this.filters);
         Object.keys(this.filters).forEach(function (key) {
           if (_typeof(_this2.filters[key]) == 'object') {
             params['filter[' + key + '][]'] = _this2.filters[key];
@@ -78,7 +77,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
             params['filter[' + key + ']'] = _this2.filters[key];
           }
         });
-        console.log(params);
       }
 
       if (this.search !== '') {

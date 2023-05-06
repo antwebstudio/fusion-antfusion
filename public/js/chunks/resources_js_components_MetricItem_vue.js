@@ -29,13 +29,21 @@ __webpack_require__.r(__webpack_exports__);
     icon: {},
     label: {},
     value: {},
-    url: {}
+    url: {},
+    format: {
+      "default": false
+    },
+    decimalDigits: {
+      "default": 0
+    }
   },
   computed: {
     valueString: function valueString() {
-      if (this.value) {
-        return this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      if (this.value && this.format) {
+        return Number(this.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
+
+      return this.value;
     }
   }
 });
