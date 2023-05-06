@@ -31,6 +31,7 @@ class Filter {
 
     public function toArray() {
         return array_merge($this->meta, [
+            'id' => 'filter_'.unique_id(),
             'component' => $this->component,
             'handle' => $this->getHandle(),
             'options' => $this->options(request()),
