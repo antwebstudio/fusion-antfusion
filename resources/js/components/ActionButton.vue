@@ -126,15 +126,15 @@ export default {
                 this.$emit('submitted')
                 this.closeModal(this.modalName)
 
-                if (response.data.message) {
-                    toast(response.data.message, 'success')
+                if (response.message) {
+                    toast(response.message, 'success')
                 }
-                if (response.data.redirect) {
-                    if (response.data.target) {
-                        window.open(response.data.redirect, response.data.target)
+                if (response.redirect) {
+                    if (response.target) {
+                        window.open(response.redirect, response.target)
                     } else {
-                        // location.href = response.data.redirect
-                        this.$router.push(response.data.redirect)
+                        // location.href = response.redirect
+                        this.$router.push(response.redirect)
                     }
                 }
             }).catch((error) => {

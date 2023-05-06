@@ -14,6 +14,7 @@ abstract class Resource {
     use \Addons\AntFusion\Traits\HasActions;
     use \Addons\AntFusion\Traits\HasPath;
     use \Addons\AntFusion\Traits\HasFilters;
+    use \Addons\AntFusion\Traits\HasMetrics;
     
     protected $name;
     protected $model;
@@ -146,6 +147,7 @@ abstract class Resource {
                 'id' => 'data-table-'.$this->getSlug(),
                 'endpoint' => $this->getDataTableEndpoint(),
                 'filters' => $this->filtersArray(),
+                'metrics' => $this->metricsArray(),
             ],
         ];
 

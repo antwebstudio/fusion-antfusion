@@ -6,7 +6,11 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Database\Eloquent\Builder;
 
 class Filter {
+    use \Addons\AntFusion\Traits\HasMeta;
+
     protected $component = 'filter-tabs';
+
+    protected $builtin = false;
 
     public function apply($request, $query, $value) {
     }
@@ -26,12 +30,12 @@ class Filter {
     }
 
     public function toArray() {
-        return [
+        return array_merge($this->meta, [
             'component' => $this->component,
             'handle' => $this->getHandle(),
             'options' => $this->options(request()),
-            'builtin' => false,
-        ];
+            'builtin' => $this->builtin,
+        ]);
     }
 
     public function options($request)

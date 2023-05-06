@@ -1,9 +1,12 @@
 <template>
     <div>
+        <div class="flex">
+            <component v-for="card in metrics" :key="card.handle" :is="card.component" v-bind="card" v-model="metricValues[card.handle]" />
+        </div>
         <span v-for="filter in filters" :key="filter.handle">
             <component v-if="!filter.builtin" :is="filter.component" v-bind="filter" v-model="filterValues[filter.handle]" />
         </span>
-        <antfusion-datatable v-bind="$props" :filters="filterValues">
+        <antfusion-datatable v-bind="$props" :filters="filterValues" @update-metrics="updateMetrics">
             <template v-slot:bulkActions="{ parent }">
                 <div class="ml-auto">
                     <select name="bulk-actions" id="bulk-actions" class="field-select field-select--sm field-select--bordered" v-model="action" @change="initForm(parent); showBulkActionConfirmation = true">
@@ -73,6 +76,9 @@ export default {
         bulk: {
             type: Boolean,
             default: true
+        },
+        metrics: {
+
         },
         filters: {
 
@@ -173,6 +179,7 @@ export default {
     data() {
         return {
             filterValues : {},
+            metricValues: {},
             form: null,
             action: null,
             fields: [],
@@ -188,6 +195,9 @@ export default {
         })
     },
     methods: {
+        updateMetrics(metricValues) {
+            this.metricValues = metricValues
+        },
         cancelBulkAction(dataTable) {
             this.action = null
             this.showBulkActionConfirmation = false

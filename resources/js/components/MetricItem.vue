@@ -29,12 +29,18 @@ export default {
     },
     computed: {
         valueString() {
-            return this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            if (this.value) {
+                return this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
         }
     }
 }
 </script>
 
 <style>
-
+    @media (min-width: 640px) {
+        .sm\:w-1\/4 {
+            width: 25%;
+        }
+    }
 </style>

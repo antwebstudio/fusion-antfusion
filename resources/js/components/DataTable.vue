@@ -17,6 +17,32 @@ export default {
         }
     },
     methods: {
+        getRecords() {
+            this.loading = true
+
+            return axios.get(`${this.endpoint}?${this.getQueryParameters()}`).then((response) => {
+                this.records = response.data.records.data
+                this.displayable = response.data.displayable
+                this.sortable = response.data.sortable
+                this.column_names = response.data.column_names
+                this.column_types = response.data.column_types
+                this.bulk_actions = response.data.bulk_actions
+                this.bulk_actions_exempt = response.data.bulk_actions_exempt
+                this.pagination.totalRecords = response.data.records.total
+                this.pagination.totalPages = response.data.records.last_page
+
+                this.$emit('update-metrics', response.data.metrics)
+
+                this.loading = false
+                this.initialLoad = false
+
+                if (this.refresh && ! self._timer) {
+                    this._timer = setTimeout(() => this.getRecords(), this.refresh)
+                }
+
+                this.$emit('loaded', this.records)
+            })
+        },
         getQueryParameters() {
             let params = {
                 sort:    (this.sort.order === 'desc' ? '-' : '') + this.sort.key,
@@ -26,7 +52,11 @@ export default {
 
             if (this.filters) {
                 Object.keys(this.filters).forEach((key) => {
-                    params['filter['+ key + ']'] = this.filters[key]
+                    if (typeof(this.filters[key]) == 'object') {
+                        params['filter['+ key + '][]'] = this.filters[key]
+                    } else {
+                        params['filter['+ key + ']'] = this.filters[key]
+                    }
                 })
             }
 

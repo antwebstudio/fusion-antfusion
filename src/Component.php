@@ -44,6 +44,7 @@ class Component {
         $component = $this->component ?? Str::kebab(class_basename(static::class));
         return array_merge($this->meta, [
             'component' => $component,
+            'handle' => $this->getHandle(),
             'components' => $this->childrenToArray(),
         ]);
     }

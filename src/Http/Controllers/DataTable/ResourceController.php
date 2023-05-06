@@ -11,6 +11,24 @@ class ResourceController extends DataTableController {
     public function resource() {
         return app('resources.'.request()->resource);
     }
+    
+    public function index(Request $request)
+    {
+        return response()->json([
+            'displayable'         => array_values($this->getDisplayableColumns()),
+            'sortable'            => array_values($this->getSortable()),
+            'column_names'        => $this->getCustomColumnNames(),
+            'column_types'        => $this->getCustomColumnTypes(),
+            'records'             => $this->getRecords($request),
+            'bulk_actions'        => $this->getBulkActions(),
+            'bulk_actions_exempt' => $this->getExemptFromBulkActions(),
+            'metrics'             => $this->getMetrics(),
+        ]);
+    }
+
+    public function getMetrics() {
+        return $this->resource()->getMetrics();
+    }
 
     public function getRecords(Request $request) {
         $paginate = parent::getRecords($request);
