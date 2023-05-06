@@ -14,7 +14,7 @@ trait HasMetrics
         $metrics = [];
         foreach ($this->metrics() as $metric) {
             $metric->setParent($this);
-            $metrics[$metric->getHandle()] = $metric->calculate(request());
+            $metrics[$metric->getHandle()] = $metric->calculateAndFormat(request());
         }
 
         return $metrics;

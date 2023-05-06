@@ -26,12 +26,19 @@ export default {
         url: {
 
         },
+        format: {
+            default: false
+        },
+        decimalDigits: {
+            default: 0
+        }
     },
     computed: {
         valueString() {
-            if (this.value) {
-                return this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            if (this.value && this.format) {
+                return Number(this.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
+            return this.value
         }
     }
 }
