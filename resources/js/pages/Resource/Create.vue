@@ -17,7 +17,7 @@
 
 <script>
     import Form from '@/services/Form'
-    import SharedForm from './SharedForm'
+    import SharedForm from './SharedForm.vue'
 
     export default {
         head: {

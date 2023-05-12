@@ -1,10 +1,11 @@
 <script> 
-import DataTable from '@/ui/Table/Table'
+import DataTable from '@/ui/Table/Table.vue'
 import queryString from 'query-string'
 
 export default {
     props: {
         filters: {
+            type: Array,
         },
     },
     extends: DataTable,

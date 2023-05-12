@@ -68,6 +68,7 @@
 import Form from "@/services/Form"
 
 export default {
+    emits: [],
     props: {
         id: {
             required: true,
@@ -84,7 +85,7 @@ export default {
 
         },
         refresh: {
-            type: Number|Boolean,
+            type: [Number, Boolean],
             default: false
         },
         noRecords: {

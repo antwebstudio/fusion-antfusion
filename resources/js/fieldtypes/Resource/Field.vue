@@ -39,9 +39,9 @@
     import Form from '@/services/Form'
     import FieldMixin from '@/mixins/fieldtypes/field'
     // import the component
-    import Treeselect from '@riophae/vue-treeselect'
+    import Treeselect from '@truongdq54/vue3-treeselect'
     // import the styles
-    import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+    import '@truongdq54/vue3-treeselect/dist/vue3-treeselect.css'
 
     export default {
         name: 'resource-fieldtype',

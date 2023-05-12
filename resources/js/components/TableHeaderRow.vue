@@ -1,6 +1,8 @@
 <template>
-    <tr v-html="content">
-        <component v-for="component in children" :key="component.handle" />
+    <tr v-if="content" v-html="content">
+    </tr>
+    <tr v-else >
+        <!-- <component v-for="component in children" :key="component.handle" /> -->
     </tr>
 </template>
 

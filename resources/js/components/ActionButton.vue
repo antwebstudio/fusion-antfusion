@@ -1,5 +1,5 @@
 <template>
-    <fragment>
+    <div>
         <ui-dropdown-link v-bind="$props" v-if="asDropdown" @click="openModalForm()">{{ text }}</ui-dropdown-link>
         <ui-button v-else :variant="variant" @click.prevent="openModalForm()">{{ text }}</ui-button>
 
@@ -24,7 +24,7 @@
                 </template>
             </ui-modal>
         </portal>
-    </fragment>
+    </div>
 </template>
 
 <script>
@@ -32,6 +32,7 @@ import Form from "@/services/Form"
 import _ from "lodash"
 
 export default {
+    emits: [],
     props: {
         id: {
 
@@ -154,10 +155,10 @@ export default {
             })
         },
         closeModal(name, value) {
-            this.$bus.$emit('toggle-modal-' + name, value)
+            this.$bus.$emit('toggle-modal-' + name, {value: value})
         },
         openModal(name, value) {
-            this.$bus.$emit('toggle-modal-' + name, value)
+            this.$bus.$emit('toggle-modal-' + name, {value: value})
         },
         modalChanged(isActive) {
             if (isActive && this.resetWhenClose) {
@@ -165,7 +166,9 @@ export default {
             }
         },
         toggle() { // Needed so that ui-dropdown-link can work normally
-            this.$parent.toggle()
+            if (this.$parent && this.$parent.toggle) {
+                this.$parent.toggle()
+            }
         },
     }
 }

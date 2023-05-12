@@ -22,6 +22,7 @@
 
 <script>
 export default {
+    emits: [],
     props: {
         cssClass: {
 
@@ -123,10 +124,10 @@ export default {
             })
         },
         closeModal(name, value) {
-            this.$bus.$emit('toggle-modal-' + name, value)
+            this.$bus.$emit('toggle-modal-' + name, {value: value})
         },
         openModal(name, value) {
-            this.$bus.$emit('toggle-modal-' + name, value)
+            this.$bus.$emit('toggle-modal-' + name, {value: value})
         },
     }
 }
