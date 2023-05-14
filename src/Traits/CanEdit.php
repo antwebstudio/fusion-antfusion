@@ -8,9 +8,17 @@ trait CanEdit {
     protected $nameColumnHandle;
 
     public function update(Request $request) {
+        $this->prepareForValidation($request);
         $validated = $request->validate($this->getRules());
         $model = $this->model()->withoutGlobalScopes()->find($request->resourceId);
         $model->update($validated);
+
+        return $this->afterUpdate($request, $model);
+    }
+
+    protected function afterUpdate($request, $model)
+    {
+        return $this->afterSave($request, $model);
     }
 
     public function editMeta($resourceId) {

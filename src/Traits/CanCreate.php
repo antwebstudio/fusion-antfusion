@@ -7,7 +7,13 @@ use Addons\AntFusion\Http\Resources\ResourceResource;
 trait CanCreate {
     public function create(Request $request) {
         $validated = $request->validate($this->getRules());
-        $this->model()->create(array_merge($this->fieldsDefaultValues(), $validated));
+        $model = $this->model()->create(array_merge($this->fieldsDefaultValues(), $validated));
+        return $this->afterCreate($request, $model);
+    }
+
+    protected function afterCreate($request, $model)
+    {
+        return $this->afterSave($request, $model);
     }
 
     public function createMeta() {

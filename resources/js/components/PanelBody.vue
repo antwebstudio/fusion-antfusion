@@ -19,3 +19,17 @@
         name: 'panel-body',
     }
 </script>
+
+<style>
+    .card {
+        background-color: transparent;
+        border: none;
+    }
+
+    .card__body {
+        background-color: white;
+        border: 1px solid ;
+        border-color: rgba(229,231,235,var(--tw-border-opacity));    
+        border-radius: 0.375rem;
+    }
+</style>

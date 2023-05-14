@@ -4,6 +4,7 @@ namespace Addons\AntFusion;
 use Fusion\Facades\Menu;
 use App\Models\Instructor;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Addons\AntFusion\Http\Resources\ResourceResource;
 
 abstract class Resource {
@@ -162,4 +163,11 @@ abstract class Resource {
     public function getPath() {
         return 'resources:'.$this->getSlug();
     }
+
+    protected function prepareForValidation(Request $request) {
+    }
+
+    protected function afterSave(Request $request, $model) {
+        
+    } 
 }

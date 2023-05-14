@@ -16,7 +16,6 @@ class Panel extends Component implements PanelInterface {
     protected $component = 'ui-card';
 
     protected $childComponent = 'panel-body';
-    
 
     public function __construct($label, $fields, $slug = null)
     {
@@ -54,5 +53,39 @@ class Panel extends Component implements PanelInterface {
 
     public function fields() {
         return $this->fields;
+    }
+
+    public function withLeftPadding($padding = '0.5rem') {
+        return $this->withStyle([
+            'padding-left' => $padding,
+        ]);
+    }
+
+    public function withRightPadding($padding = '0.5rem') {
+        return $this->withStyle([
+            'padding-right' => $padding,
+        ]);
+    }
+    
+    protected function withStyle($style = []) {
+        return $this->withMeta([
+            'style' => array_merge($this->meta['style'] ?? [], $style),
+        ]);
+    }
+
+    public function width($width) {
+        return $this->withStyle([
+            'width' => static::parseWidthPercentage($width),
+        ]);
+    }
+
+    public static function parseWidthPercentage($value) {
+        $value = str_replace(' ', '', $value);
+        if (preg_match('/^\d+\/\d+$/i', $value)) {
+            $value = explode('/', $value);
+            $value = $value[0] / $value[1] * 100;
+        }
+
+        return $value.'%';
     }
 }

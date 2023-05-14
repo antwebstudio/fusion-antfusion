@@ -30,20 +30,22 @@
                 </div>
             </portal>
 
-            <div v-for="field, index in sections.body" :key="index">
-                <component v-if="field.is_panel" :is="field.component" v-bind="field" 
-                    :form="form"
-                    >
-                    {{ field.text }}
-                </component>
+            <div class="flex flex-wrap">
+                <fragment v-for="field, index in sections.body" :key="index">
+                    <component v-if="field.is_panel" :is="field.component" v-bind="field" 
+                        :form="form"
+                        >
+                        {{ field.text }}
+                    </component>
 
-                <component v-else v-model="form[field.field.handle]" :is="field.component" v-bind="field" 
-                    :form="form"
-                    :has-error="form.errors.has(field.field.handle)"
-                    :error-message="form.errors.get(field.field.handle)"
-                    >
-                    {{ field.text }}
-                </component>
+                    <component v-else v-model="form[field.field.handle]" :is="field.component" v-bind="field" 
+                        :form="form"
+                        :has-error="form.errors.has(field.field.handle)"
+                        :error-message="form.errors.get(field.field.handle)"
+                        >
+                        {{ field.text }}
+                    </component>
+                </fragment>
             </div>
 
             <portal to="sidebar-right">
