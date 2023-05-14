@@ -190,6 +190,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -2211,66 +2213,71 @@ var render = function () {
             0
           ),
           _vm._v(" "),
-          _vm._l(_vm.sections.body, function (field, index) {
-            return _c(
-              "div",
-              { key: index },
-              [
-                field.is_panel
-                  ? _c(
-                      field.component,
-                      _vm._b(
-                        { tag: "component", attrs: { form: _vm.form } },
-                        "component",
-                        field,
-                        false
-                      ),
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(field.text) +
-                            "\n                "
+          _c(
+            "div",
+            { staticClass: "flex flex-wrap" },
+            _vm._l(_vm.sections.body, function (field, index) {
+              return _c(
+                "fragment",
+                { key: index },
+                [
+                  field.is_panel
+                    ? _c(
+                        field.component,
+                        _vm._b(
+                          { tag: "component", attrs: { form: _vm.form } },
+                          "component",
+                          field,
+                          false
                         ),
-                      ]
-                    )
-                  : _c(
-                      field.component,
-                      _vm._b(
-                        {
-                          tag: "component",
-                          attrs: {
-                            form: _vm.form,
-                            "has-error": _vm.form.errors.has(
-                              field.field.handle
-                            ),
-                            "error-message": _vm.form.errors.get(
-                              field.field.handle
-                            ),
-                          },
-                          model: {
-                            value: _vm.form[field.field.handle],
-                            callback: function ($$v) {
-                              _vm.$set(_vm.form, field.field.handle, $$v)
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(field.text) +
+                              "\n                    "
+                          ),
+                        ]
+                      )
+                    : _c(
+                        field.component,
+                        _vm._b(
+                          {
+                            tag: "component",
+                            attrs: {
+                              form: _vm.form,
+                              "has-error": _vm.form.errors.has(
+                                field.field.handle
+                              ),
+                              "error-message": _vm.form.errors.get(
+                                field.field.handle
+                              ),
                             },
-                            expression: "form[field.field.handle]",
+                            model: {
+                              value: _vm.form[field.field.handle],
+                              callback: function ($$v) {
+                                _vm.$set(_vm.form, field.field.handle, $$v)
+                              },
+                              expression: "form[field.field.handle]",
+                            },
                           },
-                        },
-                        "component",
-                        field,
-                        false
-                      ),
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(field.text) +
-                            "\n                "
+                          "component",
+                          field,
+                          false
                         ),
-                      ]
-                    ),
-              ],
-              1
-            )
-          }),
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(field.text) +
+                              "\n                    "
+                          ),
+                        ]
+                      ),
+                ],
+                1
+              )
+            }),
+            1
+          ),
           _vm._v(" "),
           _c(
             "portal",
@@ -2338,7 +2345,7 @@ var render = function () {
             0
           ),
         ],
-        2
+        1
       ),
     ],
     1
