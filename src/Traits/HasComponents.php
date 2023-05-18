@@ -9,7 +9,7 @@ trait HasComponents {
     public function componentsArray() {
         $array = [];
         foreach ($this->components() as $component) {
-            $array[] = $component->toArray();
+            $array[] = $component->setParent($this)->toArray();
         }
         return $array;
     }

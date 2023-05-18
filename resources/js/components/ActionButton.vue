@@ -1,7 +1,7 @@
 <template>
     <fragment>
-        <ui-dropdown-link v-bind="$props" v-if="asDropdown" @click="openModalForm()">{{ text }}</ui-dropdown-link>
-        <ui-button v-else :variant="variant" @click.prevent="openModalForm()">{{ text }}</ui-button>
+        <ui-dropdown-link v-bind="$props" :class="classes" v-if="asDropdown" @click="openModalForm()"><slot>{{ text }}</slot></ui-dropdown-link>
+        <ui-button v-bind="$props" :class="classes" v-else :variant="variant" @click.prevent="openModalForm()"><slot>{{ text }}</slot></ui-button>
 
         <portal to="modals">
             <ui-modal :name="modalName" :title="modalTitle" :key="modalName" @input="modalChanged">
@@ -75,6 +75,12 @@ export default {
         load_record: {
             default: {}
         },
+        classes: {
+
+        },
+        path: { // Path to get the action object at backend
+
+        },
     },
     data() {
         return {
@@ -120,6 +126,7 @@ export default {
             this.loading = true
             let params = this.form.formdata()
             params.append('route', this.route)
+            params.append('path', this.path)
             if (this.record.id) {
                 params.append('resourceIds[]', this.record.id)
             }

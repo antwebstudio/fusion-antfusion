@@ -13,7 +13,7 @@ trait HasActions {
         if (isset($this->initializedActions[$actionName])) {
             return $this->initializedActions[$actionName]->performAction($request);
         } else {
-            throw new \Exception('Action ' . $actionName . ' is not registered');
+            throw new \Exception('Action ' . $actionName . ' is not registered (for '.get_class($this).')');
         }
     }
 

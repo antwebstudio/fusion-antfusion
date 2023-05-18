@@ -23,6 +23,11 @@ class PageController extends Controller
 
     public function performAction(Request $request)
     {
+        if ($request->path) {
+            $page = app('page.'.$request->page);
+            $action = $page->getComponentByPath(Str::after($request->path, '.'));
+            return $action->performAction($request);
+        }
         $page = app('page.'.$request->page);
         return $page->performAction($request->action, $request);
     }

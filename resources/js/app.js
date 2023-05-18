@@ -29,6 +29,7 @@ window.Fusion.booting(function(Vue, router, store) {
     Vue.component('antfusion-simple-wizard', () => import('./components/SimpleWizard'))
     Vue.component('antfusion-html-table', () => import('./components/Table'))
     Vue.component('antfusion-html-table-header-row', () => import('./components/TableHeaderRow'))
+    Vue.component('antfusion-select', () => import('./components/Select'))
     Vue.component('metric-item', () => import('./components/MetricItem'))
     Vue.component('component-container', () => import('./components/ComponentContainer'))
 

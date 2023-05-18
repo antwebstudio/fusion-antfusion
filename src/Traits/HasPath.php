@@ -32,6 +32,8 @@ trait HasPath {
             $components = $this->fields();
         } else if (method_exists($this, 'components')) {
             $components = $this->components();
+        } else if (method_exists($this, 'actions')) {
+            $components = $this->actions();
         } else {
             throw new \Exception('Component do not have any children.');
         }

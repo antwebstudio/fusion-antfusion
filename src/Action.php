@@ -124,6 +124,7 @@ abstract class Action {
             'cssClass' => $this->getCssClass(),
             'asDropdown' => $this->dropdown,
             'dropdown' => $this->dropdown,
+            'path' => $this->getPath(),
         ]);
     }
 
