@@ -2,7 +2,7 @@
 namespace Addons\AntFusion\Components;
 
 use Addons\AntFusion\Component;
-use Addons\AntFusion\Contracts\Panel;
+use Addons\AntFusion\Contracts\Panel as PanelContract;
 
 /***
 Example usage:
@@ -14,7 +14,7 @@ Example usage:
             new \App\AntFusion\Reports\Report2,
         ])
  */
-class Tabs extends Component implements Panel {
+class Tabs extends Component implements PanelContract {
     use \Addons\AntFusion\Traits\HasFields;
 
     protected $tabs = [];
@@ -22,6 +22,11 @@ class Tabs extends Component implements Panel {
     protected $component = 'ui-tabs';
 
     protected $tabComponent = 'ui-tab';
+
+    public function __construct(... $arguments)
+    {
+        $this->width('100%');
+    }
 
     public function toArray() {
         $children = [];
@@ -40,13 +45,13 @@ class Tabs extends Component implements Panel {
             $isFirst = false;
         }
 
-        return [
+        return array_merge($this->meta, [
             'is_panel' => true,
             'component' => 'nested-component',
             'as' => $this->component,
             'children' => $children,
             'fields' => $this->flatternFieldsArray(),
-        ];
+        ]);
     }
 
     public function addTab($name, $components) {
@@ -60,5 +65,17 @@ class Tabs extends Component implements Panel {
             $fields = array_merge($fields, $components);
         }
         return $fields;
+    }
+
+    public function width($width) {
+        return $this->withStyle([
+            'width' => Panel::parseWidthPercentage($width),
+        ]);
+    }
+    
+    protected function withStyle($style = []) {
+        return $this->withMeta([
+            'style' => array_merge($this->meta['style'] ?? [], $style),
+        ]);
     }
 }

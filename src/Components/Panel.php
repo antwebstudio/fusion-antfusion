@@ -24,6 +24,7 @@ class Panel extends Component implements PanelInterface {
         if (isset($slug)) {
             $this->slug = $slug;
         }
+        $this->width('100%');
     }
 
     public function toArray() {
@@ -84,6 +85,8 @@ class Panel extends Component implements PanelInterface {
         if (preg_match('/^\d+\/\d+$/i', $value)) {
             $value = explode('/', $value);
             $value = $value[0] / $value[1] * 100;
+        } else if (Str::contains($value, '%')) {
+            return $value;
         }
 
         return $value.'%';
