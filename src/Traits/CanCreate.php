@@ -6,6 +6,7 @@ use Addons\AntFusion\Http\Resources\ResourceResource;
 
 trait CanCreate {
     public function create(Request $request) {
+        $this->prepareForValidation($request);
         $validated = $request->validate($this->getRules());
         $model = $this->model()->create(array_merge($this->fieldsDefaultValues(), $validated));
         return $this->afterCreate($request, $model);

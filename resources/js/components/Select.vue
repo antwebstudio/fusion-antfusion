@@ -1,5 +1,6 @@
 <template>
     <ui-select-group
+        v-model="model"
         :filterable="filterable"
         :options="options">
         <template v-slot:footer>
@@ -13,6 +14,10 @@
 <script>
 export default {
     props: {
+        value: {
+            required: false,
+            default: null
+        },
         actions: {
 
         },
@@ -22,6 +27,17 @@ export default {
         options: {
             default: [],
         },
+    },
+    computed: {
+        model: {
+            get() {
+                return this.value
+            },
+
+            set(value) {
+                this.$emit('input', value)
+            }
+        }
     },
     methods: {
         addNew() {

@@ -12,16 +12,7 @@
             </span>
         </portal>
 
-        <div v-if="meta && meta.components">
-            <component
-                :loading="loading"
-                @load="onLoading" @loaded="onLoaded"
-                v-for="(component, index) in meta.components" :key="index"
-                :is="component.component"
-                v-bind="component"
-                >
-            </component>
-        </div>
+        <component-container :components="meta.components" />
     </div>
 </template>
 

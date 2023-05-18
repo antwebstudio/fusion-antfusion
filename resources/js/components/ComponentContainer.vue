@@ -1,5 +1,5 @@
 <template>
-    <div v-bind="$props">
+    <div v-bind="$props" class="flex flex-wrap">
         <component
             :loading="loading"
             @load="onLoading" @loaded="onLoaded"

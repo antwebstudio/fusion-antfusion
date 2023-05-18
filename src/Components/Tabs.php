@@ -66,16 +66,28 @@ class Tabs extends Component implements PanelContract {
         }
         return $fields;
     }
-
-    public function width($width) {
-        return $this->withStyle([
-            'width' => Panel::parseWidthPercentage($width),
-        ]);
-    }
     
     protected function withStyle($style = []) {
         return $this->withMeta([
             'style' => array_merge($this->meta['style'] ?? [], $style),
         ]);
+    }
+
+    protected function withClass($className) {
+        $class = $this->meta['class'] ?? [];
+        $class = is_array($class) ? $class : [$class];
+        return $this->withMeta([
+            'class' => array_merge($class, [$className]),
+        ]);
+    }
+
+    public function width($width, $breakpoint = 'md') {
+        if ($width == '100%') {
+            return $this->withClass('w-full');
+        } else if (preg_match('/^\d+\/\d+$/i', $width)) {
+            return $this->withClass($breakpoint.':w-'.$width);
+        } else {
+            throw new \Exception('Invalid width: '.$width);
+        }
     }
 }

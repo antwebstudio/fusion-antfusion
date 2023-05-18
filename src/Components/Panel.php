@@ -56,16 +56,16 @@ class Panel extends Component implements PanelInterface {
         return $this->fields;
     }
 
-    public function withLeftPadding($padding = '0.5rem') {
-        return $this->withStyle([
-            'padding-left' => $padding,
-        ]);
+    public function withLeftPadding($padding = '2', $breakpoint = 'md') {
+        return $this->withClass($breakpoint.':pl-'.$padding);
     }
 
-    public function withRightPadding($padding = '0.5rem') {
-        return $this->withStyle([
-            'padding-right' => $padding,
-        ]);
+    public function withRightPadding($padding = '2', $breakpoint = 'md') {
+        return $this->withClass($breakpoint.':pr-'.$padding);
+    }
+    
+    public function withHorizontalPadding($padding = '2', $breakpoint = 'md') {
+        return $this->withClass($breakpoint.':px-'.$padding);
     }
     
     protected function withStyle($style = []) {
@@ -74,10 +74,22 @@ class Panel extends Component implements PanelInterface {
         ]);
     }
 
-    public function width($width) {
-        return $this->withStyle([
-            'width' => static::parseWidthPercentage($width),
+    protected function withClass($className) {
+        $class = $this->meta['class'] ?? [];
+        $class = is_array($class) ? $class : [$class];
+        return $this->withMeta([
+            'class' => array_merge($class, [$className]),
         ]);
+    }
+
+    public function width($width, $breakpoint = 'md') {
+        if ($width == '100%') {
+            return $this->withClass('w-full');
+        } else if (preg_match('/^\d+\/\d+$/i', $width)) {
+            return $this->withClass($breakpoint.':w-'.$width);
+        } else {
+            throw new \Exception('Invalid width: '.$width);
+        }
     }
 
     public static function parseWidthPercentage($value) {
