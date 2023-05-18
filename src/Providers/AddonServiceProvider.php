@@ -46,7 +46,7 @@ class AddonServiceProvider extends ServiceProvider
                 public_path("addons/{$addonName}")
             );
         }
-        \Fusion::asset('/addons/AntFusion/js/app.js');
+        \Fusion::asset(mix('js/app.js', 'addons/AntFusion')->toHtml());
     }
 
     protected function resourcesIn($path) {

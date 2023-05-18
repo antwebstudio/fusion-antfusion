@@ -3,7 +3,8 @@
 let mix = require('laravel-mix');
 let path = require('path');
 
-mix.js('resources/js/app.js', 'public/js').vue().setPublicPath('public')   
+mix.js('resources/js/app.js', 'public/js').vue().setPublicPath('public')  
+    .version()
     .webpackConfig({
         output: {
             publicPath: '/addons/AntFusion/',
