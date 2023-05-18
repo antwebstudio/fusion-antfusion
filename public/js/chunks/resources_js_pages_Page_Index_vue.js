@@ -29,15 +29,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -233,28 +224,7 @@ var render = function () {
         ),
       ]),
       _vm._v(" "),
-      _vm.meta && _vm.meta.components
-        ? _c(
-            "div",
-            _vm._l(_vm.meta.components, function (component, index) {
-              return _c(
-                component.component,
-                _vm._b(
-                  {
-                    key: index,
-                    tag: "component",
-                    attrs: { loading: _vm.loading },
-                    on: { load: _vm.onLoading, loaded: _vm.onLoaded },
-                  },
-                  "component",
-                  component,
-                  false
-                )
-              )
-            }),
-            1
-          )
-        : _vm._e(),
+      _c("component-container", { attrs: { components: _vm.meta.components } }),
     ],
     1
   )

@@ -23,14 +23,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
+    value: {
+      required: false,
+      "default": null
+    },
     actions: {},
     filterable: {
       "default": true
     },
     options: {
       "default": []
+    }
+  },
+  computed: {
+    model: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(value) {
+        this.$emit('input', value);
+      }
     }
   },
   methods: {
@@ -150,6 +165,13 @@ var render = function () {
         proxy: true,
       },
     ]),
+    model: {
+      value: _vm.model,
+      callback: function ($$v) {
+        _vm.model = $$v
+      },
+      expression: "model",
+    },
   })
 }
 var staticRenderFns = []
