@@ -13,6 +13,7 @@ class Field {
     
     public $label;
     public $handle;
+    protected $slug;
 
     protected $id;
     protected $component;
@@ -29,7 +30,7 @@ class Field {
     }
 
     public function getSlug() {
-        return Str::kebab($this->handle);
+        return $this->slug ?? Str::kebab($this->handle);
     }
 
     public static function make(...$arguments)

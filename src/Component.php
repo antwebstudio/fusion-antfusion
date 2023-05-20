@@ -16,6 +16,8 @@ class Component {
 
     protected $component;
 
+    protected $handle;
+
     public function setId($id) {
         $this->id = $id;
         return $this;
@@ -28,7 +30,7 @@ class Component {
     }
 
     public function getHandle() {
-        return Str::snake(class_basename(static::class));
+        return $this->handle ?? Str::snake(class_basename(static::class));
     }
 
     public function getSlug() {

@@ -17,6 +17,10 @@ class Panel extends Component implements PanelInterface {
 
     protected $childComponent = 'panel-body';
 
+    protected $alignRight = false;
+
+    protected $width;
+
     public function __construct($label, $fields, $slug = null)
     {
         $this->label = $label;
@@ -31,14 +35,15 @@ class Panel extends Component implements PanelInterface {
         $children = [];
         // foreach ($this->fields as $name => $tab) {
             $grandchildren = [];
-            foreach ($this->fields as $component) {
-                $grandchildren[] = $component->setParent($this)->toArray();
+            foreach ($this->fields as $index => $component) {
+                $grandchildren[] = $component->setParent($this, $index, 'f')->toArray();
             }
             $children[] = [
                 'component' => $this->childComponent,
                 // 'name' => $name,
                 'label' => $this->label,
                 'children' => $grandchildren,
+                'class' => $this->alignRight ? $this->width : '',
             ];
         // }
 
@@ -67,6 +72,13 @@ class Panel extends Component implements PanelInterface {
     public function withHorizontalPadding($padding = '2', $breakpoint = 'md') {
         return $this->withClass($breakpoint.':px-'.$padding);
     }
+
+    public function alignRight($breakpoint = 'md') {
+        $this->alignRight = true;
+        return $this->withClass($breakpoint.':flex-row-reverse')
+            ->withClass($breakpoint.':w-full')
+            ->withClass($breakpoint.':flex');
+    }
     
     protected function withStyle($style = []) {
         return $this->withMeta([
@@ -84,8 +96,10 @@ class Panel extends Component implements PanelInterface {
 
     public function width($width, $breakpoint = 'md') {
         if ($width == '100%') {
+            $this->width = 'w-full';
             return $this->withClass('w-full');
         } else if (preg_match('/^\d+\/\d+$/i', $width)) {
+            $this->width = $breakpoint.':w-'.$width;
             return $this->withClass($breakpoint.':w-'.$width);
         } else {
             throw new \Exception('Invalid width: '.$width);
