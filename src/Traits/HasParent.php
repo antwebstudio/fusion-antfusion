@@ -3,9 +3,13 @@ namespace Addons\AntFusion\Traits;
 
 trait HasParent {
     protected $parent;
+    protected $indexInParent;
 
-    public function setParent($parent) {
+    public function setParent($parent, $indexInParent = null, $indexPrefix = '') {
         $this->parent = $parent;
+        if (isset($indexInParent) && $indexPrefix) {
+            $this->indexInParent = $indexPrefix.'_'.$indexInParent;
+        }
         return $this;
     }
 

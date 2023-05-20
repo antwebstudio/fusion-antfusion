@@ -19,7 +19,7 @@ trait HasDataTable {
         foreach ($this->getFieldsForDataTable() as $field) {
             if (!is_string($field)) {
                 if ($field->shouldShowIn('index') && !$field->isHidden()) {
-                    $columns[] = $field->handle;
+                    $columns[] = $field->getHandle();
                 }
             } else {
                 $columns[] = $field;
@@ -29,7 +29,7 @@ trait HasDataTable {
     }
 
     protected function getFieldsForDataTable() {
-        return $this->resolveFields();
+        return $this->resolveFields(true);
     }
 
     public function getFilterable() {

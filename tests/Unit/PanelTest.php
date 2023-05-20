@@ -22,7 +22,10 @@ class PanelTest extends TestCase
             new PanelTestTestComponent('test'),
         ]);
 
-        $component = $panel->getComponentByPath('test');
+        $array = $panel->toArray();
+        $path = $array['fields'][0]['path'];
+       
+        $component = $panel->getComponentByPath(Str::after($path, '.'));
         
         $this->assertEquals('test', $component->getSlug());
     }
@@ -37,9 +40,13 @@ class PanelTest extends TestCase
             ]),
         ]);
 
-        $panel->toArray();
+        $array = $panel->toArray();
 
-        $this->assertEquals($component->getPath(), $panel->getComponentByPath(Str::after($component->getPath(), '.'))->getPath());
+        $path = $array['fields'][0]['path'];
+        
+        $component = $panel->getComponentByPath(Str::after($path, '.'));
+
+        $this->assertEquals(PanelTestTestComponent::class, get_class($component));
     }
 }
 
@@ -57,6 +64,8 @@ class PanelTestTestComponent extends Component {
     }
 
     public function toArray() {
-        
+        return [
+            'path' => $this->getPath(),
+        ];
     }
 }

@@ -63,8 +63,8 @@ class SimpleWizard extends Component implements Panel, JsonSerializable {
         $steps = [];
         foreach ($this->steps as $fields) {
             $step = [];
-            foreach ($fields as $field) {
-                $step[] = $field->setParent($this)->toArray();
+            foreach ($fields as $index => $field) {
+                $step[] = $field->setParent($this, $index, 'f')->toArray();
             }
             $steps[] = [
                 'children' => $step,

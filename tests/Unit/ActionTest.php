@@ -64,6 +64,14 @@ class ActionTest extends TestCase
         $this->assertTrue($action->isDropdown());
         $this->assertEquals('action-button', $this->invokeMethod($action, 'getComponent'));
     }
+
+    public function testActionUrl() {
+        $resource = new TestAntFusionActionTestResource;
+        $array = $resource->createMeta();
+        $url = $array['children'][0]['actions'][0]['url'];
+
+        $this->assertTrue(strlen($url) > 0);
+    }
 }
 
 class TestAntFusionActionTestAction extends Action
@@ -83,4 +91,36 @@ class TestAntFusionActionTestActionWithFields extends Action
 class TestAntFusionActionTestField extends Field
 {
     
+}
+
+class TestAntFusionActionTestField2 extends Field
+{
+    use \Addons\AntFusion\Traits\HasActions;
+    
+    public function toArray()
+    {
+        return array_merge(parent::toArray(), [
+            'actions' => $this->actionsArray(),
+        ]);
+    }
+    
+    public function actions() {
+        return [
+            (new TestAntFusionActionTestAction)->standalone(),
+        ];
+    }
+
+    public function getActionUrl($actionSlug) 
+    {
+        return $this->parent->getActionUrl($actionSlug);
+    }
+}
+
+class TestAntFusionActionTestResource extends Resource
+{
+    public function fields() {
+        return [
+            TestAntFusionActionTestField2::make('Test', 'test'),
+        ];
+    }
 }

@@ -36,6 +36,10 @@ class ResourceController extends Controller
     public function performAction(Request $request)
     {
         $resource = app('resources.'.$request->resource);
+        if ($request->path) {
+            $action = $resource->getComponentByPath(Str::after($request->path, '.'));
+            return $action->performAction($request);
+        }
         return $resource->performAction($request->action, $request);
     }
 

@@ -8,8 +8,8 @@ trait HasComponents {
 
     public function componentsArray() {
         $array = [];
-        foreach ($this->components() as $component) {
-            $array[] = $component->setParent($this)->toArray();
+        foreach ($this->components() as $index => $component) {
+            $array[] = $component->setParent($this, $index, 'c')->toArray();
         }
         return $array;
     }

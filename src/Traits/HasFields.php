@@ -12,7 +12,6 @@ trait HasFields {
         $fieldsArray = [];
         foreach ($fields as $field) {
             if (!is_string($field) && (!isset($scenario) || $field->shouldShowIn($scenario))) {
-                $field->setParent($this);
                 $fieldsArray[] = $field->setScenario($scenario)->toArray();
             }
         }
@@ -20,18 +19,19 @@ trait HasFields {
     }
 
     protected function flatternFieldsArray($scenario = null) {
-        return $this->convertFieldsToArray($this->resolveFields(), $scenario);
+        return $this->convertFieldsToArray($this->resolveFields(true), $scenario);
     }
 
     protected function fieldsArray($scenario = null) {
-        return $this->convertFieldsToArray($this->fields(), $scenario);
+        return $this->convertFieldsToArray($this->resolveFields(false), $scenario);
     }
 
-    public function resolveFields() {
+    public function resolveFields($flattern = false) {
         $fields = [];
-        foreach ($this->fields() as $field) {
-            if ($field instanceof Panel) {
-                $fields = array_merge($fields, $field->resolveFields());
+        foreach ($this->fields() as $index => $field) {
+            $field->setParent($this, $index, 'f');
+            if ($field instanceof Panel && $flattern) {
+                $fields = array_merge($fields, $field->resolveFields(true));
             } else {
                 $fields[] = $field;
             }
@@ -41,7 +41,7 @@ trait HasFields {
 
     protected function fieldsRules($scenario = null) {
         $rules = [];
-        foreach ($this->resolveFields() as $field) {
+        foreach ($this->resolveFields(true) as $field) {
             if (!is_string($field) && (!isset($scenario) || $field->shouldShowIn($scenario))) {
                 $rules[$field->handle] = $field->setScenario($scenario)->getRules();
             }

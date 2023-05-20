@@ -2,12 +2,14 @@
 namespace Addons\AntFusion\Traits;
 
 use Illuminate\Support\Str;
+use Addons\AntFusion\Components\Panel;
 
 trait HasPath {
     protected $componentsBySlug = [];
 
     public function getPathSlug() {
-        return $this->id ?? $this->getSlug();
+        $slug = isset($this->indexInParent) ? $this->getSlug().'_'.$this->indexInParent : $this->getSlug();
+        return $this->id ?? $slug;
     }
 
     public function getPath() {
@@ -26,29 +28,36 @@ trait HasPath {
             return $this->getComponentBySlug($path);
         }
     }
-
     public function getComponentBySlug($slug) {
         if (method_exists($this, 'fields')) {
-            $components = $this->fields();
-        } else if (method_exists($this, 'components')) {
-            $components = $this->components();
-        } else if (method_exists($this, 'actions')) {
-            $components = $this->actions();
-        } else {
-            throw new \Exception('Component do not have any children.');
+            $component = $this->getComponentBySlugFrom($slug, $this->fields(), 'f');
+            if (isset($component)) return $component;
         }
-
         
+        if (method_exists($this, 'components')) {
+            $component = $this->getComponentBySlugFrom($slug, $this->components(), 'c');
+            if (isset($component)) return $component;
+        }
+        
+        if (method_exists($this, 'actions')) {
+            $component = $this->getComponentBySlugFrom($slug, $this->actions(), 'a');
+            if (isset($component)) return $component;
+        }
+        
+        throw new \Exception(get_class($this).' do not have children with handle: '.$slug);
+    }
+
+    public function getComponentBySlugFrom($slug, $components, $indexPrefix = '') {
         if (!isset($this->componentsBySlug[$slug])) {
-            foreach ($components as $component) {
-                $component->setParent($this);
-                $this->componentsBySlug[$component->getPathSlug()] = $component;
+            foreach ($components as $index => $component) {
+                if (is_object($component)) {
+                    $component->setParent($this, $index, $indexPrefix);
+                    $this->componentsBySlug[$component->getPathSlug()] = $component;
+                }
             }
         }
         if (isset($this->componentsBySlug[$slug])) {
             return $this->componentsBySlug[$slug];
-        } else {
-            throw new \Exception(get_class($this).' do not have component with handle: '.$slug);
         }
     }
 }
