@@ -31,6 +31,22 @@ class ResourceTest extends TestCase
         $this->assertEquals(['name', 'contact_number'], $resource->getDisplayableColumns());
     }
 
+    public function testGetDisplayableColumns4()
+    {
+        $resource = new TestAntFusionResource5;
+        $resource->getDisplayableColumns();
+
+        $this->assertEquals(['id', 'name'], $resource->getDisplayableColumns());
+    }
+
+    public function testGetCustomColumnNames1()
+    {
+        $resource = new TestAntFusionResource5;
+        $resource->getCustomColumnNames();
+
+        $this->assertEquals(['name' => 'Test Name'], $resource->getCustomColumnNames());
+    }
+
     public function testCreateMeta()
     {
         $resource = new TestAntFusionResource;
@@ -130,6 +146,17 @@ class TestAntFusionResource4 extends Resource
             (new TestAntFusionTestAction)->asDropdown(),
             (new TestAntFusionTestAction2)->standalone(),
             (new TestAntFusionTestAction3),
+        ];
+    }
+}
+
+class TestAntFusionResource5 extends Resource
+{
+    public function fields()
+    {
+        return [
+            'id',
+            ['name' => 'Test Name'],
         ];
     }
 }

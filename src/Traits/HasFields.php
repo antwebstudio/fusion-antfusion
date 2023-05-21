@@ -11,7 +11,7 @@ trait HasFields {
     protected function convertFieldsToArray($fields, $scenario = null) {
         $fieldsArray = [];
         foreach ($fields as $field) {
-            if (!is_string($field) && (!isset($scenario) || $field->shouldShowIn($scenario))) {
+            if (is_object($field) && (!isset($scenario) || $field->shouldShowIn($scenario))) {
                 $fieldsArray[] = $field->setScenario($scenario)->toArray();
             }
         }
@@ -29,7 +29,9 @@ trait HasFields {
     public function resolveFields($flattern = false) {
         $fields = [];
         foreach ($this->fields() as $index => $field) {
-            $field->setParent($this, $index, 'f');
+            if (is_object($field)) {
+                $field->setParent($this, $index, 'f');
+            }
             if ($field instanceof Panel && $flattern) {
                 $fields = array_merge($fields, $field->resolveFields(true));
             } else {
@@ -42,7 +44,7 @@ trait HasFields {
     protected function fieldsRules($scenario = null) {
         $rules = [];
         foreach ($this->resolveFields(true) as $field) {
-            if (!is_string($field) && (!isset($scenario) || $field->shouldShowIn($scenario))) {
+            if (is_object($field) && (!isset($scenario) || $field->shouldShowIn($scenario))) {
                 $rules[$field->handle] = $field->setScenario($scenario)->getRules();
             }
         }

@@ -17,10 +17,12 @@ trait HasDataTable {
     public function getDisplayableColumns() {
         $columns = [];
         foreach ($this->getFieldsForDataTable() as $field) {
-            if (!is_string($field)) {
+            if (is_object($field)) {
                 if ($field->shouldShowIn('index') && !$field->isHidden()) {
                     $columns[] = $field->getHandle();
                 }
+            } else if (is_array($field)) {
+                $columns[] = key($field);
             } else {
                 $columns[] = $field;
             }
@@ -39,10 +41,12 @@ trait HasDataTable {
     public function getSortable() {
         $columns = ['id'];
         foreach ($this->getFieldsForDataTable() as $field) {
-            if (!is_string($field)) {
+            if (is_object($field)) {
                 if ($field->isSortable()) {
                     $columns[] = $field->handle;
                 }
+            } else if (is_array($field)) {
+                $columns[] = key($field);
             } else {
                 $columns[] = $field;
             }
@@ -53,16 +57,14 @@ trait HasDataTable {
     public function getCustomColumnTypes() {
         $columns = [];
         foreach ($this->getFieldsForDataTable() as $field) {
-            if (!is_string($field)) {
+            if ($this->clickColumnHandle == $field) {
+                $columns[$field] = $this->clickColumnComponent;
+            } else if (is_object($field)) {
                 $component = $field->getIndexComponent();
                 if (isset($component)) {
                     $columns[$field->handle] = $component;
                 } else if ($this->clickColumnHandle == $field->handle) {
                     $columns[$field->handle] = $this->clickColumnComponent;
-                }
-            } else {
-                if ($this->clickColumnHandle == $field) {
-                    $columns[$field] = $this->clickColumnComponent;
                 }
             }
         }
@@ -72,8 +74,10 @@ trait HasDataTable {
     public function getCustomColumnNames() {
         $columns = [];
         foreach ($this->getFieldsForDataTable() as $field) {
-            if (!is_string($field)) {
+            if (is_object($field)) {
                 $columns[$field->handle] = $field->label;
+            } else if (is_array($field)) {
+                $columns[key($field)] = current($field);
             }
         }
         return $columns;

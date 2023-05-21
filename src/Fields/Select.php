@@ -47,4 +47,9 @@ class Select extends Field
     {
         return $this->parent->getActionUrl($actionSlug);
     }
+
+    public function getIndexComponent()
+    {
+        return '';
+    }
 }
