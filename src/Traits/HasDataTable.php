@@ -92,11 +92,15 @@ trait HasDataTable {
         }
 
         $filters[] = AllowedFilter::callback('search', function (Builder $query, $value) {
-            return $query->where(function (Builder $query) use ($value) {
-                foreach ($this->getFilterable() as $field) {
-                    $query->orWhere($field, 'LIKE', "%$value%");
-                }
-            });
+            if (method_exists($this, 'search')) {
+                return $this->search($query, $value);
+            } else {
+                return $query->where(function (Builder $query) use ($value) {
+                    foreach ($this->getFilterable() as $field) {
+                        $query->orWhere($field, 'LIKE', "%$value%");
+                    }
+                });
+            }
         });
 
         return $filters;

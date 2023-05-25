@@ -60,6 +60,10 @@ abstract class Resource {
         return $this->icon;
     }
 
+    public function getShowRecord($model) {
+        return $model;
+    }
+
     public function findByIds($resourceIds) {
         return $this->model()->withoutGlobalScopes()->whereIn('id', $resourceIds)->get();
     }
@@ -132,7 +136,7 @@ abstract class Resource {
         return $this;
     }
 
-    protected function getDataTableEndpoint() {
+    public function getDataTableEndpoint() {
         if (isset($this->mainResource)) {
             return '/datatable/antfusion/resource/'.$this->mainResource.'/'.$this->mainResourceId.'/'.$this->getSlug();
         } else {

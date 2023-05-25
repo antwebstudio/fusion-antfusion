@@ -7,6 +7,7 @@ Route::get('antfusion/resource/{resource}', 'ResourceController@index');
 Route::post('antfusion/resource/{resource}', 'ResourceController@store');
 Route::patch('antfusion/resource/{resource}/{resourceId}', 'ResourceController@update');
 
+Route::get('antfusion/resource/{resource}/show', 'ResourceController@show')->name('antfusion.resource.find');
 Route::get('antfusion/resource/{resource}/{resourceId}', 'ResourceController@show');
 Route::get('antfusion/resource/{resource}/{resourceId}/edit', 'ResourceController@edit');
 
