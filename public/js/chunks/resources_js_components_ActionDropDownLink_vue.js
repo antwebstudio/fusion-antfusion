@@ -1,4 +1,3 @@
-"use strict";
 (self["webpackChunktinymcefieldtype"] = self["webpackChunktinymcefieldtype"] || []).push([["resources_js_components_ActionDropDownLink_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ActionDropDownLink.vue?vue&type=script&lang=js&":
@@ -7,10 +6,13 @@
   \*************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var lodash_isNil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isNil */ "./node_modules/lodash/isNil.js");
+/* harmony import */ var lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_isNil__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -33,6 +35,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     cssClass: {},
@@ -108,6 +111,13 @@ __webpack_require__.r(__webpack_exports__);
             _this.$router.push(response.data.redirect);
           }
         } else {
+          // var blob = new Blob([response], {
+          //     type: 'application/pdf'
+          // });
+          // var url = window.URL.createObjectURL(blob)
+          _this.postForm(_this.url); // this.handleActionResponse(blob, response.headers)
+
+
           _this.loading = false;
           toast(response.data.message, 'success');
 
@@ -115,19 +125,153 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.$emit('updated');
         }
-      })["catch"](function (error) {
-        _this.loading = false;
-        toast(error.response.data.message, 'error');
-      });
+      }); // .catch((error) => {
+      //     this.loading = false
+      //     toast(error.response.data.message, 'error')
+      // })
     },
     closeModal: function closeModal(name, value) {
       this.$bus.$emit('toggle-modal-' + name, value);
     },
     openModal: function openModal(name, value) {
       this.$bus.$emit('toggle-modal-' + name, value);
+    },
+    postForm: function postForm(path, params) {
+      var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'post';
+      // The rest of this code assumes you are not using a library.
+      // It can be made less verbose if you use one.
+      var form = document.createElement('form');
+      form.method = method;
+      form.action = path;
+
+      for (var key in params) {
+        if (params.hasOwnProperty(key)) {
+          var hiddenField = document.createElement('input');
+          hiddenField.type = 'hidden';
+          hiddenField.name = key;
+          hiddenField.value = params[key];
+          form.appendChild(hiddenField);
+        }
+      }
+
+      document.body.appendChild(form);
+      form.submit();
+    },
+    emitResponseCallback: function emitResponseCallback(callback) {
+      // this.$emit('actionExecuted')
+      // Nova.$emit('action-executed')
+      if (typeof callback === 'function') {
+        callback();
+      }
+    },
+    handleActionResponse: function handleActionResponse(data, headers) {
+      var _this2 = this;
+
+      var contentDisposition = headers['content-disposition'];
+
+      if (data instanceof Blob && lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(contentDisposition) && data.type === 'application/json') {
+        data.text().then(function (jsonStringData) {
+          _this2.handleActionResponse(JSON.parse(jsonStringData), headers);
+        });
+        return;
+      }
+
+      if (data instanceof Blob) {
+        console.log('blob');
+        this.emitResponseCallback(function () {
+          var fileName = 'unknown';
+          var url = window.URL.createObjectURL(new Blob([data]));
+          var link = document.createElement('a');
+          link.href = url;
+
+          if (contentDisposition) {
+            var fileNameMatch = contentDisposition.match(/filename="(.+)"/);
+            if (fileNameMatch.length === 2) fileName = fileNameMatch[1];
+          }
+
+          link.setAttribute('download', fileName);
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          window.URL.revokeObjectURL(url);
+        }); // } else if (data.modal) {
+        //     this.actionResponseData = data
+        //     this.showActionResponseModal = true
+        // } else if (data.message) {
+        //     this.emitResponseCallback(() => {
+        //     Nova.success(data.message)
+        //     })
+        // } else if (data.deleted) {
+        //     this.emitResponseCallback()
+        // } else if (data.danger) {
+        //     this.emitResponseCallback(() => {
+        //     Nova.error(data.danger)
+        //     })
+      } else if (data.download) {
+        console.log('data.download');
+        this.emitResponseCallback(function () {
+          var link = document.createElement('a');
+          link.href = data.download;
+          link.download = data.name;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }); // } else if (data.redirect) {
+        //     window.location = data.redirect
+        // } else if (data.visit) {
+        //     Nova.visit({
+        //     url: Nova.url(data.visit.path, data.visit.options),
+        //     remote: false,
+        //     })
+        // } else if (data.openInNewTab) {
+        //     this.emitResponseCallback(() => {
+        //     window.open(data.openInNewTab, '_blank')
+        //     })
+      } else {
+        console.log('others', data); // let message =
+        // data.message || this.__('The action was executed successfully.')
+        // this.emitResponseCallback(() => {
+        //     Nova.success(message)
+        // })
+      }
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isNil.js":
+/*!**************************************!*\
+  !*** ./node_modules/lodash/isNil.js ***!
+  \**************************************/
+/***/ ((module) => {
+
+/**
+ * Checks if `value` is `null` or `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is nullish, else `false`.
+ * @example
+ *
+ * _.isNil(null);
+ * // => true
+ *
+ * _.isNil(void 0);
+ * // => true
+ *
+ * _.isNil(NaN);
+ * // => false
+ */
+function isNil(value) {
+  return value == null;
+}
+
+module.exports = isNil;
+
 
 /***/ }),
 
@@ -137,6 +281,7 @@ __webpack_require__.r(__webpack_exports__);
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -175,6 +320,7 @@ component.options.__file = "resources/js/components/ActionDropDownLink.vue"
   \*********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -190,6 +336,7 @@ __webpack_require__.r(__webpack_exports__);
   \***************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ActionDropDownLink_vue_vue_type_template_id_097a0368___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -206,6 +353,7 @@ __webpack_require__.r(__webpack_exports__);
   \******************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -317,6 +465,7 @@ render._withStripped = true
   \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ normalizeComponent)
