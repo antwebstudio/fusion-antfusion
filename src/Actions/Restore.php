@@ -7,6 +7,8 @@ class Restore extends Action {
     protected $name = 'Restore';
 
     protected $destructive = false;
+    
+    protected $dropdown = true;
 
     public function __construct()
     {

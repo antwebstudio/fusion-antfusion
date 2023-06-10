@@ -7,6 +7,7 @@ class CustomAction extends Action {
     protected $callback;
     protected $standalone = true;
     protected $successMessage = 'Action performed successfully.';
+    protected $component = 'action-button';
 
     public function __construct($name, $callback)
     {
