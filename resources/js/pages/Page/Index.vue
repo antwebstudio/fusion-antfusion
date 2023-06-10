@@ -5,7 +5,7 @@
         </portal>
 
         <portal to="actions">
-            <span class="print:hidden">
+            <span v-if="actions.length" class="print:hidden">
                 <component :loading="loading" @load="onLoading" @loaded="onLoaded" @submitted="load" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
                     {{ action.text }}
                 </component>

@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="w-full">
         <portal to="actions">
-            <span class="print:hidden">
-                <component @load="$emit('load')" @loaded="$emit('loaded')" @submitted="submitted" @refreshed="refreshed" :loading="loading" :parent="componentData" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
+            <span v-if="actions.length" class="print:hidden">
+                <component @load="$emit('load')" @loaded="$emit('loaded')" @submitted="submitted" @refreshed="refreshed" :loading="loading" :record="form" :parent="componentData" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
                     {{ action.text }}
                 </component>
             </span>
