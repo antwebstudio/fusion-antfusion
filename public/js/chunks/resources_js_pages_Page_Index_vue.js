@@ -192,36 +192,40 @@ var render = function () {
       ),
       _vm._v(" "),
       _c("portal", { attrs: { to: "actions" } }, [
-        _c(
-          "span",
-          { staticClass: "print:hidden" },
-          _vm._l(_vm.actions, function (action, index) {
-            return _c(
-              action.component,
-              _vm._b(
-                {
-                  key: index,
-                  tag: "component",
-                  attrs: { loading: _vm.loading },
-                  on: {
-                    load: _vm.onLoading,
-                    loaded: _vm.onLoaded,
-                    submitted: _vm.load,
-                  },
-                },
-                "component",
-                action,
-                false
-              ),
-              [
-                _vm._v(
-                  "\n                " + _vm._s(action.text) + "\n            "
-                ),
-              ]
+        _vm.actions.length
+          ? _c(
+              "span",
+              { staticClass: "print:hidden" },
+              _vm._l(_vm.actions, function (action, index) {
+                return _c(
+                  action.component,
+                  _vm._b(
+                    {
+                      key: index,
+                      tag: "component",
+                      attrs: { loading: _vm.loading },
+                      on: {
+                        load: _vm.onLoading,
+                        loaded: _vm.onLoaded,
+                        submitted: _vm.load,
+                      },
+                    },
+                    "component",
+                    action,
+                    false
+                  ),
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(action.text) +
+                        "\n            "
+                    ),
+                  ]
+                )
+              }),
+              1
             )
-          }),
-          1
-        ),
+          : _vm._e(),
       ]),
       _vm._v(" "),
       _c("component-container", { attrs: { components: _vm.meta.components } }),

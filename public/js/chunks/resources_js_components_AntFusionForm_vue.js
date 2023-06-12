@@ -1629,43 +1629,52 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "w-full" },
     [
       _c("portal", { attrs: { to: "actions" } }, [
-        _c(
-          "span",
-          { staticClass: "print:hidden" },
-          _vm._l(_vm.actions, function (action, index) {
-            return _c(
-              action.component,
-              _vm._b(
-                {
-                  key: index,
-                  tag: "component",
-                  attrs: { loading: _vm.loading, parent: _vm.componentData },
-                  on: {
-                    load: function ($event) {
-                      return _vm.$emit("load")
+        _vm.actions.length
+          ? _c(
+              "span",
+              { staticClass: "print:hidden" },
+              _vm._l(_vm.actions, function (action, index) {
+                return _c(
+                  action.component,
+                  _vm._b(
+                    {
+                      key: index,
+                      tag: "component",
+                      attrs: {
+                        loading: _vm.loading,
+                        record: _vm.form,
+                        parent: _vm.componentData,
+                      },
+                      on: {
+                        load: function ($event) {
+                          return _vm.$emit("load")
+                        },
+                        loaded: function ($event) {
+                          return _vm.$emit("loaded")
+                        },
+                        submitted: _vm.submitted,
+                        refreshed: _vm.refreshed,
+                      },
                     },
-                    loaded: function ($event) {
-                      return _vm.$emit("loaded")
-                    },
-                    submitted: _vm.submitted,
-                    refreshed: _vm.refreshed,
-                  },
-                },
-                "component",
-                action,
-                false
-              ),
-              [
-                _vm._v(
-                  "\n                " + _vm._s(action.text) + "\n            "
-                ),
-              ]
+                    "component",
+                    action,
+                    false
+                  ),
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(action.text) +
+                        "\n            "
+                    ),
+                  ]
+                )
+              }),
+              1
             )
-          }),
-          1
-        ),
+          : _vm._e(),
       ]),
       _vm._v(" "),
       _vm.debug ? _c("div", [_vm._v(_vm._s(_vm.form))]) : _vm._e(),
