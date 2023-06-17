@@ -95,9 +95,12 @@ trait HasDataTable {
             if (method_exists($this, 'search')) {
                 return $this->search($query, $value);
             } else {
-                return $query->where(function (Builder $query) use ($value) {
+                return $query->where(function (Builder $query) use ($value) {                
+                    $values = is_array($value) ? $value : [$value];
                     foreach ($this->getFilterable() as $field) {
-                        $query->orWhere($field, 'LIKE', "%$value%");
+                        foreach ($values as $v) {
+                            $query->orWhere($field, 'LIKE', "%$v%");
+                        }
                     }
                 });
             }
