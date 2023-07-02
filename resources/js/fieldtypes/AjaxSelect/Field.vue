@@ -16,6 +16,10 @@
         :taggable="field.settings.true"
         :multiple="field.settings.multiple"
     >
+        <template v-slot:option="{ option, search }">
+            <slot name="option" :option="option" :search="search">{{ option }}</slot>
+        </template>
+
         <template v-slot:noOptions>
             No result.
         </template>
@@ -59,11 +63,20 @@ export default {
         },
     },
     watch: {
+        value(value) {
+            this.selected = value
+        },
         selected() {
-            if (this.field.settings.multiple || this.field.settings.allow_auto_new) {
+            if (this.field.settings.multiple || this.field.settings.allow_auto_new || this.field.settings.object_as_value) {
                 this.$emit('input', this.selected)
             } else {
                 this.$emit('input', this.selected.id)
+            }
+            if (this.field.settings.clear_selected_on_select) {
+                this.selected = null
+            }
+            if (this.field.settings.clear_options_on_select) {
+                this.clearOptions()
             }
         }
     },
@@ -84,6 +97,9 @@ export default {
         return this.loadSavedData()
     },
     methods: {
+        clearOptions() {
+            this.options = []
+        },
         select() {
             
         },

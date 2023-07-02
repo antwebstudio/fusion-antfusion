@@ -32,6 +32,7 @@ window.Fusion.booting(function(Vue, router, store) {
     Vue.component('antfusion-select', () => import('./components/Select'))
     Vue.component('metric-item', () => import('./components/MetricItem'))
     Vue.component('component-container', () => import('./components/ComponentContainer'))
+    Vue.component('antfusion-thumbnail', () => import('./components/Thumbnail'))
     Vue.component('ajax-select-fieldtype', () => import('./fieldtypes/AjaxSelect/Field'))
 
 	router.addRoutes([
