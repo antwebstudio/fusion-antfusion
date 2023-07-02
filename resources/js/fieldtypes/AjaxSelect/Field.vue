@@ -13,6 +13,7 @@
         :loading="loading"
         :internal-search="false" 
         :clear-on-select="true"
+        :placeholder="field.settings.placeholder"
         :taggable="field.settings.true"
         :multiple="field.settings.multiple"
     >
@@ -46,6 +47,13 @@ import Multiselect from 'vue-multiselect'
 export default {
     mixins: [datatable],
     components: { Multiselect },
+    directives: {
+        focus: {
+            inserted(el, binding) {
+                el.focus()
+            }
+        }
+    },
     props: {
         actions: {
 
