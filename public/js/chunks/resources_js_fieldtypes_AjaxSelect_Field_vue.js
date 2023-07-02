@@ -54,6 +54,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -75,11 +79,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   watch: {
+    value: function value(_value) {
+      this.selected = _value;
+    },
     selected: function selected() {
-      if (this.field.settings.multiple || this.field.settings.allow_auto_new) {
+      if (this.field.settings.multiple || this.field.settings.allow_auto_new || this.field.settings.object_as_value) {
         this.$emit('input', this.selected);
       } else {
         this.$emit('input', this.selected.id);
+      }
+
+      if (this.field.settings.clear_selected_on_select) {
+        this.selected = null;
+      }
+
+      if (this.field.settings.clear_options_on_select) {
+        this.clearOptions();
       }
     }
   },
@@ -100,6 +115,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return this.loadSavedData();
   },
   methods: {
+    clearOptions: function clearOptions() {
+      this.options = [];
+    },
     select: function select() {},
     remove: function remove() {},
     loadSavedData: function loadSavedData() {
@@ -1088,50 +1106,70 @@ var render = function () {
           multiple: _vm.field.settings.multiple,
         },
         on: { "search-change": _vm.asyncFind, tag: _vm.addTag },
-        scopedSlots: _vm._u([
-          {
-            key: "noOptions",
-            fn: function () {
-              return [_vm._v("\n          No result.\n      ")]
+        scopedSlots: _vm._u(
+          [
+            {
+              key: "option",
+              fn: function (ref) {
+                var option = ref.option
+                var search = ref.search
+                return [
+                  _vm._t(
+                    "option",
+                    function () {
+                      return [_vm._v(_vm._s(option))]
+                    },
+                    { option: option, search: search }
+                  ),
+                ]
+              },
             },
-            proxy: true,
-          },
-          {
-            key: "afterList",
-            fn: function () {
-              return [
-                _c(
-                  "div",
-                  { staticStyle: { position: "sticky", bottom: "0px" } },
-                  _vm._l(_vm.actions, function (action, index) {
-                    return _c(
-                      action.component,
-                      _vm._b(
-                        {
-                          key: index,
-                          tag: "component",
-                          on: { submitted: _vm.reload, updated: _vm.reload },
-                        },
-                        "component",
-                        action,
-                        false
-                      ),
-                      [
-                        _vm._v(
-                          "\n                  " +
-                            _vm._s(action.text) +
-                            "\n              "
+            {
+              key: "noOptions",
+              fn: function () {
+                return [_vm._v("\n          No result.\n      ")]
+              },
+              proxy: true,
+            },
+            {
+              key: "afterList",
+              fn: function () {
+                return [
+                  _c(
+                    "div",
+                    { staticStyle: { position: "sticky", bottom: "0px" } },
+                    _vm._l(_vm.actions, function (action, index) {
+                      return _c(
+                        action.component,
+                        _vm._b(
+                          {
+                            key: index,
+                            tag: "component",
+                            on: { submitted: _vm.reload, updated: _vm.reload },
+                          },
+                          "component",
+                          action,
+                          false
                         ),
-                      ]
-                    )
-                  }),
-                  1
-                ),
-              ]
+                        [
+                          _vm._v(
+                            "\n                  " +
+                              _vm._s(action.text) +
+                              "\n              "
+                          ),
+                        ]
+                      )
+                    }),
+                    1
+                  ),
+                ]
+              },
+              proxy: true,
             },
-            proxy: true,
-          },
-        ]),
+          ],
+          null,
+          true
+        ),
         model: {
           value: _vm.selected,
           callback: function ($$v) {

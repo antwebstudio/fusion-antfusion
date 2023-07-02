@@ -149,11 +149,7 @@ __webpack_require__.r(__webpack_exports__);
           toast(response.message, 'success');
         }
 
-        console.log('action response', response);
-
         if (response.redirect) {
-          console.log('redirect');
-
           if (response.target) {
             window.open(response.redirect, response.target);
           } else {
