@@ -58,12 +58,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [fusioncms_helper_js_mixins_datatable__WEBPACK_IMPORTED_MODULE_0__["default"]],
   components: {
     Multiselect: (vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default())
+  },
+  directives: {
+    focus: {
+      inserted: function inserted(el, binding) {
+        el.focus();
+      }
+    }
   },
   props: {
     actions: {},
@@ -1102,6 +1110,7 @@ var render = function () {
           loading: _vm.loading,
           "internal-search": false,
           "clear-on-select": true,
+          placeholder: _vm.field.settings.placeholder,
           taggable: _vm.field.settings.true,
           multiple: _vm.field.settings.multiple,
         },
