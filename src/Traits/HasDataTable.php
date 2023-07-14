@@ -38,6 +38,11 @@ trait HasDataTable {
         return $this->getDisplayableColumns();
     }
 
+    public function getAllowedSorts()
+    {
+        return $this->getSortable();
+    }
+
     public function getSortable() {
         $columns = ['id'];
         foreach ($this->getFieldsForDataTable() as $field) {

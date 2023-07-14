@@ -58,6 +58,11 @@ class ResourceController extends DataTableController {
     {
         return $this->resource()->getFilterable();
     }
+
+    public function getAllowedSorts()
+    {
+        return $this->resource()->getAllowedSorts();
+    }
   
     public function getSortable()
     {
