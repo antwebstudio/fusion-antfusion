@@ -12,6 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services_Form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/services/Form */ "../../fusioncms/cms/resources/js/services/Form.js");
+/* harmony import */ var _mixins_dependant_field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/dependant-field */ "./resources/js/mixins/dependant-field.js");
 //
 //
 //
@@ -55,7 +56,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mixins: [_mixins_dependant_field__WEBPACK_IMPORTED_MODULE_1__["default"]],
   props: {
     validateUrl: {},
     syncDependantFieldUrl: {},
@@ -93,6 +96,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      loadedSteps: this.steps,
       loading: false,
       componentsByHandle: {},
       currentStep: 0,
@@ -110,48 +114,17 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this2 = this;
 
-    _.each(this.steps, function (step) {
-      _.each(step.children, function (component, fieldKey) {
-        _this2.$set(_this2.componentsByHandle, component.id, component);
+    _.each(this.loadedSteps, function (step) {
+      _this2.registerComponentsDependency(step.children, _this2.form); // _.each(step.children, (component, fieldKey) => {
+      //     this.$set(this.componentsByHandle, component.id, component)
+      //     if (component.dependsOn) {
+      //         this.registerWatch(component, step.children, fieldKey)
+      //     }
+      // })
 
-        if (component.dependsOn) {
-          _this2.registerWatch(component, step.children, fieldKey);
-        }
-      });
     });
   },
   methods: {
-    registerWatch: function registerWatch(fieldToBeUpdated, fieldCollections, fieldKey) {
-      var _this3 = this;
-
-      fieldToBeUpdated.dependsOn.forEach(function (attribute) {
-        // console.log('register watch for form ' + attribute)
-        _this3.$watch('form.' + attribute, function (value, oldValue) {
-          _this3.syncDependantFields(fieldToBeUpdated, attribute, fieldCollections, fieldKey);
-        }, {
-          deep: true
-        });
-      });
-    },
-    syncDependantFields: function syncDependantFields(fieldToBeUpdated, dependsOnAttribute, fieldCollections, fieldKey) {
-      var _this4 = this;
-
-      var params = {
-        field: fieldToBeUpdated.handle,
-        path: fieldToBeUpdated.path,
-        attribute: dependsOnAttribute,
-        form: this.form.data()
-      };
-      axios.patch(this.syncDependantFieldUrl, params).then(function (response) {
-        var field = response.data;
-        console.log('before', fieldCollections[fieldKey]);
-
-        _this4.$set(fieldCollections, fieldKey, field);
-
-        console.log('after', fieldCollections[fieldKey]); // this.$set(this.componentsByHandle, field.id, field)
-        // console.log(field)
-      });
-    },
     validate: function validate() {
       var params = {
         step: this.currentStep,
@@ -164,23 +137,23 @@ __webpack_require__.r(__webpack_exports__);
       this.next();
     },
     next: function next() {
-      var _this5 = this;
+      var _this3 = this;
 
       if (this.hasNextStep || this.validateOnLastStep) {
         this.loading = true;
         this.validate().then(function (response) {
-          _this5.loading = false;
+          _this3.loading = false;
 
-          if (_this5.hasNextStep) {
-            _this5.currentStep++;
+          if (_this3.hasNextStep) {
+            _this3.currentStep++;
           } else {
-            _this5.$refs.submit.click();
+            _this3.$refs.submit.click();
           }
         })["catch"](function (error) {
-          _this5.loading = false;
+          _this3.loading = false;
           console.log(error.response.data);
 
-          _this5.form.errors.record(error.response.data);
+          _this3.form.errors.record(error.response.data);
         });
       } else {
         this.$refs.submit.click();
@@ -190,6 +163,79 @@ __webpack_require__.r(__webpack_exports__);
       if (this.hasPreviousStep) {
         this.currentStep--;
       }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/mixins/dependant-field.js":
+/*!************************************************!*\
+  !*** ./resources/js/mixins/dependant-field.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  methods: {
+    registerComponentsDependency: function registerComponentsDependency(children, form) {
+      var _this = this;
+
+      _.each(children, function (component, fieldKey) {
+        // this.$set(this.componentsByHandle, component.id, component)
+        if (component.dependsOn) {
+          _this.registerWatch(form, component, children, fieldKey);
+        }
+
+        if (component.children) {
+          // console.log('register for children', component.children)
+          _this.registerComponentsDependency(component.children, form);
+        }
+      });
+    },
+    registerWatch: function registerWatch(form, fieldToBeUpdated, fieldCollections, fieldKey) {
+      var _this2 = this;
+
+      fieldToBeUpdated.dependsOn.forEach(function (attribute) {
+        // console.log('register watch for form ' + attribute)
+        _this2.$watch('form.' + attribute, function (value, oldValue) {
+          // form[attribute] = value
+          // console.log('attribute '+ attribute + ' updated', form.data(), this.form.formdata())
+          _this2.syncDependantFields(form, fieldToBeUpdated, attribute, fieldCollections, fieldKey);
+        }, {
+          deep: true
+        });
+      });
+    },
+    syncDependantFields: function syncDependantFields(form, fieldToBeUpdated, dependsOnAttribute, fieldCollections, fieldKey) {
+      var _this3 = this;
+
+      var params = {
+        field: fieldToBeUpdated.handle,
+        path: fieldToBeUpdated.path,
+        attribute: dependsOnAttribute,
+        form: form.data()
+      };
+      this.$set(fieldCollections, fieldKey, {
+        field: {}
+      }); // console.log('sync field', this.form.data(), form.data())
+
+      axios.patch(this.syncDependantFieldUrl, params).then(function (response) {
+        var field = response.data;
+        console.log('updating field ', field); // console.log('before', fieldCollections[fieldKey])
+
+        _this3.test = field.hide;
+
+        _this3.$set(fieldCollections, fieldKey, field); // console.log('field updated '+ fieldKey)
+
+
+        console.log('after', fieldCollections[fieldKey]); // this.$set(this.componentsByHandle, field.id, field)
+        // console.log(field)
+      });
     }
   }
 });
@@ -1647,10 +1693,10 @@ var render = function () {
           index == _vm.currentStep
             ? _c(
                 "div",
-                _vm._l(step.children, function (field, index) {
+                _vm._l(step.children, function (field, fieldIndex) {
                   return _c(
                     "div",
-                    { key: index },
+                    { key: fieldIndex },
                     [
                       !field.is_panel
                         ? _c(
