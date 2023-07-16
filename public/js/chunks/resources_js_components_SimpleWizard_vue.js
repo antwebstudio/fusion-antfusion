@@ -55,6 +55,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -87,6 +89,7 @@ __webpack_require__.r(__webpack_exports__);
 
         // let form = 
         Object.keys(value).forEach(function (key) {
+          console.log('update form ' + key, value[key]);
           _this.form[key] = value[key];
         });
         this.$emit('input', this.form);
@@ -129,8 +132,9 @@ __webpack_require__.r(__webpack_exports__);
       var params = {
         step: this.currentStep,
         path: this.path,
-        form: this.form.data()
+        form: this.form
       };
+      console.log('send to validate', params);
       return axios.post(this.validateUrl, params);
     },
     submit: function submit() {
@@ -219,22 +223,16 @@ __webpack_require__.r(__webpack_exports__);
         path: fieldToBeUpdated.path,
         attribute: dependsOnAttribute,
         form: form.data()
-      };
-      this.$set(fieldCollections, fieldKey, {
-        field: {}
-      }); // console.log('sync field', this.form.data(), form.data())
+      }; // console.log('sync field', this.form.data(), form.data())
 
       axios.patch(this.syncDependantFieldUrl, params).then(function (response) {
-        var field = response.data;
-        console.log('updating field ', field); // console.log('before', fieldCollections[fieldKey])
-
-        _this3.test = field.hide;
+        var field = response.data; // console.log('before', fieldCollections[fieldKey])
 
         _this3.$set(fieldCollections, fieldKey, field); // console.log('field updated '+ fieldKey)
-
-
-        console.log('after', fieldCollections[fieldKey]); // this.$set(this.componentsByHandle, field.id, field)
+        // console.log('after', fieldCollections[fieldKey])
+        // this.$set(this.componentsByHandle, field.id, field)
         // console.log(field)
+
       });
     }
   }
@@ -1791,7 +1789,7 @@ var render = function () {
             : _vm._e(),
         ])
       }),
-      _vm._v(" "),
+      _vm._v("\n\n    " + _vm._s(_vm.form.data()) + "\n\n    "),
       _c(
         "div",
         _vm._b({}, "div", _vm.footer, false),

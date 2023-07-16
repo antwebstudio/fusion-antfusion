@@ -167,22 +167,16 @@ __webpack_require__.r(__webpack_exports__);
         path: fieldToBeUpdated.path,
         attribute: dependsOnAttribute,
         form: form.data()
-      };
-      this.$set(fieldCollections, fieldKey, {
-        field: {}
-      }); // console.log('sync field', this.form.data(), form.data())
+      }; // console.log('sync field', this.form.data(), form.data())
 
       axios.patch(this.syncDependantFieldUrl, params).then(function (response) {
-        var field = response.data;
-        console.log('updating field ', field); // console.log('before', fieldCollections[fieldKey])
-
-        _this3.test = field.hide;
+        var field = response.data; // console.log('before', fieldCollections[fieldKey])
 
         _this3.$set(fieldCollections, fieldKey, field); // console.log('field updated '+ fieldKey)
-
-
-        console.log('after', fieldCollections[fieldKey]); // this.$set(this.componentsByHandle, field.id, field)
+        // console.log('after', fieldCollections[fieldKey])
+        // this.$set(this.componentsByHandle, field.id, field)
         // console.log(field)
+
       });
     }
   }
@@ -1777,7 +1771,7 @@ var render = function () {
       ),
       _vm._v(" "),
       _c("input", {
-        attrs: { type: "hidden", name: _vm.name },
+        attrs: { type: "text", name: _vm.name },
         domProps: { value: JSON.stringify(this.form.data()) },
       }),
     ],
