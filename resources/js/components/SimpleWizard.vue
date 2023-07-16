@@ -126,7 +126,7 @@ export default {
             let params = {
                 step: this.currentStep,
                 path: this.path,
-                form: this.form.data(),
+                form: this.form,
             }
             return axios.post(this.validateUrl, params)
         },
