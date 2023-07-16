@@ -11,7 +11,7 @@ trait HasFields {
     protected function convertFieldsToArray($fields, $scenario = null) {
         $fieldsArray = [];
         foreach ($fields as $field) {
-            if (is_object($field) && (!isset($scenario) || $field->shouldShowIn($scenario))) {
+            if ($this->shouldShowField($field, $scenario)) {
                 $fieldsArray[] = $field->setScenario($scenario)->toArray();
             }
         }
@@ -44,7 +44,7 @@ trait HasFields {
     protected function fieldsRules($scenario = null) {
         $rules = [];
         foreach ($this->resolveFields(true) as $field) {
-            if (is_object($field) && (!isset($scenario) || $field->shouldShowIn($scenario))) {
+            if ($this->shouldShowField($field, $scenario)) {
                 $rules[$field->handle] = $field->setScenario($scenario)->getRules();
             }
         }
@@ -53,5 +53,9 @@ trait HasFields {
 
     public function getRules() {
         return $this->fieldsRules();
+    }
+
+    protected function shouldShowField($field, $scenario) {
+        return !$field->isHidden() && (is_object($field) && (!isset($scenario) || $field->shouldShowIn($scenario)));
     }
 }

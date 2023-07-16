@@ -2,7 +2,7 @@
     <div>
         <div v-for="step, index in steps" :key="index">
             <div v-if="index == currentStep">
-                <div v-for="field, index in step.children" :key="index">
+                <div v-for="field, fieldIndex in step.children" :key="fieldIndex">
                     <component 
                         v-if="!field.is_panel" 
                         v-show="!field.hide" 
@@ -42,7 +42,10 @@
 
 <script>
 import Form from '@/services/Form'
+import DependantField from '../mixins/dependant-field'
+
 export default {
+    mixins: [DependantField],
     props: {
         validateUrl: {
 
@@ -92,6 +95,7 @@ export default {
     },
     data() {
         return {
+            loadedSteps: this.steps,
             loading: false,
             componentsByHandle: {},
             currentStep: 0,
@@ -107,40 +111,17 @@ export default {
         },
     },
     mounted() {
-        _.each(this.steps, (step) => {
-            _.each(step.children, (component, fieldKey) => {
-                this.$set(this.componentsByHandle, component.id, component)
-                if (component.dependsOn) {
-                    this.registerWatch(component, step.children, fieldKey)
-                }
-            })
+        _.each(this.loadedSteps, (step) => {
+            this.registerComponentsDependency(step.children, this.form)
+            // _.each(step.children, (component, fieldKey) => {
+            //     this.$set(this.componentsByHandle, component.id, component)
+            //     if (component.dependsOn) {
+            //         this.registerWatch(component, step.children, fieldKey)
+            //     }
+            // })
         })
     },
     methods: {
-        registerWatch(fieldToBeUpdated, fieldCollections, fieldKey) {
-            fieldToBeUpdated.dependsOn.forEach((attribute) => {
-                // console.log('register watch for form ' + attribute)
-                this.$watch('form.' + attribute, (value, oldValue) => {
-                    this.syncDependantFields(fieldToBeUpdated, attribute, fieldCollections, fieldKey)
-                }, { deep: true });
-            })
-        },
-        syncDependantFields(fieldToBeUpdated, dependsOnAttribute, fieldCollections, fieldKey) {
-            let params = {
-                field: fieldToBeUpdated.handle,
-                path: fieldToBeUpdated.path,
-                attribute: dependsOnAttribute,
-                form: this.form.data(),
-            }
-            axios.patch(this.syncDependantFieldUrl, params).then((response) => {
-                let field = response.data
-                console.log('before', fieldCollections[fieldKey])
-                this.$set(fieldCollections, fieldKey, field)
-                console.log('after', fieldCollections[fieldKey])
-                // this.$set(this.componentsByHandle, field.id, field)
-                // console.log(field)
-            })
-        },
         validate() {
             let params = {
                 step: this.currentStep,
