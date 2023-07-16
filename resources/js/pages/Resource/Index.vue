@@ -5,7 +5,7 @@
         </portal>
 
         <portal to="actions">
-            <div>
+            <div v-if="actions && actions.length" >
                 <span v-for="action, index in actions" :key="index">
                     <component v-if="!action.dropdown" @submitted="load" :is="action.component" v-bind="action">
                         {{ action.text }}

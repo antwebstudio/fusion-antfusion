@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
         <portal to="actions">
-            <span v-if="actions.length" class="print:hidden">
+            <span v-if="actions && actions.length" class="print:hidden">
                 <component @load="$emit('load')" @loaded="$emit('loaded')" @submitted="submitted" @refreshed="refreshed" :loading="loading" :record="form" :parent="componentData" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
                     {{ action.text }}
                 </component>
