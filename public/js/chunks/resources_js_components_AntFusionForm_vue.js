@@ -1632,7 +1632,7 @@ var render = function () {
     { staticClass: "w-full" },
     [
       _c("portal", { attrs: { to: "actions" } }, [
-        _vm.actions.length
+        _vm.actions && _vm.actions.length
           ? _c(
               "span",
               { staticClass: "print:hidden" },

@@ -198,77 +198,79 @@ var render = function () {
       ),
       _vm._v(" "),
       _c("portal", { attrs: { to: "actions" } }, [
-        _c(
-          "div",
-          [
-            _vm._l(_vm.actions, function (action, index) {
-              return _c(
-                "span",
-                { key: index },
-                [
-                  !action.dropdown
-                    ? _c(
-                        action.component,
-                        _vm._b(
-                          { tag: "component", on: { submitted: _vm.load } },
-                          "component",
-                          action,
-                          false
-                        ),
-                        [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(action.text) +
-                              "\n                "
-                          ),
-                        ]
-                      )
-                    : _vm._e(),
-                ],
-                1
-              )
-            }),
-            _vm._v(" "),
-            _vm.dropdownActions && _vm.dropdownActions.length
-              ? _c(
-                  "ui-actions",
-                  { key: "entry_actions", attrs: { id: "entry_actions" } },
-                  _vm._l(_vm.actions, function (action, index) {
-                    return _c(
-                      "div",
-                      { key: index },
-                      [
-                        action.dropdown
-                          ? _c(
-                              action.component,
-                              _vm._b(
-                                {
-                                  tag: "component",
-                                  on: { submitted: _vm.load },
-                                },
-                                "component",
-                                action,
-                                false
+        _vm.actions && _vm.actions.length
+          ? _c(
+              "div",
+              [
+                _vm._l(_vm.actions, function (action, index) {
+                  return _c(
+                    "span",
+                    { key: index },
+                    [
+                      !action.dropdown
+                        ? _c(
+                            action.component,
+                            _vm._b(
+                              { tag: "component", on: { submitted: _vm.load } },
+                              "component",
+                              action,
+                              false
+                            ),
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(action.text) +
+                                  "\n                "
                               ),
-                              [
-                                _vm._v(
-                                  "\n                        " +
-                                    _vm._s(action.text) +
-                                    "\n                    "
-                                ),
-                              ]
-                            )
-                          : _vm._e(),
-                      ],
-                      1
+                            ]
+                          )
+                        : _vm._e(),
+                    ],
+                    1
+                  )
+                }),
+                _vm._v(" "),
+                _vm.dropdownActions && _vm.dropdownActions.length
+                  ? _c(
+                      "ui-actions",
+                      { key: "entry_actions", attrs: { id: "entry_actions" } },
+                      _vm._l(_vm.actions, function (action, index) {
+                        return _c(
+                          "div",
+                          { key: index },
+                          [
+                            action.dropdown
+                              ? _c(
+                                  action.component,
+                                  _vm._b(
+                                    {
+                                      tag: "component",
+                                      on: { submitted: _vm.load },
+                                    },
+                                    "component",
+                                    action,
+                                    false
+                                  ),
+                                  [
+                                    _vm._v(
+                                      "\n                        " +
+                                        _vm._s(action.text) +
+                                        "\n                    "
+                                    ),
+                                  ]
+                                )
+                              : _vm._e(),
+                          ],
+                          1
+                        )
+                      }),
+                      0
                     )
-                  }),
-                  0
-                )
-              : _vm._e(),
-          ],
-          2
-        ),
+                  : _vm._e(),
+              ],
+              2
+            )
+          : _vm._e(),
       ]),
       _vm._v(" "),
       _vm.meta && _vm.meta.components
