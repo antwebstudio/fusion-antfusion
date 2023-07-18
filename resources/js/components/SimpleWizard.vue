@@ -35,7 +35,7 @@
             <ui-button :disabled="loading" v-bind="submitButton" v-show="!hasNextStep" @click.prevent="submit">{{ submitButton.text }}</ui-button>
             
             <!-- Hidden submit button used to trigger form submit -->
-            <button v-show="false" ref="submit" />
+            <button v-show="false" ref="submit"></button>
         </div>
     </div>
 </template>
