@@ -1771,7 +1771,7 @@ var render = function () {
       ),
       _vm._v(" "),
       _c("input", {
-        attrs: { type: "text", name: _vm.name },
+        attrs: { type: "hidden", name: _vm.name },
         domProps: { value: JSON.stringify(this.form.data()) },
       }),
     ],

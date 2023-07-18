@@ -55,8 +55,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -89,7 +87,6 @@ __webpack_require__.r(__webpack_exports__);
 
         // let form = 
         Object.keys(value).forEach(function (key) {
-          console.log('update form ' + key, value[key]);
           _this.form[key] = value[key];
         });
         this.$emit('input', this.form);
@@ -134,7 +131,6 @@ __webpack_require__.r(__webpack_exports__);
         path: this.path,
         form: this.form
       };
-      console.log('send to validate', params);
       return axios.post(this.validateUrl, params);
     },
     submit: function submit() {
@@ -1789,7 +1785,7 @@ var render = function () {
             : _vm._e(),
         ])
       }),
-      _vm._v("\n\n    " + _vm._s(_vm.form.data()) + "\n\n    "),
+      _vm._v(" "),
       _c(
         "div",
         _vm._b({}, "div", _vm.footer, false),
