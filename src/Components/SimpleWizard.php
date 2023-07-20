@@ -51,6 +51,18 @@ class SimpleWizard extends Component implements Panel, JsonSerializable {
         return $rules;
     }
 
+    public function saveStateExcept($except) {
+        return $this->withMeta([
+            'saveState' => true,
+            'saveStateExcept' => $except,
+        ]);
+    }
+
+    public function saveState()
+    {
+        return $this->saveStateExcept([]);
+    }
+
     public function fields() {
         return $this->fields;
     }
@@ -71,7 +83,8 @@ class SimpleWizard extends Component implements Panel, JsonSerializable {
             ];
         }
 
-        return [
+        return array_merge($this->meta, [
+            'id' => $this->id,
             'validateUrl' => route('antfusion.wizard.validate'),
             'is_panel' => true,
             'component' => $this->component,
@@ -96,6 +109,6 @@ class SimpleWizard extends Component implements Panel, JsonSerializable {
                 'class' => 'ml-auto',
                 'text' => 'Submit',
             ],
-        ];
+        ]);
     }
 }

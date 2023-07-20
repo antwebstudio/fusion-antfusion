@@ -91,9 +91,9 @@ export default {
         let form = {}
         _.each(this.fields, (field) => {
             form[field.handle] = this.values[field.handle] || field.default
-            console.log('field', field)
-            console.log('set '+field.handle, this.values[field.handle], field.default)
-            console.log('value', form[field.handle])
+            // console.log('field', field)
+            // console.log('set '+field.handle, this.values[field.handle], field.default)
+            // console.log('value', form[field.handle])
         })
 
         this.form = new Form(form, true)

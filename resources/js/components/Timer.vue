@@ -11,22 +11,22 @@
 </template>
 
 <script>
-    import VueCountdown from 'vue-countdown';
-
     const MILLISECONDS_SECOND = 1000;
     const MILLISECONDS_MINUTE = 60 * MILLISECONDS_SECOND;
     const MILLISECONDS_HOUR = 60 * MILLISECONDS_MINUTE;
     const MILLISECONDS_DAY = 24 * MILLISECONDS_HOUR;
 
     export default {
-        components: { VueCountdown },
         props: {
             value: {
 
             },
             record: {
 
-            }
+            },
+            allowNegative: {
+                default: false,
+            },
         },
         data() {
             return {
@@ -35,32 +35,44 @@
         },
         computed: {
             days() {
-                return Math.floor(this.timeLeft / MILLISECONDS_DAY);
+                let value = this.timeLeft / MILLISECONDS_DAY;
+                return this.timeLeft > 0 ? Math.floor(value) : Math.ceil(value);
             },
             hours() {
-                return Math.floor((this.timeLeft % MILLISECONDS_DAY) / MILLISECONDS_HOUR);
+                let value = (this.timeLeft % MILLISECONDS_DAY) / MILLISECONDS_HOUR;
+                return this.timeLeft > 0 ? Math.floor(value) : Math.ceil(value);
             },
             minutes() {
-                return Math.floor((this.timeLeft % MILLISECONDS_HOUR) / MILLISECONDS_MINUTE);
+                let value = (this.timeLeft % MILLISECONDS_HOUR) / MILLISECONDS_MINUTE;
+                return this.timeLeft > 0 ? Math.floor(value) : Math.ceil(value);
             },
             seconds() {
-                return Math.floor((this.timeLeft % MILLISECONDS_MINUTE) / MILLISECONDS_SECOND);
+                let value = (this.timeLeft % MILLISECONDS_MINUTE) / MILLISECONDS_SECOND;
+                return this.timeLeft > 0 ? Math.floor(value) : Math.ceil(value);
             },
             endTime() {
                 return new Date(this.value)
             }
         },
         mounted() {
-            this.timeLeft = this.endTime - new Date
-
+            this.updateTime()
+            
             setInterval(() => {
-                this.timeLeft = this.endTime - new Date
+                this.updateTime()
+                
                 if (this.timeLeft <= 0) {
                     this.submit()
                 }
             }, 1000)
         },
         methods: {
+            updateTime() {
+                if (this.allowNegative) {
+                    this.timeLeft = this.endTime - new Date
+                } else {
+                    Math.max(0, this.timeLeft = this.endTime - new Date)
+                }
+            },
             submit() {
                 this.$refs.submitButton.click()
             }

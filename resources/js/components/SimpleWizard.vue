@@ -5,6 +5,7 @@
                 <div v-for="field, fieldIndex in step.children" :key="fieldIndex">
                     <component 
                         v-if="!field.is_panel" 
+                        @input="saveForm"
                         v-show="!field.hide" 
                         v-model="fieldValues[field.field.handle]"
                         :is="field.component" v-bind="field" 
@@ -17,6 +18,7 @@
 
                     <component 
                         v-else
+                        @input="saveForm"
                         v-show="!field.hide" 
                         v-model="fieldValues"
                         :form="form"
@@ -47,6 +49,9 @@ import DependantField from '../mixins/dependant-field'
 export default {
     mixins: [DependantField],
     props: {
+        id: {
+
+        },
         validateUrl: {
 
         },
@@ -67,6 +72,12 @@ export default {
         },
         footer: {
             
+        },
+        saveStateExcept: {
+            type: Array,
+        },
+        saveState: {
+            default: false,
         },
         validateOnLastStep: {
             default: true,
@@ -109,6 +120,9 @@ export default {
         hasNextStep() {
             return this.currentStep < this.steps.length - 1
         },
+        localStorageName() {
+            return 'simple_wizard_' + this.id
+        }
     },
     mounted() {
         _.each(this.loadedSteps, (step) => {
@@ -120,8 +134,22 @@ export default {
             //     }
             // })
         })
+        if (this.saveState) {
+            this.loadForm()
+        }
     },
     methods: {
+        loadForm() {
+            let form = JSON.parse(localStorage.getItem(this.localStorageName))
+            Object.keys(form).forEach((key) => {
+                if (key != 'errors' && !this.saveStateExcept.includes(key)) {
+                    this.form[key] = form[key]
+                }
+            })
+        },
+        saveForm() {
+            localStorage.setItem(this.localStorageName, JSON.stringify(this.form))
+        },
         validate() {
             let params = {
                 step: this.currentStep,
@@ -145,7 +173,6 @@ export default {
                     }
                 }).catch((error) => {
                     this.loading = false
-                    console.log(error.response.data)
                     this.form.errors.record(error.response.data)
                 })
             } else {
