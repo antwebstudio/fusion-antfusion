@@ -55,11 +55,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_dependant_field__WEBPACK_IMPORTED_MODULE_1__["default"]],
   props: {
+    id: {},
     validateUrl: {},
     syncDependantFieldUrl: {},
     path: {},
@@ -67,6 +70,12 @@ __webpack_require__.r(__webpack_exports__);
     value: {},
     form: {},
     footer: {},
+    saveStateExcept: {
+      type: Array
+    },
+    saveState: {
+      "default": false
+    },
     validateOnLastStep: {
       "default": true
     },
@@ -109,6 +118,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     hasNextStep: function hasNextStep() {
       return this.currentStep < this.steps.length - 1;
+    },
+    localStorageName: function localStorageName() {
+      return 'simple_wizard_' + this.id;
     }
   },
   mounted: function mounted() {
@@ -123,8 +135,30 @@ __webpack_require__.r(__webpack_exports__);
       // })
 
     });
+
+    console.log('save state', this.saveState);
+
+    if (this.saveState) {
+      this.loadForm();
+    }
   },
   methods: {
+    loadForm: function loadForm() {
+      var _this3 = this;
+
+      var form = JSON.parse(localStorage.getItem(this.localStorageName)); // console.log('load from loca storage', form)
+
+      Object.keys(form).forEach(function (key) {
+        if (key != 'errors' && !_this3.saveStateExcept.includes(key)) {
+          _this3.form[key] = form[key];
+        }
+      });
+    },
+    saveForm: function saveForm() {
+      // console.log('storage name', this.localStorageName)
+      // console.log('save to loca storage', this.form)
+      localStorage.setItem(this.localStorageName, JSON.stringify(this.form));
+    },
     validate: function validate() {
       var params = {
         step: this.currentStep,
@@ -137,23 +171,22 @@ __webpack_require__.r(__webpack_exports__);
       this.next();
     },
     next: function next() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.hasNextStep || this.validateOnLastStep) {
         this.loading = true;
         this.validate().then(function (response) {
-          _this3.loading = false;
+          _this4.loading = false;
 
-          if (_this3.hasNextStep) {
-            _this3.currentStep++;
+          if (_this4.hasNextStep) {
+            _this4.currentStep++;
           } else {
-            _this3.$refs.submit.click();
+            _this4.$refs.submit.click();
           }
         })["catch"](function (error) {
-          _this3.loading = false;
-          console.log(error.response.data);
+          _this4.loading = false;
 
-          _this3.form.errors.record(error.response.data);
+          _this4.form.errors.record(error.response.data);
         });
       } else {
         this.$refs.submit.click();
@@ -1715,6 +1748,7 @@ var render = function () {
                                     field.field.handle
                                   ),
                                 },
+                                on: { input: _vm.saveForm },
                                 model: {
                                   value: _vm.fieldValues[field.field.handle],
                                   callback: function ($$v) {
@@ -1756,6 +1790,7 @@ var render = function () {
                                   form: _vm.form,
                                   errors: _vm.form.errors,
                                 },
+                                on: { input: _vm.saveForm },
                                 model: {
                                   value: _vm.fieldValues,
                                   callback: function ($$v) {

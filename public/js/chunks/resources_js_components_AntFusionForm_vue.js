@@ -95,10 +95,9 @@ __webpack_require__.r(__webpack_exports__);
     var form = {};
 
     _.each(this.fields, function (field) {
-      form[field.handle] = _this.values[field.handle] || field["default"];
-      console.log('field', field);
-      console.log('set ' + field.handle, _this.values[field.handle], field["default"]);
-      console.log('value', form[field.handle]);
+      form[field.handle] = _this.values[field.handle] || field["default"]; // console.log('field', field)
+      // console.log('set '+field.handle, this.values[field.handle], field.default)
+      // console.log('value', form[field.handle])
     });
 
     this.form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](form, true);
