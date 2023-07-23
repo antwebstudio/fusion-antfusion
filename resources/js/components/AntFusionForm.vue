@@ -30,7 +30,7 @@
             </template>
         </div>
 
-        <input type="hidden" :name="name" :value="JSON.stringify(this.form.data())" />
+        <input type="hidden" :name="name" :value="JSON.stringify(this.form)" />
     </div>
 </template>
 

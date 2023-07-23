@@ -28,7 +28,7 @@ export default {
                 field: fieldToBeUpdated.handle,
                 path: fieldToBeUpdated.path,
                 attribute: dependsOnAttribute,
-                form: form.data(),
+                form: form,
             }
             // console.log('sync field', this.form.data(), form.data())
             axios.patch(this.syncDependantFieldUrl, params).then((response) => {
