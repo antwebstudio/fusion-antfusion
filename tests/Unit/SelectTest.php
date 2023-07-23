@@ -21,7 +21,7 @@ class SelectTest extends TestCase
         
         $action = $resource->getComponentByPath(Str::after($path, '.'));
         
-        $this->assertEquals(\App\AntFusion\Actions\CreateCustomer::class, get_class($action));
+        $this->assertEquals(\Addons\AntFusion\Actions\Create::class, get_class($action));
     }
 }
 
@@ -31,7 +31,7 @@ class SelectTestResource extends Resource
         return [
             Panel::make('', [
                 Select::make('Customer', 'customer')
-                    ->addAction(new \App\AntFusion\Actions\CreateCustomer)
+                    ->addAction(new \Addons\AntFusion\Actions\Create)
                     ->options([]),
             ])->width('1/2')->withRightPadding(),
         ];

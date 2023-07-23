@@ -73,13 +73,16 @@ class SimpleWizard extends Component implements Panel, JsonSerializable {
 
     public function toArray() {
         $steps = [];
+        $index = 0;
         foreach ($this->steps as $fields) {
             $step = [];
-            foreach ($fields as $index => $field) {
-                $step[] = $field->setParent($this, $index, 'f')->toArray();
+            foreach ($fields as $field) {
+                $step[] = $field->setParent($this, $index++, 'f')->toArray();
             }
             $steps[] = [
                 'children' => $step,
+                // @TODO: rewrite to use convertFieldsToArray() method in HasFields trait.
+                // 'children' => $this->convertFieldsToArray($fields),
             ];
         }
 

@@ -8,7 +8,11 @@ trait HasFields {
         return [];
     }
 
-    protected function convertFieldsToArray($fields, $scenario = null) {
+    protected function convertFieldsToArray($fields, $scenario = null, $flattern = false) {
+        return $this->_convertFieldsToArray($this->_resolveFields($fields, $flattern), $scenario);
+    }
+
+    protected function _convertFieldsToArray($fields, $scenario = null) {
         $fieldsArray = [];
         foreach ($fields as $field) {
             if ($this->shouldShowField($field, $scenario)) {
@@ -19,26 +23,31 @@ trait HasFields {
     }
 
     protected function flatternFieldsArray($scenario = null) {
-        return $this->convertFieldsToArray($this->resolveFields(true), $scenario);
+        return $this->_convertFieldsToArray($this->resolveFields(true), $scenario);
     }
 
     protected function fieldsArray($scenario = null) {
-        return $this->convertFieldsToArray($this->resolveFields(false), $scenario);
+        return $this->_convertFieldsToArray($this->resolveFields(false), $scenario);
     }
 
-    public function resolveFields($flattern = false) {
-        $fields = [];
-        foreach ($this->fields() as $index => $field) {
+    public function resolveFields($flattern = false) 
+    {
+        return $this->_resolveFields($this->fields(), $flattern);
+    }
+
+    public function _resolveFields($fields, $flattern = false) {
+        $resolvedFields = [];
+        foreach ($fields as $index => $field) {
             if (is_object($field)) {
                 $field->setParent($this, $index, 'f');
             }
             if ($field instanceof Panel && $flattern) {
-                $fields = array_merge($fields, $field->resolveFields(true));
+                $resolvedFields = array_merge($resolvedFields, $field->resolveFields(true));
             } else {
-                $fields[] = $field;
+                $resolvedFields[] = $field;
             }
         }
-        return $fields;
+        return $resolvedFields;
     }
 
     protected function fieldsRules($scenario = null) {

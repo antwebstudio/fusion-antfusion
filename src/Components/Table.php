@@ -27,6 +27,7 @@ class Table extends Component implements Panel {
             'as' => $this->component,
             'children' => $this->convertFieldsToArray($this->rows),
             'fields' => $this->flatternFieldsArray(),
+            'path' => $this->getPath(),
         ]);
     }
 
