@@ -68,7 +68,8 @@ var MILLISECONDS_DAY = 24 * MILLISECONDS_HOUR;
     setInterval(function () {
       _this.updateTime();
 
-      if (_this.timeLeft <= 0) {// this.submit()
+      if (_this.timeLeft <= 0) {
+        _this.submit();
       }
     }, 1000);
   },

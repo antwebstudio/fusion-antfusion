@@ -17,6 +17,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     children: {}
@@ -113,12 +115,9 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "table",
-    _vm._b({}, "table", _vm.$props, false),
-    [_vm._t("default")],
-    2
-  )
+  return _c("div", { staticClass: "overflow-x-auto" }, [
+    _c("table", _vm._b({}, "table", _vm.$props, false), [_vm._t("default")], 2),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

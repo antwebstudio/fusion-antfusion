@@ -136,8 +136,6 @@ __webpack_require__.r(__webpack_exports__);
 
     });
 
-    console.log('save state', this.saveState);
-
     if (this.saveState) {
       this.loadForm();
     }
@@ -146,8 +144,7 @@ __webpack_require__.r(__webpack_exports__);
     loadForm: function loadForm() {
       var _this3 = this;
 
-      var form = JSON.parse(localStorage.getItem(this.localStorageName)); // console.log('load from loca storage', form)
-
+      var form = JSON.parse(localStorage.getItem(this.localStorageName));
       Object.keys(form).forEach(function (key) {
         if (key != 'errors' && !_this3.saveStateExcept.includes(key)) {
           _this3.form[key] = form[key];
@@ -155,8 +152,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     saveForm: function saveForm() {
-      // console.log('storage name', this.localStorageName)
-      // console.log('save to loca storage', this.form)
       localStorage.setItem(this.localStorageName, JSON.stringify(this.form));
     },
     validate: function validate() {
