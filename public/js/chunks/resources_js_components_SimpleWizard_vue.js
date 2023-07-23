@@ -246,7 +246,7 @@ __webpack_require__.r(__webpack_exports__);
         field: fieldToBeUpdated.handle,
         path: fieldToBeUpdated.path,
         attribute: dependsOnAttribute,
-        form: form.data()
+        form: form
       }; // console.log('sync field', this.form.data(), form.data())
 
       axios.patch(this.syncDependantFieldUrl, params).then(function (response) {

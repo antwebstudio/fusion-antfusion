@@ -165,7 +165,7 @@ __webpack_require__.r(__webpack_exports__);
         field: fieldToBeUpdated.handle,
         path: fieldToBeUpdated.path,
         attribute: dependsOnAttribute,
-        form: form.data()
+        form: form
       }; // console.log('sync field', this.form.data(), form.data())
 
       axios.patch(this.syncDependantFieldUrl, params).then(function (response) {
@@ -1771,7 +1771,7 @@ var render = function () {
       _vm._v(" "),
       _c("input", {
         attrs: { type: "hidden", name: _vm.name },
-        domProps: { value: JSON.stringify(this.form.data()) },
+        domProps: { value: JSON.stringify(this.form) },
       }),
     ],
     1
