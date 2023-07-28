@@ -43,6 +43,7 @@ export default {
     beforeRouteUpdate(to, from, next) {
         getPage(this.page, to, (response) => {
             this.meta = response.data
+            next()
         })
     },
     beforeRouteEnter(to, from, next) {

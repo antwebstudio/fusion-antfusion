@@ -21,8 +21,7 @@ export default {
     data() {
         return {
             loadingCount: 0,
-            meta: null,
-            page: null,
+            meta: {},
             resource: null,
             actions: null,
         }
@@ -36,6 +35,10 @@ export default {
         }
     },
     computed: {
+        page() {
+            if (this.meta.page) return this.meta.page
+            return {}
+        },
         loading() {
             return this.loadingCount > 0
         }
@@ -43,9 +46,9 @@ export default {
     beforeRouteUpdate(to, from, next) {
         axios.get('/api/antfusion/page/' + to.params.page + '').then((response) => {
             this.meta = response.data
-            this.page = response.data.page
             this.actions = response.data.actions
             console.log(response.data)
+            next()
         }).catch((error) => {
             if (error.response.data.errors && error.response.data.errors['*']) {
                 let errors = error.response.data.errors['*']
@@ -59,7 +62,6 @@ export default {
         axios.get('/api/antfusion/page/' + to.params.page + '').then((response) => {
             next((vm) => {
                 vm.meta = response.data
-                vm.page = response.data.page
                 vm.resource = response.data.resource
                 vm.actions = response.data.actions
                 console.log(response.data)
