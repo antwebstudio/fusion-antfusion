@@ -40,6 +40,7 @@ export default {
             this.record.submit('post', this.url, params).then((response) => {
                 this.loading = false
                 this.$emit('submitted')
+                this.$emit('refreshed')
 
                 if (response.message) {
                     toast(response.message, 'success')

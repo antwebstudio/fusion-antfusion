@@ -43,6 +43,8 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$emit('submitted');
 
+        _this.$emit('refreshed');
+
         if (response.message) {
           toast(response.message, 'success');
         }
