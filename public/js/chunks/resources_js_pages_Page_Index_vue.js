@@ -33,8 +33,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       loadingCount: 0,
-      meta: null,
-      page: null,
+      meta: {},
       resource: null,
       actions: null
     };
@@ -48,6 +47,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
+    page: function page() {
+      if (this.meta.page) return this.meta.page;
+      return {};
+    },
     loading: function loading() {
       return this.loadingCount > 0;
     }
@@ -57,9 +60,9 @@ __webpack_require__.r(__webpack_exports__);
 
     axios.get('/api/antfusion/page/' + to.params.page + '').then(function (response) {
       _this.meta = response.data;
-      _this.page = response.data.page;
       _this.actions = response.data.actions;
       console.log(response.data);
+      next();
     })["catch"](function (error) {
       if (error.response.data.errors && error.response.data.errors['*']) {
         var errors = error.response.data.errors['*'];
@@ -73,7 +76,6 @@ __webpack_require__.r(__webpack_exports__);
     axios.get('/api/antfusion/page/' + to.params.page + '').then(function (response) {
       next(function (vm) {
         vm.meta = response.data;
-        vm.page = response.data.page;
         vm.resource = response.data.resource;
         vm.actions = response.data.actions;
         console.log(response.data);

@@ -19,9 +19,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
+    record: {},
     text: {},
     parent: {},
-    variant: {}
+    variant: {},
+    url: {},
+    path: {}
+  },
+  data: function data() {
+    return {
+      loading: false
+    };
+  },
+  methods: {
+    submit: function submit() {
+      var _this = this;
+
+      var params = this.record;
+      params['path'] = this.path;
+      this.loading = true;
+      this.record.submit('post', this.url, params).then(function (response) {
+        _this.loading = false;
+
+        _this.$emit('submitted');
+
+        if (response.message) {
+          toast(response.message, 'success');
+        }
+
+        if (response.redirect) {
+          if (response.target) {
+            window.open(response.redirect, response.target);
+          } else {
+            // location.href = response.redirect
+            _this.$router.push(response.redirect);
+          }
+        }
+      })["catch"](function (error) {
+        _this.loading = false;
+
+        if (error.errors) {
+          _this.errors = error.errors;
+          var message = Object.keys(error.errors).map(function (key) {
+            return error.errors[key].join(' ');
+          }).join(' ');
+          toast(message, 'failed');
+        } else {
+          toast(error.message, 'failed');
+        }
+      });
+    }
   }
 });
 
@@ -117,7 +164,7 @@ var render = function () {
       _c(
         "ui-button",
         _vm._b(
-          { on: { click: _vm.parent.submit } },
+          { attrs: { loading: _vm.loading }, on: { click: _vm.submit } },
           "ui-button",
           _vm.$props,
           false
