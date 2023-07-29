@@ -24,7 +24,10 @@ __webpack_require__.r(__webpack_exports__);
     parent: {},
     variant: {},
     url: {},
-    path: {}
+    path: {},
+    useParentSubmit: {
+      "default": false
+    }
   },
   data: function data() {
     return {
@@ -35,41 +38,45 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this = this;
 
-      var params = this.record;
-      params['path'] = this.path;
-      this.loading = true;
-      this.record.submit('post', this.url, params).then(function (response) {
-        _this.loading = false;
+      if (this.useParentSubmit) {
+        this.parent.submit();
+      } else {
+        var params = this.record;
+        params['path'] = this.path;
+        this.loading = true;
+        this.record.submit('post', this.url, params).then(function (response) {
+          _this.loading = false;
 
-        _this.$emit('submitted');
+          _this.$emit('submitted');
 
-        _this.$emit('refreshed');
+          _this.$emit('refreshed');
 
-        if (response.message) {
-          toast(response.message, 'success');
-        }
-
-        if (response.redirect) {
-          if (response.target) {
-            window.open(response.redirect, response.target);
-          } else {
-            // location.href = response.redirect
-            _this.$router.push(response.redirect);
+          if (response.message) {
+            toast(response.message, 'success');
           }
-        }
-      })["catch"](function (error) {
-        _this.loading = false;
 
-        if (error.errors) {
-          _this.errors = error.errors;
-          var message = Object.keys(error.errors).map(function (key) {
-            return error.errors[key].join(' ');
-          }).join(' ');
-          toast(message, 'failed');
-        } else {
-          toast(error.message, 'failed');
-        }
-      });
+          if (response.redirect) {
+            if (response.target) {
+              window.open(response.redirect, response.target);
+            } else {
+              // location.href = response.redirect
+              _this.$router.push(response.redirect);
+            }
+          }
+        })["catch"](function (error) {
+          _this.loading = false;
+
+          if (error.errors) {
+            _this.errors = error.errors;
+            var message = Object.keys(error.errors).map(function (key) {
+              return error.errors[key].join(' ');
+            }).join(' ');
+            toast(message, 'failed');
+          } else {
+            toast(error.message, 'failed');
+          }
+        });
+      }
     }
   }
 });
