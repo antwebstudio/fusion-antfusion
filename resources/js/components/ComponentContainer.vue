@@ -3,7 +3,7 @@
         <component
             :loading="loading"
             @load="onLoading" @loaded="onLoaded"
-            v-for="(component, index) in components" :key="index"
+            v-for="(component, index) in processedComponents" :key="index"
             :is="component.component"
             v-bind="component"
             >
@@ -14,6 +14,9 @@
 <script>
 export default {
     props: {
+        suffix: {
+
+        },
         components: {
 
         }
@@ -24,6 +27,9 @@ export default {
         }
     },
     methods: {
+        componentExist(componentName) {
+            return this.$options.components && this.$options.components[componentName]
+        },
         onLoading() {
             this.loadingCount++
         },
@@ -32,6 +38,18 @@ export default {
         }
     },
     computed: {
+        processedComponents() {
+            if (this.suffix) {
+                return this.components.map((component) => {
+                    let componentName = component.component + this.suffix
+                    if (this.componentExist(componentName)) {
+                        component.component = componentName
+                    } 
+                    return component
+                })
+            }
+            return this.components
+        },
         loading() {
             return this.loadingCount > 0
         }

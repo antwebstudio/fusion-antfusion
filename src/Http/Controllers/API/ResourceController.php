@@ -28,6 +28,11 @@ class ResourceController extends Controller
         return $resource->editMeta($request->resourceId);
     }
 
+    public function view(Request $request) {
+        $resource = app('resources.'.$request->resource);
+        return $resource->viewMeta($request->resourceId);
+    }
+
     public function update(Request $request) {
         $resource = app('resources.'.$request->resource);
         return $resource->update($request);

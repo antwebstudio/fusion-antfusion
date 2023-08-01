@@ -100,9 +100,12 @@ export default {
             this.openModal(this.modalName)
         },
         confirm() {
-            console.log('confirm', this)
             this.loading = true
-            axios.post(this.url, { resourceIds: [this.record.id] }).then((response) => {
+
+            // this.record is null when action standalone
+            let params = this.record ? [this.record.id] : []
+
+            axios.post(this.url, { resourceIds: params }).then((response) => {
                 console.log('action button', response)
                 if (response.data.redirect) {
                     if (response.data.target) {

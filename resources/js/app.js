@@ -65,6 +65,15 @@ window.Fusion.booting(function(Vue, router, store) {
             }
 		},
 		{
+			path: '/resource/:resource/:id/view',
+            component: () => import('./pages/Resource/View'),
+            name: 'antfusion.resource.show',
+            meta: {
+                requiresAuth: true,
+                layout: 'admin'
+            }
+		},
+		{
 			path: '/report/:report', 
             component: () => import('./pages/Report/Index'),
             name: 'antfusion.report',

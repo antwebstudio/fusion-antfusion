@@ -10,6 +10,7 @@ Route::patch('antfusion/resource/{resource}/{resourceId}', 'ResourceController@u
 Route::get('antfusion/resource/{resource}/show', 'ResourceController@show')->name('antfusion.resource.find');
 Route::get('antfusion/resource/{resource}/{resourceId}', 'ResourceController@show');
 Route::get('antfusion/resource/{resource}/{resourceId}/edit', 'ResourceController@edit');
+Route::get('antfusion/resource/{resource}/{resourceId}/view', 'ResourceController@view');
 
 Route::post('antfusion/resource/{resource}/{resourceId}/action/{action}', 'ResourceController@performAction');
 Route::post('antfusion/resource/{resource}/action/{action}', 'ResourceController@performAction');
