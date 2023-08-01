@@ -94,17 +94,21 @@ __webpack_require__.r(__webpack_exports__);
     confirm: function confirm() {
       var _this = this;
 
-      console.log('confirm', this);
-      this.loading = true;
+      this.loading = true; // this.record is null when action standalone
+
+      var params = this.record ? [this.record.id] : [];
       axios.post(this.url, {
-        resourceIds: [this.record.id]
+        resourceIds: params
       }).then(function (response) {
         console.log('action button', response);
 
         if (response.data.redirect) {
           if (response.data.target) {
+            console.log('window.open', response);
             window.open(response.data.redirect, response.data.target);
           } else {
+            console.log('router', response);
+
             _this.$router.push(response.data.redirect);
           }
         } else {

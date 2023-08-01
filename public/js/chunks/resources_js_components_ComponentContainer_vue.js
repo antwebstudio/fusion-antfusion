@@ -26,6 +26,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
+    suffix: {},
     components: {}
   },
   data: function data() {
@@ -34,6 +35,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    componentExist: function componentExist(componentName) {
+      return this.$options.components && this.$options.components[componentName];
+    },
     onLoading: function onLoading() {
       this.loadingCount++;
     },
@@ -42,6 +46,23 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
+    processedComponents: function processedComponents() {
+      var _this = this;
+
+      if (this.suffix) {
+        return this.components.map(function (component) {
+          var componentName = component.component + _this.suffix;
+
+          if (_this.componentExist(componentName)) {
+            component.component = componentName;
+          }
+
+          return component;
+        });
+      }
+
+      return this.components;
+    },
     loading: function loading() {
       return this.loadingCount > 0;
     }
@@ -137,7 +158,7 @@ var render = function () {
   return _c(
     "div",
     _vm._b({ staticClass: "flex flex-wrap" }, "div", _vm.$props, false),
-    _vm._l(_vm.components, function (component, index) {
+    _vm._l(_vm.processedComponents, function (component, index) {
       return _c(
         component.component,
         _vm._b(
