@@ -51,6 +51,15 @@ class SimpleWizard extends Component implements Panel, JsonSerializable {
         return $rules;
     }
 
+    public function saveStateExceptAndWhen($except, $whenCallback) {
+        return $this->registerHook('preparing', function() use($except, $whenCallback) {
+            if (call_user_func_array($whenCallback, [$this->scenario, $this])) {
+                $this->saveStateExcept($except);
+            }
+        });
+        return $this;
+    } 
+
     public function saveStateExcept($except) {
         return $this->withMeta([
             'saveState' => true,

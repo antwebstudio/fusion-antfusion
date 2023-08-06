@@ -174,5 +174,15 @@ abstract class Resource {
 
     protected function afterSave(Request $request, $model) {
         
-    } 
+    }
+
+    public function exportToExcelHeadings()
+    {
+        return [];
+    }
+
+    protected function exportToExcelMap($array) 
+    {
+        return $array;
+    }
 }

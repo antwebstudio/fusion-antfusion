@@ -10,6 +10,7 @@ class Field {
     use \Addons\AntFusion\Traits\HasDependants;
     use \Addons\AntFusion\Traits\HasPath;
     use \Addons\AntFusion\Traits\HasParent;
+    use \Addons\AntFusion\Traits\HasHooks;
     
     public $label;
     public $handle;
@@ -23,6 +24,10 @@ class Field {
     public function __construct($label, $handle) {
         $this->label = $label;
         $this->handle = $handle;
+    }
+
+    public function getLabel() {
+        return $this->label;
     }
 
     public function getHandle() {

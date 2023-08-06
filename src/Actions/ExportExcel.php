@@ -1,8 +1,7 @@
 <?php
 namespace Addons\AntFusion\Actions;
 
-use Addons\AntFusion\Fields\Fusion;
-use Ant\Contact\Models\Contact;
+use Addons\AntFusion\Resource;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ExportExcel extends \Addons\AntFusion\Action
@@ -22,6 +21,9 @@ class ExportExcel extends \Addons\AntFusion\Action
     public function handle($request, $models)
     {
         $exporter = is_callable($this->exporter) ? call_user_func_array($this->exporter, [$request, $models]) : $this->exporter;
+        if ($exporter instanceof Resource) {
+            $exporter = new \Addons\AntFusion\Services\ExcelExport($exporter);
+        }
         Excel::store($exporter, 'export-excel/'.$this->filename);
         $downloadUrl = url('storage/export-excel/'.$this->filename);
 
