@@ -57,6 +57,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1710,6 +1711,7 @@ var render = function () {
   return _c(
     "div",
     [
+      _vm._v("\n    " + _vm._s(_vm.form) + "\n    "),
       _vm._l(_vm.steps, function (step, index) {
         return _c("div", { key: index }, [
           index == _vm.currentStep
