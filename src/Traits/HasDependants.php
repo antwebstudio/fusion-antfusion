@@ -28,11 +28,16 @@ trait HasDependants {
         return $this->toArrayWithoutDependant();
     }
 
+    public function hasDependency()
+    {
+        return count($this->dependantCallback);
+    }
+
     public function processDependency($request,  $formData = null, $attributes = null) {
-        if (count($this->dependantCallback)) {
+        if ($this->hasDependency()) {
             $formData = $formData ?? json_decode(json_encode($request->form));
             $attributes = $attributes ?? array_keys($this->dependantCallback);
-
+            
             foreach ($attributes as $attribute) {
                 call_user_func_array($this->dependantCallback[$attribute], [$this, $request, $formData]);
             }

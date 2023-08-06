@@ -42,6 +42,10 @@ trait HasFields {
         foreach ($fields as $index => $field) {
             if (is_object($field)) {
                 $field->setParent($this, $index, 'f')->setScenario($scenario)->hook('preparing', [$scenario, $this]);
+
+                if (method_exists($field, 'processDependency') && method_exists($field, 'hasDependency') && $field->hasDependency()) {
+                    $field->processDependency(request(), json_decode(json_encode(request()->all())));
+                }
             }
             if ($field instanceof Panel && $flattern) {
                 $resolvedFields = array_merge($resolvedFields, $field->resolveFields(true));
