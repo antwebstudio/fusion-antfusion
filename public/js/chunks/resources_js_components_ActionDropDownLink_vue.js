@@ -104,11 +104,8 @@ __webpack_require__.r(__webpack_exports__);
 
         if (response.data.redirect) {
           if (response.data.target) {
-            console.log('window.open', response);
             window.open(response.data.redirect, response.data.target);
           } else {
-            console.log('router', response);
-
             _this.$router.push(response.data.redirect);
           }
         } else {

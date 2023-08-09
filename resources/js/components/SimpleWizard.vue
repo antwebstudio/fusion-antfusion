@@ -168,12 +168,18 @@ export default {
                     this.loading = false
                     if (this.hasNextStep) {
                         this.currentStep++
+                        this.$nextTick(() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        })
                     } else {
                         this.$refs.submit.click()
                     }
                 }).catch((error) => {
                     this.loading = false
                     this.form.errors.record(error.response.data)
+                    this.$nextTick(() => {
+                        this.$el.querySelector('.help').scrollIntoView({behavior: 'smooth'})
+                    })
                 })
             } else {
                 this.$refs.submit.click()

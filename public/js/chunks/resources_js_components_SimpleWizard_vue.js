@@ -57,7 +57,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -176,6 +175,13 @@ __webpack_require__.r(__webpack_exports__);
 
           if (_this4.hasNextStep) {
             _this4.currentStep++;
+
+            _this4.$nextTick(function () {
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+            });
           } else {
             _this4.$refs.submit.click();
           }
@@ -183,6 +189,12 @@ __webpack_require__.r(__webpack_exports__);
           _this4.loading = false;
 
           _this4.form.errors.record(error.response.data);
+
+          _this4.$nextTick(function () {
+            _this4.$el.querySelector('.help').scrollIntoView({
+              behavior: 'smooth'
+            });
+          });
         });
       } else {
         this.$refs.submit.click();
@@ -1711,7 +1723,6 @@ var render = function () {
   return _c(
     "div",
     [
-      _vm._v("\n    " + _vm._s(_vm.form) + "\n    "),
       _vm._l(_vm.steps, function (step, index) {
         return _c("div", { key: index }, [
           index == _vm.currentStep
