@@ -4,9 +4,11 @@ namespace Addons\AntFusion\Providers;
 
 use Fusion\Facades\Menu;
 use Illuminate\Support\Str;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Addons\AntFusion\Services\AntFusionRouter;
 
 class AddonServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,15 @@ class AddonServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
+
+        $this->app->singleton('antfusion-router', function() {
+            return new AntFusionRouter;
+        });
+        
+        Router::macro('antfusionAdmin', function($uri, $component, $props = []) {
+            app('antfusion-router')->registerAdminRoute($uri, $component, $props);
+            return $this;
+        });
     }
 
     /**
@@ -47,6 +58,7 @@ class AddonServiceProvider extends ServiceProvider
             );
         }
         \Fusion::asset(mix('js/app.js', 'addons/AntFusion')->toHtml());
+        \Fusion::asset(url('antfusion-admin-routes.js'));
     }
 
     protected function resourcesIn($path) {

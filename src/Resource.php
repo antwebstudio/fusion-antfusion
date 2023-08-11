@@ -185,4 +185,12 @@ abstract class Resource {
     {
         return $array;
     }
+
+    public function toRouteArray()
+    {
+        return [
+            'component' => 'antfusion-page',
+            'props' => $this->toArray(),
+        ];
+    }
 }

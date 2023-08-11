@@ -2,7 +2,39 @@ import DateRangePicker from 'vue2-daterange-picker'
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 import Fragment from 'vue-fragment'
 
+window.Fusion.registerPage = function(router, path, componentName, props, meta) {
+    const route ={ 
+        path: path, 
+        component: () => import('./components/AntFusionRouteView'),
+        name: 'antfusion',
+        meta: {
+            ... meta,
+            component: componentName,
+            componentProps: props,
+        }
+    }
+    // console.log(route)
+	router.addRoutes([route])
+}
+
+const loadComponents = function(Vue, requireComponent, namespace) {
+    requireComponent.keys().forEach(fileName => {
+        let componentConfig = requireComponent(fileName);
+        let componentName = fileName.split('/').pop().replace(/\.\w+$/, '');
+        // Convert to kebab case
+        componentName = componentName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+
+        if (namespace) {
+            componentName = namespace + '-' + componentName
+        }
+
+        Vue.component(componentName, componentConfig.default || componentConfig);
+    });
+}
+
 window.Fusion.booting(function(Vue, router, store) {
+    // loadComponents(Vue, require.context('./components', true, /\.vue$/))
+
     Vue.use(Fragment.Plugin)
 
     Vue.component('date-range-picker', DateRangePicker)
@@ -11,6 +43,7 @@ window.Fusion.booting(function(Vue, router, store) {
     // Vue.component('antfusion-panel', () => import('./components/Panel'))
     Vue.component('panel-body', () => import('./components/PanelBody'))
     Vue.component('antfusion-edit-link', () => import('./components/EditResourceLink'))
+    Vue.component('antfusion-page', () => import('./components/Page'))
     Vue.component('page-as-component', () => import('./components/PageAsComponent'))
     Vue.component('spinner', () => import('./components/Spinner'))
     Vue.component('parent-value', () => import('./components/ParentValue'))

@@ -54,6 +54,8 @@ class Page {
             'title' => $this->getTitle(),
             'icon' => $this->getIcon(),
         ];
+        $pageArray['title'] = $this->getTitle();
+        $pageArray['icon'] = $this->getIcon();
         $pageArray['components'] = $this->componentsArray();
         $pageArray['actions'] = $this->actionsArray();
         $pageArray['component'] = $this->component;
@@ -82,5 +84,13 @@ class Page {
                 'component' => $this->component,
             ]),
         ];
-    }   
+    }
+
+    public function toRouteArray()
+    {
+        return [
+            'component' => 'antfusion-page',
+            'props' => $this->toArray(),
+        ];
+    }
 }
