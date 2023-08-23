@@ -157,12 +157,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._b(
-      { staticClass: "flex flex-wrap flex-col" },
-      "div",
-      _vm.$props,
-      false
-    ),
+    _vm._b({ staticClass: "flex flex-wrap" }, "div", _vm.$props, false),
     _vm._l(_vm.processedComponents, function (component, index) {
       return _c(
         component.component,

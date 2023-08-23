@@ -57,6 +57,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1723,15 +1725,15 @@ var render = function () {
   return _c(
     "div",
     [
-      _vm._l(_vm.steps, function (step, index) {
-        return _c("div", { key: index }, [
-          index == _vm.currentStep
+      _vm._l(_vm.steps, function (step, stepIndex) {
+        return _c("div", { key: stepIndex }, [
+          stepIndex == _vm.currentStep
             ? _c(
                 "div",
                 _vm._l(step.children, function (field, fieldIndex) {
                   return _c(
                     "div",
-                    { key: fieldIndex },
+                    { key: stepIndex + "_" + field.handle + "_" + fieldIndex },
                     [
                       !field.is_panel
                         ? _c(
@@ -1746,6 +1748,7 @@ var render = function () {
                                     expression: "!field.hide",
                                   },
                                 ],
+                                key: field.handle,
                                 tag: "component",
                                 attrs: {
                                   errors: _vm.form.errors,
@@ -1793,6 +1796,7 @@ var render = function () {
                                     expression: "!field.hide",
                                   },
                                 ],
+                                key: field.handle,
                                 tag: "component",
                                 attrs: {
                                   form: _vm.form,

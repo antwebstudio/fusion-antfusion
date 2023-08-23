@@ -43,6 +43,25 @@ __webpack_require__.r(__webpack_exports__);
     as: {},
     record: {},
     children: {}
+  },
+  data: function data() {
+    return {
+      fieldValues: this.form
+    };
+  },
+  watch: {
+    fieldValues: {
+      handler: function handler(value) {
+        var _this = this;
+
+        // let form = 
+        Object.keys(value).forEach(function (key) {
+          _this.form[key] = value[key];
+        });
+        this.$emit('input', this.form);
+      },
+      deep: true
+    }
   }
 });
 
@@ -158,7 +177,7 @@ var render = function () {
                         expression: "! childComponent.hide",
                       },
                     ],
-                    key: index,
+                    key: childComponent.handle + "_" + index,
                     tag: "component",
                     attrs: {
                       form: _vm.form,
@@ -186,55 +205,65 @@ var render = function () {
                 _vm._v(
                   "\n\n        " + _vm._s(childComponent.text) + "\n\n        "
                 ),
-                _vm._l(childComponent.children, function (grandchild, index) {
-                  return childComponent.children
-                    ? _c(
-                        grandchild.component,
-                        _vm._g(
-                          _vm._b(
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: !grandchild.hide,
-                                  expression: "! grandchild.hide",
+                _vm._l(
+                  childComponent.children,
+                  function (grandchild, grandchildIndex) {
+                    return childComponent.children
+                      ? _c(
+                          grandchild.component,
+                          _vm._g(
+                            _vm._b(
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: !grandchild.hide,
+                                    expression: "! grandchild.hide",
+                                  },
+                                ],
+                                key:
+                                  grandchild.handle +
+                                  "_" +
+                                  index +
+                                  "_" +
+                                  grandchildIndex,
+                                tag: "component",
+                                attrs: {
+                                  form: _vm.form,
+                                  errors: _vm.form.errors,
+                                  record: _vm.record,
                                 },
-                              ],
-                              key: index,
-                              tag: "component",
-                              attrs: {
-                                form: _vm.form,
-                                errors: _vm.form.errors,
-                                record: _vm.record,
-                              },
-                              model: {
-                                value: _vm.form[grandchild.handle],
-                                callback: function ($$v) {
-                                  _vm.$set(_vm.form, grandchild.handle, $$v)
+                                model: {
+                                  value: _vm.form[grandchild.handle],
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.form, grandchild.handle, $$v)
+                                  },
+                                  expression: "form[grandchild.handle]",
                                 },
-                                expression: "form[grandchild.handle]",
                               },
-                            },
-                            "component",
-                            grandchild,
-                            false
+                              "component",
+                              grandchild,
+                              false
+                            ),
+                            _vm.$listeners
                           ),
-                          _vm.$listeners
-                        ),
-                        [
-                          _vm.debug
-                            ? _c("span", [_vm._v(_vm._s(grandchild.component))])
-                            : _vm._e(),
-                          _vm._v(
-                            "\n\n            " +
-                              _vm._s(grandchild.text) +
-                              "\n        "
-                          ),
-                        ]
-                      )
-                    : _vm._e()
-                }),
+                          [
+                            _vm.debug
+                              ? _c("span", [
+                                  _vm._v(_vm._s(grandchild.component)),
+                                ])
+                              : _vm._e(),
+                            _vm._v(
+                              "\n\n            " +
+                                _vm._s(grandchild.text) +
+                                "\n        "
+                            ),
+                          ]
+                        )
+                      : _vm._e()
+                  }
+                ),
               ],
               2
             )

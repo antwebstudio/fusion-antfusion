@@ -17,23 +17,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    title: {},
-    icon: {},
-    actions: {},
     components: {}
   }
 });
@@ -126,57 +111,12 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [
-      _c(
-        "portal",
-        { attrs: { to: "title" } },
-        [
-          _c("page-title", { attrs: { icon: _vm.icon || "layer-group" } }, [
-            _vm._v(_vm._s(_vm.title)),
-          ]),
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("portal", { attrs: { to: "actions" } }, [
-        _vm.actions
-          ? _c(
-              "span",
-              { staticClass: "print:hidden" },
-              _vm._l(_vm.actions, function (action, index) {
-                return _c(
-                  action.component,
-                  _vm._b(
-                    {
-                      key: index,
-                      tag: "component",
-                      attrs: { route: _vm.route, loading: _vm.loading },
-                      on: {
-                        load: _vm.onLoading,
-                        loaded: _vm.onLoaded,
-                        submitted: _vm.refresh,
-                      },
-                    },
-                    "component",
-                    action,
-                    false
-                  ),
-                  [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(action.text) +
-                        "\n            "
-                    ),
-                  ]
-                )
-              }),
-              1
-            )
-          : _vm._e(),
-      ]),
-      _vm._v(" "),
-      _c("component-container", { attrs: { components: _vm.components } }),
-    ],
+    _vm._l(_vm.components, function (component, index) {
+      return _c(
+        component.component,
+        _vm._b({ key: index, tag: "component" }, "component", component, false)
+      )
+    }),
     1
   )
 }
