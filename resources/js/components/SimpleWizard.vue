@@ -173,6 +173,7 @@ export default {
                 this.loading = true
                 this.validate().then((response) => {
                     this.loading = false
+                    this.form.errors.record({errors: {}})
                     if (this.hasNextStep) {
                         this.currentStep++
                         this.$nextTick(() => {
@@ -183,6 +184,7 @@ export default {
                     }
                 }).catch((error) => {
                     this.loading = false
+                    // console.log('validation', error.response.data)
                     this.form.errors.record(error.response.data)
                     this.$nextTick(() => {
                         this.$el.querySelector('.help').scrollIntoView({behavior: 'smooth'})

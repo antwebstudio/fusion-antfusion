@@ -181,6 +181,10 @@ __webpack_require__.r(__webpack_exports__);
         this.validate().then(function (response) {
           _this4.loading = false;
 
+          _this4.form.errors.record({
+            errors: {}
+          });
+
           if (_this4.hasNextStep) {
             _this4.currentStep++;
 
@@ -195,6 +199,7 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (error) {
           _this4.loading = false;
+          console.log('validation', error.response.data);
 
           _this4.form.errors.record(error.response.data);
 
@@ -1735,105 +1740,102 @@ var render = function () {
       _vm._v(" "),
       _vm._l(_vm.steps, function (step, stepIndex) {
         return _c("div", { key: stepIndex }, [
-          _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: stepIndex == _vm.currentStep,
-                  expression: "stepIndex == currentStep",
-                },
-              ],
-            },
-            _vm._l(step.children, function (field, fieldIndex) {
-              return _c(
+          stepIndex == _vm.currentStep
+            ? _c(
                 "div",
-                { key: stepIndex + "_" + field.handle + "_" + fieldIndex },
-                [
-                  !field.is_panel
-                    ? _c(
-                        field.component,
-                        _vm._b(
-                          {
-                            directives: [
+                _vm._l(step.children, function (field, fieldIndex) {
+                  return _c(
+                    "div",
+                    { key: stepIndex + "_" + field.handle + "_" + fieldIndex },
+                    [
+                      !field.is_panel
+                        ? _c(
+                            field.component,
+                            _vm._b(
                               {
-                                name: "show",
-                                rawName: "v-show",
-                                value: !field.hide,
-                                expression: "!field.hide",
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: !field.hide,
+                                    expression: "!field.hide",
+                                  },
+                                ],
+                                key: field.handle,
+                                tag: "component",
+                                attrs: {
+                                  errors: _vm.form.errors,
+                                  hasError: _vm.form.errors.has(
+                                    field.field.handle
+                                  ),
+                                  errorMessage: _vm.form.errors.get(
+                                    field.field.handle
+                                  ),
+                                },
+                                on: { input: _vm.saveForm },
+                                model: {
+                                  value: _vm.fieldValues[field.field.handle],
+                                  callback: function ($$v) {
+                                    _vm.$set(
+                                      _vm.fieldValues,
+                                      field.field.handle,
+                                      $$v
+                                    )
+                                  },
+                                  expression: "fieldValues[field.field.handle]",
+                                },
                               },
-                            ],
-                            key: field.handle,
-                            tag: "component",
-                            attrs: {
-                              errors: _vm.form.errors,
-                              hasError: _vm.form.errors.has(field.field.handle),
-                              errorMessage: _vm.form.errors.get(
-                                field.field.handle
+                              "component",
+                              field,
+                              false
+                            ),
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(field.text) +
+                                  "\n                "
                               ),
-                            },
-                            on: { input: _vm.saveForm },
-                            model: {
-                              value: _vm.fieldValues[field.field.handle],
-                              callback: function ($$v) {
-                                _vm.$set(
-                                  _vm.fieldValues,
-                                  field.field.handle,
-                                  $$v
-                                )
-                              },
-                              expression: "fieldValues[field.field.handle]",
-                            },
-                          },
-                          "component",
-                          field,
-                          false
-                        ),
-                        [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(field.text) +
-                              "\n                "
-                          ),
-                        ]
-                      )
-                    : _c(
-                        field.component,
-                        _vm._b(
-                          {
-                            directives: [
+                            ]
+                          )
+                        : _c(
+                            field.component,
+                            _vm._b(
                               {
-                                name: "show",
-                                rawName: "v-show",
-                                value: !field.hide,
-                                expression: "!field.hide",
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: !field.hide,
+                                    expression: "!field.hide",
+                                  },
+                                ],
+                                key: field.handle,
+                                tag: "component",
+                                attrs: {
+                                  form: _vm.form,
+                                  errors: _vm.form.errors,
+                                },
+                                on: { input: _vm.saveForm },
                               },
-                            ],
-                            key: field.handle,
-                            tag: "component",
-                            attrs: { form: _vm.form, errors: _vm.form.errors },
-                            on: { input: _vm.saveForm },
-                          },
-                          "component",
-                          field,
-                          false
-                        ),
-                        [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(field.text) +
-                              "\n                "
+                              "component",
+                              field,
+                              false
+                            ),
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(field.text) +
+                                  "\n                "
+                              ),
+                            ]
                           ),
-                        ]
-                      ),
-                ],
-                1
+                    ],
+                    1
+                  )
+                }),
+                0
               )
-            }),
-            0
-          ),
+            : _vm._e(),
         ])
       }),
       _vm._v(" "),
