@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div v-if="debug">{{ fieldValues }}</div>
         <div v-for="step, stepIndex in steps" :key="stepIndex">
             <div v-if="stepIndex == currentStep">
                 <div v-for="field, fieldIndex in step.children" :key="stepIndex + '_' + field.handle + '_' + fieldIndex">
@@ -21,7 +22,6 @@
                         v-else
                         @input="saveForm"
                         v-show="!field.hide" 
-                        v-model="fieldValues"
                         :form="form"
                         :errors="form.errors"
                         :key="field.handle"
@@ -93,6 +93,9 @@ export default {
         submitButton: {
             default: {}
         },
+        debug: {
+            default: false,
+        },
     },
     watch: {
         fieldValues: {
@@ -126,7 +129,7 @@ export default {
             return 'simple_wizard_' + this.id
         }
     },
-    mounted() {
+    created() {
         _.each(this.loadedSteps, (step) => {
             this.registerComponentsDependency(step.children, this.form)
             // _.each(step.children, (component, fieldKey) => {
@@ -143,11 +146,13 @@ export default {
     methods: {
         loadForm() {
             let form = JSON.parse(localStorage.getItem(this.localStorageName))
-            Object.keys(form).forEach((key) => {
-                if (key != 'errors' && !this.saveStateExcept.includes(key)) {
-                    this.form[key] = form[key]
-                }
-            })
+            if (form) {
+                Object.keys(form).forEach((key) => {
+                    if (key != 'errors' && !this.saveStateExcept.includes(key)) {
+                        this.form[key] = form[key]
+                    }
+                })
+            }
         },
         saveForm() {
             localStorage.setItem(this.localStorageName, JSON.stringify(this.form))
