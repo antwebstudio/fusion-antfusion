@@ -42,6 +42,7 @@ __webpack_require__.r(__webpack_exports__);
     props: {},
     as: {},
     record: {},
+    value: {},
     children: {}
   },
   data: function data() {
@@ -185,11 +186,11 @@ var render = function () {
                       record: _vm.record,
                     },
                     model: {
-                      value: _vm.form[childComponent.handle],
+                      value: _vm.fieldValues[childComponent.handle],
                       callback: function ($$v) {
-                        _vm.$set(_vm.form, childComponent.handle, $$v)
+                        _vm.$set(_vm.fieldValues, childComponent.handle, $$v)
                       },
-                      expression: "form[childComponent.handle]",
+                      expression: "fieldValues[childComponent.handle]",
                     },
                   },
                   "component",
@@ -235,11 +236,15 @@ var render = function () {
                                   record: _vm.record,
                                 },
                                 model: {
-                                  value: _vm.form[grandchild.handle],
+                                  value: _vm.fieldValues[grandchild.handle],
                                   callback: function ($$v) {
-                                    _vm.$set(_vm.form, grandchild.handle, $$v)
+                                    _vm.$set(
+                                      _vm.fieldValues,
+                                      grandchild.handle,
+                                      $$v
+                                    )
                                   },
-                                  expression: "form[grandchild.handle]",
+                                  expression: "fieldValues[grandchild.handle]",
                                 },
                               },
                               "component",

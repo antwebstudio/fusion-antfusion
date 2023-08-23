@@ -1700,6 +1700,7 @@ var render = function () {
                         key: field.id,
                         tag: "component",
                         attrs: {
+                          debug: _vm.debug,
                           loading: _vm.loading,
                           parent: _vm.componentData,
                           form: _vm.form,
@@ -1748,6 +1749,7 @@ var render = function () {
                         key: field.id,
                         tag: "component",
                         attrs: {
+                          debug: _vm.debug,
                           form: _vm.form,
                           "sync-dependant-field-url": _vm.syncDependantFieldUrl,
                         },
