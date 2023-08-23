@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div v-for="step, index in steps" :key="index">
-            <div v-if="index == currentStep">
-                <div v-for="field, fieldIndex in step.children" :key="fieldIndex">
+        <div v-for="step, stepIndex in steps" :key="stepIndex">
+            <div v-if="stepIndex == currentStep">
+                <div v-for="field, fieldIndex in step.children" :key="stepIndex + '_' + field.handle + '_' + fieldIndex">
                     <component 
                         v-if="!field.is_panel" 
                         @input="saveForm"
@@ -12,6 +12,7 @@
                         :errors="form.errors"
                         :hasError="form.errors.has(field.field.handle)"
                         :errorMessage="form.errors.get(field.field.handle)"
+                        :key="field.handle"
                         >
                         {{ field.text }}
                     </component>
@@ -23,6 +24,7 @@
                         v-model="fieldValues"
                         :form="form"
                         :errors="form.errors"
+                        :key="field.handle"
                         :is="field.component" v-bind="field" 
                         >
                         {{ field.text }}
