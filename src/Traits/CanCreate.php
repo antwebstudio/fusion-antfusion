@@ -33,6 +33,7 @@ trait CanCreate {
                     'component' => 'submit-button',
                     'text' => 'Save',
                     'variant' => 'primary',
+                    'useParentSubmit' => true,
                 ],
             ],
             'fields' => $this->flatternFieldsArray('creating'),

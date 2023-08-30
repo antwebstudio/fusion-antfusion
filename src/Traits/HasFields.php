@@ -71,7 +71,7 @@ trait HasFields {
     }
 
     protected function shouldShowField($field, $scenario) {
-        return !$field->isHidden() && (is_object($field) && (!isset($scenario) || $field->shouldShowIn($scenario)));
+        return (is_object($field) && !$field->isHidden()) && (is_object($field) && (!isset($scenario) || $field->shouldShowIn($scenario)));
     }
 
     protected function getFieldByHandle($handle) {

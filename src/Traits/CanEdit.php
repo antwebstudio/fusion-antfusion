@@ -47,6 +47,7 @@ trait CanEdit {
                 'component' => 'submit-button',
                 'text' => 'Save',
                 'variant' => 'primary',
+                'useParentSubmit' => true,
             ],
         ];
     }
