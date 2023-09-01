@@ -198,8 +198,7 @@ __webpack_require__.r(__webpack_exports__);
             _this4.$refs.submit.click();
           }
         })["catch"](function (error) {
-          _this4.loading = false;
-          console.log('validation', error.response.data);
+          _this4.loading = false; // console.log('validation', error.response.data)
 
           _this4.form.errors.record(error.response.data);
 
@@ -505,6 +504,8 @@ var Form = /*#__PURE__*/function () {
 
           resolve(response.data);
         })["catch"](function (errors) {
+          console.log('errors', errors);
+
           _this4.onFailure(errors.response.data);
 
           reject(errors.response.data);

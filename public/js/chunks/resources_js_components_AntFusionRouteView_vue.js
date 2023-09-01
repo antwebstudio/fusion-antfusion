@@ -9,7 +9,8 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "loadPage": () => (/* binding */ loadPage)
 /* harmony export */ });
 //
 //
@@ -17,15 +18,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      meta: null
+    };
+  },
   computed: {
     componentName: function componentName() {
       return this.$route.meta.component;
     },
     componentProps: function componentProps() {
+      if (this.meta) {
+        return this.meta;
+      }
+
       return this.$route.meta.componentProps;
     }
+  },
+  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+    loadPage(to, from, function (error, meta) {
+      if (error) {
+        next(function (vm) {
+          toast(error.toString(), 'danger');
+        });
+      } else {
+        next(function (vm) {
+          vm.meta = meta;
+        });
+      }
+    });
+  },
+  beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
+    var _this = this;
+
+    loadPage(to, from, function (error, meta) {
+      if (error) {
+        toast(error.toString(), 'danger');
+      } else {
+        _this.meta = meta;
+      }
+    });
+    next();
   }
 });
+function loadPage(to, from, callback) {
+  // console.log('load page', to, from)
+  axios.post(to.meta.api, to.params).then(function (response) {
+    // console.log('page response', response.data)
+    callback(null, response.data);
+  })["catch"](function (error) {
+    callback(new Error('The requested entry could not be found'));
+  });
+}
 
 /***/ }),
 
@@ -37,6 +81,7 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "loadPage": () => (/* reexport safe */ _AntFusionRouteView_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.loadPage),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _AntFusionRouteView_vue_vue_type_template_id_0299102e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AntFusionRouteView.vue?vue&type=template&id=0299102e& */ "./resources/js/components/AntFusionRouteView.vue?vue&type=template&id=0299102e&");
@@ -75,7 +120,8 @@ component.options.__file = "resources/js/components/AntFusionRouteView.vue"
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "loadPage": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AntFusionRouteView_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.loadPage)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AntFusionRouteView_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AntFusionRouteView.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AntFusionRouteView.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AntFusionRouteView_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 

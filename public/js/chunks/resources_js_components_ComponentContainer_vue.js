@@ -11,6 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vue_fragment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-fragment */ "./node_modules/vue-fragment/dist/vue-fragment.esm.js");
 //
 //
 //
@@ -24,14 +25,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
+    wrap: {
+      "default": true
+    },
     suffix: {},
-    components: {}
+    components: {
+      Fragment: vue_fragment__WEBPACK_IMPORTED_MODULE_0__.Fragment
+    }
   },
   data: function data() {
     return {
-      loading: false
+      loadingCount: 0
     };
   },
   methods: {
@@ -155,32 +172,53 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    _vm._b(
-      { staticClass: "flex flex-wrap flex-col" },
-      "div",
-      _vm.$props,
-      false
-    ),
-    _vm._l(_vm.processedComponents, function (component, index) {
-      return _c(
-        component.component,
+  return _vm.wrap
+    ? _c(
+        "div",
         _vm._b(
-          {
-            key: index,
-            tag: "component",
-            attrs: { loading: _vm.loading },
-            on: { load: _vm.onLoading, loaded: _vm.onLoaded },
-          },
-          "component",
-          component,
+          { staticClass: "flex flex-wrap flex-col" },
+          "div",
+          _vm.$props,
           false
-        )
+        ),
+        _vm._l(_vm.processedComponents, function (component, index) {
+          return _c(
+            component.component,
+            _vm._b(
+              {
+                key: index,
+                tag: "component",
+                attrs: { loading: _vm.loading },
+                on: { load: _vm.onLoading, loaded: _vm.onLoaded },
+              },
+              "component",
+              component,
+              false
+            )
+          )
+        }),
+        1
       )
-    }),
-    1
-  )
+    : _c(
+        "fragment",
+        _vm._l(_vm.processedComponents, function (component, index) {
+          return _c(
+            component.component,
+            _vm._b(
+              {
+                key: index,
+                tag: "component",
+                attrs: { loading: _vm.loading },
+                on: { load: _vm.onLoading, loaded: _vm.onLoaded },
+              },
+              "component",
+              component,
+              false
+            )
+          )
+        }),
+        1
+      )
 }
 var staticRenderFns = []
 render._withStripped = true

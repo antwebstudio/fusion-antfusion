@@ -68,12 +68,19 @@ __webpack_require__.r(__webpack_exports__);
     children: {},
     fields: {},
     values: {
-      "default": {}
+      "default": function _default() {
+        return {};
+      }
     },
     errors: {
-      "default": {}
+      "default": function _default() {
+        return {};
+      }
     },
-    syncDependantFieldUrl: {}
+    syncDependantFieldUrl: {},
+    useFormData: {
+      "default": false
+    }
   },
   data: function data() {
     return {
@@ -95,8 +102,8 @@ __webpack_require__.r(__webpack_exports__);
     var form = {};
 
     _.each(this.fields, function (field) {
-      form[field.handle] = _this.values[field.handle] || field["default"]; // console.log('field', field)
-      // console.log('set '+field.handle, this.values[field.handle], field.default)
+      form[field.handle] = _this.values[field.handle] || field["default"];
+      console.log('register field', field.handle); // console.log('set '+field.handle, this.values[field.handle], field.default)
       // console.log('value', form[field.handle])
     });
 
@@ -108,6 +115,9 @@ __webpack_require__.r(__webpack_exports__);
     this.registerComponentsDependency(this.children, this.form);
   },
   computed: {
+    formData: function formData() {
+      return this.useFormData ? this.form.data() : this.form;
+    },
     componentData: function componentData() {
       return this.form;
     }
@@ -398,6 +408,8 @@ var Form = /*#__PURE__*/function () {
 
           resolve(response.data);
         })["catch"](function (errors) {
+          console.log('errors', errors);
+
           _this4.onFailure(errors.response.data);
 
           reject(errors.response.data);
@@ -1773,7 +1785,7 @@ var render = function () {
       _vm._v(" "),
       _c("input", {
         attrs: { type: "hidden", name: _vm.name },
-        domProps: { value: JSON.stringify(this.form) },
+        domProps: { value: JSON.stringify(this.formData) },
       }),
     ],
     1

@@ -161,7 +161,7 @@ var render = function () {
       false
     ),
     [
-      _vm.debug ? _c("span", [_vm._v(_vm._s(_vm.as))]) : _vm._e(),
+      _vm.debug ? _c("div", [_vm._v(_vm._s(_vm.as))]) : _vm._e(),
       _vm._v("\n\n    " + _vm._s(_vm.text) + "\n    "),
       _vm._l(_vm.children, function (childComponent, index) {
         return _vm.children
@@ -201,7 +201,7 @@ var render = function () {
               ),
               [
                 _vm.debug
-                  ? _c("span", [_vm._v(_vm._s(childComponent.component))])
+                  ? _c("div", [_vm._v(_vm._s(childComponent.component))])
                   : _vm._e(),
                 _vm._v(
                   "\n\n        " + _vm._s(childComponent.text) + "\n\n        "
@@ -255,7 +255,7 @@ var render = function () {
                           ),
                           [
                             _vm.debug
-                              ? _c("span", [
+                              ? _c("div", [
                                   _vm._v(_vm._s(grandchild.component)),
                                 ])
                               : _vm._e(),

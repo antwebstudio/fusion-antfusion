@@ -139,7 +139,7 @@ var render = function () {
       ),
       _vm._v(" "),
       _c("portal", { attrs: { to: "actions" } }, [
-        _vm.actions
+        _vm.actions && _vm.actions.length
           ? _c(
               "span",
               { staticClass: "print:hidden" },

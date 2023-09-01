@@ -17,8 +17,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+// import field from '../mixins/field'
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  // mixins: [field],
   props: {
+    /*form: {
+      },*/
     content: {},
     children: {}
   },
@@ -114,14 +120,9 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "tr",
-    { domProps: { innerHTML: _vm._s(_vm.content) } },
-    _vm._l(_vm.children, function (component) {
-      return _c("component", { key: component.handle })
-    }),
-    1
-  )
+  return _vm.content
+    ? _c("tr", { domProps: { innerHTML: _vm._s(_vm.content) } })
+    : _c("tr", [_vm._t("default")], 2)
 }
 var staticRenderFns = []
 render._withStripped = true

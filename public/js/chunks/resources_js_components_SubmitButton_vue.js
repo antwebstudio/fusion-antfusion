@@ -41,7 +41,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.useParentSubmit) {
         this.parent.submit();
       } else {
-        var params = this.record;
+        var params = this.record.data();
         params['path'] = this.path;
         this.loading = true;
         this.record.submit('post', this.url, params).then(function (response) {
