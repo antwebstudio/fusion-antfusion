@@ -64,10 +64,14 @@ export default {
 
         },
         values: {
-            default: {}
+            default() {
+                return {}
+            }
         },
         errors: {
-            default: {}
+            default() {
+                return {}
+            }
         },
         syncDependantFieldUrl: {
 

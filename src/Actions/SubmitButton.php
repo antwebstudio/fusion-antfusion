@@ -9,7 +9,7 @@ class SubmitButton extends Action {
     protected $successMessage = 'Record saved successfully.';
     protected $component = 'submit-button';
 
-    public function __construct($name, $callback)
+    public function __construct($name = 'Submit', $callback = null)
     {
         // $this->confirmText('Are you sure you want to perform this action?');
         // $this->confirmButtonText('Confirm');

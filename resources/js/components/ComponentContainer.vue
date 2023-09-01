@@ -1,5 +1,5 @@
 <template>
-    <div v-bind="$props" class="flex flex-wrap flex-col">
+    <div v-if="wrap" v-bind="$props" class="flex flex-wrap flex-col">
         <component
             :loading="loading"
             @load="onLoading" @loaded="onLoaded"
@@ -9,21 +9,36 @@
             >
         </component>
     </div>
+    <fragment v-else>
+        <component
+            :loading="loading"
+            @load="onLoading" @loaded="onLoaded"
+            v-for="(component, index) in processedComponents" :key="index"
+            :is="component.component"
+            v-bind="component"
+            >
+        </component>
+    </fragment>
 </template>
 
 <script>
+import { Fragment } from 'vue-fragment'
+
 export default {
     props: {
+        wrap: {
+            default: true,
+        },
         suffix: {
 
         },
         components: {
-
+            Fragment,
         }
     },
     data() {
         return {
-            loading: false,
+            loadingCount: 0,
         }
     },
     methods: {
