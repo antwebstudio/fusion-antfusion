@@ -90,7 +90,10 @@ class Page {
     {
         return [
             'component' => 'antfusion-page',
-            'props' => $this->toArray(),
+            'meta' => [
+                'api' => '/api/antfusion/page/'.$this->getSlug(),
+            ],
+            // 'props' => $this->toArray(),
         ];
     }
 }

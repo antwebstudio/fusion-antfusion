@@ -13,6 +13,7 @@ class Fusion extends Field
     public function __construct($label, $handle) {
         parent::__construct($label, $handle);
         $this->type($this->fieldType);
+        $this->mergeSettings(['placeholder' => $label]);
     }
 
     public static function makeFromField(\Fusion\Models\Field $field)
@@ -86,6 +87,12 @@ class Fusion extends Field
         ];
 
         return array_merge($defaultSettings[$this->fieldType] ?? [], $this->settings);
+    }
+
+    public function hideLabel()
+    {
+        $this->label = '';
+        return $this;
     }
 
     public function toArrayWithoutDependant() {

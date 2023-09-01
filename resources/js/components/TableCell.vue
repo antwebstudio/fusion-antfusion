@@ -1,13 +1,13 @@
 <template>
-    <tr v-if="content" v-html="content">
-    </tr>
-    <tr v-else >
+    <td v-if="content"  v-html="content">
+    </td>
+    <td v-else >
         <slot></slot>
-    </tr>
+    </td>
 </template>
 
 <script>
-// import field from '../mixins/field'
+// import field from '@/mixins/fieldtypes/field'
 export default {
     // mixins: [field],
     props: {

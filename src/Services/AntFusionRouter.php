@@ -28,10 +28,10 @@ class AntFusionRouter {
 
         $route = array_merge($route, $params, [
             'path' => '/'.ltrim($path, '/'),
-            'meta' => [
+            'meta' => array_merge($route['meta'] ?? [], [
                 'requiresAuth' => true,
                 'layout' => 'admin',
-            ],
+            ]),
         ]);
         return $route;
     }

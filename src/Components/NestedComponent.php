@@ -21,11 +21,15 @@ class NestedComponent extends \Addons\AntFusion\Component implements Panel {
         return [
             'is_panel' => true,
             'component' => 'nested-component',
-            'debug' => true,
+            'debug' => false,
             'as' => $this->component,
             'children' => $this->convertFieldsToArray($this->children),
             'fields' => $this->flatternFieldsArray(),
             'path' => $this->getPath(),
         ];
+    }
+
+    public function fields() {
+        return $this->children;
     }
 }

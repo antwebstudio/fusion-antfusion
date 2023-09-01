@@ -30,7 +30,7 @@
             </template>
         </div>
 
-        <input type="hidden" :name="name" :value="JSON.stringify(this.form)" />
+        <input type="hidden" :name="name" :value="JSON.stringify(this.formData)" />
     </div>
 </template>
 
@@ -76,6 +76,9 @@ export default {
         syncDependantFieldUrl: {
 
         },
+        useFormData: {
+            default: false,
+        },
     },
     data() {
         return {
@@ -95,7 +98,7 @@ export default {
         let form = {}
         _.each(this.fields, (field) => {
             form[field.handle] = this.values[field.handle] || field.default
-            // console.log('field', field)
+            //console.log('register field', field.handle)
             // console.log('set '+field.handle, this.values[field.handle], field.default)
             // console.log('value', form[field.handle])
         })
@@ -107,6 +110,9 @@ export default {
         this.registerComponentsDependency(this.children, this.form)
     },
     computed: {
+        formData() {
+            return this.useFormData ? this.form.data() : this.form
+        },
         componentData() {
             return this.form
         },

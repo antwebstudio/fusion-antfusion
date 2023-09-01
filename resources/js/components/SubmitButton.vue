@@ -39,7 +39,7 @@ export default {
             if (this.useParentSubmit) {
                 this.parent.submit()
             } else {
-                let params = this.record
+                let params = this.record.data()
                 params['path'] = this.path
                 
                 this.loading = true

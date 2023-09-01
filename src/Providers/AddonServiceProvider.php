@@ -31,6 +31,7 @@ class AddonServiceProvider extends ServiceProvider
         
         Router::macro('antfusionAdmin', function($uri, $component, $props = []) {
             app('antfusion-router')->registerAdminRoute($uri, $component, $props);
+            (new $component)->boot();
             return $this;
         });
     }

@@ -24,6 +24,7 @@ class Table extends Component implements Panel {
         return array_merge($this->meta, [
             'is_panel' => true,
             'component' => 'nested-component',
+            'debug' => true,
             'as' => $this->component,
             'children' => $this->convertFieldsToArray($this->rows),
             'fields' => $this->flatternFieldsArray(),
@@ -48,7 +49,21 @@ class Table extends Component implements Panel {
     }
 
     public function addRow($component) {
-        $this->rows[] = $component;
+        if (is_array($component)) {
+            $components = $component;
+            $cells = [];
+            foreach ($components as $component) {
+                if ($component instanceof TableCell) {
+                    $cells[] = $component;
+                } else {
+                    $cells[] = TableCell::wrap($component);
+                }
+            }
+            // dd($cells, $this->convertFieldsToArray($cells));
+            $this->rows[] = NestedComponent::make('antfusion-html-table-row')->setChildren($cells);
+        } else {
+            $this->rows[] = $component;
+        }
         return $this;
     }
 
