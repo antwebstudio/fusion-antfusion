@@ -9,6 +9,16 @@ class AntFusionRouter {
     }
 
     public function registerAdminRoute($path, $component, $params = []) {
+        // Don't call $component->toRouteArray() here as when route is registered, most features of framework is not ready yet.
+        // hence, calling $component->toRouteArray() will cause issue sometimes.
+        // eg: one issue caused when one of the component registered called routes() and caused route not defined error.
+        $this->routes[$path] = [
+            'component' => $component,
+            'params' => $params,
+        ];
+    }
+
+    protected function processRoute($path, $component, $params = []) {
         if (!is_object($component)) {
             $component = class_exists($component) ? new $component : $component;
         }
@@ -23,11 +33,15 @@ class AntFusionRouter {
                 'layout' => 'admin',
             ],
         ]);
-        
-        $this->routes[$path] = $route;
+        return $route;
     }
     
     public function getAdminRoutes() {
-        return collect($this->routes)->values();
+        $routes = [];
+        foreach ($this->routes as $path => $route) {
+            $routes[$path] = $this->processRoute($path, $route['component'], $route['params']);
+        }
+
+        return collect($routes)->values();
     }
 }

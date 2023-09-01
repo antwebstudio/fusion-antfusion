@@ -3,7 +3,7 @@
 namespace Tests\Unit\AntFusion;
 
 use Tests\TestCase;
-use App\AntFusion\Resource;
+use Addons\AntFusion\Resource;
 use Illuminate\Support\Str;
 use Addons\AntFusion\Fields\Select;
 use Addons\AntFusion\Components\SimpleWizard;

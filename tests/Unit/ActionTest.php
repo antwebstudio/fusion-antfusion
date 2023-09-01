@@ -4,7 +4,7 @@ namespace Tests\Unit\AntFusion;
 
 use Tests\TestCase;
 use Addons\AntFusion\Field;
-use App\AntFusion\Resource;
+use Addons\AntFusion\Resource;
 use Addons\AntFusion\Action;
 
 class ActionTest extends TestCase

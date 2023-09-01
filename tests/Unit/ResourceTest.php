@@ -3,7 +3,7 @@
 namespace Tests\Unit\AntFusion;
 
 use Tests\TestCase;
-use App\AntFusion\Resource;
+use Addons\AntFusion\Resource;
 use Addons\AntFusion\Action;
 
 class ResourceTest extends TestCase
