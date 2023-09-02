@@ -25,6 +25,11 @@ export default {
         path: {
 
         },
+        submitParams: {
+            default() {
+                return {}
+            }
+        },
         useParentSubmit: {
             default: false,
         },
@@ -40,6 +45,7 @@ export default {
                 this.parent.submit()
             } else {
                 let params = this.record.data()
+                params = Object.assign(this.submitParams, params)
                 params['path'] = this.path
                 
                 this.loading = true

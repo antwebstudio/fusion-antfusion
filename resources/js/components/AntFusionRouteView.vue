@@ -49,8 +49,8 @@ export default {
     }
 }
 export function loadPage(to, from, callback) {
-    // console.log('load page', to, from)
-    axios.post(to.meta.api, to.params).then((response) => {
+    // console.log('load page', to, from, location.query)
+    axios.post(to.meta.api, Object.assign(to.query, to.params)).then((response) => {
         // console.log('page response', response.data)
         callback(null, response.data)
     }).catch(function(error) {

@@ -48,7 +48,7 @@ class Table extends Component implements Panel {
         return $this;
     }
 
-    public function addRow($component) {
+    public function addRow($component, $rowMeta = []) {
         if (is_array($component)) {
             $components = $component;
             $cells = [];
@@ -56,7 +56,7 @@ class Table extends Component implements Panel {
                 if ($component instanceof TableCell) {
                     $cells[] = $component;
                 } else {
-                    $cells[] = TableCell::wrap($component);
+                    $cells[] = TableCell::wrap($component)->withMeta($rowMeta['cell'] ?? []);
                 }
             }
             // dd($cells, $this->convertFieldsToArray($cells));
