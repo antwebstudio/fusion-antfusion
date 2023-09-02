@@ -62,8 +62,8 @@ __webpack_require__.r(__webpack_exports__);
   }
 });
 function loadPage(to, from, callback) {
-  // console.log('load page', to, from)
-  axios.post(to.meta.api, to.params).then(function (response) {
+  // console.log('load page', to, from, location.query)
+  axios.post(to.meta.api, Object.assign(to.query, to.params)).then(function (response) {
     // console.log('page response', response.data)
     callback(null, response.data);
   })["catch"](function (error) {

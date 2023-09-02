@@ -25,6 +25,11 @@ __webpack_require__.r(__webpack_exports__);
     variant: {},
     url: {},
     path: {},
+    submitParams: {
+      "default": function _default() {
+        return {};
+      }
+    },
     useParentSubmit: {
       "default": false
     }
@@ -42,6 +47,7 @@ __webpack_require__.r(__webpack_exports__);
         this.parent.submit();
       } else {
         var params = this.record.data();
+        params = Object.assign(this.submitParams, params);
         params['path'] = this.path;
         this.loading = true;
         this.record.submit('post', this.url, params).then(function (response) {
