@@ -1,8 +1,11 @@
 <?php
 
 Route::get('antfusion-admin-routes.js', function() {
-    $debugbar = app('debugbar');
-    if (isset($debugbar)) $debugbar->disable();
+    try {
+        $debugbar = app('debugbar');
+        if (isset($debugbar)) $debugbar->disable();
+    } catch (\Illuminate\Contracts\Container\BindingResolutionException $ex) {
+    }
 
     return '
         window.Fusion.booting(function(Vue, router, store) {
