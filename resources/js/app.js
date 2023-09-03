@@ -2,11 +2,12 @@ import DateRangePicker from 'vue2-daterange-picker'
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 import Fragment from 'vue-fragment'
 
-window.Fusion.registerPage = function(router, path, componentName, props, meta) {
+window.Fusion.registerPage = function(router, path, componentName, props, meta, name) {
+    if (!name) name = 'antfusion'
     const route ={ 
         path: path, 
         component: () => import('./components/AntFusionRouteView'),
-        name: 'antfusion',
+        name: name,
         meta: {
             ... meta,
             component: componentName,

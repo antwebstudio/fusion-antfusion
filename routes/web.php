@@ -12,7 +12,7 @@ Route::get('antfusion-admin-routes.js', function() {
             let pages = '.json_encode(app('antfusion-router')->getAdminRoutes()).'
             '.(config('app.debug') ? 'console.log("pages", pages)' : '').'
             pages.forEach((page) => {
-                window.Fusion.registerPage(router, page.path, page.component, page.props, page.meta)
+                window.Fusion.registerPage(router, page.path, page.component, page.props, page.meta, page.name)
             })
         })
     ';

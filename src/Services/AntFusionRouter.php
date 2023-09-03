@@ -1,7 +1,7 @@
 <?php
 namespace Addons\AntFusion\Services;
 
-class AntFusionRouter {
+class AntFusionRouter extends \Illuminate\Routing\Router {
     protected $routes = [];
 
     public function __construct() {
@@ -12,34 +12,15 @@ class AntFusionRouter {
         // Don't call $component->toRouteArray() here as when route is registered, most features of framework is not ready yet.
         // hence, calling $component->toRouteArray() will cause issue sometimes.
         // eg: one issue caused when one of the component registered called routes() and caused route not defined error.
-        $this->routes[$path] = [
-            'component' => $component,
-            'params' => $params,
-        ];
-    }
-
-    protected function processRoute($path, $component, $params = []) {
-        if (!is_object($component)) {
-            $component = class_exists($component) ? new $component : $component;
-        }
-        $route = is_object($component) ? $component->toRouteArray() : [
-            'component' => $component,
-        ];
-
-        $route = array_merge($route, $params, [
-            'path' => '/'.ltrim($path, '/'),
-            'meta' => array_merge($route['meta'] ?? [], [
-                'requiresAuth' => true,
-                'layout' => 'admin',
-            ]),
-        ]);
+        $route = (new AntFusionRoute)->path($path)->component($component)->params($params);
+        $this->routes[$path] = $route;
         return $route;
     }
     
     public function getAdminRoutes() {
         $routes = [];
         foreach ($this->routes as $path => $route) {
-            $routes[$path] = $this->processRoute($path, $route['component'], $route['params']);
+            $routes[$path] = $route->processRoute();
         }
 
         return collect($routes)->values();
