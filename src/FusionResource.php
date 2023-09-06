@@ -2,6 +2,8 @@
 namespace Addons\AntFusion;
 
 use Ant\FusionHelper\Helpers\Fusion;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 abstract class FusionResource extends Resource {
     public function actions() {
@@ -15,6 +17,8 @@ abstract class FusionResource extends Resource {
 
     protected function fieldsDefaultValues() {
         return [
+            'slug' => request()->name ? Str::slug(request()->name) : null,
+            'taxonomy_id' => Fusion::getTaxonomyId($this->getHandle()),
             'matrix_id' => Fusion::getMatrixId($this->getHandle()),
         ];
     }

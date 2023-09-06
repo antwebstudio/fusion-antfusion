@@ -86,7 +86,28 @@ export default {
             form: new Form(),
         }
     },
+    watch: {
+        values(value) {
+            this.initForm()
+        }
+    },
     methods: {
+        initForm() {
+            console.log('init form', this.values)
+            let form = {}
+            _.each(this.fields, (field) => {
+                form[field.handle] = this.values[field.handle] || field.default
+                //console.log('register field', field.handle)
+                // console.log('set '+field.handle, this.values[field.handle], field.default)
+                // console.log('value', form[field.handle])
+            })
+
+            this.form = new Form(form, true)
+            this.form.errors.record( { errors: this.errors } )
+
+            // Register after the form is initialized
+            this.registerComponentsDependency(this.children, this.form)
+        },
         submitted() {
             this.$emit('submitted', this.form)
         },
@@ -95,19 +116,7 @@ export default {
         }
     },
     mounted() {
-        let form = {}
-        _.each(this.fields, (field) => {
-            form[field.handle] = this.values[field.handle] || field.default
-            //console.log('register field', field.handle)
-            // console.log('set '+field.handle, this.values[field.handle], field.default)
-            // console.log('value', form[field.handle])
-        })
-
-        this.form = new Form(form, true)
-        this.form.errors.record( { errors: this.errors } )
-
-        // Register after the form is initialized
-        this.registerComponentsDependency(this.children, this.form)
+        this.initForm()
     },
     computed: {
         formData() {

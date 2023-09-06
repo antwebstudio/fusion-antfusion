@@ -52,6 +52,9 @@ export default {
     },
     
     watch: {
+        form(value) {
+            this.fieldValues = value
+        },
         fieldValues: {
             handler(value) {
                 // let form = 
