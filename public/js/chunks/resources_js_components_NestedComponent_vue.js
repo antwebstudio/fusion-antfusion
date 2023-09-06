@@ -51,6 +51,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   watch: {
+    form: function form(value) {
+      this.fieldValues = value;
+    },
     fieldValues: {
       handler: function handler(value) {
         var _this = this;

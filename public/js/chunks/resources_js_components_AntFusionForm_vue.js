@@ -88,7 +88,31 @@ __webpack_require__.r(__webpack_exports__);
       form: new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"]()
     };
   },
+  watch: {
+    values: function values(value) {
+      this.initForm();
+    }
+  },
   methods: {
+    initForm: function initForm() {
+      var _this = this;
+
+      console.log('init form', this.values);
+      var form = {};
+
+      _.each(this.fields, function (field) {
+        form[field.handle] = _this.values[field.handle] || field["default"]; //console.log('register field', field.handle)
+        // console.log('set '+field.handle, this.values[field.handle], field.default)
+        // console.log('value', form[field.handle])
+      });
+
+      this.form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](form, true);
+      this.form.errors.record({
+        errors: this.errors
+      }); // Register after the form is initialized
+
+      this.registerComponentsDependency(this.children, this.form);
+    },
     submitted: function submitted() {
       this.$emit('submitted', this.form);
     },
@@ -97,22 +121,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    var _this = this;
-
-    var form = {};
-
-    _.each(this.fields, function (field) {
-      form[field.handle] = _this.values[field.handle] || field["default"]; //console.log('register field', field.handle)
-      // console.log('set '+field.handle, this.values[field.handle], field.default)
-      // console.log('value', form[field.handle])
-    });
-
-    this.form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](form, true);
-    this.form.errors.record({
-      errors: this.errors
-    }); // Register after the form is initialized
-
-    this.registerComponentsDependency(this.children, this.form);
+    this.initForm();
   },
   computed: {
     formData: function formData() {
