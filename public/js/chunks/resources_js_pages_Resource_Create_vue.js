@@ -556,8 +556,6 @@ var Form = /*#__PURE__*/function () {
 
           resolve(response.data);
         })["catch"](function (errors) {
-          console.log('errors', errors);
-
           _this4.onFailure(errors.response.data);
 
           reject(errors.response.data);

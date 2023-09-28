@@ -10,7 +10,7 @@ class Container extends Component
     protected $children;
 
     public function __construct($components) {
-        $this->withMeta(['class' => 'flex flex-wrap']);
+        $this->withMeta(['wrap' => true]);
 
         $this->children = $components;
     }
