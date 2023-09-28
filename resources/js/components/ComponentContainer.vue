@@ -1,5 +1,5 @@
 <template>
-    <div v-if="wrap" v-bind="$props" class="flex flex-wrap flex-col">
+    <div v-if="wrap" v-bind="$props" class="flex flex-wrap">
         <component
             :loading="loading"
             @load="onLoading" @loaded="onLoaded"
@@ -27,7 +27,7 @@ import { Fragment } from 'vue-fragment'
 export default {
     props: {
         wrap: {
-            default: true,
+            default: false,
         },
         suffix: {
 

@@ -39,7 +39,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     wrap: {
-      "default": true
+      "default": false
     },
     suffix: {},
     components: {
@@ -175,12 +175,7 @@ var render = function () {
   return _vm.wrap
     ? _c(
         "div",
-        _vm._b(
-          { staticClass: "flex flex-wrap flex-col" },
-          "div",
-          _vm.$props,
-          false
-        ),
+        _vm._b({ staticClass: "flex flex-wrap" }, "div", _vm.$props, false),
         _vm._l(_vm.processedComponents, function (component, index) {
           return _c(
             component.component,
