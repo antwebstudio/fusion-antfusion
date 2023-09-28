@@ -89,11 +89,12 @@ export default {
             }
         }, 
         performAction() {
-            console.log('need ', this.needConfirmation)
-            if (this.needConfirmation) {
-                this.askConfirmation()
-            } else {
-                this.confirm()
+            if (!this.to) {
+                if (this.needConfirmation) {
+                    this.askConfirmation()
+                } else {
+                    this.confirm()
+                }
             }
         },
         askConfirmation() {
