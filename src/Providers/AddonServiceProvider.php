@@ -35,6 +35,16 @@ class AddonServiceProvider extends ServiceProvider
             (new $component)->boot();
             return $route;
         });
+
+        Router::macro('antfusion', function($uri, $component, $props = []) {
+            $router = app('antfusion-router');
+            $route = $router->registerRoute($uri, $component, $props);
+            (new $component)->boot();
+            return $route;
+        });
+
+        View::addNamespace('antfusion', dirname(dirname(__DIR__)).'/resources/views');
+
     }
 
     /**
