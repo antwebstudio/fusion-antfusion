@@ -19,6 +19,7 @@ class Fusion extends Field
     public static function makeFromField(\Fusion\Models\Field $field)
     {
         return static::make($field->name, $field->handle)
+            ->rules($field->type()->rules($field))
             // ->section($field->fieldable->placement)
             ->type($field->type)
             ->mergeSettings($field->settings);

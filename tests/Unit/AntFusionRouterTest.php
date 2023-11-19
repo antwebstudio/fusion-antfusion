@@ -19,7 +19,6 @@ class AntFusionRouterTest extends TestCase
         $routes = $router->getAdminRoutes();
 
         $this->assertEquals('antfusion-page', $routes[0]['component']);
-        dd($routes);
     }
 }
 

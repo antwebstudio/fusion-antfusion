@@ -66,6 +66,18 @@ trait HasFields {
         return $rules;
     }
 
+    protected function getRulesForFields($fields, $scenario = null)
+    {
+        $rules = [];
+        foreach ($this->_resolveFields($fields) as $field) {
+            if ($this->shouldShowField($field, $scenario)) {
+                $rules[$field->handle] = $field->setScenario($scenario)->getRules();
+            }
+        }
+        return $rules;
+        
+    }
+
     public function getRules() {
         return $this->fieldsRules();
     }

@@ -66,7 +66,9 @@
         },
 
         beforeRouteEnter(to, from, next) {
-            axios.get(`/api/antfusion/resource/${to.params.resource}/${to.params.id}/edit`)
+            axios.get(`/api/antfusion/resource/${to.params.resource}/${to.params.id}/edit`, {
+                params: to.query,
+            })
                 .then(response => {
                     next(vm => {
                         let meta = response.data
