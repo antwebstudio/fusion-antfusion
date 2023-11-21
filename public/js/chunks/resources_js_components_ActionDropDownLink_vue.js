@@ -81,8 +81,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     performAction: function performAction() {
       if (!this.to) {
-        console.log('need ', this.needConfirmation);
-
         if (this.needConfirmation) {
           this.askConfirmation();
         } else {

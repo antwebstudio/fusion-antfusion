@@ -77,7 +77,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    axios.get("/api/antfusion/resource/".concat(to.params.resource, "/").concat(to.params.id, "/edit")).then(function (response) {
+    axios.get("/api/antfusion/resource/".concat(to.params.resource, "/").concat(to.params.id, "/edit"), {
+      params: to.query
+    }).then(function (response) {
       next(function (vm) {
         var meta = response.data;
         var resource = response.data.resource;
