@@ -42,7 +42,7 @@ trait HasFields {
         foreach ($fields as $index => $field) {
             if (is_object($field)) {
                 $field->setParent($this, $index, 'f')->setScenario($scenario)->hook('preparing', [$scenario, $this]);
-
+                
                 if (method_exists($field, 'processDependency') && method_exists($field, 'hasDependency') && $field->hasDependency()) {
                     $field->processDependency(request(), json_decode(json_encode(request()->all())));
                 }
@@ -58,7 +58,7 @@ trait HasFields {
 
     protected function fieldsRules($scenario = null) {
         $rules = [];
-        foreach ($this->resolveFields(true) as $field) {
+        foreach ($this->resolveFields(true, $scenario) as $field) {
             if ($this->shouldShowField($field, $scenario)) {
                 $rules[$field->handle] = $field->setScenario($scenario)->getRules();
             }
@@ -78,8 +78,8 @@ trait HasFields {
         
     }
 
-    public function getRules() {
-        return $this->fieldsRules();
+    public function getRules($scenario = null) {
+        return $this->fieldsRules($scenario);
     }
 
     protected function shouldShowField($field, $scenario) {

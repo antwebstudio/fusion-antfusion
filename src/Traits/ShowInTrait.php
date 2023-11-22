@@ -2,6 +2,8 @@
 namespace Addons\AntFusion\Traits;
 
 trait ShowInTrait {
+    use \Addons\AntFusion\Traits\HasScenario;
+    
     protected $showIn = [];
     protected $exceptShowIn = [];
     protected $formViews = ['creating', 'updating'];
@@ -10,6 +12,7 @@ trait ShowInTrait {
     protected $hide = false;
 
     public function exceptShowIn($scenario) {
+        $this->showByDefault = true;
         $this->exceptShowIn[$scenario] = true;
         return $this;
     }
@@ -29,10 +32,10 @@ trait ShowInTrait {
         return $this->showByDefault;
     }
 
-    public function setScenario($scenario) {
-        $this->scenario = $scenario;
-        return $this;
-    }
+    // public function setScenario($scenario) {
+    //     $this->scenario = $scenario;
+    //     return $this;
+    // }
 
     public function isHidden() {
         return $this->hide;

@@ -11,6 +11,7 @@ class Field {
     use \Addons\AntFusion\Traits\HasPath;
     use \Addons\AntFusion\Traits\HasParent;
     use \Addons\AntFusion\Traits\HasHooks;
+    use \Addons\AntFusion\Traits\HasScenario;
     
     public $label;
     public $handle;

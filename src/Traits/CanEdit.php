@@ -9,7 +9,7 @@ trait CanEdit {
 
     public function update(Request $request) {
         $this->prepareForValidation($request);
-        $validated = $request->validate($this->getRules());
+        $validated = $request->validate($this->getRules('updating'));
         $model = $this->model()->withoutGlobalScopes()->find($request->resourceId);
         $model->update($validated);
 
