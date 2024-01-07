@@ -39,7 +39,7 @@ class Tabs extends Component implements PanelContract {
             $children[] = [
                 'component' => $this->tabComponent,
                 'hide' => ! $isFirst,
-                'name' => $name,
+                'name' => __($name),
                 'children' => $grandchildren,
             ];
             $isFirst = false;

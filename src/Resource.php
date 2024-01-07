@@ -46,7 +46,7 @@ abstract class Resource {
     }
 
     public function getName() {
-        return $this->name ?? Str::headline(class_basename(static::class));
+        return __($this->name ?? Str::headline(class_basename(static::class)));
     }
 
     public function getHandle() {

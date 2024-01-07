@@ -78,7 +78,7 @@ class Field {
         return array_merge($this->meta, [
             'component' => $this->component,
             'id' => $this->id ?? $this->handle,
-            'name' => $this->label,
+            'name' => __($this->label),
             'handle' => $this->handle,
             'field' => [
                 'handle' => $this->handle,

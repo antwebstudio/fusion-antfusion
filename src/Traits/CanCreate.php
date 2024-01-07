@@ -20,18 +20,18 @@ trait CanCreate {
     public function createMeta() {
         $name = static::getName();
         return [
-            'title' => 'Create '.$name,
+            'title' => __('Create :name', ['name' => $name]),
             'resource' => new ResourceResource($this),
             'actions' => [
                 [
                     'component' => 'ui-button',
                     'to' => '/resource/'.$this->getSlug(),
-                    'text' => 'Back',
+                    'text' => __('Back'),
                     'class' => 'mr-2',
                 ],
                 [
                     'component' => 'submit-button',
-                    'text' => 'Save',
+                    'text' => __('Save'),
                     'variant' => 'primary',
                     'useParentSubmit' => true,
                 ],

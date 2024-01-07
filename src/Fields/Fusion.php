@@ -13,7 +13,7 @@ class Fusion extends Field
     public function __construct($label, $handle) {
         parent::__construct($label, $handle);
         $this->type($this->fieldType);
-        $this->mergeSettings(['placeholder' => $label]);
+        $this->mergeSettings(['placeholder' => __($label)]);
     }
 
     public static function makeFromField(\Fusion\Models\Field $field)
@@ -80,7 +80,7 @@ class Fusion extends Field
     protected function getSettings() {
         $defaultSettings = [
             'input' => [
-                'placeholder' => $this->label,
+                'placeholder' => __($this->label),
             ],
             'time' => [
                 'format' => 'h:iK',
@@ -102,7 +102,7 @@ class Fusion extends Field
             'id' => $this->id ?? $this->handle,
             'handle' => $this->handle,
             'field' =>[
-                'name' => $this->label,
+                'name' => __($this->label),
                 'handle' => $this->handle,
                 'settings' => $this->getSettings(),
                 'required' => $this->hasRequiredRule(),

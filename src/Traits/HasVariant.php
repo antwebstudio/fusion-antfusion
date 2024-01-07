@@ -5,7 +5,7 @@ trait HasVariant
 {
     use HasMeta;
     
-    public function primary()
+    public function primary($primary = true)
     {
         return $this->meta(['variant' => 'primary']);
     }

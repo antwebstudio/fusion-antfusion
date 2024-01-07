@@ -30,11 +30,15 @@ class Filter {
     }
 
     public function toArray() {
+        $options = collect($this->options(request()))->mapWithKeys(function($option, $key) {
+            return [__($key) => $option];
+        })->toArray();
+        
         return array_merge($this->meta, [
             'id' => 'filter_'.unique_id(),
             'component' => $this->component,
             'handle' => $this->getHandle(),
-            'options' => $this->options(request()),
+            'options' => $options,
             'builtin' => $this->builtin,
         ]);
     }

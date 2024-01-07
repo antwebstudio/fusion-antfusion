@@ -116,8 +116,8 @@ abstract class Action {
         return array_merge($this->meta, [
             'id' => unique_id(),
             'component' => $this->getComponent(),
-            'text' => $this->getName(),
-            'title' => $this->getName(),
+            'text' => __($this->getName()),
+            'title' => __($this->getName()),
             'url' => $this->getActionUrl($actionSlug),
             'to' => $this->getActionUrl($actionSlug), // currently needed or else resource index page will not shown properly
             'fields' => $this->fieldsArray(),
