@@ -1,7 +1,7 @@
 <template>
     <fragment>
-        <ui-dropdown-link v-bind="$props" :class="classes" v-if="asDropdown" @click="openModalForm()"><slot>{{ text }}</slot></ui-dropdown-link>
-        <ui-button v-bind="$props" :class="classes" v-else :variant="variant" @click.prevent="openModalForm()"><slot>{{ text }}</slot></ui-button>
+        <ui-dropdown-link v-bind="$props" :class="classes" v-if="asDropdown" @click="performAction()"><slot>{{ text }}</slot></ui-dropdown-link>
+        <ui-button v-bind="$props" :class="classes" v-else :variant="variant" @click.prevent="performAction()"><slot>{{ text }}</slot></ui-button>
 
         <portal to="modals">
             <ui-modal :name="modalName" :title="modalTitle" :key="modalName" @input="modalChanged">
@@ -119,8 +119,34 @@ export default {
             })
             this.form = new Form(fields)
         },
+        performAction() {
+            if (this.fields.length) {
+                this.openModalForm()
+            } else {
+                let params = this.record.formdata()
+                params.append('route', this.route)
+                params.append('path', this.path)
+                this.record.submit(this.formMethod, this.url, params).then((response) => {
+                    console.log(response);
+                    this.processActionResponse(response)
+                });
+            }
+        },
         openModalForm() {
             this.openModal(this.modalName)
+        },
+        processActionResponse(response) {
+            if (response.message) {
+                toast(response.message, 'success')
+            }
+            if (response.redirect) {
+                if (response.target) {
+                    window.open(response.redirect, response.target)
+                } else {
+                    // location.href = response.redirect
+                    this.$router.push(response.redirect)
+                }
+            }
         },
         submit() {
             this.loading = true
@@ -135,17 +161,7 @@ export default {
                 this.$emit('submitted')
                 this.closeModal(this.modalName)
 
-                if (response.message) {
-                    toast(response.message, 'success')
-                }
-                if (response.redirect) {
-                    if (response.target) {
-                        window.open(response.redirect, response.target)
-                    } else {
-                        // location.href = response.redirect
-                        this.$router.push(response.redirect)
-                    }
-                }
+                this.processActionResponse(response)
             }).catch((error) => {
                 this.loading = false
                 if (error.errors) {
