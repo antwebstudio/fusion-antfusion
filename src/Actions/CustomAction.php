@@ -20,7 +20,10 @@ class CustomAction extends Action {
 
     public function handle($request, $entries) {
         if (is_callable($this->callback)) {
-            call_user_func_array($this->callback, [$request, $entries]);
+            $response = call_user_func_array($this->callback, [$request, $entries]);
+            if (isset($response)) {
+                return $response;
+            }
         }
         return [
             'message' => $this->successMessage,
