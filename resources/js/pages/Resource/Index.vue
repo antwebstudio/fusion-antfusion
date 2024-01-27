@@ -50,8 +50,8 @@ export default {
     beforeRouteUpdate(to, from, next) {
         axios.get('/api/antfusion/resource/' + to.params.resource + '').then((response) => {
             this.meta = response.data
+            this.resource = response.data.resource
             this.actions = response.data.actions
-            console.log(response.data)
 
             next()
         }).catch((error) => {
@@ -69,7 +69,6 @@ export default {
                 vm.meta = response.data
                 vm.resource = response.data.resource
                 vm.actions = response.data.actions
-                console.log(response.data)
             })
         }).catch((error) => {
             if (error.response.data.errors && error.response.data.errors['*']) {

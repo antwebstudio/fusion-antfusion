@@ -2,6 +2,8 @@
 import DataTable from '@/ui/Table/Table'
 import queryString from 'query-string'
 
+let controller = new AbortController();
+
 export default {
     props: {
         filters: {
@@ -18,9 +20,15 @@ export default {
     },
     methods: {
         getRecords() {
-            this.loading = true
+            // cancel the previous request
+            controller.abort()
 
-            return axios.get(`${this.endpoint}?${this.getQueryParameters()}`).then((response) => {
+            controller = new AbortController();
+
+            this.loading = true
+            return axios.get(`${this.endpoint}?${this.getQueryParameters()}`, {
+                signal: controller.signal
+            }).then((response) => {
                 this.records = response.data.records.data
                 this.displayable = response.data.displayable
                 this.sortable = response.data.sortable
