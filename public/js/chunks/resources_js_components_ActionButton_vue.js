@@ -123,11 +123,41 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](fields);
     },
+    performAction: function performAction() {
+      var _this2 = this;
+
+      if (this.fields.length) {
+        this.openModalForm();
+      } else {
+        var params = this.record.formdata();
+        params.append('route', this.route);
+        params.append('path', this.path);
+        this.record.submit(this.formMethod, this.url, params).then(function (response) {
+          console.log(response);
+
+          _this2.processActionResponse(response);
+        });
+      }
+    },
     openModalForm: function openModalForm() {
       this.openModal(this.modalName);
     },
+    processActionResponse: function processActionResponse(response) {
+      if (response.message) {
+        toast(response.message, 'success');
+      }
+
+      if (response.redirect) {
+        if (response.target) {
+          window.open(response.redirect, response.target);
+        } else {
+          // location.href = response.redirect
+          this.$router.push(response.redirect);
+        }
+      }
+    },
     submit: function submit() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.loading = true;
       var params = this.form.formdata();
@@ -139,29 +169,18 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.form.submit('post', this.url, params).then(function (response) {
-        _this2.loading = false;
+        _this3.loading = false;
 
-        _this2.$emit('submitted');
+        _this3.$emit('submitted');
 
-        _this2.closeModal(_this2.modalName);
+        _this3.closeModal(_this3.modalName);
 
-        if (response.message) {
-          toast(response.message, 'success');
-        }
-
-        if (response.redirect) {
-          if (response.target) {
-            window.open(response.redirect, response.target);
-          } else {
-            // location.href = response.redirect
-            _this2.$router.push(response.redirect);
-          }
-        }
+        _this3.processActionResponse(response);
       })["catch"](function (error) {
-        _this2.loading = false;
+        _this3.loading = false;
 
         if (error.errors) {
-          _this2.errors = error.errors;
+          _this3.errors = error.errors;
           var message = Object.keys(error.errors).map(function (key) {
             return error.errors[key].join(' ');
           }).join(' ');
@@ -18857,7 +18876,7 @@ var render = function () {
                 class: _vm.classes,
                 on: {
                   click: function ($event) {
-                    return _vm.openModalForm()
+                    return _vm.performAction()
                   },
                 },
               },
@@ -18881,7 +18900,7 @@ var render = function () {
                 on: {
                   click: function ($event) {
                     $event.preventDefault()
-                    return _vm.openModalForm()
+                    return _vm.performAction()
                   },
                 },
               },

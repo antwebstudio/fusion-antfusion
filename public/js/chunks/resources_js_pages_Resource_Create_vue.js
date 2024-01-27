@@ -57,9 +57,15 @@ __webpack_require__.r(__webpack_exports__);
 
       this.loading = true;
       this.form.post("/api/antfusion/resource/".concat(this.resource.slug)).then(function (response) {
-        toast('Entry saved successfully', 'success');
+        if (response) {
+          _this.processActionResponse(response);
+        } else {
+          toast('Entry saved successfully', 'success');
 
-        _this.$router.push("/resource/".concat(_this.resource.slug));
+          _this.$router.push("/resource/".concat(_this.resource.slug));
+        }
+
+        _this.loading = false;
       })["catch"](function (error) {
         _this.loading = false;
 
@@ -73,6 +79,20 @@ __webpack_require__.r(__webpack_exports__);
           toast(error.message, 'failed');
         }
       });
+    },
+    processActionResponse: function processActionResponse(response) {
+      if (response.message) {
+        toast(response.message, 'success');
+      }
+
+      if (response.redirect) {
+        if (response.target) {
+          window.open(response.redirect, response.target);
+        } else {
+          // location.href = response.redirect
+          this.$router.push(response.redirect);
+        }
+      }
     }
   },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
@@ -100,8 +120,10 @@ __webpack_require__.r(__webpack_exports__);
         vm.$emit('updateHead');
       });
     })["catch"](function () {
-      vm.$router.push("/resource/".concat(vm.$router.currentRoute.params.resource));
-      toast('Requested entry could not be found.', 'danger');
+      next(function (vm) {
+        vm.$router.push("/resource/".concat(vm.$router.currentRoute.params.resource));
+        toast('Requested entry could not be found.', 'danger');
+      });
     });
   }
 });
