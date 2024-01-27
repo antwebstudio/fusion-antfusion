@@ -45,9 +45,13 @@
             submit() {
                 this.loading = true;
                 this.form.post(`/api/antfusion/resource/${this.resource.slug}`).then((response) => {
-                    toast('Entry saved successfully', 'success')
-
-                    this.$router.push(`/resource/${this.resource.slug}`)
+                    if (response) {
+                        this.processActionResponse(response);
+                    } else {
+                        toast('Entry saved successfully', 'success')
+                        this.$router.push(`/resource/${this.resource.slug}`)
+                    }
+                    this.loading = false;
                 }).catch((error) => {
                     this.loading = false;
                     if (error.errors) {
@@ -61,6 +65,19 @@
                         toast(error.message, 'failed')
                     }
                 })
+            },
+            processActionResponse(response) {
+                if (response.message) {
+                    toast(response.message, 'success')
+                }
+                if (response.redirect) {
+                    if (response.target) {
+                        window.open(response.redirect, response.target)
+                    } else {
+                        // location.href = response.redirect
+                        this.$router.push(response.redirect)
+                    }
+                }
             },
         },
 
@@ -92,9 +109,11 @@
                     })
                 })
                 .catch(() => {
-                    vm.$router.push(`/resource/${vm.$router.currentRoute.params.resource}`)
+                    next(vm => {
+                        vm.$router.push(`/resource/${vm.$router.currentRoute.params.resource}`)
 
-                    toast('Requested entry could not be found.', 'danger')
+                        toast('Requested entry could not be found.', 'danger')
+                    })
                 })
         }
     }
