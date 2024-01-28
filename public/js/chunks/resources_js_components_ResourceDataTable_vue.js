@@ -172,7 +172,10 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       "default": true
     },
-    actions: {}
+    actions: {},
+    default_filter_values: {
+      "default": {}
+    }
   },
   watch: {
     showBulkActionConfirmation: function showBulkActionConfirmation(value) {
@@ -183,7 +186,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      filterValues: {},
+      filterValues: this.default_filter_values,
       metricValues: {},
       form: null,
       action: null,
