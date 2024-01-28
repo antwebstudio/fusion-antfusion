@@ -17,9 +17,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
 
 
+var controller = new AbortController();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     filters: {}
+  },
+  data: function data() {
+    return {
+      controller: new AbortController()
+    };
   },
   "extends": _ui_Table_Table__WEBPACK_IMPORTED_MODULE_0__["default"],
   watch: {
@@ -34,8 +40,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     getRecords: function getRecords() {
       var _this = this;
 
+      // cancel the previous request
+      controller.abort();
+      controller = new AbortController();
       this.loading = true;
-      return axios.get("".concat(this.endpoint, "?").concat(this.getQueryParameters())).then(function (response) {
+      console.log('get records 123', "".concat(this.endpoint, "?").concat(this.getQueryParameters()));
+      return axios.get("".concat(this.endpoint, "?").concat(this.getQueryParameters()), {
+        signal: controller.signal
+      }).then(function (response) {
         _this.records = response.data.records.data;
         _this.displayable = response.data.displayable;
         _this.sortable = response.data.sortable;

@@ -66,8 +66,8 @@ __webpack_require__.r(__webpack_exports__);
 
     axios.get('/api/antfusion/resource/' + to.params.resource + '').then(function (response) {
       _this.meta = response.data;
+      _this.resource = response.data.resource;
       _this.actions = response.data.actions;
-      console.log(response.data);
       next();
     })["catch"](function (error) {
       if (error.response.data.errors && error.response.data.errors['*']) {
@@ -84,7 +84,6 @@ __webpack_require__.r(__webpack_exports__);
         vm.meta = response.data;
         vm.resource = response.data.resource;
         vm.actions = response.data.actions;
-        console.log(response.data);
       });
     })["catch"](function (error) {
       if (error.response.data.errors && error.response.data.errors['*']) {
