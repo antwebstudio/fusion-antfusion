@@ -21,4 +21,13 @@ trait HasFilters {
         $this->filters = $filters;
         return $this;
     }
+
+    protected function defaultFilterValues()
+    {
+        $array = [];
+        foreach ($this->filters() as $filter) {
+            $array[$filter->getHandle()] = $filter->defaultValue();
+        }
+        return $array;
+    }
 }

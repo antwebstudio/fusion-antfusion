@@ -167,7 +167,9 @@ export default {
         actions: {
 
         },
-        
+        default_filter_values: {
+            default: {}
+        },
     },
     watch: {
         showBulkActionConfirmation(value) {
@@ -178,7 +180,7 @@ export default {
     },
     data() {
         return {
-            filterValues : {},
+            filterValues : this.default_filter_values,
             metricValues: {},
             form: null,
             action: null,

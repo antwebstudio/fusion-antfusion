@@ -153,6 +153,7 @@ abstract class Resource {
                 'id' => 'data-table-'.$this->getSlug(),
                 'endpoint' => $this->getDataTableEndpoint(),
                 'filters' => $this->filtersArray(),
+                'default_filter_values' => $this->defaultFilterValues(),
                 'metrics' => $this->metricsArray(),
             ],
         ];

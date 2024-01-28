@@ -47,4 +47,9 @@ class Filter {
     {
 		return [];
     }
+
+    public function defaultValue()
+    {
+        return collect($this->options(request()))->first();
+    }
 }
