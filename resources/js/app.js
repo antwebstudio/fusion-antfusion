@@ -1,6 +1,7 @@
 import DateRangePicker from 'vue2-daterange-picker'
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 import Fragment from 'vue-fragment'
+import './fieldtypes-views'
 
 window.Fusion.registerPage = function(router, path, componentName, props, meta, name) {
     if (!name) name = 'antfusion'
