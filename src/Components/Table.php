@@ -41,9 +41,9 @@ class Table extends Component implements Panel {
         return $this;
     }
 
-    public function addRows($components) {
+    public function addRows($components, $rowMeta = []) {
         foreach ($components as $component) {
-            $this->addRow($component);
+            $this->addRow($component, $rowMeta);
         }
         return $this;
     }
