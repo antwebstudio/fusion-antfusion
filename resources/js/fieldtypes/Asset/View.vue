@@ -18,7 +18,9 @@ export default {
     },
     computed: {
         imageSrc() {
-            return this.value[0].url
+            if (this.value.length) {
+                return this.value[0].url
+            }
         },
         imageStyle() {
             if (this.settings && this.settings.style) {
