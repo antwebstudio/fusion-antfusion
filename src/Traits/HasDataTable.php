@@ -62,7 +62,9 @@ trait HasDataTable {
     public function getCustomColumnTypes() {
         $columns = [];
         foreach ($this->getFieldsForDataTable() as $field) {
-            if ($this->clickColumnHandle == $field) {
+            if (is_object($field) && $this->clickColumnHandle == $field->handle) {
+                $columns[$field->handle] = $this->clickColumnComponent;
+            } else if ($this->clickColumnHandle == $field) {
                 $columns[$field] = $this->clickColumnComponent;
             } else if (is_object($field)) {
                 $component = $field->getIndexComponent();
