@@ -98,6 +98,10 @@ class Field {
         return $this->component;
     }
 
+    public function getComponentProps() {
+        return [];
+    }
+
     public function hideFromIndex() {
         return $this->exceptShowIn('index');
     }

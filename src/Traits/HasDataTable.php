@@ -78,6 +78,16 @@ trait HasDataTable {
         return $columns;
     }
 
+    public function getCustomColumnProps() {
+        $columns = [];
+        foreach ($this->getFieldsForDataTable() as $field) {
+            if (is_object($field)) {
+                $columns[$field->handle] = $field->getComponentProps();
+            }
+        }
+        return $columns;
+    }
+
     public function getCustomColumnNames() {
         $columns = [];
         foreach ($this->getFieldsForDataTable() as $field) {

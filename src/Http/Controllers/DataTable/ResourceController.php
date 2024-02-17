@@ -19,6 +19,7 @@ class ResourceController extends DataTableController {
             'sortable'            => array_values($this->getSortable()),
             'column_names'        => $this->getCustomColumnNames(),
             'column_types'        => $this->getCustomColumnTypes(),
+            'column_props'        => $this->getCustomColumnProps(),
             'records'             => $this->getRecords($request),
             'bulk_actions'        => $this->getBulkActions(),
             'bulk_actions_exempt' => $this->getExemptFromBulkActions(),
@@ -77,6 +78,11 @@ class ResourceController extends DataTableController {
     public function getCustomColumnTypes()
     {
         return $this->resource()->getCustomColumnTypes();
+    }
+    
+    public function getCustomColumnProps()
+    {
+        return $this->resource()->getCustomColumnProps();
     }
 
     public function getRelationships()

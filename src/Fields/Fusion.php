@@ -9,6 +9,7 @@ class Fusion extends Field
     protected $settings = [];
 
     protected $indexComponent;
+    protected $componentProps = [];
 
     public function __construct($label, $handle) {
         parent::__construct($label, $handle);
@@ -69,6 +70,15 @@ class Fusion extends Field
             // Use setIndexComponent instead of setComponent
             // return $this->component;
         }
+    }
+
+    public function mergeComponentProps($array) {
+        $this->componentProps = array_merge($this->componentProps, $array);
+        return $this;
+    }
+
+    public function getComponentProps() {
+        return $this->componentProps ?? [];
     }
 
     public function mergeSettings($settings) {

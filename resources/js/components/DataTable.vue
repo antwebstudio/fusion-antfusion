@@ -34,6 +34,7 @@ export default {
                 this.sortable = response.data.sortable
                 this.column_names = response.data.column_names
                 this.column_types = response.data.column_types
+                this.column_props = response.data.column_props
                 this.bulk_actions = response.data.bulk_actions
                 this.bulk_actions_exempt = response.data.bulk_actions_exempt
                 this.pagination.totalRecords = response.data.records.total
