@@ -21,6 +21,7 @@ class Field {
     protected $component;
     protected $rules = [];
     protected $defaultValue;
+    protected $getRecordUsing;
 
     public function __construct($label, $handle) {
         $this->label = $label;
@@ -113,5 +114,17 @@ class Field {
     public function setId($id) {
         $this->id = $id;
         return $this;
+    }
+
+    public function getRecordUsing($callback) {
+        $this->getRecordUsing = $callback;
+        return $this;
+    }
+
+    public function processDataTableRecord($record) {
+        if (isset($this->getRecordUsing)) {
+            return call_user_func_array($this->getRecordUsing, [$record]);
+        }
+        return $record;
     }
 }

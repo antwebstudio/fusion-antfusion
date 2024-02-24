@@ -147,4 +147,13 @@ trait HasDataTable {
     public function getDataTableRecords($records) {
         return $records;
     }
+
+    public function processDataTableRecord($record) {
+        foreach ($this->getFieldsForDataTable() as $field) {
+            if (is_object($field)) {
+                $record = $field->processDataTableRecord($record);
+            }
+        }
+        return $record;
+    }
 }

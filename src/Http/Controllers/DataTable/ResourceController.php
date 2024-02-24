@@ -41,6 +41,7 @@ class ResourceController extends DataTableController {
             foreach ($return['data'] as $i => &$record) {
                 $record['resource'] = ['slug' => $resource->getSlug(), 'handle' => $resource->getHandle()];
                 $record['actions'] = $resource->getActionsForRecord($records[$record['id']]);
+                $record = $resource->processDataTableRecord($record);
             }
         }
         return $return ?? ['data' => []];
