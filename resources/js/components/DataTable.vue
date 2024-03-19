@@ -26,6 +26,8 @@ export default {
             controller = new AbortController();
 
             this.loading = true
+            this.hasError = false
+
             return axios.get(`${this.endpoint}?${this.getQueryParameters()}`, {
                 signal: controller.signal
             }).then((response) => {
@@ -50,6 +52,9 @@ export default {
                 }
 
                 this.$emit('loaded', this.records)
+            }).catch((error) => {
+                this.hasError = true
+                this.loading = false
             })
         },
         getQueryParameters() {
