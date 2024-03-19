@@ -39,6 +39,7 @@ var controller = new AbortController();
       controller.abort();
       controller = new AbortController();
       this.loading = true;
+      this.hasError = false;
       return axios.get("".concat(this.endpoint, "?").concat(this.getQueryParameters()), {
         signal: controller.signal
       }).then(function (response) {
@@ -65,6 +66,9 @@ var controller = new AbortController();
         }
 
         _this.$emit('loaded', _this.records);
+      })["catch"](function (error) {
+        _this.hasError = true;
+        _this.loading = false;
       });
     },
     getQueryParameters: function getQueryParameters() {
@@ -115,6 +119,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! query-string */ "../../fusioncms/cms/node_modules/query-string/index.js");
 /* harmony import */ var vue_nestable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-nestable */ "../../fusioncms/cms/node_modules/vue-nestable/dist/index.umd.min.js");
 /* harmony import */ var vue_nestable__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_nestable__WEBPACK_IMPORTED_MODULE_3__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -477,6 +487,7 @@ __webpack_require__.r(__webpack_exports__);
       initialLoad: true,
       loading: true,
       working: false,
+      hasError: false,
       displayable: [],
       column_names: [],
       column_types: [],
@@ -622,6 +633,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       this.loading = true;
+      this.hasError = false;
       return axios__WEBPACK_IMPORTED_MODULE_1___default().get("".concat(this.endpoint, "?").concat(this.getQueryParameters())).then(function (response) {
         _this3.records = response.data.records.data;
         _this3.displayable = response.data.displayable;
@@ -643,6 +655,11 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         _this3.$emit('loaded', _this3.records);
+      })["catch"](function (error) {
+        console.log('has error');
+        alert('error');
+        _this3.hasError = true;
+        _this3.loading = false;
       });
     },
     isSortable: function isSortable(column) {
@@ -1925,7 +1942,35 @@ var render = function () {
         [_vm._v("Loading...")]
       ),
       _vm._v(" "),
-      _vm.records.length
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.hasError,
+              expression: "hasError",
+            },
+          ],
+          staticClass: "p-2 flex flex-col border py-4",
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("p", { staticClass: "mx-auto text-center" }, [
+            _vm._v("Please try again later"),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mx-auto" }, [
+            _c("a", { staticClass: "button", on: { click: _vm.getRecords } }, [
+              _vm._v("Retry"),
+            ]),
+          ]),
+        ]
+      ),
+      _vm._v(" "),
+      _vm.records.length && !_vm.hasError
         ? _c(
             "div",
             {
@@ -2666,7 +2711,14 @@ var render = function () {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mx-auto" }, [_c("h2", [_vm._v("Error")])])
+  },
+]
 render._withStripped = true
 
 
