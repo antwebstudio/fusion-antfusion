@@ -44,7 +44,7 @@ class MetricCard extends Component {
     }
 
     public function value($value) {
-        return $this->withMeta(['value' => $value]);
+        return $this->withMeta(['metric_value' => $value]);
     }
 
     public function icon($icon) {
