@@ -6,6 +6,7 @@
             v-for="(component, index) in processedComponents" :key="index"
             :is="component.component"
             v-bind="component"
+            v-model="loadedRecord[component.handle]"
             >
         </component>
     </div>
@@ -16,6 +17,7 @@
             v-for="(component, index) in processedComponents" :key="index"
             :is="component.component"
             v-bind="component"
+            v-model="loadedRecord[component.handle]"
             >
         </component>
     </fragment>
@@ -26,6 +28,9 @@ import { Fragment } from 'vue-fragment'
 
 export default {
     props: {
+        record: {
+
+        },
         wrap: {
             default: false,
         },
@@ -36,8 +41,18 @@ export default {
             Fragment,
         }
     },
+    watch: {
+        loadedRecord: {
+            deep: true,
+            handler(value) {
+                console.log(value)
+                this.$emit('input', value)
+            }
+        }
+    },
     data() {
         return {
+            loadedRecord: this.record,
             loadingCount: 0,
         }
     },

@@ -130,6 +130,7 @@ trait HasDataTable {
         $actions = [];
         foreach ($this->actions() as $action) {
             if (!$action->isStandalone() && !$action->isHidden() && $action->shouldShowIn('index') && $action->shouldShowIn('bulk')) {
+                $action->setParent($this);
                 $actions[] = [
                     'route' => $action->getBulkActionUrl($this->getSlug()),
                     'name' => $action->getName(),

@@ -33,13 +33,13 @@ trait HasActions {
 
     public function getDropDownActionsForRecord($record) {
         return $this->getActionsByFilterForRecord($record, function($action) use($record) {
-            return !$action->isStandalone() && !$action->isHidden() && $action->isDropDown() && $action->isShowForRecord($record);
+            return !$action->isStandalone() && !$action->isHidden() && $action->isDropDown() && $action->isShowForRecord($record) && $action->shouldShowIn('inline');
         });
     }
 
     public function getNonDropDownActionsForRecord($record) {
         return $this->getActionsByFilterForRecord($record, function($action) use($record) {
-            return !$action->isStandalone() && !$action->isHidden() && !$action->isDropDown() && $action->isShowForRecord($record);
+            return !$action->isStandalone() && !$action->isHidden() && !$action->isDropDown() && $action->isShowForRecord($record) && $action->shouldShowIn('inline');
         });
     }
 

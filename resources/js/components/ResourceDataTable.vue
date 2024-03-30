@@ -9,6 +9,7 @@
         <antfusion-datatable v-bind="$props" :filters="filterValues" @update-metrics="updateMetrics">
             <template v-slot:bulkActions="{ parent }">
                 <div class="ml-auto">
+                    <!-- Bulk action selector -->
                     <select name="bulk-actions" id="bulk-actions" class="field-select field-select--sm field-select--bordered" v-model="action" @change="initForm(parent); showBulkActionConfirmation = true">
                         <option selected disabled :value="null">Bulk Actions</option>
 
@@ -17,12 +18,14 @@
                 </div>
                 
                 <portal to="modals">
+                    <!-- Modals -->
                     <ui-modal v-if="action !== null" name="confirm-bulk-action" :title="'Confirm Bulk ' + parent.allowedBulkActions[action].name" v-model="showBulkActionConfirmation">
                         <div v-if="parent.allowedBulkActions[action].params && parent.allowedBulkActions[action].params.fields.length">
                             <span v-if="form">
                                 <component v-model="form[field.handle]" v-for="field, index in parent.allowedBulkActions[action].params.fields" :key="field.handle" :is="field.component" v-bind="field"
-                                    :parent="componentData"
+                                    :parent="parent.allowedBulkActions[action]"
                                     :record="record"
+                                    :selected-rows="parent.selected"
                                     :has-error="form.errors.has(field.handle)"
                                     :error-message="form.errors.get(field.handle)"
                                     :errors="form.errors"

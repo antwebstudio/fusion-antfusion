@@ -53,6 +53,11 @@ abstract class Action {
         return $this->exceptShowIn('index');
     }
 
+    public function onlyBulkAction()
+    {
+        return $this->exceptShowIn('inline');
+    }
+
     public function onlyInline() {
         $this->standalone = false;
         $this->dropdown = true;
@@ -132,6 +137,10 @@ abstract class Action {
         $array = $this->toArray();
         
         if ($this->hasFields()) {
+            foreach ($this->fields() as $field) {
+                $record = $field->processDataTableRecord($record);
+                $array['record'] = $record;
+            }
             // $array['asDropdown'] = true;
             // $array['component'] = 'action-button';
         } else {

@@ -22,6 +22,7 @@ class Field {
     protected $rules = [];
     protected $defaultValue;
     protected $getRecordUsing;
+    protected $getStateUsing;
 
     public function __construct($label, $handle) {
         $this->label = $label;
@@ -121,9 +122,16 @@ class Field {
         return $this;
     }
 
+    public function getStateUsing($callback) {
+        $this->getStateUsing = $callback;
+        return $this;
+    }
+
     public function processDataTableRecord($record) {
         if (isset($this->getRecordUsing)) {
             return call_user_func_array($this->getRecordUsing, [$record]);
+        } else if (isset($this->getStateUsing)) {
+            $record[$this->handle] = call_user_func_array($this->getStateUsing, [$record]);
         }
         return $record;
     }
