@@ -373,12 +373,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -487,7 +481,6 @@ __webpack_require__.r(__webpack_exports__);
       initialLoad: true,
       loading: true,
       working: false,
-      hasError: false,
       displayable: [],
       column_names: [],
       column_types: [],
@@ -633,7 +626,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       this.loading = true;
-      this.hasError = false;
       return axios__WEBPACK_IMPORTED_MODULE_1___default().get("".concat(this.endpoint, "?").concat(this.getQueryParameters())).then(function (response) {
         _this3.records = response.data.records.data;
         _this3.displayable = response.data.displayable;
@@ -655,11 +647,6 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         _this3.$emit('loaded', _this3.records);
-      })["catch"](function (error) {
-        console.log('has error');
-        alert('error');
-        _this3.hasError = true;
-        _this3.loading = false;
       });
     },
     isSortable: function isSortable(column) {
@@ -1942,35 +1929,7 @@ var render = function () {
         [_vm._v("Loading...")]
       ),
       _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.hasError,
-              expression: "hasError",
-            },
-          ],
-          staticClass: "p-2 flex flex-col border py-4",
-        },
-        [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("p", { staticClass: "mx-auto text-center" }, [
-            _vm._v("Please try again later"),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "mx-auto" }, [
-            _c("a", { staticClass: "button", on: { click: _vm.getRecords } }, [
-              _vm._v("Retry"),
-            ]),
-          ]),
-        ]
-      ),
-      _vm._v(" "),
-      _vm.records.length && !_vm.hasError
+      _vm.records.length
         ? _c(
             "div",
             {
@@ -2711,14 +2670,7 @@ var render = function () {
     1
   )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mx-auto" }, [_c("h2", [_vm._v("Error")])])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -35,9 +35,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
+    record: {},
     wrap: {
       "default": false
     },
@@ -46,8 +49,18 @@ __webpack_require__.r(__webpack_exports__);
       Fragment: vue_fragment__WEBPACK_IMPORTED_MODULE_0__.Fragment
     }
   },
+  watch: {
+    loadedRecord: {
+      deep: true,
+      handler: function handler(value) {
+        console.log(value);
+        this.$emit('input', value);
+      }
+    }
+  },
   data: function data() {
     return {
+      loadedRecord: this.record,
       loadingCount: 0
     };
   },
@@ -185,6 +198,13 @@ var render = function () {
                 tag: "component",
                 attrs: { loading: _vm.loading },
                 on: { load: _vm.onLoading, loaded: _vm.onLoaded },
+                model: {
+                  value: _vm.loadedRecord[component.handle],
+                  callback: function ($$v) {
+                    _vm.$set(_vm.loadedRecord, component.handle, $$v)
+                  },
+                  expression: "loadedRecord[component.handle]",
+                },
               },
               "component",
               component,
@@ -205,6 +225,13 @@ var render = function () {
                 tag: "component",
                 attrs: { loading: _vm.loading },
                 on: { load: _vm.onLoading, loaded: _vm.onLoaded },
+                model: {
+                  value: _vm.loadedRecord[component.handle],
+                  callback: function ($$v) {
+                    _vm.$set(_vm.loadedRecord, component.handle, $$v)
+                  },
+                  expression: "loadedRecord[component.handle]",
+                },
               },
               "component",
               component,

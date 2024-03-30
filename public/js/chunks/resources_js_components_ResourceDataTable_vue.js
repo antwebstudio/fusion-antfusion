@@ -78,6 +78,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -1935,8 +1938,13 @@ var render = function () {
                                                       tag: "component",
                                                       attrs: {
                                                         parent:
-                                                          _vm.componentData,
+                                                          parent
+                                                            .allowedBulkActions[
+                                                            _vm.action
+                                                          ],
                                                         record: _vm.record,
+                                                        "selected-rows":
+                                                          parent.selected,
                                                         "has-error":
                                                           _vm.form.errors.has(
                                                             field.handle

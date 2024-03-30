@@ -186,7 +186,11 @@ var render = function () {
                     attrs: {
                       form: _vm.form,
                       errors: _vm.form.errors,
-                      record: _vm.record,
+                      record: Object.assign(
+                        {},
+                        _vm.record,
+                        childComponent.record
+                      ),
                     },
                     model: {
                       value: _vm.fieldValues[childComponent.handle],
@@ -236,7 +240,11 @@ var render = function () {
                                 attrs: {
                                   form: _vm.form,
                                   errors: _vm.form.errors,
-                                  record: _vm.record,
+                                  record: Object.assign(
+                                    {},
+                                    _vm.record,
+                                    grandchild.record
+                                  ),
                                 },
                                 model: {
                                   value: _vm.fieldValues[grandchild.handle],
