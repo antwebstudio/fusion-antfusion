@@ -20,7 +20,7 @@ export default {
         label: {
 
         },
-        value: {
+        metric_value: {
 
         },
         url: {
@@ -35,10 +35,10 @@ export default {
     },
     computed: {
         valueString() {
-            if (this.value && this.format) {
-                return Number(this.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            if (this.metric_value && this.format) {
+                return Number(this.metric_value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
-            return this.value
+            return this.metric_value
         }
     }
 }
