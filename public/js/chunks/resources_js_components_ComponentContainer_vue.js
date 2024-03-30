@@ -40,7 +40,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    record: {},
+    record: {
+      "default": {}
+    },
     wrap: {
       "default": false
     },
@@ -53,7 +55,6 @@ __webpack_require__.r(__webpack_exports__);
     loadedRecord: {
       deep: true,
       handler: function handler(value) {
-        console.log(value);
         this.$emit('input', value);
       }
     }
