@@ -29,7 +29,7 @@ import { Fragment } from 'vue-fragment'
 export default {
     props: {
         record: {
-
+            default: {}
         },
         wrap: {
             default: false,
@@ -45,7 +45,6 @@ export default {
         loadedRecord: {
             deep: true,
             handler(value) {
-                console.log(value)
                 this.$emit('input', value)
             }
         }
