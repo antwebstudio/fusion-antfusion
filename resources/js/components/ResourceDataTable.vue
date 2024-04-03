@@ -44,7 +44,7 @@
                 </portal>
             </template>
             <template v-slot:actions="table">
-                <div class="flex" v-if="table.record.actions && table.record.actions.length">
+                <div class="flex justify-end" v-if="table.record.actions && table.record.actions.length">
                     <component :record="table.record" @submitted="reload" @updated="reload" v-for="action, index in table.record.actions" :key="index" :is="action.component" v-bind="action">
                         {{ action.text }}
                     </component>
