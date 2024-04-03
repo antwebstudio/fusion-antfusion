@@ -135,4 +135,15 @@ class Field {
         }
         return $record;
     }
+
+    public function whenFilterActived($filter, $value) {
+        $filterHandle = app($filter)->getHandle();
+        $value = is_array($value) ? $value : [$value];
+        if (in_array(request()->filter[$filterHandle] ?? null, $value)) {
+            $this->show();
+        } else {
+            $this->hide();
+        }
+        return $this;
+    }
 }
