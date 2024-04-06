@@ -12,6 +12,8 @@
             :meta="meta"
             :resource="resource">
         </shared-form>
+
+        <action-modal :action="modalAction" :record="record"></action-modal>
     </div>
 </template>
 
@@ -33,12 +35,18 @@
                 meta: null,
                 resource: null,
                 form: null,
-                loading: false
+                loading: false,
+                modalAction: null,
             }
         },
 
         components: {
             'shared-form': SharedForm
+        },
+        computed: {
+            modalName() {
+                return 'action-' + this._uid
+            },
         },
 
         methods: {
@@ -77,6 +85,8 @@
                         // location.href = response.redirect
                         this.$router.push(response.redirect)
                     }
+                } else if (response.action) {
+                    this.modalAction = response.action
                 }
             },
         },
