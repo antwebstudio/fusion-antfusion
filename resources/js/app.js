@@ -51,6 +51,7 @@ window.Fusion.booting(function(Vue, router, store) {
     Vue.component('parent-value', () => import('./components/ParentValue'))
     Vue.component('print-button', () => import('./components/PrintButton'))
     Vue.component('action-button', () => import('./components/ActionButton'))
+    Vue.component('action-modal', () => import('./components/ActionModal'))
     Vue.component('action-dropdown-link', () => import('./components/ActionDropDownLink'))
     Vue.component('submit-button', () => import('./components/SubmitButton'))
     Vue.component('nested-component', () => import('./components/NestedComponent'))

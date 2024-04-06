@@ -5,7 +5,9 @@ trait HasActions {
     protected $initializedActions;
 
     public function registerAction($action) {
+        $action->setParent($this);
         $this->initializedActions[$action->getHandle()] = $action;
+        return $action;
     }
 
     public function performAction($actionName, $request) {
