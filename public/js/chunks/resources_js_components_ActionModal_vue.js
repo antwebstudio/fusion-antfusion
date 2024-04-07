@@ -52,10 +52,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     action: function action(value) {
+      var _this = this;
+
       if (value) {
         console.log('open modal');
-        this.openModal(this.modalName);
-        this.initForm();
+        setTimeout(function () {
+          _this.openModal(_this.modalName);
+
+          _this.initForm();
+        }, 0);
       }
 
       console.log('action');
@@ -63,9 +68,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     confirmButtonText: function confirmButtonText() {
-      if (this.action) {
+      if (this.action && this.action.confirmButtonText) {
         return this.action.confirmButtonText;
       }
+
+      return 'OK';
+    },
+    cancelButtonText: function cancelButtonText() {
+      if (this.action && this.action.cancelButtonText) {
+        return this.action.cancelButtonText;
+      }
+
+      return 'Cancel';
     },
     modalName: function modalName() {
       return 'action-' + this._uid;
@@ -78,12 +92,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     initForm: function initForm() {
-      var _this = this;
+      var _this2 = this;
 
       var fields = {};
       this.action.fields.forEach(function (field) {
-        if (_this.action.load_record && _this.action.load_record[field.handle]) {
-          fields[field.handle] = _.get(_this.action.record, _this.action.load_record[field.handle]);
+        if (_this2.action.load_record && _this2.action.load_record[field.handle]) {
+          fields[field.handle] = _.get(_this2.action.record, _this2.action.load_record[field.handle]);
         } else {
           fields[field.handle] = null;
         }
@@ -111,33 +125,33 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     submit: function submit() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.loading = true;
       var method = this.action.action ? this.action.action : 'post';
       var params = this.form.formdata(); // params.append('route', this.route)
       // params.append('path', this.path)
 
-      if (this.record.id) {
+      if (this.record && this.record.id) {
         params.append('records[]', this.record.id);
         params.append('resourceIds[]', this.record.id);
       }
 
       this.form.submit(method, this.action.url, params).then(function (response) {
         if (response) {
-          _this2.processActionResponse(response);
+          _this3.processActionResponse(response);
         } else {
           toast('Entry saved successfully', 'success');
 
-          _this2.$router.push("/resource/".concat(_this2.resource.slug));
+          _this3.$router.push("/resource/".concat(_this3.resource.slug));
         }
 
-        _this2.loading = false;
+        _this3.loading = false;
       })["catch"](function (error) {
-        _this2.loading = false;
+        _this3.loading = false;
 
         if (error.errors) {
-          _this2.errors = error.errors;
+          _this3.errors = error.errors;
           var message = Object.keys(error.errors).map(function (key) {
             return error.errors[key].join(' ');
           }).join(' ');
@@ -1602,93 +1616,109 @@ var render = function () {
         "portal",
         { attrs: { to: "modals" } },
         [
-          _c(
-            "ui-modal",
-            {
-              key: _vm.modalName,
-              attrs: { name: _vm.modalName, title: _vm.modalTitle },
-              on: { input: _vm.modalChanged },
-              scopedSlots: _vm._u([
-                {
-                  key: "footer",
-                  fn: function (entry) {
-                    return [
-                      _c(
-                        "ui-button",
+          _vm.action
+            ? _c(
+                "ui-modal",
+                _vm._b(
+                  {
+                    key: _vm.modalName,
+                    attrs: { name: _vm.modalName, title: _vm.modalTitle },
+                    on: { input: _vm.modalChanged },
+                    scopedSlots: _vm._u(
+                      [
                         {
-                          staticClass: "ml-3 button--primary",
-                          attrs: {
-                            loading: _vm.loading,
-                            disabled: _vm.loading,
-                          },
-                          on: { click: _vm.submit },
-                        },
-                        [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(_vm.confirmButtonText) +
-                              "\n                "
-                          ),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "ui-button",
-                        {
-                          directives: [
-                            {
-                              name: "modal",
-                              rawName: "v-modal:[modalName]",
-                              arg: _vm.modalName,
-                            },
-                          ],
-                        },
-                        [_vm._v("Cancel")]
-                      ),
-                    ]
-                  },
-                },
-              ]),
-            },
-            [
-              _vm.action && _vm.form
-                ? _c(
-                    "span",
-                    _vm._l(_vm.action.fields, function (field, index) {
-                      return _c(
-                        field.component,
-                        _vm._b(
-                          {
-                            key: field.handle,
-                            tag: "component",
-                            attrs: {
-                              parent: _vm.componentData,
-                              record: _vm.record,
-                              "has-error": _vm.form.errors.has(field.handle),
-                              "error-message": _vm.form.errors.get(
-                                field.handle
+                          key: "footer",
+                          fn: function (entry) {
+                            return [
+                              _c(
+                                "ui-button",
+                                {
+                                  staticClass: "ml-3 button--primary",
+                                  attrs: {
+                                    loading: _vm.loading,
+                                    disabled: _vm.loading,
+                                  },
+                                  on: { click: _vm.submit },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(_vm.confirmButtonText) +
+                                      "\n                "
+                                  ),
+                                ]
                               ),
-                              errors: _vm.form.errors,
-                            },
-                            model: {
-                              value: _vm.form[field.handle],
-                              callback: function ($$v) {
-                                _vm.$set(_vm.form, field.handle, $$v)
-                              },
-                              expression: "form[field.handle]",
-                            },
+                              _vm._v(" "),
+                              !_vm.action.hideCancelButton
+                                ? _c(
+                                    "ui-button",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "modal",
+                                          rawName: "v-modal:[modalName]",
+                                          arg: _vm.modalName,
+                                        },
+                                      ],
+                                    },
+                                    [_vm._v(_vm._s(_vm.cancelButtonText))]
+                                  )
+                                : _vm._e(),
+                            ]
                           },
-                          "component",
-                          field,
-                          false
-                        )
+                        },
+                      ],
+                      null,
+                      false,
+                      3128787755
+                    ),
+                  },
+                  "ui-modal",
+                  _vm.action,
+                  false
+                ),
+                [
+                  _vm.action && _vm.form
+                    ? _c(
+                        "span",
+                        _vm._l(_vm.action.fields, function (field, index) {
+                          return _c(
+                            field.component,
+                            _vm._b(
+                              {
+                                key: field.handle,
+                                tag: "component",
+                                attrs: {
+                                  parent: _vm.componentData,
+                                  record: _vm.record,
+                                  "has-error": _vm.form.errors.has(
+                                    field.handle
+                                  ),
+                                  "error-message": _vm.form.errors.get(
+                                    field.handle
+                                  ),
+                                  errors: _vm.form.errors,
+                                },
+                                model: {
+                                  value: _vm.form[field.handle],
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.form, field.handle, $$v)
+                                  },
+                                  expression: "form[field.handle]",
+                                },
+                              },
+                              "component",
+                              field,
+                              false
+                            )
+                          )
+                        }),
+                        1
                       )
-                    }),
-                    1
-                  )
-                : _vm._e(),
-            ]
-          ),
+                    : _vm._e(),
+                ]
+              )
+            : _vm._e(),
         ],
         1
       ),

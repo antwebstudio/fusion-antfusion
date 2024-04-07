@@ -47,6 +47,7 @@ __webpack_require__.r(__webpack_exports__);
       meta: null,
       resource: null,
       form: null,
+      record: null,
       loading: false,
       modalAction: null
     };
@@ -66,6 +67,8 @@ __webpack_require__.r(__webpack_exports__);
       this.loading = true;
       this.form.post("/api/antfusion/resource/".concat(this.resource.slug)).then(function (response) {
         if (response) {
+          _this.record = response.record;
+
           _this.processActionResponse(response);
         } else {
           toast('Entry saved successfully', 'success');
