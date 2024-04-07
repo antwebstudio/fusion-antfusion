@@ -28,6 +28,9 @@ import { Fragment } from 'vue-fragment'
 
 export default {
     props: {
+        value: {
+
+        },
         record: {
             default: {}
         },
@@ -51,7 +54,7 @@ export default {
     },
     data() {
         return {
-            loadedRecord: this.record,
+            loadedRecord: Object.assign({}, this.value, this.record),
             loadingCount: 0,
         }
     },

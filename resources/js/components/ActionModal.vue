@@ -100,7 +100,16 @@ export default {
         submit() {
             this.loading = true;
             let method = this.action.action ? this.action.action : 'post';
-            this.form.submit(method, this.action.url, {records: [this.record.id]}).then((response) => {
+
+            
+            let params = this.form.formdata()
+            // params.append('route', this.route)
+            // params.append('path', this.path)
+            if (this.record.id) {
+                params.append('records[]', this.record.id)
+                params.append('resourceIds[]', this.record.id)
+            }
+            this.form.submit(method, this.action.url, params).then((response) => {
                 if (response) {
                     this.processActionResponse(response);
                 } else {

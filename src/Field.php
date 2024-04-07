@@ -76,7 +76,14 @@ class Field {
         }
     }
 
+    protected function beforeToArray()
+    {
+
+    }
+
     public function toArrayWithoutDependant() {
+        $this->beforeToArray();
+
         return array_merge($this->meta, [
             'component' => $this->component,
             'id' => $this->id ?? $this->handle,

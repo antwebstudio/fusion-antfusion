@@ -46,6 +46,7 @@ window.Fusion.booting(function(Vue, router, store) {
     Vue.component('panel-body', () => import('./components/PanelBody'))
     Vue.component('antfusion-edit-link', () => import('./components/EditResourceLink'))
     Vue.component('antfusion-page', () => import('./components/Page'))
+    Vue.component('antfusion-repeater-fieldtype', () => import('./fieldtypes/Repeater/Field'))
     Vue.component('page-as-component', () => import('./components/PageAsComponent'))
     Vue.component('spinner', () => import('./components/Spinner'))
     Vue.component('parent-value', () => import('./components/ParentValue'))
