@@ -115,9 +115,15 @@ __webpack_require__.r(__webpack_exports__);
 
       this.loading = true;
       var method = this.action.action ? this.action.action : 'post';
-      this.form.submit(method, this.action.url, {
-        records: [this.record.id]
-      }).then(function (response) {
+      var params = this.form.formdata(); // params.append('route', this.route)
+      // params.append('path', this.path)
+
+      if (this.record.id) {
+        params.append('records[]', this.record.id);
+        params.append('resourceIds[]', this.record.id);
+      }
+
+      this.form.submit(method, this.action.url, params).then(function (response) {
         if (response) {
           _this2.processActionResponse(response);
         } else {

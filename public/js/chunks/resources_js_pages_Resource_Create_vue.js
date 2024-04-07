@@ -13,8 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _services_Form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/services/Form */ "../../fusioncms/cms/resources/js/services/Form.js");
 /* harmony import */ var _SharedForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SharedForm */ "./resources/js/pages/Resource/SharedForm.vue");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
 //
 //
 //
@@ -44,13 +43,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   data: function data() {
-    return _defineProperty({
+    return {
       meta: null,
       resource: null,
       form: null,
       loading: false,
-      modal: null
-    }, "form", null);
+      modalAction: null
+    };
   },
   components: {
     'shared-form': _SharedForm__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -102,24 +101,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           this.$router.push(response.redirect);
         }
       } else if (response.action) {
-        this.modal = response.action;
-        this.initForm();
+        this.modalAction = response.action;
       }
-    },
-    initForm: function initForm() {
-      var _this2 = this;
-
-      var fields = {};
-      this.modal.fields.forEach(function (field) {
-        if (_this2.modal.load_record && _this2.modal.load_record[field.handle]) {
-          fields[field.handle] = _.get(_this2.modal.record, _this2.modal.load_record[field.handle]);
-        } else {
-          fields[field.handle] = null;
-        }
-      });
-      this.form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](fields);
-    },
-    modalChanged: function modalChanged() {}
+    }
   },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
     axios.get("/api/antfusion/resource/".concat(to.params.resource, "/create"), {
@@ -2107,6 +2091,10 @@ var render = function () {
             },
           })
         : _vm._e(),
+      _vm._v(" "),
+      _c("action-modal", {
+        attrs: { action: _vm.modalAction, record: _vm.record },
+      }),
     ],
     1
   )

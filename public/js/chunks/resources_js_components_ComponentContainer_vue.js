@@ -40,6 +40,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
+    value: {},
     record: {
       "default": {}
     },
@@ -61,7 +62,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      loadedRecord: this.record,
+      loadedRecord: Object.assign({}, this.value, this.record),
       loadingCount: 0
     };
   },
