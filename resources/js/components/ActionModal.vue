@@ -1,7 +1,7 @@
 <template>
     <div>
         <portal to="modals">
-            <ui-modal :name="modalName" :title="modalTitle" :key="modalName" @input="modalChanged">
+            <ui-modal v-if="action" v-bind="action" :name="modalName" :title="modalTitle" :key="modalName" @input="modalChanged">
                 <span v-if="action && form">
                     <component v-model="form[field.handle]" v-for="field, index in action.fields" :key="field.handle" :is="field.component" v-bind="field"
                         :parent="componentData"
@@ -16,7 +16,7 @@
                     <ui-button :loading="loading" :disabled="loading" @click="submit" class="ml-3 button--primary">
                         {{ confirmButtonText }}
                     </ui-button>
-                    <ui-button v-modal:[modalName]>Cancel</ui-button>
+                    <ui-button v-if="!action.hideCancelButton" v-modal:[modalName]>{{  cancelButtonText }}</ui-button>
                 </template>
             </ui-modal>
         </portal>
@@ -41,8 +41,10 @@ export default {
         action(value) {
             if (value) {
                 console.log('open modal');
-                this.openModal(this.modalName);
-                this.initForm();
+                setTimeout(() => {
+                    this.openModal(this.modalName);
+                    this.initForm();
+                }, 0)
             }
             console.log('action');
         }
@@ -50,9 +52,16 @@ export default {
     
     computed: {
         confirmButtonText() {
-            if (this.action) {
+            if (this.action && this.action.confirmButtonText) {
                 return this.action.confirmButtonText
             }
+            return 'OK';
+        },
+        cancelButtonText() {
+            if (this.action && this.action.cancelButtonText) {
+                return this.action.cancelButtonText
+            }
+            return 'Cancel';
         },
         modalName() {
             return 'action-' + this._uid
@@ -105,7 +114,7 @@ export default {
             let params = this.form.formdata()
             // params.append('route', this.route)
             // params.append('path', this.path)
-            if (this.record.id) {
+            if (this.record && this.record.id) {
                 params.append('records[]', this.record.id)
                 params.append('resourceIds[]', this.record.id)
             }

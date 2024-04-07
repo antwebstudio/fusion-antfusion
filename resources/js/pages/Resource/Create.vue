@@ -35,6 +35,7 @@
                 meta: null,
                 resource: null,
                 form: null,
+                record: null,
                 loading: false,
                 modalAction: null,
             }
@@ -54,6 +55,7 @@
                 this.loading = true;
                 this.form.post(`/api/antfusion/resource/${this.resource.slug}`).then((response) => {
                     if (response) {
+                        this.record = response.record;
                         this.processActionResponse(response);
                     } else {
                         toast('Entry saved successfully', 'success')

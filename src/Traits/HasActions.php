@@ -2,7 +2,8 @@
 namespace Addons\AntFusion\Traits;
 
 trait HasActions {
-    protected $initializedActions;
+    protected $initializedActions = [];
+    protected $isActionInitialized = false;
 
     public function registerAction($action) {
         $action->setParent($this);
@@ -24,8 +25,7 @@ trait HasActions {
     }
 
     protected function initActions() {
-        if (!isset($this->initializedActions)) {
-            $this->initializedActions = [];
+        if (!$this->isActionInitialized) {
             foreach ((array) $this->actions() as $index => $action) {
                 $this->initializedActions[$action->getHandle()] = $action;
                 $action->setParent($this, $index, 'a');
