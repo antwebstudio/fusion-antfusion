@@ -233,7 +233,7 @@ var render = function () {
                   ? _c(
                       "ui-actions",
                       { key: "entry_actions", attrs: { id: "entry_actions" } },
-                      _vm._l(_vm.actions, function (action, index) {
+                      _vm._l(_vm.dropdownActions, function (action, index) {
                         return _c(
                           "div",
                           { key: index },

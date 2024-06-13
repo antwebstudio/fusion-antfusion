@@ -43,6 +43,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -56,6 +65,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     confirmButtonText: {
       "default": 'OK'
+    },
+    cancelButtonLabel: {
+      "default": 'Cancel'
     },
     resetWhenClose: {
       "default": true
@@ -73,12 +85,15 @@ __webpack_require__.r(__webpack_exports__);
       "default": null
     },
     fields: {},
+    form: {},
     record: {
       "default": {}
     },
     load_record: {
       "default": {}
     },
+    confirmTitle: {},
+    confirmText: {},
     classes: {},
     path: {// Path to get the action object at backend
     }
@@ -86,10 +101,23 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       loading: false,
-      form: null
+      _form: this.form,
+      modalOpened: false,
+      confirmationModalOpened: false
     };
   },
+  watch: {
+    form: function form(value) {
+      this._form = value;
+    }
+  },
   computed: {
+    needConfirmation: function needConfirmation() {
+      return this.confirmText;
+    },
+    confirmationModalName: function confirmationModalName() {
+      return 'actio-confirmtion-' + this._uid;
+    },
     modalName: function modalName() {
       return 'action-' + this._uid;
     },
@@ -121,14 +149,37 @@ __webpack_require__.r(__webpack_exports__);
           fields[field.handle] = null;
         }
       });
-      this.form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](fields);
+
+      if (this.form) {
+        this._form = this.form;
+      } else {
+        this._form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](fields);
+      }
     },
     performAction: function performAction() {
-      var _this2 = this;
-
       if (this.fields.length) {
         this.openModalForm();
+      } else if (this.needConfirmation) {
+        this.askConfirmation();
       } else {
+        this.submit();
+      }
+    },
+    askConfirmation: function askConfirmation() {
+      this.confirmationModalOpened = true;
+      this.openModal(this.confirmationModalName);
+    },
+    confirm: function confirm() {
+      this.confirmationModalOpened = false;
+      this.closeModal(this.confirmationModalName);
+      this.submit();
+    },
+    submitActionWithoutForm: function submitActionWithoutForm() {
+      var _this2 = this;
+
+      alert('deprecated, please use submit instead');
+
+      if (this.record) {
         var params = this.record.formdata();
         params.append('route', this.route);
         params.append('path', this.path);
@@ -137,9 +188,12 @@ __webpack_require__.r(__webpack_exports__);
 
           _this2.processActionResponse(response);
         });
+      } else {
+        this.submit();
       }
     },
     openModalForm: function openModalForm() {
+      this.modalOpened = true;
       this.openModal(this.modalName);
     },
     processActionResponse: function processActionResponse(response) {
@@ -160,7 +214,9 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       this.loading = true;
-      var params = this.form.formdata();
+
+      var params = this._form.formdata();
+
       params.append('route', this.route);
       params.append('path', this.path);
 
@@ -168,12 +224,20 @@ __webpack_require__.r(__webpack_exports__);
         params.append('resourceIds[]', this.record.id);
       }
 
-      this.form.submit('post', this.url, params).then(function (response) {
+      this._form.submit('post', this.url, params).then(function (response) {
         _this3.loading = false;
 
         _this3.$emit('submitted');
 
-        _this3.closeModal(_this3.modalName);
+        _this3.$emit('refreshed');
+
+        if (_this3.modalOpened) {
+          _this3.closeModal(_this3.modalName);
+        }
+
+        if (_this3.confirmationModalOpened) {
+          _this3.closeModal(_this3.confirmationModalName);
+        }
 
         _this3.processActionResponse(response);
       })["catch"](function (error) {
@@ -18977,7 +19041,7 @@ var render = function () {
               ]),
             },
             [
-              _vm.form
+              _vm._form
                 ? _c(
                     "span",
                     _vm._l(_vm.fields, function (field, index) {
@@ -18990,18 +19054,18 @@ var render = function () {
                             attrs: {
                               parent: _vm.componentData,
                               record: _vm.record,
-                              "has-error": _vm.form.errors.has(field.handle),
-                              "error-message": _vm.form.errors.get(
+                              "has-error": _vm._form.errors.has(field.handle),
+                              "error-message": _vm._form.errors.get(
                                 field.handle
                               ),
-                              errors: _vm.form.errors,
+                              errors: _vm._form.errors,
                             },
                             model: {
-                              value: _vm.form[field.handle],
+                              value: _vm._form[field.handle],
                               callback: function ($$v) {
-                                _vm.$set(_vm.form, field.handle, $$v)
+                                _vm.$set(_vm._form, field.handle, $$v)
                               },
-                              expression: "form[field.handle]",
+                              expression: "_form[field.handle]",
                             },
                           },
                           "component",
@@ -19015,6 +19079,68 @@ var render = function () {
                 : _vm._e(),
             ]
           ),
+          _vm._v(" "),
+          _vm.needConfirmation
+            ? _c(
+                "ui-modal",
+                {
+                  key: _vm.confirmationModalName,
+                  attrs: {
+                    name: _vm.confirmationModalName,
+                    title: _vm.confirmTitle,
+                  },
+                  scopedSlots: _vm._u(
+                    [
+                      {
+                        key: "footer",
+                        fn: function (entry) {
+                          return [
+                            _c(
+                              "ui-button",
+                              {
+                                staticClass: "ml-3",
+                                attrs: {
+                                  disabled: _vm.loading,
+                                  variant: "danger",
+                                },
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.confirm()
+                                  },
+                                },
+                              },
+                              [_vm._v(_vm._s(_vm.confirmButtonText))]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "ui-button",
+                              {
+                                attrs: {
+                                  disabled: _vm.loading,
+                                  variant: "secondary",
+                                },
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.closeModal(
+                                      _vm.confirmationModalName
+                                    )
+                                  },
+                                },
+                              },
+                              [_vm._v(_vm._s(_vm.cancelButtonLabel))]
+                            ),
+                          ]
+                        },
+                      },
+                    ],
+                    null,
+                    false,
+                    1411491005
+                  ),
+                },
+                [_c("p", [_vm._v(_vm._s(_vm.confirmText))])]
+              )
+            : _vm._e(),
         ],
         1
       ),

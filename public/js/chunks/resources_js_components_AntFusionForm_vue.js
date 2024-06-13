@@ -49,6 +49,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -124,6 +133,11 @@ __webpack_require__.r(__webpack_exports__);
     this.initForm();
   },
   computed: {
+    dropdownActions: function dropdownActions() {
+      return this.actions.filter(function (action) {
+        return action.dropdown;
+      });
+    },
     formData: function formData() {
       return this.useFormData ? this.form.data() : this.form;
     },
@@ -1650,49 +1664,104 @@ var render = function () {
     { staticClass: "w-full" },
     [
       _c("portal", { attrs: { to: "actions" } }, [
-        _vm.actions && _vm.actions.length
-          ? _c(
-              "span",
-              { staticClass: "print:hidden" },
-              _vm._l(_vm.actions, function (action, index) {
-                return _c(
-                  action.component,
-                  _vm._b(
-                    {
-                      key: index,
-                      tag: "component",
-                      attrs: {
-                        loading: _vm.loading,
-                        record: _vm.form,
-                        parent: _vm.componentData,
-                      },
-                      on: {
-                        load: function ($event) {
-                          return _vm.$emit("load")
-                        },
-                        loaded: function ($event) {
-                          return _vm.$emit("loaded")
-                        },
-                        submitted: _vm.submitted,
-                        refreshed: _vm.refreshed,
-                      },
-                    },
-                    "component",
-                    action,
-                    false
-                  ),
-                  [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(action.text) +
-                        "\n            "
-                    ),
-                  ]
+        _c(
+          "div",
+          [
+            _vm.actions && _vm.actions.length
+              ? _c(
+                  "span",
+                  { staticClass: "print:hidden" },
+                  _vm._l(_vm.actions, function (action, index) {
+                    return !action.dropdown
+                      ? _c(
+                          action.component,
+                          _vm._b(
+                            {
+                              key: index,
+                              tag: "component",
+                              attrs: {
+                                loading: _vm.loading,
+                                record: _vm.record,
+                                form: _vm.form,
+                                parent: _vm.componentData,
+                              },
+                              on: {
+                                load: function ($event) {
+                                  return _vm.$emit("load")
+                                },
+                                loaded: function ($event) {
+                                  return _vm.$emit("loaded")
+                                },
+                                submitted: _vm.submitted,
+                                refreshed: _vm.refreshed,
+                              },
+                            },
+                            "component",
+                            action,
+                            false
+                          ),
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(action.text) +
+                                "\n                "
+                            ),
+                          ]
+                        )
+                      : _vm._e()
+                  }),
+                  1
                 )
-              }),
-              1
-            )
-          : _vm._e(),
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.dropdownActions && _vm.dropdownActions.length
+              ? _c(
+                  "ui-actions",
+                  { key: "entry_actions", attrs: { id: "entry_actions" } },
+                  _vm._l(_vm.dropdownActions, function (action, index) {
+                    return _c(
+                      "div",
+                      { key: index },
+                      [
+                        action.dropdown
+                          ? _c(
+                              action.component,
+                              _vm._b(
+                                {
+                                  tag: "component",
+                                  attrs: {
+                                    loading: _vm.loading,
+                                    record: _vm.record,
+                                    form: _vm.form,
+                                  },
+                                  on: {
+                                    submitted: _vm.submitted,
+                                    refreshed: _vm.refreshed,
+                                  },
+                                },
+                                "component",
+                                action,
+                                false
+                              ),
+                              [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(action.text) +
+                                    "\n                    "
+                                ),
+                              ]
+                            )
+                          : _vm._e(),
+                      ],
+                      1
+                    )
+                  }),
+                  0
+                )
+              : _vm._e(),
+          ],
+          1
+        ),
       ]),
       _vm._v(" "),
       _vm.debug ? _c("div", [_vm._v(_vm._s(_vm.form))]) : _vm._e(),

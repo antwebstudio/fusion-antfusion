@@ -19,6 +19,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
+    form: {},
     record: {},
     text: {},
     parent: {},
@@ -46,11 +47,11 @@ __webpack_require__.r(__webpack_exports__);
       if (this.useParentSubmit) {
         this.parent.submit();
       } else {
-        var params = this.record.data();
+        var params = this.form ? this.form.data() : this.record.data();
         params = Object.assign(this.submitParams, params);
         params['path'] = this.path;
         this.loading = true;
-        this.record.submit('post', this.url, params).then(function (response) {
+        (this.form ? this.form : this.record).submit('post', this.url, params).then(function (response) {
           _this.loading = false;
 
           _this.$emit('submitted');
