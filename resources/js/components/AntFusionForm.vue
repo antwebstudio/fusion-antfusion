@@ -1,11 +1,20 @@
 <template>
     <div class="w-full">
         <portal to="actions">
-            <span v-if="actions && actions.length" class="print:hidden">
-                <component @load="$emit('load')" @loaded="$emit('loaded')" @submitted="submitted" @refreshed="refreshed" :loading="loading" :record="form" :parent="componentData" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
-                    {{ action.text }}
-                </component>
-            </span>
+            <div>
+                <span v-if="actions && actions.length" class="print:hidden">
+                    <component v-if="!action.dropdown" @load="$emit('load')" @loaded="$emit('loaded')" @submitted="submitted" @refreshed="refreshed" :loading="loading" :record="record" :form="form" :parent="componentData" v-for="action, index in actions" :key="index" :is="action.component" v-bind="action">
+                        {{ action.text }}
+                    </component>
+                </span>
+                <ui-actions v-if="dropdownActions && dropdownActions.length" :id="'entry_actions'" :key="'entry_actions'">
+                    <div v-for="action, index in dropdownActions" :key="index">
+                        <component v-if="action.dropdown" :is="action.component" v-bind="action" @submitted="submitted" @refreshed="refreshed" :loading="loading" :record="record" :form="form">
+                            {{ action.text }}
+                        </component>
+                    </div>
+                </ui-actions>
+            </div>
         </portal>
 
         <div v-if="debug">{{ form }}</div>
@@ -119,6 +128,9 @@ export default {
         this.initForm()
     },
     computed: {
+        dropdownActions() {
+            return this.actions.filter(action => action.dropdown)
+        },
         formData() {
             return this.useFormData ? this.form.data() : this.form
         },

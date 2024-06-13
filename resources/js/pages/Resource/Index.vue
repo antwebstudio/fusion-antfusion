@@ -12,7 +12,7 @@
                     </component>
                 </span>
                 <ui-actions v-if="dropdownActions && dropdownActions.length" :id="'entry_actions'" :key="'entry_actions'">
-                    <div v-for="action, index in actions" :key="index">
+                    <div v-for="action, index in dropdownActions" :key="index">
                         <component v-if="action.dropdown" @submitted="load" :is="action.component" v-bind="action">
                             {{ action.text }}
                         </component>

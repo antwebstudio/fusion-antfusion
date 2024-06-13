@@ -7,6 +7,9 @@
 <script>
 export default {
     props: {
+        form: {
+
+        },
         record: {
 
         },
@@ -44,12 +47,12 @@ export default {
             if (this.useParentSubmit) {
                 this.parent.submit()
             } else {
-                let params = this.record.data()
+                let params = this.form ? this.form.data() : this.record.data()
                 params = Object.assign(this.submitParams, params)
                 params['path'] = this.path
                 
-                this.loading = true
-                this.record.submit('post', this.url, params).then((response) => {
+                this.loading = true;
+                (this.form ? this.form : this.record).submit('post', this.url, params).then((response) => {
                     this.loading = false
                     this.$emit('submitted')
                     this.$emit('refreshed')

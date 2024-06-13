@@ -31,6 +31,7 @@ trait HasActions {
                 $action->setParent($this, $index, 'a');
             }
         }
+        return collect($this->initializedActions);
     }
 
     public function getDropDownActionsForRecord($record) {
