@@ -2027,7 +2027,10 @@ var render = function () {
                                   {
                                     key: index,
                                     tag: "component",
-                                    attrs: { record: table.record },
+                                    attrs: {
+                                      form: false,
+                                      record: table.record,
+                                    },
                                     on: {
                                       submitted: _vm.reload,
                                       updated: _vm.reload,

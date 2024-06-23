@@ -36,7 +36,7 @@ __webpack_require__.r(__webpack_exports__);
       "default": false
     },
     form: {
-      "default": {}
+      "default": null
     },
     text: {},
     props: {},

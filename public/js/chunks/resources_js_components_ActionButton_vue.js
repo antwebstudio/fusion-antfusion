@@ -85,7 +85,9 @@ __webpack_require__.r(__webpack_exports__);
       "default": null
     },
     fields: {},
-    form: {},
+    form: {
+      "default": null
+    },
     record: {
       "default": {}
     },
@@ -101,14 +103,14 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       loading: false,
-      _form: this.form,
+      initializedForm: this.form,
       modalOpened: false,
       confirmationModalOpened: false
     };
   },
   watch: {
     form: function form(value) {
-      this._form = value;
+      this.initializedForm = value;
     }
   },
   computed: {
@@ -151,9 +153,9 @@ __webpack_require__.r(__webpack_exports__);
       });
 
       if (this.form) {
-        this._form = this.form;
+        this.initializedForm = this.form;
       } else {
-        this._form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](fields);
+        this.initializedForm = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](fields);
       }
     },
     performAction: function performAction() {
@@ -214,9 +216,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       this.loading = true;
-
-      var params = this._form.formdata();
-
+      var params = this.initializedForm.formdata();
       params.append('route', this.route);
       params.append('path', this.path);
 
@@ -224,7 +224,7 @@ __webpack_require__.r(__webpack_exports__);
         params.append('resourceIds[]', this.record.id);
       }
 
-      this._form.submit('post', this.url, params).then(function (response) {
+      this.initializedForm.submit('post', this.url, params).then(function (response) {
         _this3.loading = false;
 
         _this3.$emit('submitted');
@@ -19041,7 +19041,7 @@ var render = function () {
               ]),
             },
             [
-              _vm._form
+              _vm.initializedForm
                 ? _c(
                     "span",
                     _vm._l(_vm.fields, function (field, index) {
@@ -19054,18 +19054,20 @@ var render = function () {
                             attrs: {
                               parent: _vm.componentData,
                               record: _vm.record,
-                              "has-error": _vm._form.errors.has(field.handle),
-                              "error-message": _vm._form.errors.get(
+                              "has-error": _vm.initializedForm.errors.has(
                                 field.handle
                               ),
-                              errors: _vm._form.errors,
+                              "error-message": _vm.initializedForm.errors.get(
+                                field.handle
+                              ),
+                              errors: _vm.initializedForm.errors,
                             },
                             model: {
-                              value: _vm._form[field.handle],
+                              value: _vm.initializedForm[field.handle],
                               callback: function ($$v) {
-                                _vm.$set(_vm._form, field.handle, $$v)
+                                _vm.$set(_vm.initializedForm, field.handle, $$v)
                               },
-                              expression: "_form[field.handle]",
+                              expression: "initializedForm[field.handle]",
                             },
                           },
                           "component",
