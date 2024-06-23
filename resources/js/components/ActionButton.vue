@@ -5,13 +5,13 @@
 
         <portal to="modals">
             <ui-modal :name="modalName" :title="modalTitle" :key="modalName" @input="modalChanged">
-                <span v-if="_form">
-                    <component v-model="_form[field.handle]" v-for="field, index in fields" :key="field.handle" :is="field.component" v-bind="field"
+                <span v-if="initializedForm">
+                    <component v-model="initializedForm[field.handle]" v-for="field, index in fields" :key="field.handle" :is="field.component" v-bind="field"
                         :parent="componentData"
                         :record="record"
-                        :has-error="_form.errors.has(field.handle)"
-                        :error-message="_form.errors.get(field.handle)"
-                        :errors="_form.errors"
+                        :has-error="initializedForm.errors.has(field.handle)"
+                        :error-message="initializedForm.errors.get(field.handle)"
+                        :errors="initializedForm.errors"
                     />
                 </span>
 
@@ -82,7 +82,7 @@ export default {
 
         },
         form: {
-
+            default: null,
         },
         record: {
             default: {}
@@ -106,14 +106,14 @@ export default {
     data() {
         return {
             loading: false,
-            _form: this.form,
+            initializedForm: this.form,
             modalOpened: false,
             confirmationModalOpened: false,
         }
     },
     watch: {
         form(value) {
-            this._form = value
+            this.initializedForm = value
         }
     },
     computed: {
@@ -153,9 +153,9 @@ export default {
             })
 
             if (this.form) {
-                this._form = this.form
+                this.initializedForm = this.form
             } else {
-                this._form = new Form(fields)
+                this.initializedForm = new Form(fields)
             }
         },
         performAction() {
@@ -209,13 +209,13 @@ export default {
         },
         submit() {
             this.loading = true
-            let params = this._form.formdata()
+            let params = this.initializedForm.formdata()
             params.append('route', this.route)
             params.append('path', this.path)
             if (this.record.id) {
                 params.append('resourceIds[]', this.record.id)
             }
-            this._form.submit('post', this.url, params).then((response) => {
+            this.initializedForm.submit('post', this.url, params).then((response) => {
                 this.loading = false
                 this.$emit('submitted')
                 this.$emit('refreshed')

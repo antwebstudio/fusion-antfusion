@@ -24,7 +24,7 @@ export default {
             default: false,
         },
         form: {
-            default: {},
+            default: null,
         },
         text: {
 
