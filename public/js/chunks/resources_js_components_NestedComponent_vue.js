@@ -47,8 +47,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      fieldValues: this.form
+      fieldValues: this.form ? this.form : {}
     };
+  },
+  computed: {
+    errors: function errors() {
+      if (this.form) {
+        return this.form.errors;
+      }
+    }
   },
   watch: {
     form: function form(value) {
@@ -58,11 +65,13 @@ __webpack_require__.r(__webpack_exports__);
       handler: function handler(value) {
         var _this = this;
 
-        // let form = 
-        Object.keys(value).forEach(function (key) {
-          _this.form[key] = value[key];
-        });
-        this.$emit('input', this.form);
+        if (this.form) {
+          // let form = 
+          Object.keys(value).forEach(function (key) {
+            _this.form[key] = value[key];
+          });
+          this.$emit('input', this.form);
+        }
       },
       deep: true
     }
@@ -158,7 +167,7 @@ var render = function () {
   return _c(
     _vm.as,
     _vm._b(
-      { tag: "component", attrs: { form: _vm.form, errors: _vm.form.errors } },
+      { tag: "component", attrs: { form: _vm.form, errors: _vm.errors } },
       "component",
       _vm.props,
       false
@@ -185,7 +194,7 @@ var render = function () {
                     tag: "component",
                     attrs: {
                       form: _vm.form,
-                      errors: _vm.form.errors,
+                      errors: _vm.errors,
                       record: Object.assign(
                         {},
                         _vm.record,
@@ -239,7 +248,7 @@ var render = function () {
                                 tag: "component",
                                 attrs: {
                                   form: _vm.form,
-                                  errors: _vm.form.errors,
+                                  errors: _vm.errors,
                                   record: Object.assign(
                                     {},
                                     _vm.record,
