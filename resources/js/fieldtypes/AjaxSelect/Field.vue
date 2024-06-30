@@ -17,9 +17,10 @@
         :taggable="field.settings.true"
         :multiple="field.settings.multiple"
     >
-        <template v-slot:option="{ option, search }">
+        <!-- Commented this or else option will shown as json -->
+        <!-- <template v-slot:option="{ option, search }">
             <slot name="option" :option="option" :search="search">{{ option }}</slot>
-        </template>
+        </template> -->
 
         <template v-slot:noOptions>
             No result.
@@ -72,7 +73,7 @@ export default {
     },
     watch: {
         value(value) {
-            this.selected = value
+            this.loadSavedData(value)
         },
         selected() {
             if (this.field.settings.multiple || this.field.settings.allow_auto_new || this.field.settings.object_as_value) {
@@ -102,7 +103,7 @@ export default {
         }
     },
     mounted() {
-        return this.loadSavedData()
+        this.loadSavedData(this.value)
     },
     methods: {
         clearOptions() {
@@ -114,14 +115,18 @@ export default {
         remove() {
 
         },
-        loadSavedData() {
-            if (this.value && this.field.settings.saved_data_endpoint) {
-                let url = this.field.settings.saved_data_endpoint.replace('{value}', this.value)
+        loadSavedData(savedValue) {
+            if (savedValue && this.field.settings.saved_data_endpoint) {
+                let url = this.field.settings.saved_data_endpoint.replace('{value}', savedValue)
 
-                axios.get(url, {params: {id: this.value, resourceId: this.value}}).then((response) => {
-                    this.options = [response.data]
-                    this.selected = response.data;
+                axios.get(url).then((response) => {
+                    this.options = [response.data.data] // changed from response.data to response.data.data
+                    this.selected = response.data.data; // changed from response.data to response.data.data
                     console.log(this.options)
+                })
+            } else if (this.field.settings.multiple) {
+                savedValue.forEach((value) => {
+                    this.options.push(value)
                 })
             }
         },
@@ -135,6 +140,8 @@ export default {
                 this.search = query
                 this.loading = true
                 this.pagination.perPage = 10
+
+                let labelAttribute = this.field.settings.label
                 
                 clearTimeout(this.delayTimer)
 
@@ -146,7 +153,7 @@ export default {
                         if (this.field.settings.allow_auto_new) {
                             this.options.push({
                                 id: 'new_' + query,
-                                name: '[NEW]: ' + query,
+                                [labelAttribute ? labelAttribute : 'name']: '[NEW]: ' + query,
                                 real_name: query,
                             })
                         }

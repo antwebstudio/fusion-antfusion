@@ -44,7 +44,6 @@ class AddonServiceProvider extends ServiceProvider
         });
 
         View::addNamespace('antfusion', dirname(dirname(__DIR__)).'/resources/views');
-
     }
 
     /**
@@ -71,6 +70,8 @@ class AddonServiceProvider extends ServiceProvider
         }
         \Fusion::asset(mix('js/app.js', 'addons/AntFusion')->toHtml());
         \Fusion::asset(url('antfusion-admin-routes.js'));
+
+        fieldtypes()->register(\Addons\AntFusion\Fieldtypes\AjaxSelect::class);
     }
 
     protected function resourcesIn($path) {

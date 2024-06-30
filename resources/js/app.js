@@ -73,6 +73,7 @@ window.Fusion.booting(function(Vue, router, store) {
     Vue.component('component-container', () => import('./components/ComponentContainer'))
     Vue.component('antfusion-thumbnail', () => import('./components/Thumbnail'))
     Vue.component('ajax-select-fieldtype', () => import('./fieldtypes/AjaxSelect/Field'))
+    Vue.component('ajax-multiselect-fieldtype', () => import('./fieldtypes/AjaxSelect/Field'))
     Vue.component('antfusion-timer', () => import('./components/Timer'))
     Vue.component('bulk-edit', () => import('./components/BulkEdit'))
     
