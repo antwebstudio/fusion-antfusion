@@ -59,6 +59,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -88,7 +89,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   watch: {
     value: function value(_value) {
-      this.selected = _value;
+      this.loadSavedData(_value);
     },
     selected: function selected() {
       if (this.field.settings.multiple || this.field.settings.allow_auto_new || this.field.settings.object_as_value) {
@@ -120,7 +121,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   mounted: function mounted() {
-    return this.loadSavedData();
+    this.loadSavedData(this.value);
   },
   methods: {
     clearOptions: function clearOptions() {
@@ -128,20 +129,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     select: function select() {},
     remove: function remove() {},
-    loadSavedData: function loadSavedData() {
+    loadSavedData: function loadSavedData(savedValue) {
       var _this = this;
 
-      if (this.value && this.field.settings.saved_data_endpoint) {
-        var url = this.field.settings.saved_data_endpoint.replace('{value}', this.value);
-        axios.get(url, {
-          params: {
-            id: this.value,
-            resourceId: this.value
-          }
-        }).then(function (response) {
-          _this.options = [response.data];
-          _this.selected = response.data;
+      if (savedValue && this.field.settings.saved_data_endpoint) {
+        var url = this.field.settings.saved_data_endpoint.replace('{value}', savedValue);
+        axios.get(url).then(function (response) {
+          _this.options = [response.data.data]; // changed from response.data to response.data.data
+
+          _this.selected = response.data.data; // changed from response.data to response.data.data
+
           console.log(_this.options);
+        });
+      } else if (this.field.settings.multiple) {
+        savedValue.forEach(function (value) {
+          _this.options.push(value);
         });
       }
     },
@@ -155,6 +157,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.search = query;
         this.loading = true;
         this.pagination.perPage = 10;
+        var labelAttribute = this.field.settings.label;
         clearTimeout(this.delayTimer);
         this.delayTimer = setTimeout(function () {
           _this2.getRecords(_this2.field.settings.query_params).then(function (response) {
@@ -162,11 +165,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this2.options = response.data.records.data;
 
             if (_this2.field.settings.allow_auto_new) {
-              _this2.options.push({
-                id: 'new_' + query,
-                name: '[NEW]: ' + query,
-                real_name: query
-              });
+              var _this2$options$push;
+
+              _this2.options.push((_this2$options$push = {
+                id: 'new_' + query
+              }, _defineProperty(_this2$options$push, labelAttribute ? labelAttribute : 'name', '[NEW]: ' + query), _defineProperty(_this2$options$push, "real_name", query), _this2$options$push));
             }
 
             _this2.loading = false;
@@ -1115,70 +1118,50 @@ var render = function () {
           multiple: _vm.field.settings.multiple,
         },
         on: { "search-change": _vm.asyncFind, tag: _vm.addTag },
-        scopedSlots: _vm._u(
-          [
-            {
-              key: "option",
-              fn: function (ref) {
-                var option = ref.option
-                var search = ref.search
-                return [
-                  _vm._t(
-                    "option",
-                    function () {
-                      return [_vm._v(_vm._s(option))]
-                    },
-                    { option: option, search: search }
-                  ),
-                ]
-              },
+        scopedSlots: _vm._u([
+          {
+            key: "noOptions",
+            fn: function () {
+              return [_vm._v("\n          No result.\n      ")]
             },
-            {
-              key: "noOptions",
-              fn: function () {
-                return [_vm._v("\n          No result.\n      ")]
-              },
-              proxy: true,
-            },
-            {
-              key: "afterList",
-              fn: function () {
-                return [
-                  _c(
-                    "div",
-                    { staticStyle: { position: "sticky", bottom: "0px" } },
-                    _vm._l(_vm.actions, function (action, index) {
-                      return _c(
-                        action.component,
-                        _vm._b(
-                          {
-                            key: index,
-                            tag: "component",
-                            on: { submitted: _vm.reload, updated: _vm.reload },
-                          },
-                          "component",
-                          action,
-                          false
+            proxy: true,
+          },
+          {
+            key: "afterList",
+            fn: function () {
+              return [
+                _c(
+                  "div",
+                  { staticStyle: { position: "sticky", bottom: "0px" } },
+                  _vm._l(_vm.actions, function (action, index) {
+                    return _c(
+                      action.component,
+                      _vm._b(
+                        {
+                          key: index,
+                          tag: "component",
+                          on: { submitted: _vm.reload, updated: _vm.reload },
+                        },
+                        "component",
+                        action,
+                        false
+                      ),
+                      [
+                        _vm._v(
+                          "\n                  " +
+                            _vm._s(action.text) +
+                            "\n              "
                         ),
-                        [
-                          _vm._v(
-                            "\n                  " +
-                              _vm._s(action.text) +
-                              "\n              "
-                          ),
-                        ]
-                      )
-                    }),
-                    1
-                  ),
-                ]
-              },
-              proxy: true,
+                      ]
+                    )
+                  }),
+                  1
+                ),
+              ]
             },
-          ],
-          null,
-          true
-        ),
+            proxy: true,
+          },
+        ]),
         model: {
           value: _vm.selected,
           callback: function ($$v) {
