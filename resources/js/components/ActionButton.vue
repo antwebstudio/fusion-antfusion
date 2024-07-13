@@ -37,10 +37,12 @@
 </template>
 
 <script>
-import Form from "@/services/Form"
+import Form from "../services/Form"
 import _ from "lodash"
+import actionResponse from "../mixins/action-response"
 
 export default {
+    mixins: [actionResponse],
     props: {
         id: {
 
@@ -194,28 +196,14 @@ export default {
             this.modalOpened = true
             this.openModal(this.modalName)
         },
-        processActionResponse(response) {
-            if (response.message) {
-                toast(response.message, 'success')
-            }
-            if (response.redirect) {
-                if (response.target) {
-                    window.open(response.redirect, response.target)
-                } else {
-                    // location.href = response.redirect
-                    this.$router.push(response.redirect)
-                }
-            }
-        },
         submit() {
             this.loading = true
-            let params = this.initializedForm.formdata()
-            params.append('route', this.route)
-            params.append('path', this.path)
-            if (this.record.id) {
-                params.append('resourceIds[]', this.record.id)
+            let params = {
+                route: this.route,
+                path: this.path,
+                resourceIds: this.record.id ? [this.record.id] : [],
             }
-            this.initializedForm.submit('post', this.url, params).then((response) => {
+            this.initializedForm.post(this.url, params).then((response) => {
                 this.loading = false
                 this.$emit('submitted')
                 this.$emit('refreshed')

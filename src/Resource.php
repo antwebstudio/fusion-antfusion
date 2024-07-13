@@ -131,6 +131,10 @@ abstract class Resource {
         return $this->toArray();
     }
 
+    public function setMainResource($mainResource, $mainResourceId = null) {
+        return $this->mainResource($mainResource, $mainResourceId);
+    }
+
     public function mainResource($mainResource, $mainResourceId) {
         $this->mainResource = $mainResource;
         $this->mainResourceId = $mainResourceId;

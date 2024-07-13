@@ -2,6 +2,7 @@
 namespace Addons\AntFusion;
 
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 abstract class Action {
     use \Addons\AntFusion\Traits\HasFields;
@@ -41,6 +42,8 @@ abstract class Action {
         } else if ($request->has('records')) {
             // For datadatable bulk actions
             $models = $this->parent->findByIds($request->records);
+        } else {
+            throw ValidationException::withMessages(['*' => 'No records is selected. ']);
         }
         return $this->handle($request, collect($models ?? []));
     }

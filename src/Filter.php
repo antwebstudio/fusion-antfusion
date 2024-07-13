@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Filter {
     use \Addons\AntFusion\Traits\HasMeta;
+    use \Addons\AntFusion\Traits\Makeable;
 
     protected $component = 'filter-tabs';
 
