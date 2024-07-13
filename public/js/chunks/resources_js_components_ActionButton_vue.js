@@ -11,9 +11,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _services_Form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/services/Form */ "../../fusioncms/cms/resources/js/services/Form.js");
+/* harmony import */ var _services_Form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/Form */ "./resources/js/services/Form.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _mixins_action_response__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/action-response */ "./resources/js/mixins/action-response.js");
 //
 //
 //
@@ -52,9 +53,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mixins: [_mixins_action_response__WEBPACK_IMPORTED_MODULE_2__["default"]],
   props: {
     id: {},
     variant: {},
@@ -198,33 +201,16 @@ __webpack_require__.r(__webpack_exports__);
       this.modalOpened = true;
       this.openModal(this.modalName);
     },
-    processActionResponse: function processActionResponse(response) {
-      if (response.message) {
-        toast(response.message, 'success');
-      }
-
-      if (response.redirect) {
-        if (response.target) {
-          window.open(response.redirect, response.target);
-        } else {
-          // location.href = response.redirect
-          this.$router.push(response.redirect);
-        }
-      }
-    },
     submit: function submit() {
       var _this3 = this;
 
       this.loading = true;
-      var params = this.initializedForm.formdata();
-      params.append('route', this.route);
-      params.append('path', this.path);
-
-      if (this.record.id) {
-        params.append('resourceIds[]', this.record.id);
-      }
-
-      this.initializedForm.submit('post', this.url, params).then(function (response) {
+      var params = {
+        route: this.route,
+        path: this.path,
+        resourceIds: this.record.id ? [this.record.id] : []
+      };
+      this.initializedForm.post(this.url, params).then(function (response) {
         _this3.loading = false;
 
         _this3.$emit('submitted');
@@ -274,77 +260,42 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../../fusioncms/cms/resources/js/services/Errors.js":
-/*!***********************************************************!*\
-  !*** ../../fusioncms/cms/resources/js/services/Errors.js ***!
-  \***********************************************************/
+/***/ "./resources/js/mixins/action-response.js":
+/*!************************************************!*\
+  !*** ./resources/js/mixins/action-response.js ***!
+  \************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Errors)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  methods: {
+    processActionResponse: function processActionResponse(response) {
+      if (response.message) {
+        toast(response.message, 'success');
+      }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-var Errors = /*#__PURE__*/function () {
-  function Errors() {
-    var errors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, Errors);
-
-    this.errors = errors;
+      if (response.redirect) {
+        if (response.target) {
+          window.open(response.redirect, response.target);
+        } else {
+          // location.href = response.redirect
+          this.$router.push(response.redirect);
+        }
+      }
+    }
   }
-
-  _createClass(Errors, [{
-    key: "has",
-    value: function has(field) {
-      return this.errors.hasOwnProperty(field);
-    }
-  }, {
-    key: "any",
-    value: function any() {
-      return Object.keys(this.errors).length > 0;
-    }
-  }, {
-    key: "get",
-    value: function get(field) {
-      if (this.errors[field]) {
-        return this.errors[field][0];
-      }
-    }
-  }, {
-    key: "record",
-    value: function record(response) {
-      this.errors = response.errors;
-    }
-  }, {
-    key: "clear",
-    value: function clear(field) {
-      if (field) {
-        delete this.errors[field];
-        return;
-      }
-
-      this.errors = {};
-    }
-  }]);
-
-  return Errors;
-}();
-
-
+});
 
 /***/ }),
 
-/***/ "../../fusioncms/cms/resources/js/services/Form.js":
-/*!*********************************************************!*\
-  !*** ../../fusioncms/cms/resources/js/services/Form.js ***!
-  \*********************************************************/
+/***/ "./resources/js/services/Form.js":
+/*!***************************************!*\
+  !*** ./resources/js/services/Form.js ***!
+  \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -354,6 +305,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _services_Errors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/services/Errors */ "../../fusioncms/cms/resources/js/services/Errors.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store */ "../../fusioncms/cms/resources/js/store/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -454,8 +411,10 @@ var Form = /*#__PURE__*/function () {
     }
   }, {
     key: "post",
-    value: function post(url) {
-      return this.submit('post', url, this.formdata());
+    value: function post(url, params) {
+      params = _objectSpread(_objectSpread({}, this.data()), params);
+      console.log('post', params);
+      return this.submit('post', url, params);
     }
   }, {
     key: "patch",
@@ -511,6 +470,73 @@ var Form = /*#__PURE__*/function () {
   }]);
 
   return Form;
+}();
+
+
+
+/***/ }),
+
+/***/ "../../fusioncms/cms/resources/js/services/Errors.js":
+/*!***********************************************************!*\
+  !*** ../../fusioncms/cms/resources/js/services/Errors.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Errors)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+var Errors = /*#__PURE__*/function () {
+  function Errors() {
+    var errors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Errors);
+
+    this.errors = errors;
+  }
+
+  _createClass(Errors, [{
+    key: "has",
+    value: function has(field) {
+      return this.errors.hasOwnProperty(field);
+    }
+  }, {
+    key: "any",
+    value: function any() {
+      return Object.keys(this.errors).length > 0;
+    }
+  }, {
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+  }, {
+    key: "record",
+    value: function record(response) {
+      this.errors = response.errors;
+    }
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      if (field) {
+        delete this.errors[field];
+        return;
+      }
+
+      this.errors = {};
+    }
+  }]);
+
+  return Errors;
 }();
 
 
