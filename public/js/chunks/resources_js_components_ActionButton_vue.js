@@ -208,7 +208,7 @@ __webpack_require__.r(__webpack_exports__);
       var params = {
         route: this.route,
         path: this.path,
-        resourceIds: this.record.id ? [this.record.id] : []
+        resourceIds: this.record.id ? [this.record.id] : null
       };
       this.initializedForm.post(this.url, params).then(function (response) {
         _this3.loading = false;
