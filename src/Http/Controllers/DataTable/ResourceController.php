@@ -9,7 +9,11 @@ use Fusion\Http\Controllers\DataTableController;
 
 class ResourceController extends DataTableController {
     public function resource() {
-        return app('resources.'.request()->resource);
+        $resource = app('resources.'.request()->resource);
+        if (request()->main) {
+            $resource->setMainResource(request()->main);
+        }
+        return $resource;
     }
     
     public function index(Request $request)

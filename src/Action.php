@@ -36,14 +36,15 @@ abstract class Action {
 
     public function performAction($request) {
         $request->validate($this->getRules());
-
-        if ($request->has('resourceIds')) {
+ 
+        if ($request->filled('resourceIds')) {
             $models = $this->parent->findByIds($request->resourceIds);
-        } else if ($request->has('records')) {
+        } else if ($request->filled('records')) {
             // For datadatable bulk actions
             $models = $this->parent->findByIds($request->records);
         } else {
-            throw ValidationException::withMessages(['*' => 'No records is selected. ']);
+            // Some action not require records, eg: create action
+            // throw ValidationException::withMessages(['*' => 'No records is selected. ']);
         }
         return $this->handle($request, collect($models ?? []));
     }

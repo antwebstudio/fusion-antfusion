@@ -201,7 +201,7 @@ export default {
             let params = {
                 route: this.route,
                 path: this.path,
-                resourceIds: this.record.id ? [this.record.id] : [],
+                resourceIds: this.record.id ? [this.record.id] : null,
             }
             this.initializedForm.post(this.url, params).then((response) => {
                 this.loading = false

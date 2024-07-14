@@ -19,6 +19,8 @@ class Page {
 
     protected $registerMenu = true;
 
+    protected $mainResource;
+
     public function getTitle() {
         return $this->name ?? Str::headline(class_basename(static::class));
     }
@@ -37,6 +39,12 @@ class Page {
 
     public function getIcon() {
         return $this->icon;
+    }
+
+    public function setMainResource($resource)
+    {
+        $this->mainResource = $resource;
+        return $this;
     }
 
     public static function register() {
