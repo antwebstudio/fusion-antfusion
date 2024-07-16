@@ -40,23 +40,25 @@ trait HasDataTable {
 
     public function getAllowedSorts()
     {
-        return $this->getSortable();
-    }
-
-    public function getSortable() {
         $columns = ['id'];
         foreach ($this->getFieldsForDataTable() as $field) {
             if (is_object($field)) {
                 if ($field->isSortable()) {
-                    $columns[] = $field->handle;
+                    $columns[$field->getHandle()] = $field->getSortableColumn();
                 }
             } else if (is_array($field)) {
-                $columns[] = key($field);
+                $handle = key($field);
+                $columns[$handle] = $handle;
             } else {
-                $columns[] = $field;
+                $handle = $field;
+                $columns[$handle] = $handle;
             }
         }
         return $columns;
+    }
+
+    public function getSortable() {
+        return array_keys($this->getAllowedSorts());
     }
 
     public function getCustomColumnTypes() {
