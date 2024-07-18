@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import Form from '@/services/Form'
+import Form from '../services/Form'
 import DependantField from '../mixins/dependant-field'
 
 export default {

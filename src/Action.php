@@ -10,6 +10,7 @@ abstract class Action {
     use \Addons\AntFusion\Traits\HasMeta;
     use \Addons\AntFusion\Traits\HasPath;
     use \Addons\AntFusion\Traits\ShowInTrait;
+    use \Addons\AntFusion\Traits\HasHooks;
 
     protected $confirmButtonText;
 
