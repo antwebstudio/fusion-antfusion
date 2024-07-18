@@ -274,6 +274,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     processActionResponse: function processActionResponse(response) {
+      console.log('action response', response);
+
       if (response.message) {
         toast(response.message, 'success');
       }
