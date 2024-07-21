@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Addons\AntFusion\Services\AntFusionRouter;
 
@@ -44,6 +45,7 @@ class AddonServiceProvider extends ServiceProvider
         });
 
         View::addNamespace('antfusion', dirname(dirname(__DIR__)).'/resources/views');
+        Blade::component('antfusion-form', \Addons\AntFusion\BladeComponents\FullForm::class);
     }
 
     /**

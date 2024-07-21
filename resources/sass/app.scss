@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Source+Sans+Pro:400,600,700');
+
+// Tailwind
+@tailwind base;
+@tailwind components;
+
+@import "utility/variables"; // Must come first
+@import "utility/functions";
+@import "utility/helpers";
+@import "utility/mixins";
+
+@import "base/globals";
+@import "base/typography";
+
+// // Element
+// @import "element/form";
+@import "element/heading";
+@import "element/table";
+@import "element/typography";
+
+// Utilities
+@tailwind utilities;
+
+@import "ui/alerts";
+@import "ui/badges";
+@import "ui/breadcrumbs";
+@import "ui/buttons";
+@import "ui/cards";
+@import "ui/datetime";
+@import "ui/dropdown";
+@import "ui/help";
+@import "ui/icons";
+@import "ui/label";
+@import "ui/legend";
+@import "ui/list";
+@import "ui/loaders";
+@import "ui/modals";
+@import "ui/pagination";
+@import "ui/tables";
+@import "ui/tabs";
+@import "ui/tags";
+@import "ui/toast";
+@import "ui/toolbar";
+@import "ui/tooltip";
+@import "ui/treeview";
+@import "ui/forms/fields";
+@import "ui/forms/groups";
+
+// Layout
+@import "layout/grid";
+
+// Components
+@import "components/alert";
+@import "components/badge";
+@import "components/button";
+@import "components/modal";
+
+// Page
+@import "page/store";
+
+// Vendor
+@import "vendor/vue";
+
+// @import "shame";

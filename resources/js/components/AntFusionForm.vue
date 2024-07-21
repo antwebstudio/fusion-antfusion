@@ -129,7 +129,9 @@ export default {
     },
     computed: {
         dropdownActions() {
-            return this.actions.filter(action => action.dropdown)
+            if (this.actions) {
+                return this.actions.filter(action => action.dropdown)
+            }
         },
         formData() {
             return this.useFormData ? this.form.data() : this.form

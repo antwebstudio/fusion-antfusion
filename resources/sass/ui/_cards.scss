@@ -1,0 +1,29 @@
+.card {
+    @apply bg-white border rounded-md relative mb-4;
+
+    @screen xl { @apply mb-6; }
+
+    &--dark {
+        @apply bg-gray-500 border-gray-500 text-white;
+    }
+
+    &__body {
+        @apply p-4;
+        @extend %no-bottom;
+    }
+
+    &__header {
+        @apply border-b px-4 py-2;
+    }
+
+    &__title {
+        @apply text-base m-0;
+    }
+
+    &__subtitle { @apply mb-0; }
+
+    &__subtitle,
+    &__text {
+        @apply text-gray-600 leading-5 text-sm;
+    }
+}
