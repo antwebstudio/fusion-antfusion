@@ -6,6 +6,10 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 abstract class FusionResource extends Resource {
+    protected $matrix;
+
+    protected $excludeSections = ['system', 'meta'];
+
     public function actions() {
         return [
             (new \Addons\AntFusion\Actions\Create)->primary(),
@@ -15,24 +19,88 @@ abstract class FusionResource extends Resource {
         ];
     }
 
+    protected function afterSave($request, $model)
+    {
+        $this->persistRelationships($model);
+    }
+
+    protected function persistRelationships($model) {
+        foreach ($this->getMatrix()->blueprint->relationships() as $field) {
+            $field->type()->persistRelationship($model, $field);
+        }
+    }
+
+    protected function getEditRecord($model) {
+        $data = $model->toArray();
+        
+        if ($model->fields) {
+            foreach ($model->fields as $field) {
+                $data[$field->handle] = $field->type()->getResource($model, $field);
+            }
+        }
+        return $data;
+    }
+
+    protected function getMatrix()
+    {
+        if (!isset($this->matrix)) {
+            foreach (\Fusion\Models\Matrix::get() as $matrix) {
+                if ($this->model == $matrix->getBuilderModelNamespace() || is_subclass_of($this->model, $matrix->getBuilderModelNamespace())) {
+                    $this->matrix = $matrix;
+                    return $this->matrix;
+                }
+            }
+        }
+        return $this->matrix;
+    }
+
     protected function fieldsDefaultValues() {
+        $matrix = $this->getMatrix();
+        if (isset($matrix)) {
+            $handle = $matrix->handle;
+        }
+        $handle = $handle ?? $this->getHandle();
         return [
             'slug' => request()->name ? Str::slug(request()->name) : null,
-            'taxonomy_id' => Fusion::getTaxonomyId($this->getHandle()),
-            'matrix_id' => Fusion::getMatrixId($this->getHandle()),
+            'taxonomy_id' => Fusion::getTaxonomyId($handle),
+            'matrix_id' => Fusion::getMatrixId($handle),
         ];
     }
     
     public function fields() {
         return [
             // 'id',
-            \Addons\AntFusion\Components\Panel::make(null, [
-                \Addons\AntFusion\Fields\Fusion::make('Name', 'name')->setComponent('ui-title-group')->rules(['required']),
-            ]),
+            $this->getNameField(),
             'slug',
+            $this->getTabFromSections($this->excludeSections),
             \Addons\AntFusion\Fields\Fusion::make('Created Time', 'created_at')->type('datetime')->exceptOnForms(),
             \Addons\AntFusion\Fields\Fusion::make('Updated Time', 'updated_at')->type('datetime')->exceptOnForms(),
         ];
+    }
+
+    protected function getNameField()
+    {
+        return \Addons\AntFusion\Components\Panel::make(null, [
+            \Addons\AntFusion\Fields\Fusion::make('Name', 'name')->setComponent('ui-title-group')->rules(['required']),
+        ]);
+    }
+
+    protected function getTabFromSections($excludeSections = [])
+    {
+        return \Addons\AntFusion\Components\Tabs::make()->addDynamicTabs(function($tab) use($excludeSections) {
+            $matrix = $this->getMatrix();
+            foreach ($matrix->blueprint->sections as $section) {
+                if (!in_array($section->handle, $excludeSections)) {
+                    $fields = [];
+                    foreach ($section->fields as $field) {
+                        $fields[] = \Addons\AntFusion\Fields\Fusion::makeFromField($field)->hideFromIndex();
+                    }
+                    $tab->addTab($section->name, [
+                        \Addons\AntFusion\Components\Panel::make(null, $fields)
+                    ]);
+                }
+            }
+        });
     }
 
     public function model() {
