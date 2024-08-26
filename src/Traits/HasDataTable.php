@@ -40,7 +40,7 @@ trait HasDataTable {
 
     public function getAllowedSorts()
     {
-        $columns = ['id'];
+        $columns = ['id' => 'id'];
         foreach ($this->getFieldsForDataTable() as $field) {
             if (is_object($field)) {
                 if ($field->isSortable()) {
