@@ -1,9 +1,10 @@
 <?php
 namespace Addons\AntFusion\Traits;
 
+use Addons\AntFusion\Contracts\Panel;
+use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Addons\AntFusion\Contracts\Panel;
 
 trait HasDataTable {
     public function dataTableQuery() {
@@ -149,6 +150,38 @@ trait HasDataTable {
 
     public function getDataTableRecords($records) {
         return $records;
+    }
+
+    public function getQueryBuilder()
+    {
+        return QueryBuilder::for($this->dataTableQuery())
+
+            // Allowed selectable fields   (e.g. fields['name']=John)
+            ->allowedFields($this->getDisplayableColumns())
+
+            // Allowed filterable columns  (e.g. filter['search']=foo)
+            ->allowedFilters($this->getAllowedFilters())
+
+            // Allowed relationship includes (e.g. include=posts)
+            // ->allowedIncludes($this->getRelationships())
+
+            // Allowed sortable columns    (e.g. sort=name)
+            ->allowedSorts($this->getAllowedSorts())
+
+            // Default sortable column
+            // ->defaultSort($this->getDefaultSort())
+
+            ->withoutGlobalScopes();
+
+            // Pagination
+            // - perPage (defaults to `PER_PAGE`)
+            // - page    (defaults to `PAGE_NUM`)
+            // ->paginate(
+            //     $request->query('perPage', self::PER_PAGE),
+            //     ['*'], // fix issue where displayable columns cannot be configured properly when there is column which is not exist in the table (eg, column generated using aggregate function)
+            //     get_class($this),
+            //     $request->query('page', self::PAGE_NUM)
+            // );
     }
 
     public function processDataTableRecord($record) {
