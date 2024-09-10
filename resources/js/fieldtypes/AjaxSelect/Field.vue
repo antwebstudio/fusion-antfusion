@@ -18,9 +18,10 @@
         :multiple="field.settings.multiple"
     >
         <!-- Commented this or else option will shown as json -->
-        <!-- <template v-slot:option="{ option, search }">
+        <!-- But after comment, ajax-select-fieldtype in lbrary management project option shown as json string -->
+        <template v-slot:option="{ option, search }">
             <slot name="option" :option="option" :search="search">{{ option }}</slot>
-        </template> -->
+        </template>
 
         <template v-slot:noOptions>
             No result.
