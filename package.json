@@ -16,7 +16,7 @@
     "@riophae/vue-treeselect": "^0.4.0",
     "@tinymce/tinymce-vue": "^3.2.2",
     "dayjs": "^1.11.7",
-    "fusioncms-helper-js": "^0.0.4",
+    "fusioncms-helper-js": "^0.1.0",
     "laravel-mix": "^6.0.19",
     "path": "^0.12.7",
     "pluralize": "^8.0.0",
