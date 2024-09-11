@@ -203,7 +203,9 @@ export default {
                 path: this.path,
                 resourceIds: this.record.id ? [this.record.id] : null,
             }
-            this.initializedForm.post(this.url, params).then((response) => {
+            let options = this.blob ? {responseType: 'blob'} : {};
+
+            this.initializedForm.post(this.url, params, options).then((response) => {
                 this.loading = false
                 this.$emit('submitted')
                 this.$emit('refreshed')

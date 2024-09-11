@@ -21,7 +21,9 @@
 </template>
 
 <script>
+import actionResponse from "../mixins/action-response"
 export default {
+    mixins: [actionResponse],
     props: {
         cssClass: {
 
@@ -106,8 +108,13 @@ export default {
             // this.record is null when action standalone
             let params = this.record ? [this.record.id] : []
 
-            axios.post(this.url, { resourceIds: params }).then((response) => {
+            let options = this.blob ? {responseType: 'blob'} : {}
+
+            axios.post(this.url, { resourceIds: params }, options).then((response) => {
                 console.log('action button', response)
+                
+                this.processBlobResponse(response);
+                
                 if (response.data.redirect) {
                     if (response.data.target) {
                         window.open(response.data.redirect, response.data.target)
@@ -123,7 +130,7 @@ export default {
                 }
             }).catch((error) => {
                 this.loading = false
-                toast(error.response.data.message, 'error')
+                this.processActionError(error);
             })
         },
         closeModal(name, value) {

@@ -11,6 +11,7 @@ abstract class Resource {
     use \Addons\AntFusion\Traits\CanCreate;
     use \Addons\AntFusion\Traits\CanEdit;
     use \Addons\AntFusion\Traits\CanView;
+    use \Addons\AntFusion\Traits\CanExport;
     use \Addons\AntFusion\Traits\HasDataTable;
     use \Addons\AntFusion\Traits\HasFields;
     use \Addons\AntFusion\Traits\HasActions;
@@ -179,16 +180,6 @@ abstract class Resource {
 
     protected function afterSave(Request $request, $model) {
         
-    }
-
-    public function exportToExcelHeadings()
-    {
-        return [];
-    }
-
-    protected function exportToExcelMap($array) 
-    {
-        return $array;
     }
 
     public function toRouteArray()

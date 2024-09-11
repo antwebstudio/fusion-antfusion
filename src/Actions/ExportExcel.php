@@ -16,6 +16,8 @@ class ExportExcel extends \Addons\AntFusion\Action
     {
         $this->exporter = $exporter;
         $this->filename = $filename;
+
+        $this->withMeta(['blob' => true]);
     }
 
     public function handle($request, $models)
@@ -24,13 +26,7 @@ class ExportExcel extends \Addons\AntFusion\Action
         if ($exporter instanceof Resource) {
             $exporter = new \Addons\AntFusion\Services\ExcelExport($exporter);
         }
-        Excel::store($exporter, 'export-excel/'.$this->filename);
-        $downloadUrl = url('storage/export-excel/'.$this->filename);
-
-        return [
-            'redirect' => $downloadUrl,
-            'target' => '_blank',
-        ];
+        return Excel::download($exporter, $this->filename);
     }
 
     public function fields() {
