@@ -11,13 +11,17 @@ class ExportExcel extends \Addons\AntFusion\Action
     
     protected $exporter;
     protected $filename;
+    protected $download = false;
 
     public function __construct($filename = null, $exporter = null)
     {
         $this->exporter = $exporter;
         $this->filename = $filename;
+    }
 
-        $this->withMeta(['blob' => true]);
+    public function downloadDirectly() {
+        $this->download = true;
+        return $this->withMeta(['blob' => true]);
     }
 
     public function handle($request, $models)
@@ -26,7 +30,12 @@ class ExportExcel extends \Addons\AntFusion\Action
         if ($exporter instanceof Resource) {
             $exporter = new \Addons\AntFusion\Services\ExcelExport($exporter);
         }
-        return Excel::download($exporter, $this->filename);
+        
+        if ($this->download) {
+            return Excel::download($exporter, $this->filename);
+        } else {
+
+        }
     }
 
     public function fields() {
