@@ -3,16 +3,22 @@
 namespace Addons\AntFusion\Services;
 
 use Addons\AntFusion\Resource;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
+use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 
-class ExcelExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize, WithEvents
+class ExcelExport extends DefaultValueBinder implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize, WithEvents, WithCustomValueBinder, WithStrictNullComparison
 {
+    use \Maatwebsite\Excel\Concerns\Exportable;
     use RegistersEventListeners;
 
     protected $resource;
@@ -20,6 +26,19 @@ class ExcelExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSiz
     public function __construct(Resource $resource)
     {
         $this->resource = $resource;
+    }
+    
+    public function bindValue(Cell $cell, $value)
+    {
+        // if (is_numeric($value)) {
+        // ray($value)->blue();
+            $cell->setValueExplicit($value, DataType::TYPE_STRING);
+
+            return true;
+        // }
+
+        // else return default behavior
+        return parent::bindValue($cell, $value);
     }
 
     public function registerEvents(): array

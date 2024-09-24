@@ -189,4 +189,17 @@ abstract class Resource {
             'props' => $this->toArray(),
         ];
     }
+
+    public function forQueuedExporter()
+    {
+        $initActions = $this->initializedActions;
+
+        $this->initializedActions = [];
+
+        $resource = unserialize(serialize($this));
+
+        $this->initializedActions = $initActions;
+        
+        return $resource;
+    }
 }
