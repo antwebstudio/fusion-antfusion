@@ -17,10 +17,9 @@
         :taggable="field.settings.true"
         :multiple="field.settings.multiple"
     >
-        <!-- Commented this or else option will shown as json -->
-        <!-- But after comment, ajax-select-fieldtype in lbrary management project option shown as json string -->
+        <!-- Don't comment this or else cannot overwrite the slot in ajax-select-fieldtype -->
         <template v-slot:option="{ option, search }">
-            <slot name="option" :option="option" :search="search">{{ option }}</slot>
+            <slot name="option" :option="option" :search="search"></slot>
         </template>
 
         <template v-slot:noOptions>
