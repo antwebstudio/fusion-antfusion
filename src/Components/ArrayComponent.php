@@ -9,6 +9,6 @@ class ArrayComponent extends \Addons\AntFusion\Component {
     }
 
     public function toArray() {
-        return $this->array;
+        return array_merge($this->array, $this->meta);
     }
 }

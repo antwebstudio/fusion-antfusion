@@ -41,8 +41,8 @@ trait ShowInTrait {
         return $this->hide;
     }
 
-    public function show($hide = true) {
-        return $this->hide(false);
+    public function show($show = true) {
+        return $this->hide(!$show);
     }
 
     public function hide($hide = true) {
