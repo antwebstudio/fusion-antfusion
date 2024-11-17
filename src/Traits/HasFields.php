@@ -56,11 +56,11 @@ trait HasFields {
         return $resolvedFields;
     }
 
-    protected function fieldsRules($scenario = null) {
+    protected function fieldsRules($scenario = null, $record = null) {
         $rules = [];
         foreach ($this->resolveFields(true, $scenario) as $field) {
             if ($this->shouldShowField($field, $scenario)) {
-                $rules[$field->handle] = $field->setScenario($scenario)->getRules();
+                $rules[$field->handle] = $field->setScenario($scenario)->getRules($scenario, $record);
             }
         }
         return $rules;
@@ -78,8 +78,8 @@ trait HasFields {
         
     }
 
-    public function getRules($scenario = null) {
-        return $this->fieldsRules($scenario);
+    public function getRules($scenario = null, $record = null) {
+        return $this->fieldsRules($scenario, $record);
     }
 
     protected function shouldShowField($field, $scenario) {

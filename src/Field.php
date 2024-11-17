@@ -12,6 +12,7 @@ class Field {
     use \Addons\AntFusion\Traits\HasParent;
     use \Addons\AntFusion\Traits\HasHooks;
     use \Addons\AntFusion\Traits\HasScenario;
+    use \Addons\AntFusion\Traits\EvaluatesClosures;
     
     public $label;
     public $handle;
@@ -51,8 +52,20 @@ class Field {
         return $this;
     }
 
-    public function getRules() {
-        return $this->rules;
+    public function unique($table, $ignoreRecord = false)
+    {
+        $table = (new $table)->getTable();
+        return $this->rules(function($record) use($table, $ignoreRecord) {
+            $rule = \Illuminate\Validation\Rule::unique($table);
+            if ($ignoreRecord && isset($record)) {
+                $rule->ignore($record->id);
+            }
+            return [$rule];
+        });
+    }
+
+    public function getRules($scenario = null, $record = null) {
+        return $this->evaluate($this->rules, ['record' => $record]);
     }
 
     public function default($defaultValue) {
