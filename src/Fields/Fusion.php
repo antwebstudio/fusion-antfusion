@@ -2,6 +2,9 @@
 namespace Addons\AntFusion\Fields;
 
 use Addons\AntFusion\Field;
+use Addons\AntLibrary\Rules\UserIdentity;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationRuleParser;
 
 class Fusion extends Field 
 {
@@ -20,7 +23,7 @@ class Fusion extends Field
     public static function makeFromField(\Fusion\Models\Field $field)
     {
         return static::make($field->name, $field->handle)
-            ->rules($field->type()->rules($field))
+            ->rules(static::getFieldRules($field))
             // ->section($field->fieldable->placement)
             ->type($field->type)
             ->mergeSettings($field->settings);
@@ -85,6 +88,39 @@ class Fusion extends Field
         if (is_object($settings)) $settings = $settings->toArray();
         $this->settings = array_merge($this->settings, $settings);
         return $this;
+    }
+
+    protected static function getFieldRules($field)
+    {
+        $rules = $field->type()->rules($field);
+        $rules = (new ValidationRuleParser([]))->explode($rules)->rules;
+        $rules = $rules[$field->handle];
+
+        $rules = collect($rules)->map(function($rule) {
+            $parsed = ValidationRuleParser::parse($rule);
+            if ($parsed[0] == 'Unique' || $parsed[0] instanceof UserIdentity) {
+                return function($record) use($parsed) {
+                    if (is_string($parsed[0])) {
+                        $className = 'Illuminate\\Validation\\Rules\\'.$parsed[0];
+                        $rule = new $className(...$parsed[1]);
+                    } else {
+                        $rule = $parsed[0];
+                    }
+                    if (isset($record)) {
+                        $rule->ignore($record);
+                        
+                        // $rule->ignore(
+                        //     $record->getOriginal($record->getKeyName()),
+                        //     $record->getQualifiedKeyName()
+                        // );
+                    }
+                    return $rule;
+                };
+            }
+            return $rule;
+        });
+
+        return $rules;
     }
 
     protected function getSettings() {

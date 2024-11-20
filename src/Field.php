@@ -12,6 +12,7 @@ class Field {
     use \Addons\AntFusion\Traits\HasParent;
     use \Addons\AntFusion\Traits\HasHooks;
     use \Addons\AntFusion\Traits\HasScenario;
+    use \Addons\AntFusion\Traits\HasRules;
     use \Addons\AntFusion\Traits\EvaluatesClosures;
     
     public $label;
@@ -20,7 +21,6 @@ class Field {
 
     protected $id;
     protected $component;
-    protected $rules = [];
     protected $defaultValue;
     protected $getRecordUsing;
     protected $getStateUsing;
@@ -45,27 +45,6 @@ class Field {
     public static function make(...$arguments)
     {
         return new static(...$arguments);
-    }
-
-    public function rules($rules) {
-        $this->rules = $rules;
-        return $this;
-    }
-
-    public function unique($table, $ignoreRecord = false)
-    {
-        $table = (new $table)->getTable();
-        return $this->rules(function($record) use($table, $ignoreRecord) {
-            $rule = \Illuminate\Validation\Rule::unique($table);
-            if ($ignoreRecord && isset($record)) {
-                $rule->ignore($record->id);
-            }
-            return [$rule];
-        });
-    }
-
-    public function getRules($scenario = null, $record = null) {
-        return $this->evaluate($this->rules, ['record' => $record]);
     }
 
     public function default($defaultValue) {
@@ -113,7 +92,7 @@ class Field {
 
     protected function hasRequiredRule() {
         $rules = $this->getRules();
-        return in_array('required', $rules);
+        return in_array('required', $rules ?? []);
     }
     
     public function getIndexComponent() {
