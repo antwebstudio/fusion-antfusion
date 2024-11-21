@@ -5,6 +5,7 @@ use Fusion\Facades\Menu;
 use App\Models\Instructor;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Addons\AntFusion\Http\Resources\ResourceResource;
 
 abstract class Resource {
@@ -178,6 +179,26 @@ abstract class Resource {
     protected function prepareForValidation(Request $request) {
     }
 
+    protected function mutateDataBeforeValidation($data)
+    {
+        foreach ($this->resolveFields() as $field) {
+            if (is_object($field) && isset($data[$field->handle])) {
+                $data[$field->handle] = $field->dehydrateStateBeforeValidation($data[$field->handle]);
+            }
+        }
+        return $data;
+    }
+
+    protected function mutateDataBeforeSave($validated)
+    {
+        foreach ($this->resolveFields() as $field) {
+            if (is_object($field) && isset($validated[$field->handle])) {
+                $validated[$field->handle] = $field->dehydrateState($validated[$field->handle]);
+            }
+        }
+        return $validated;
+    }
+
     protected function afterSave(Request $request, $model) {
         
     }
@@ -201,5 +222,12 @@ abstract class Resource {
         $this->initializedActions = $initActions;
         
         return $resource;
+    }
+
+    protected function getFormData($request, $scenario, $record = null)
+    {
+        $data = $this->mutateDataBeforeValidation($request->all());
+        $validated = Validator::validate($data, $this->getRules($scenario, $record));
+        return $this->mutateDataBeforeSave($validated);
     }
 }

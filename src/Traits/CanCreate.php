@@ -3,11 +3,14 @@ namespace Addons\AntFusion\Traits;
 
 use Illuminate\Http\Request;
 use Addons\AntFusion\Http\Resources\ResourceResource;
+use Illuminate\Support\Facades\Validator;
 
 trait CanCreate {
     public function create(Request $request) {
         $this->prepareForValidation($request);
-        $validated = $request->validate($this->getRules('creating'));
+
+        $validated = $this->getFormData($request, 'creating');
+
         $model = $this->model()->create(array_merge($this->fieldsDefaultValues(), $validated));
         return $this->afterCreate($request, $model);
     }

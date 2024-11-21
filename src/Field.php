@@ -24,6 +24,8 @@ class Field {
     protected $defaultValue;
     protected $getRecordUsing;
     protected $getStateUsing;
+    protected $dehydrateStateUsing;
+    protected $dehydrateStateBeforeValidationUsing;
 
     public function __construct($label, $handle) {
         $this->label = $label;
@@ -144,5 +146,33 @@ class Field {
             $this->hide();
         }
         return $this;
+    }
+
+    public function dehydrateStateUsing($closure)
+    {
+        $this->dehydrateStateUsing = $closure;
+        return $this;
+    }
+
+    public function dehydrateState($state)
+    {
+        if (isset($this->dehydrateStateUsing)) {
+            return $this->evaluate($this->dehydrateStateUsing, ['state' => $state]);
+        }
+        return $state;
+    }
+
+    public function dehydrateStateBeforeValidationUsing($closure)
+    {
+        $this->dehydrateStateBeforeValidationUsing = $closure;
+        return $this;
+    }
+
+    public function dehydrateStateBeforeValidation($state)
+    {
+        if (isset($this->dehydrateStateBeforeValidationUsing)) {
+            return $this->evaluate($this->dehydrateStateBeforeValidationUsing, ['state' => $state]);
+        }
+        return $state;
     }
 }

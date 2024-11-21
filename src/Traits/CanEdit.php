@@ -3,6 +3,7 @@ namespace Addons\AntFusion\Traits;
 
 use Illuminate\Http\Request;
 use Addons\AntFusion\Http\Resources\ResourceResource;
+use Illuminate\Support\Facades\Validator;
 
 trait CanEdit {
     protected $nameColumnHandle;
@@ -10,7 +11,9 @@ trait CanEdit {
     public function update(Request $request) {
         $this->prepareForValidation($request);
         $model = $this->model()->withoutGlobalScopes()->find($request->resourceId);
-        $validated = $request->validate($this->getRules('updating', $model));
+        
+        $validated = $this->getFormData($request, 'updating', $model);
+
         $model->update($validated);
 
         return $this->afterUpdate($request, $model);

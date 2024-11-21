@@ -24,6 +24,20 @@ class Fusion extends Field
     {
         return static::make($field->name, $field->handle)
             ->rules(static::getFieldRules($field))
+            ->dehydrateStateBeforeValidationUsing(function($state) use($field) {
+                $fieldType = $field->type();
+                if (method_exists($fieldType, 'onBeforeValidation')) {
+                    return $fieldType->onBeforeValidation($state, $field);
+                }
+                return $state;
+            })
+            ->dehydrateStateUsing(function($state) use($field) {
+                $fieldType = $field->type();
+                if (method_exists($fieldType, 'onBeforeSave')) {
+                    return $fieldType->onBeforeSave($state, $field);
+                }
+                return $state;
+            })
             // ->section($field->fieldable->placement)
             ->type($field->type)
             ->mergeSettings($field->settings);
@@ -94,7 +108,7 @@ class Fusion extends Field
     {
         $rules = $field->type()->rules($field);
         $rules = (new ValidationRuleParser([]))->explode($rules)->rules;
-        $rules = $rules[$field->handle];
+        $rules = $rules[$field->handle] ?? [];
 
         $rules = collect($rules)->map(function($rule) {
             $parsed = ValidationRuleParser::parse($rule);
@@ -105,6 +119,9 @@ class Fusion extends Field
                         $rule = new $className(...$parsed[1]);
                     } else {
                         $rule = $parsed[0];
+                    }
+                    if (method_exists($rule, 'withoutTrashed')) {
+                        $rule->withoutTrashed();
                     }
                     if (isset($record)) {
                         $rule->ignore($record);
