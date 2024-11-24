@@ -40,7 +40,6 @@ class Merge extends Action
         $records = collect();
         if (request()->records) {
             $records = $this->model()->find(request()->records);
-            ray($records);
         }
         return [
             Select::make('Main records', 'main_record')->options($records->map(function($record) {

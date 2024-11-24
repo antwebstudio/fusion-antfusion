@@ -20,7 +20,7 @@ class HasFieldTraitTest extends TestCase
 
         $rules = $this->invokeMethod($resource, 'fieldsRules');
 
-        $this->assertEquals(['test' => 'required'], $rules);
+        $this->assertEquals(['test' => ['required']], $rules);
     }
 }
 
