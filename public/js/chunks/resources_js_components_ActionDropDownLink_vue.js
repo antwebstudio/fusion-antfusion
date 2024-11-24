@@ -54,7 +54,10 @@ __webpack_require__.r(__webpack_exports__);
     confirmTitle: {},
     confirmText: {},
     to: {},
-    text: {}
+    text: {},
+    ajax_modal: {
+      "default": false
+    }
   },
   data: function data() {
     return {
@@ -84,18 +87,36 @@ __webpack_require__.r(__webpack_exports__);
     },
     performAction: function performAction() {
       if (!this.to) {
-        if (this.needConfirmation) {
+        if (this.ajax_modal) {
+          this.openAjaxModal();
+        } else if (this.needConfirmation) {
           this.askConfirmation();
         } else {
           this.confirm();
         }
       }
     },
+    openAjaxModal: function openAjaxModal(name) {
+      var _this = this;
+
+      this.loadingModal = true;
+      var params = {
+        modal: true
+      };
+      axios.get(this.url, {
+        params: params
+      }).then(function (response) {
+        _this.loadingModal = false;
+        console.log(response);
+
+        _this.openModal(_this.modalName);
+      });
+    },
     askConfirmation: function askConfirmation() {
       this.openModal(this.modalName);
     },
     confirm: function confirm() {
-      var _this = this;
+      var _this2 = this;
 
       this.loading = true; // this.record is null when action standalone
 
@@ -108,26 +129,26 @@ __webpack_require__.r(__webpack_exports__);
       }, options).then(function (response) {
         console.log('action button', response);
 
-        _this.processBlobResponse(response);
+        _this2.processBlobResponse(response);
 
         if (response.data.redirect) {
           if (response.data.target) {
             window.open(response.data.redirect, response.data.target);
           } else {
-            _this.$router.push(response.data.redirect);
+            _this2.$router.push(response.data.redirect);
           }
         } else {
-          _this.loading = false;
+          _this2.loading = false;
           toast(response.data.message, 'success');
 
-          _this.closeModal(_this.modalName);
+          _this2.closeModal(_this2.modalName);
 
-          _this.$emit('updated');
+          _this2.$emit('updated');
         }
       })["catch"](function (error) {
-        _this.loading = false;
+        _this2.loading = false;
 
-        _this.processActionError(error);
+        _this2.processActionError(error);
       });
     },
     closeModal: function closeModal(name, value) {

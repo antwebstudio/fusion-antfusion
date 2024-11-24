@@ -53,6 +53,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -101,14 +104,19 @@ __webpack_require__.r(__webpack_exports__);
     confirmText: {},
     classes: {},
     path: {// Path to get the action object at backend
+    },
+    ajax_modal: {
+      "default": false
     }
   },
   data: function data() {
     return {
       loading: false,
+      loadingModal: false,
       initializedForm: this.form,
       modalOpened: false,
-      confirmationModalOpened: false
+      confirmationModalOpened: false,
+      ajaxFields: []
     };
   },
   watch: {
@@ -117,6 +125,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
+    getFields: function getFields() {
+      return this.ajaxFields.length > 0 ? this.ajaxFields : this.fields;
+    },
     needConfirmation: function needConfirmation() {
       return this.confirmText;
     },
@@ -162,7 +173,12 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     performAction: function performAction() {
-      if (this.fields.length) {
+      console.log('ajax modal', this.ajax_modal);
+
+      if (this.ajax_modal) {
+        this.openAjaxModal();
+        alert('ajax modal');
+      } else if (this.fields.length) {
         this.openModalForm();
       } else if (this.needConfirmation) {
         this.askConfirmation();
@@ -171,10 +187,12 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     askConfirmation: function askConfirmation() {
+      console.log('ask confirmation');
       this.confirmationModalOpened = true;
       this.openModal(this.confirmationModalName);
     },
     confirm: function confirm() {
+      console.log('confirm');
       this.confirmationModalOpened = false;
       this.closeModal(this.confirmationModalName);
       this.submit();
@@ -201,9 +219,26 @@ __webpack_require__.r(__webpack_exports__);
       this.modalOpened = true;
       this.openModal(this.modalName);
     },
-    submit: function submit() {
+    openAjaxModal: function openAjaxModal(name) {
       var _this3 = this;
 
+      this.loadingModal = true;
+      var params = {
+        modal: true
+      };
+      axios.get(this.url, {
+        params: params
+      }).then(function (response) {
+        _this3.loadingModal = false;
+        console.log(response);
+
+        _this3.openModal(_this3.modalName);
+      });
+    },
+    submit: function submit() {
+      var _this4 = this;
+
+      console.log('submit');
       this.loading = true;
       var params = {
         route: this.route,
@@ -214,26 +249,26 @@ __webpack_require__.r(__webpack_exports__);
         responseType: 'blob'
       } : {};
       this.initializedForm.post(this.url, params, options).then(function (response) {
-        _this3.loading = false;
+        _this4.loading = false;
 
-        _this3.$emit('submitted');
+        _this4.$emit('submitted');
 
-        _this3.$emit('refreshed');
+        _this4.$emit('refreshed');
 
-        if (_this3.modalOpened) {
-          _this3.closeModal(_this3.modalName);
+        if (_this4.modalOpened) {
+          _this4.closeModal(_this4.modalName);
         }
 
-        if (_this3.confirmationModalOpened) {
-          _this3.closeModal(_this3.confirmationModalName);
+        if (_this4.confirmationModalOpened) {
+          _this4.closeModal(_this4.confirmationModalName);
         }
 
-        _this3.processActionResponse(response);
+        _this4.processActionResponse(response);
       })["catch"](function (error) {
-        _this3.loading = false;
+        _this4.loading = false;
 
         if (error.errors) {
-          _this3.errors = error.errors;
+          _this4.errors = error.errors;
           var message = Object.keys(error.errors).map(function (key) {
             return error.errors[key].join(' ');
           }).join(' ');
@@ -19027,6 +19062,7 @@ var render = function () {
               false
             ),
             [
+              _vm._v("123"),
               _vm._t("default", function () {
                 return [_vm._v(_vm._s(_vm.text))]
               }),
@@ -19119,10 +19155,22 @@ var render = function () {
               ]),
             },
             [
+              _vm.loadingModal
+                ? _c(
+                    "span",
+                    [
+                      _c("spinner", {
+                        attrs: { text: "Loading", variant: "black" },
+                      }),
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _vm.initializedForm
                 ? _c(
                     "span",
-                    _vm._l(_vm.fields, function (field, index) {
+                    _vm._l(_vm.getFields, function (field, index) {
                       return _c(
                         field.component,
                         _vm._b(
