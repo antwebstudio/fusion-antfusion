@@ -77,6 +77,7 @@ window.Fusion.booting(function(Vue, router, store) {
     Vue.component('ajax-multiselect-fieldtype', () => import('./fieldtypes/AjaxSelect/Field'))
     Vue.component('antfusion-timer', () => import('./components/Timer'))
     Vue.component('bulk-edit', () => import('./components/BulkEdit'))
+    Vue.component('merge', () => import('./components/Merge'))
     
 	router.addRoutes([
 		{
