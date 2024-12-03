@@ -7,6 +7,7 @@ let tailwindcss = require('tailwindcss')
 mix.js('resources/js/app.js', 'public/js').vue().setPublicPath('public')  
     .version()
     .sass('resources/sass/app.scss', 'css')
+    .sass('resources/sass/prime-vue.scss', 'css')
     .webpackConfig({
         output: {
             publicPath: '/addons/AntFusion/',

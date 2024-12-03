@@ -154,7 +154,7 @@ abstract class Resource {
     public function toArray() {
         $components = [
             [
-                'is' => 'resource-datatable',
+                'is' => config('antfusion.datatable.component', 'resource-datatable'),
                 'show_order' => false,
                 'id' => 'data-table-'.$this->getSlug(),
                 'endpoint' => $this->getDataTableEndpoint(),

@@ -11,6 +11,8 @@ class DataTable extends Component
 
     public function __construct($endpoint)
     {
+        $this->component = config('antfusion.datatable.component', 'resource-datatable');
+
         $this->withMeta([
             'show_order' => false,
             'id' => 'data-table-'.$this->getSlug(),

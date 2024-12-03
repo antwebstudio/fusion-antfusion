@@ -70,6 +70,7 @@ class AddonServiceProvider extends ServiceProvider
                 public_path("addons/{$addonName}")
             );
         }
+        \Fusion::asset(mix('css/prime-vue.css', 'addons/AntFusion')->toHtml());
         \Fusion::asset(mix('js/app.js', 'addons/AntFusion')->toHtml());
         \Fusion::asset(url('antfusion-admin-routes.js'));
 

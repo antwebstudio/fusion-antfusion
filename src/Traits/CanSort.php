@@ -2,6 +2,7 @@
 namespace Addons\AntFusion\Traits;
 
 use Spatie\QueryBuilder\AllowedSort;
+use Illuminate\Support\Str;
 
 trait CanSort {
     protected $sortable = true;
@@ -22,6 +23,9 @@ trait CanSort {
         }
         if (is_callable($this->sortable)) {
             return AllowedSort::custom($this->getHandle(), new \App\CustomSort($this->sortable));
+        }
+        if (Str::contains($this->sortable, '.')) {
+            return AllowedSort::custom($this->getHandle(), new \Addons\AntFusion\AllowedSorts\SortByRelation($this->sortable));
         }
         return AllowedSort::field($this->getHandle(), $this->sortable);
     }
