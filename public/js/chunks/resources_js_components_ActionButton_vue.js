@@ -53,9 +53,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -104,19 +101,14 @@ __webpack_require__.r(__webpack_exports__);
     confirmText: {},
     classes: {},
     path: {// Path to get the action object at backend
-    },
-    ajax_modal: {
-      "default": false
     }
   },
   data: function data() {
     return {
       loading: false,
-      loadingModal: false,
       initializedForm: this.form,
       modalOpened: false,
-      confirmationModalOpened: false,
-      ajaxFields: []
+      confirmationModalOpened: false
     };
   },
   watch: {
@@ -125,9 +117,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    getFields: function getFields() {
-      return this.ajaxFields.length > 0 ? this.ajaxFields : this.fields;
-    },
     needConfirmation: function needConfirmation() {
       return this.confirmText;
     },
@@ -173,12 +162,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     performAction: function performAction() {
-      console.log('ajax modal', this.ajax_modal);
-
-      if (this.ajax_modal) {
-        this.openAjaxModal();
-        alert('ajax modal');
-      } else if (this.fields.length) {
+      if (this.fields.length) {
         this.openModalForm();
       } else if (this.needConfirmation) {
         this.askConfirmation();
@@ -187,12 +171,10 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     askConfirmation: function askConfirmation() {
-      console.log('ask confirmation');
       this.confirmationModalOpened = true;
       this.openModal(this.confirmationModalName);
     },
     confirm: function confirm() {
-      console.log('confirm');
       this.confirmationModalOpened = false;
       this.closeModal(this.confirmationModalName);
       this.submit();
@@ -219,26 +201,9 @@ __webpack_require__.r(__webpack_exports__);
       this.modalOpened = true;
       this.openModal(this.modalName);
     },
-    openAjaxModal: function openAjaxModal(name) {
+    submit: function submit() {
       var _this3 = this;
 
-      this.loadingModal = true;
-      var params = {
-        modal: true
-      };
-      axios.get(this.url, {
-        params: params
-      }).then(function (response) {
-        _this3.loadingModal = false;
-        console.log(response);
-
-        _this3.openModal(_this3.modalName);
-      });
-    },
-    submit: function submit() {
-      var _this4 = this;
-
-      console.log('submit');
       this.loading = true;
       var params = {
         route: this.route,
@@ -249,26 +214,26 @@ __webpack_require__.r(__webpack_exports__);
         responseType: 'blob'
       } : {};
       this.initializedForm.post(this.url, params, options).then(function (response) {
-        _this4.loading = false;
+        _this3.loading = false;
 
-        _this4.$emit('submitted');
+        _this3.$emit('submitted');
 
-        _this4.$emit('refreshed');
+        _this3.$emit('refreshed');
 
-        if (_this4.modalOpened) {
-          _this4.closeModal(_this4.modalName);
+        if (_this3.modalOpened) {
+          _this3.closeModal(_this3.modalName);
         }
 
-        if (_this4.confirmationModalOpened) {
-          _this4.closeModal(_this4.confirmationModalName);
+        if (_this3.confirmationModalOpened) {
+          _this3.closeModal(_this3.confirmationModalName);
         }
 
-        _this4.processActionResponse(response);
+        _this3.processActionResponse(response);
       })["catch"](function (error) {
-        _this4.loading = false;
+        _this3.loading = false;
 
         if (error.errors) {
-          _this4.errors = error.errors;
+          _this3.errors = error.errors;
           var message = Object.keys(error.errors).map(function (key) {
             return error.errors[key].join(' ');
           }).join(' ');
@@ -19062,7 +19027,6 @@ var render = function () {
               false
             ),
             [
-              _vm._v("123"),
               _vm._t("default", function () {
                 return [_vm._v(_vm._s(_vm.text))]
               }),
@@ -19155,22 +19119,10 @@ var render = function () {
               ]),
             },
             [
-              _vm.loadingModal
-                ? _c(
-                    "span",
-                    [
-                      _c("spinner", {
-                        attrs: { text: "Loading", variant: "black" },
-                      }),
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
               _vm.initializedForm
                 ? _c(
                     "span",
-                    _vm._l(_vm.getFields, function (field, index) {
+                    _vm._l(_vm.fields, function (field, index) {
                       return _c(
                         field.component,
                         _vm._b(
@@ -19279,119 +19231,6 @@ var render = function () {
 var staticRenderFns = []
 render._withStripped = true
 
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ normalizeComponent)
-/* harmony export */ });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode /* vue-cli only */
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () {
-        injectStyles.call(
-          this,
-          (options.functional ? this.parent : this).$root.$options.shadowRoot
-        )
-      }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functional component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
 
 
 /***/ }),
