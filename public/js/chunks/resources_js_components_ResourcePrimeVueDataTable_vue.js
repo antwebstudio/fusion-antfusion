@@ -178,6 +178,9 @@ __webpack_require__.r(__webpack_exports__);
     actions: {},
     default_filter_values: {
       "default": {}
+    },
+    endpoint_params: {
+      "default": {}
     }
   },
   watch: {

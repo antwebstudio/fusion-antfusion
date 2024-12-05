@@ -2149,46 +2149,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
  //optional for column grouping
@@ -2253,6 +2213,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     endpoint: {
       required: true,
       type: String
+    },
+    endpoint_params: {
+      "default": {}
     }
   },
   mounted: function mounted() {
@@ -2365,7 +2328,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.getRecords();
     },
     onSort: function onSort(event) {
-      console.log('sorted');
       this.sort.key = event.sortField;
       this.sort.order = event.sortOrder > 0 ? 'asc' : 'desc';
       this.getRecords();
@@ -2376,11 +2338,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getQueryParameters: function getQueryParameters() {
       var _this3 = this;
 
-      var params = {
+      var params = _objectSpread(_objectSpread({}, this.endpoint_params), {}, {
         sort: (this.sort.order === 'desc' ? '-' : '') + this.sort.key,
         page: this.pagination.currentPage,
         perPage: this.pagination.perPage
-      };
+      });
 
       if (this.filters) {
         Object.keys(this.filters).forEach(function (key) {
@@ -16792,6 +16754,8 @@ var render = function () {
             value: _vm.records,
             paginatorTemplate:
               "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
+            currentPageReportTemplate:
+              "Showing {first} to {last} of {totalRecords}",
             selection: _vm.selectedRecords,
             dataKey: "id",
             stateStorage: "local",
@@ -16910,7 +16874,9 @@ var render = function () {
                 fn: function () {
                   return [
                     _vm._v(
-                      "\n            " + _vm._s(_vm.noRecords) + "\n        "
+                      "\n                " +
+                        _vm._s(_vm.noRecords) +
+                        "\n            "
                     ),
                   ]
                 },
@@ -16921,9 +16887,9 @@ var render = function () {
                 fn: function () {
                   return [
                     _vm._v(
-                      "\n            " +
+                      "\n                " +
                         _vm._s(_vm.loadingMessage) +
-                        "\n        "
+                        "\n            "
                     ),
                   ]
                 },
@@ -16956,19 +16922,6 @@ var render = function () {
                   attrs: { sortable: _vm.sortable.includes(column.field) },
                   scopedSlots: _vm._u(
                     [
-                      {
-                        key: "filter",
-                        fn: function (ref) {
-                          var filterModel = ref.filterModel
-                          return [
-                            _vm._v(
-                              "\n                filter\n\n                " +
-                                _vm._s(column.filter) +
-                                "\n            "
-                            ),
-                          ]
-                        },
-                      },
                       {
                         key: "body",
                         fn: function (slotProps) {
@@ -17046,9 +16999,9 @@ var render = function () {
                                       ),
                                       [
                                         _vm._v(
-                                          "\n                        " +
+                                          "\n                            " +
                                             _vm._s(action.text) +
-                                            "\n                    "
+                                            "\n                        "
                                         ),
                                       ]
                                     )
@@ -17063,7 +17016,7 @@ var render = function () {
                   ],
                   null,
                   false,
-                  1238607238
+                  148509318
                 ),
               })
             : _vm._e(),
