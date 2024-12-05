@@ -30,6 +30,8 @@ abstract class Resource {
     protected $mainResource;
     protected $mainResourceId;
 
+    protected $dataTableEndpointParams;
+
     public function register() {
         $handle = $this->getHandle();
         $slug = $this->getSlug();
@@ -151,6 +153,16 @@ abstract class Resource {
         }
     }
 
+    public function setDataTableEndpointParams($params)
+    {
+        $this->dataTableEndpointParams = $params;
+        return $this;
+    }
+
+    public function getDataTableEndpointParams() {
+        return $this->dataTableEndpointParams;
+    }
+
     public function toArray() {
         $components = [
             [
@@ -158,6 +170,7 @@ abstract class Resource {
                 'show_order' => false,
                 'id' => 'data-table-'.$this->getSlug(),
                 'endpoint' => $this->getDataTableEndpoint(),
+                'endpoint_params' => $this->getDataTableEndpointParams(),
                 'filters' => $this->filtersArray(),
                 'default_filter_values' => $this->defaultFilterValues(),
                 'metrics' => $this->metricsArray(),

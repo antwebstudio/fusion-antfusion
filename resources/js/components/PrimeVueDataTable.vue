@@ -129,6 +129,9 @@ export default {
             required: true,
             type: String
         },
+        endpoint_params: {
+            default: {}
+        },
     },
     mounted() {
         // this.lazyParams = {
@@ -252,6 +255,7 @@ export default {
         },
         getQueryParameters() {
             let params = {
+                ... this.endpoint_params,
                 sort:    (this.sort.order === 'desc' ? '-' : '') + this.sort.key,
                 page:    this.pagination.currentPage,
                 perPage: this.pagination.perPage,

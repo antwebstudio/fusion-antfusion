@@ -173,6 +173,9 @@ export default {
         default_filter_values: {
             default: {}
         },
+        endpoint_params: {
+            default: {}
+        },
     },
     watch: {
         showBulkActionConfirmation(value) {

@@ -15,9 +15,9 @@ trait CanRegisterTab {
         return $pageTabManager->registerTab($label, $component, $attributes);
     }
 
-    public static function getTabs() {
+    public static function getTabs($params) {
         $pageTabManager = static::getPageTabManager();
-        return $pageTabManager->getTabs();
+        return $pageTabManager->getTabs($params);
     }
 
     public static function getPageTabManager() {
@@ -25,8 +25,8 @@ trait CanRegisterTab {
         return static::$pageTabManager;
     }
 
-    protected function getTabsManagerComponent() {
-        $tabs = static::getTabs();
+    protected function getTabsManagerComponent($params = []) {
+        $tabs = static::getTabs($params);
 
         $component = Tabs::make();
         foreach ($tabs as $tab) {
