@@ -4,7 +4,7 @@
     </div>
     <div v-else>
         <div v-for="record, index in records">
-            <component-container :components="fields" :record="record" />
+            <component-container :components="fields" v-model="records[index]" />
             <hr v-if="index != records.length - 1"/>
         </div>
     </div>

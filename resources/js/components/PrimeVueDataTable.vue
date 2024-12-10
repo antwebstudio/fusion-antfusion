@@ -20,7 +20,7 @@
                     <div class="flex">
                         <Button @click="clearSelected" class="p-button-sm">Clear all selected</Button>
 
-                        <slot name="bulkActions" :allowedBulkActions="allowedBulkActions" :selected="selected" :parent="this">
+                        <slot name="bulkActions" :allowedBulkActions="allowedBulkActions" :selected="selected" :parent="self">
                         </slot>
                     </div>
                 </div>
@@ -196,6 +196,9 @@ export default {
         }
     },
     computed: {
+        self() {
+            return this;
+        },
         stateKey() {
             if (this.saveState) {
                 return 'ui-table-sort-' + this.id + '-' + this.endpoint + '-' + window.location.pathname;
