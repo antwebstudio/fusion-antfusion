@@ -162,7 +162,14 @@ var render = function () {
             "div",
             [
               _c("component-container", {
-                attrs: { components: _vm.fields, record: record },
+                attrs: { components: _vm.fields },
+                model: {
+                  value: _vm.records[index],
+                  callback: function ($$v) {
+                    _vm.$set(_vm.records, index, $$v)
+                  },
+                  expression: "records[index]",
+                },
               }),
               _vm._v(" "),
               index != _vm.records.length - 1 ? _c("hr") : _vm._e(),

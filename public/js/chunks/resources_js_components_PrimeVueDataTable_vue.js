@@ -2273,6 +2273,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: {
+    self: function self() {
+      return this;
+    },
     stateKey: function stateKey() {
       if (this.saveState) {
         return 'ui-table-sort-' + this.id + '-' + this.endpoint + '-' + window.location.pathname;
@@ -16858,7 +16861,7 @@ var render = function () {
                               _vm._t("bulkActions", null, {
                                 allowedBulkActions: _vm.allowedBulkActions,
                                 selected: _vm.selected,
-                                parent: this,
+                                parent: _vm.self,
                               }),
                             ],
                             2
