@@ -1,6 +1,12 @@
 <template>
     <div>
-        <DataTable :lazy="true" :totalRecords="pagination.totalRecords" :rowsPerPageOptions="pagination.perPageOptions" :loading="loading" :paginator="true" :rows="10" ref="dt" :value="records"
+        <div v-if="hasError" class="p-2 flex flex-col border py-4">
+            <div class="mx-auto"><h2>Error</h2></div>
+            <p class="mx-auto text-center">Please try again later</p>
+            <div class="mx-auto"><a @click="getRecords" class="button">Retry</a></div>
+        </div>
+
+        <DataTable v-else :lazy="true" :totalRecords="pagination.totalRecords" :rowsPerPageOptions="pagination.perPageOptions" :loading="loading" :paginator="true" :rows="10" ref="dt" :value="records"
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
             :selection.sync="selectedRecords" dataKey="id"
@@ -163,6 +169,7 @@ export default {
     },
     data() {
         return {
+            hasError: false,
             loading: false,
             records: null,
             displayable: null,
@@ -283,7 +290,7 @@ export default {
 
         getRecords() {
             this.loading = true
-            // this.hasError = false
+            this.hasError = false
 
             return axios.get(`${this.endpoint}?${this.getQueryParameters()}`).then((response) => {
                 this.records = response.data.records.data
@@ -306,7 +313,7 @@ export default {
 
                 // this.$emit('loaded', this.records)
             }).catch((error) => {
-                // this.hasError = true
+                this.hasError = true
                 this.loading = false
             })
         },

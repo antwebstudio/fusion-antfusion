@@ -59,6 +59,11 @@ class Tabs extends Component implements PanelContract {
         return $this;
     }
 
+    public function mergeTab($name, $components) {
+        $this->tabs[$name] = array_merge($this->tabs[$name] ?? [], $components);
+        return $this;
+    }
+
     public function addDynamicTabs($callback) {
         call_user_func_array($callback, [$this]);
         return $this;

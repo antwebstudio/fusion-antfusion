@@ -194,7 +194,7 @@ abstract class Resource {
 
     protected function mutateDataBeforeValidation($data)
     {
-        foreach ($this->resolveFields() as $field) {
+        foreach ($this->resolveFields(true) as $field) {
             if (is_object($field) && isset($data[$field->handle])) {
                 $data[$field->handle] = $field->dehydrateStateBeforeValidation($data[$field->handle]);
             }
@@ -204,7 +204,7 @@ abstract class Resource {
 
     protected function mutateDataBeforeSave($validated)
     {
-        foreach ($this->resolveFields() as $field) {
+        foreach ($this->resolveFields(true) as $field) {
             if (is_object($field) && isset($validated[$field->handle])) {
                 $validated[$field->handle] = $field->dehydrateState($validated[$field->handle]);
             }

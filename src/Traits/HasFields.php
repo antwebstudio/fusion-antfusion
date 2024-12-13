@@ -5,6 +5,8 @@ use Addons\AntFusion\Contracts\Panel;
 
 trait HasFields {
     protected $_fieldsByHandle;
+
+    protected $_resolvedFields;
     
     public function fields() {
         return [];
@@ -34,7 +36,11 @@ trait HasFields {
 
     public function resolveFields($flattern = false, $scenario = null) 
     {
-        return $this->_resolveFields($this->fields(), $flattern, $scenario);
+        $key = $flattern ? 'flattern' : 'non-flattern';
+        if (isset($this->_resolvedFields[$scenario][$key])) {
+            return $this->_resolvedFields[$scenario][$key];
+        }
+        return $this->_resolvedFields[$scenario][$key] = $this->_resolveFields($this->fields(), $flattern, $scenario);
     }
 
     public function _resolveFields($fields, $flattern = false, $scenario = null) {
