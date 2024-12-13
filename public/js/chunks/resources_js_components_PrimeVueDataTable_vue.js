@@ -2149,6 +2149,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
  //optional for column grouping
@@ -2246,6 +2252,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      hasError: false,
       loading: false,
       records: null,
       displayable: null,
@@ -2366,8 +2373,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getRecords: function getRecords() {
       var _this4 = this;
 
-      this.loading = true; // this.hasError = false
-
+      this.loading = true;
+      this.hasError = false;
       return axios__WEBPACK_IMPORTED_MODULE_4___default().get("".concat(this.endpoint, "?").concat(this.getQueryParameters())).then(function (response) {
         _this4.records = response.data.records.data;
         _this4.displayable = response.data.displayable;
@@ -2385,7 +2392,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         // }
         // this.$emit('loaded', this.records)
       })["catch"](function (error) {
-        // this.hasError = true
+        _this4.hasError = true;
         _this4.loading = false;
       });
     }
@@ -16743,294 +16750,327 @@ var render = function () {
   return _c(
     "div",
     [
-      _c(
-        "DataTable",
-        {
-          ref: "dt",
-          attrs: {
-            lazy: true,
-            totalRecords: _vm.pagination.totalRecords,
-            rowsPerPageOptions: _vm.pagination.perPageOptions,
-            loading: _vm.loading,
-            paginator: true,
-            rows: 10,
-            value: _vm.records,
-            paginatorTemplate:
-              "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
-            currentPageReportTemplate:
-              "Showing {first} to {last} of {totalRecords}",
-            selection: _vm.selectedRecords,
-            dataKey: "id",
-            stateStorage: "local",
-            stateKey: _vm.stateKey,
-          },
-          on: {
-            "update:selection": function ($event) {
-              _vm.selectedRecords = $event
-            },
-            page: function ($event) {
-              return _vm.onPage($event)
-            },
-            sort: function ($event) {
-              return _vm.onSort($event)
-            },
-            "state-restore": _vm.onStateRestore,
-          },
-          scopedSlots: _vm._u(
-            [
-              {
-                key: "header",
-                fn: function () {
-                  return [
-                    _c(
-                      "div",
-                      { staticClass: "flex justify-content-between" },
-                      [
-                        _c("Button", {
-                          staticClass: "p-button-outlined",
-                          attrs: {
-                            type: "button",
-                            icon: "pi pi-filter-slash",
-                            label: "Clear",
-                          },
-                          on: {
-                            click: function ($event) {
-                              return _vm.clearFilter()
-                            },
-                          },
-                        }),
-                        _vm._v(" "),
+      _vm.hasError
+        ? _c("div", { staticClass: "p-2 flex flex-col border py-4" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("p", { staticClass: "mx-auto text-center" }, [
+              _vm._v("Please try again later"),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "mx-auto" }, [
+              _c(
+                "a",
+                { staticClass: "button", on: { click: _vm.getRecords } },
+                [_vm._v("Retry")]
+              ),
+            ]),
+          ])
+        : _c(
+            "DataTable",
+            {
+              ref: "dt",
+              attrs: {
+                lazy: true,
+                totalRecords: _vm.pagination.totalRecords,
+                rowsPerPageOptions: _vm.pagination.perPageOptions,
+                loading: _vm.loading,
+                paginator: true,
+                rows: 10,
+                value: _vm.records,
+                paginatorTemplate:
+                  "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
+                currentPageReportTemplate:
+                  "Showing {first} to {last} of {totalRecords}",
+                selection: _vm.selectedRecords,
+                dataKey: "id",
+                stateStorage: "local",
+                stateKey: _vm.stateKey,
+              },
+              on: {
+                "update:selection": function ($event) {
+                  _vm.selectedRecords = $event
+                },
+                page: function ($event) {
+                  return _vm.onPage($event)
+                },
+                sort: function ($event) {
+                  return _vm.onSort($event)
+                },
+                "state-restore": _vm.onStateRestore,
+              },
+              scopedSlots: _vm._u(
+                [
+                  {
+                    key: "header",
+                    fn: function () {
+                      return [
                         _c(
-                          "span",
-                          { staticClass: "p-input-icon-left ml-2" },
+                          "div",
+                          { staticClass: "flex justify-content-between" },
                           [
-                            _c("i", { staticClass: "pi pi-search" }),
-                            _vm._v(" "),
-                            _c("InputText", {
-                              attrs: { placeholder: "Keyword Search" },
-                              model: {
-                                value: _vm.search,
-                                callback: function ($$v) {
-                                  _vm.search = $$v
+                            _c("Button", {
+                              staticClass: "p-button-outlined",
+                              attrs: {
+                                type: "button",
+                                icon: "pi pi-filter-slash",
+                                label: "Clear",
+                              },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.clearFilter()
                                 },
-                                expression: "search",
                               },
                             }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticClass: "p-input-icon-left ml-2" },
+                              [
+                                _c("i", { staticClass: "pi pi-search" }),
+                                _vm._v(" "),
+                                _c("InputText", {
+                                  attrs: { placeholder: "Keyword Search" },
+                                  model: {
+                                    value: _vm.search,
+                                    callback: function ($$v) {
+                                      _vm.search = $$v
+                                    },
+                                    expression: "search",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
                           ],
                           1
                         ),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _vm.selectedRecords && _vm.selectedRecords.length
-                      ? _c("div", [
-                          _c(
-                            "div",
-                            { staticClass: "my-2" },
-                            [
-                              _vm._v(
-                                "Selected " +
-                                  _vm._s(_vm.selectedRecords.length) +
-                                  ": "
-                              ),
-                              _vm._l(_vm.selectedRecords, function (book) {
-                                return _c(
-                                  "span",
-                                  { key: book.id, staticClass: "badge mr-2" },
-                                  [_vm._v(_vm._s(book.name))]
-                                )
-                              }),
-                            ],
-                            2
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "flex" },
-                            [
+                        _vm._v(" "),
+                        _vm.selectedRecords && _vm.selectedRecords.length
+                          ? _c("div", [
                               _c(
-                                "Button",
-                                {
-                                  staticClass: "p-button-sm",
-                                  on: { click: _vm.clearSelected },
-                                },
-                                [_vm._v("Clear all selected")]
+                                "div",
+                                { staticClass: "my-2" },
+                                [
+                                  _vm._v(
+                                    "Selected " +
+                                      _vm._s(_vm.selectedRecords.length) +
+                                      ": "
+                                  ),
+                                  _vm._l(_vm.selectedRecords, function (book) {
+                                    return _c(
+                                      "span",
+                                      {
+                                        key: book.id,
+                                        staticClass: "badge mr-2",
+                                      },
+                                      [_vm._v(_vm._s(book.name))]
+                                    )
+                                  }),
+                                ],
+                                2
                               ),
                               _vm._v(" "),
-                              _vm._t("bulkActions", null, {
-                                allowedBulkActions: _vm.allowedBulkActions,
-                                selected: _vm.selected,
-                                parent: _vm.self,
-                              }),
-                            ],
-                            2
-                          ),
-                        ])
-                      : _vm._e(),
-                  ]
-                },
-                proxy: true,
-              },
-              {
-                key: "empty",
-                fn: function () {
-                  return [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(_vm.noRecords) +
-                        "\n            "
-                    ),
-                  ]
-                },
-                proxy: true,
-              },
-              {
-                key: "loading",
-                fn: function () {
-                  return [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(_vm.loadingMessage) +
-                        "\n            "
-                    ),
-                  ]
-                },
-                proxy: true,
-              },
-            ],
-            null,
-            true
-          ),
-        },
-        [
-          _vm._v(" "),
-          _vm._v(" "),
-          _vm._v(" "),
-          _vm.hasBulkActions
-            ? _c("Column", {
-                attrs: {
-                  selectionMode: "multiple",
-                  headerStyle: { width: "3em" },
-                },
-              })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm._l(_vm.displayableColumns, function (column) {
-            return _c(
-              "Column",
-              _vm._b(
-                {
-                  key: column.field,
-                  attrs: { sortable: _vm.sortable.includes(column.field) },
-                  scopedSlots: _vm._u(
-                    [
-                      {
-                        key: "body",
-                        fn: function (slotProps) {
-                          return [
-                            _vm.column_types[column.field] &&
-                            _vm.isComponentExist(_vm.column_types[column.field])
-                              ? _c(
-                                  _vm.column_types[column.field],
-                                  _vm._b(
-                                    {
-                                      tag: "component",
-                                      attrs: {
-                                        value: slotProps.data[column.field],
-                                        record: slotProps.data,
-                                      },
-                                    },
-                                    "component",
-                                    _vm.column_props[column.field],
-                                    false
-                                  )
-                                )
-                              : _c("span", [
-                                  _vm._v(_vm._s(slotProps.data[column.field])),
-                                ]),
-                          ]
-                        },
-                      },
-                    ],
-                    null,
-                    true
-                  ),
-                },
-                "Column",
-                column,
-                false
-              )
-            )
-          }),
-          _vm._v(" "),
-          _vm.displayableColumns
-            ? _c("Column", {
-                attrs: { exportable: false, styles: { "min-width": "8rem" } },
-                scopedSlots: _vm._u(
-                  [
-                    {
-                      key: "body",
-                      fn: function (slotProps) {
-                        return [
-                          slotProps.data.actions &&
-                          slotProps.data.actions.length
-                            ? _c(
+                              _c(
                                 "div",
-                                { staticClass: "flex justify-end" },
-                                _vm._l(
-                                  slotProps.data.actions,
-                                  function (action, index) {
-                                    return _c(
-                                      action.component,
+                                { staticClass: "flex" },
+                                [
+                                  _c(
+                                    "Button",
+                                    {
+                                      staticClass: "p-button-sm",
+                                      on: { click: _vm.clearSelected },
+                                    },
+                                    [_vm._v("Clear all selected")]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._t("bulkActions", null, {
+                                    allowedBulkActions: _vm.allowedBulkActions,
+                                    selected: _vm.selected,
+                                    parent: _vm.self,
+                                  }),
+                                ],
+                                2
+                              ),
+                            ])
+                          : _vm._e(),
+                      ]
+                    },
+                    proxy: true,
+                  },
+                  {
+                    key: "empty",
+                    fn: function () {
+                      return [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.noRecords) +
+                            "\n            "
+                        ),
+                      ]
+                    },
+                    proxy: true,
+                  },
+                  {
+                    key: "loading",
+                    fn: function () {
+                      return [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.loadingMessage) +
+                            "\n            "
+                        ),
+                      ]
+                    },
+                    proxy: true,
+                  },
+                ],
+                null,
+                true
+              ),
+            },
+            [
+              _vm._v(" "),
+              _vm._v(" "),
+              _vm._v(" "),
+              _vm.hasBulkActions
+                ? _c("Column", {
+                    attrs: {
+                      selectionMode: "multiple",
+                      headerStyle: { width: "3em" },
+                    },
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm._l(_vm.displayableColumns, function (column) {
+                return _c(
+                  "Column",
+                  _vm._b(
+                    {
+                      key: column.field,
+                      attrs: { sortable: _vm.sortable.includes(column.field) },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "body",
+                            fn: function (slotProps) {
+                              return [
+                                _vm.column_types[column.field] &&
+                                _vm.isComponentExist(
+                                  _vm.column_types[column.field]
+                                )
+                                  ? _c(
+                                      _vm.column_types[column.field],
                                       _vm._b(
                                         {
-                                          key: index,
                                           tag: "component",
                                           attrs: {
-                                            form: false,
+                                            value: slotProps.data[column.field],
                                             record: slotProps.data,
-                                          },
-                                          on: {
-                                            submitted: _vm.reload,
-                                            updated: _vm.reload,
                                           },
                                         },
                                         "component",
-                                        action,
+                                        _vm.column_props[column.field],
                                         false
-                                      ),
-                                      [
-                                        _vm._v(
-                                          "\n                            " +
-                                            _vm._s(action.text) +
-                                            "\n                        "
-                                        ),
-                                      ]
+                                      )
                                     )
-                                  }
-                                ),
-                                1
-                              )
-                            : _vm._e(),
-                        ]
-                      },
+                                  : _c("span", [
+                                      _vm._v(
+                                        _vm._s(slotProps.data[column.field])
+                                      ),
+                                    ]),
+                              ]
+                            },
+                          },
+                        ],
+                        null,
+                        true
+                      ),
                     },
-                  ],
-                  null,
-                  false,
-                  148509318
-                ),
-              })
-            : _vm._e(),
-        ],
-        2
-      ),
+                    "Column",
+                    column,
+                    false
+                  )
+                )
+              }),
+              _vm._v(" "),
+              _vm.displayableColumns
+                ? _c("Column", {
+                    attrs: {
+                      exportable: false,
+                      styles: { "min-width": "8rem" },
+                    },
+                    scopedSlots: _vm._u(
+                      [
+                        {
+                          key: "body",
+                          fn: function (slotProps) {
+                            return [
+                              slotProps.data.actions &&
+                              slotProps.data.actions.length
+                                ? _c(
+                                    "div",
+                                    { staticClass: "flex justify-end" },
+                                    _vm._l(
+                                      slotProps.data.actions,
+                                      function (action, index) {
+                                        return _c(
+                                          action.component,
+                                          _vm._b(
+                                            {
+                                              key: index,
+                                              tag: "component",
+                                              attrs: {
+                                                form: false,
+                                                record: slotProps.data,
+                                              },
+                                              on: {
+                                                submitted: _vm.reload,
+                                                updated: _vm.reload,
+                                              },
+                                            },
+                                            "component",
+                                            action,
+                                            false
+                                          ),
+                                          [
+                                            _vm._v(
+                                              "\n                            " +
+                                                _vm._s(action.text) +
+                                                "\n                        "
+                                            ),
+                                          ]
+                                        )
+                                      }
+                                    ),
+                                    1
+                                  )
+                                : _vm._e(),
+                            ]
+                          },
+                        },
+                      ],
+                      null,
+                      false,
+                      148509318
+                    ),
+                  })
+                : _vm._e(),
+            ],
+            2
+          ),
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mx-auto" }, [_c("h2", [_vm._v("Error")])])
+  },
+]
 render._withStripped = true
 
 
