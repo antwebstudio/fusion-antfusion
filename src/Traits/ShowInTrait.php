@@ -11,6 +11,8 @@ trait ShowInTrait {
     protected $scenario;
     protected $hide = false;
 
+    protected $visible = true;
+
     public function exceptShowIn($scenario) {
         $this->showByDefault = true;
         $this->exceptShowIn[$scenario] = true;
@@ -37,8 +39,24 @@ trait ShowInTrait {
     //     return $this;
     // }
 
-    public function isHidden() {
-        return $this->hide;
+    public function isHidden()
+    {
+        return !$this->isVisible();
+    }
+
+    public function isVisible()
+    {
+        if ($this->visible) {
+            return $this->evaluate($this->visible, ['record' => null, 'filter' => request()->filter, 'scenario' => $this->scenario]);
+        } else {
+            return !$this->hide;
+        }
+    }
+
+    public function visible($callback)
+    {
+        $this->visible = $callback;
+        return $this;
     }
 
     public function show($show = true) {

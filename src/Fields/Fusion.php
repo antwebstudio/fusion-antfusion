@@ -55,7 +55,7 @@ class Fusion extends Field
     public function type($fieldType) {
         $this->fieldType = $fieldType;
         if (isset($this->fieldType)) {
-            $this->component = $fieldType.'-fieldtype';
+			$this->component = str_replace('_', '-', $fieldType) . '-fieldtype';
         }
         return $this;
     }

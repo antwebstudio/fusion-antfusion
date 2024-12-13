@@ -4,7 +4,8 @@ namespace Addons\AntFusion;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-abstract class Action {
+class Action
+{
     use \Addons\AntFusion\Traits\HasFields;
     use \Addons\AntFusion\Traits\HasParent;
     use \Addons\AntFusion\Traits\HasMeta;
@@ -16,6 +17,10 @@ abstract class Action {
     protected $confirmButtonText;
 
     protected $name;
+
+    protected $label;
+
+    protected $handle;
 
     protected $standalone = false;
 
@@ -31,14 +36,24 @@ abstract class Action {
 
     protected $whenRecord;
 
+    protected $callback;
+
+    protected $successMessage = 'Action performed successfully.';
+
     public static function make(...$arguments)
     {
         return new static(...$arguments);
     }
 
-    public function performAction($request) {
+    public function __construct($name = null)
+    {
+        $this->name = $name;
+    }
+
+    public function performAction($request)
+    {
         $request->validate($this->getRules());
- 
+
         if ($request->filled('resourceIds')) {
             $models = $this->parent->findByIds($request->resourceIds);
         } else if ($request->filled('records')) {
@@ -72,20 +87,48 @@ abstract class Action {
 
     public function label($label)
     {
-        return $this->setName($label);
+        $this->label = $label;
+        return $this;
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
         return $this;
     }
 
-    public function getName() {
+    public function getLabel()
+    {
+        return $this->label ?? $this->getName();
+    }
+
+    public function getName()
+    {
         return $this->name ?? Str::headline(class_basename(static::class));
     }
 
-    public function handle($request, $models) {
+    public function action($callback)
+    {
+        $this->callback = $callback;
+        return $this;
+    }
 
+    public function handle($request, $models)
+    {
+        if (is_callable($this->callback)) {
+            $response = $this->evaluate($this->callback, ['request' => $request, 'records' => $models, 'action' => $this]);
+            if (isset($response)) {
+                return $response;
+            }
+        }
+        return $this->success();
+    }
+
+    public function success()
+    {
+        return [
+            'message' => $this->successMessage,
+        ];
     }
 
     public function getSlug() {
@@ -93,7 +136,7 @@ abstract class Action {
     }
 
     public function getHandle() {
-        return Str::kebab($this->getName());
+        return $this->handle ?? Str::kebab($this->getName());
     }
 
     public function getActionUrl($actionSlug) {
@@ -132,7 +175,7 @@ abstract class Action {
         return array_merge($this->meta, [
             'id' => unique_id(),
             'component' => $this->getComponent(),
-            'text' => __($this->getName()),
+            'text' => __($this->getLabel()),
             'title' => __($this->getName()),
             'url' => $this->getActionUrl($actionSlug),
             'to' => $this->getActionUrl($actionSlug), // currently needed or else resource index page will not shown properly
@@ -205,6 +248,11 @@ abstract class Action {
         return $this->dropdown;
     }
 
+    public function dropdown($dropdown = true)
+    {
+        return $this->asDropdown($dropdown);
+    }
+
     public function asDropdown($dropdown = true) {
         // $this->component = 'ui-dropdown-link';
         $this->withMeta(['asDropdown' => true]);
@@ -213,14 +261,14 @@ abstract class Action {
     }
 
     public function isShowForRecord($record) {
-        if (isset($this->whenRecord)) {
-            return call_user_func_array($this->whenRecord, [$record]);
+        if (is_callable($this->visible)) {
+            return $this->evaluate($this->visible, ['record' => $record, 'filter' => request()->filter, 'scenario' => $this->scenario]);
         }
         return true;
     }
 
     public function whenRecord($callback) {
-        $this->whenRecord = $callback;
+        $this->visible = $this->whenRecord = $callback;
         return $this;
     }
 

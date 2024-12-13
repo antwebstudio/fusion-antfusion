@@ -136,7 +136,7 @@ trait HasDataTable {
                 $action->setParent($this);
                 $actions[] = [
                     'route' => $action->getBulkActionUrl($this->getSlug()),
-                    'name' => $action->getName(),
+                    'name' => $action->getLabel(),
                     'params' => $action->toArray(),
                 ];
             }

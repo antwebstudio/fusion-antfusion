@@ -61,7 +61,7 @@ abstract class FusionResource extends Resource {
         }
         $handle = $handle ?? $this->getHandle();
         return [
-            'slug' => request()->name ? Str::slug(request()->name) : null,
+            'slug' => request()->name ? Str::slug(request()->name) : null, // TODO: to use Core module Str::utf8slug() instead
             'taxonomy_id' => Fusion::getTaxonomyId($handle),
             'matrix_id' => Fusion::getMatrixId($handle),
         ];
