@@ -32,6 +32,8 @@ abstract class Resource {
 
     protected $dataTableEndpointParams;
 
+    protected $formData = [];
+
     public function register() {
         $slug = $this->getSlug();
         
@@ -249,8 +251,11 @@ abstract class Resource {
 
     protected function getFormData($request, $scenario, $record = null)
     {
+        if (isset($this->formData[$scenario])) {
+            return $this->formData[$scenario];
+        }
         $data = $this->mutateDataBeforeValidation($request->all());
         $validated = Validator::validate($data, $this->getRules($scenario, $record));
-        return $this->mutateDataBeforeSave($validated);
+        return $this->formData[$scenario] = $this->mutateDataBeforeSave($validated);
     }
 }

@@ -10,6 +10,7 @@ class Component {
     use \Addons\AntFusion\Traits\ShowInTrait;
     use \Addons\AntFusion\Traits\HasMeta;
     use \Addons\AntFusion\Traits\HasHooks;
+    use \Addons\AntFusion\Traits\EvaluatesClosures;
 
     protected $id;
 
@@ -47,7 +48,7 @@ class Component {
 
     public function toArray() {
         $component = $this->component ?? Str::kebab(class_basename(static::class));
-        return array_merge($this->meta, [
+        return array_merge($this->getMeta(), [
             'component' => $component,
             'handle' => $this->getHandle(),
             'components' => $this->childrenToArray(),

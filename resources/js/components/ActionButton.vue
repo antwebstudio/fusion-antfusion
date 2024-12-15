@@ -88,6 +88,9 @@ export default {
         fields: {
 
         },
+        fill_form: {
+
+        },
         form: {
             default: null,
         },
@@ -96,6 +99,9 @@ export default {
         },
         load_record: {
             default: {}
+        },
+        load_all: {
+            default: false,
         },
         footer_actions: {
             default: []
@@ -159,6 +165,14 @@ export default {
                     fields[field.handle] = _.get(this.record, this.load_record[field.handle])
                 } else {
                     fields[field.handle] = null
+                }
+
+                if (this.load_all) {
+                    fields[field.handle] = _.get(this.record, field.handle)
+                }
+
+                if (this.fill_form && this.fill_form[field.handle]) {
+                    fields[field.handle] = _.get(this.fill_form, field.handle)
                 }
             })
 

@@ -49,7 +49,24 @@ trait HasDataTable {
         return $this->resolveFields(true);
     }
 
+    public function getSearchable()
+    {
+        $columns = [];
+        foreach ($this->getFieldsForDataTable() as $field) {
+            if (is_object($field) && $field->isSearchable()) {
+                $searchable = $field->getSearchableColumn();
+                if ($searchable === true) {
+                    $columns[$field->getHandle()] = $field->getHandle();
+                } else {
+                    $columns[$field->getHandle()] = is_array($searchable) ? array_merge($columns[$field->getHandle()], $searchable) : $searchable;
+                }
+            }
+        }
+        return $columns;
+    }
+
     public function getFilterable() {
+        return $this->getSearchable();
         return $this->getDisplayableColumns();
     }
 
@@ -198,12 +215,14 @@ trait HasDataTable {
             // );
     }
 
-    public function processDataTableRecord($record) {
+    public function processDataTableRecord($record): mixed {
+        $data = is_object($record) ? $record->attributesToArray() : $record;
+        
         foreach ($this->getFieldsForDataTable() as $field) {
             if (is_object($field)) {
-                $record = $field->processDataTableRecord($record);
+                $data[$field->getHandle()] = $field->getState($record, $field->getHandle());
             }
         }
-        return $record;
+        return $data;
     }
 }

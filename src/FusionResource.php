@@ -19,14 +19,23 @@ abstract class FusionResource extends Resource {
         ];
     }
 
-    protected function afterSave($request, $model)
+    protected function afterCreate($request, $model)
     {
-        $this->persistRelationships($model);
+        $data = $this->getFormData($request, 'creating');
+        $this->persistRelationships($model, $data);
     }
 
-    protected function persistRelationships($model) {
+    protected function afterUpdate($request, $model)
+    {
+        $data = $this->getFormData($request, 'updating');
+        $this->persistRelationships($model, $data);
+    }
+
+    protected function persistRelationships($model, $data) {
         foreach ($this->getMatrix()->blueprint->relationships() as $field) {
-            $field->type()->persistRelationship($model, $field);
+            if (isset($data[$field->handle])) {
+                $field->type()->persistRelationship($model, $field, $data[$field->handle]);
+            }
         }
     }
 

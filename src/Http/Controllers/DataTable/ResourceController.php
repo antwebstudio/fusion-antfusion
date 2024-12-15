@@ -43,9 +43,9 @@ class ResourceController extends DataTableController {
             $records = collect($paginate->all())->keyBy('id');
             $return = json_decode($paginate->toJson(), true);
             foreach ($return['data'] as $i => &$record) {
+                $record = $resource->processDataTableRecord($records[$record['id']]);
                 $record['resource'] = ['slug' => $resource->getSlug(), 'handle' => $resource->getHandle()];
                 $record['actions'] = $resource->getActionsForRecord($records[$record['id']]);
-                $record = $resource->processDataTableRecord($record);
             }
         }
         return $return ?? ['data' => []];

@@ -46,11 +46,11 @@ trait ShowInTrait {
 
     public function isVisible()
     {
-        if ($this->visible) {
+        // if ($this->visible) {
             return $this->evaluate($this->visible, ['record' => null, 'filter' => request()->filter, 'scenario' => $this->scenario]);
-        } else {
-            return !$this->hide;
-        }
+        // } else {
+        //     return !$this->hide;
+        // }
     }
 
     public function visible($callback)
@@ -64,15 +64,10 @@ trait ShowInTrait {
     }
 
     public function hide($hide = true) {
-        $this->hide = $hide;
-        $this->withMeta(['hide' => $hide]);
-        return $this;
+        return $this->visible(!$hide);
     }
 
     public function canSee($callable) {
-        if (!call_user_func_array($callable, [request()])) {
-            $this->hide();
-        }
-        return $this;
+        return $this->visible($callable);
     }
 }

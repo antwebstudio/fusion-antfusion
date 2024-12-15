@@ -1,18 +1,21 @@
 <?php
 namespace Addons\AntFusion;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class Field {
     use \Addons\AntFusion\Traits\HasMeta;
     use \Addons\AntFusion\Traits\ShowInTrait;
     use \Addons\AntFusion\Traits\CanSort;
+    use \Addons\AntFusion\Traits\CanSearch;
     use \Addons\AntFusion\Traits\HasDependants;
     use \Addons\AntFusion\Traits\HasPath;
     use \Addons\AntFusion\Traits\HasParent;
     use \Addons\AntFusion\Traits\HasHooks;
     use \Addons\AntFusion\Traits\HasScenario;
     use \Addons\AntFusion\Traits\HasRules;
+    use \Addons\AntFusion\Traits\HasRecords;
     use \Addons\AntFusion\Traits\EvaluatesClosures;
     
     public $label;
@@ -49,6 +52,12 @@ class Field {
         return new static(...$arguments);
     }
 
+    public function label($label)
+    {
+        $this->label = $label;
+        return $this;
+    }
+
     public function default($defaultValue) {
         $this->defaultValue = $defaultValue;
         return $this;
@@ -78,7 +87,7 @@ class Field {
     public function toArrayWithoutDependant() {
         $this->beforeToArray();
 
-        return array_merge($this->meta, [
+        return array_merge($this->getMeta(), [
             'component' => $this->component,
             'id' => $this->id ?? $this->handle,
             'name' => __($this->label),
@@ -128,13 +137,26 @@ class Field {
         return $this;
     }
 
+    public function getState($record, $handle)
+    {
+        $state = Arr::get($record, $handle);
+        if (isset($this->getStateUsing)) {
+            $state = $this->evaluate($this->getStateUsing, ['state' => $state, 'record' => $record]);
+        }
+        return $state;
+    }
+
     public function processDataTableRecord($record) {
         if (isset($this->getRecordUsing)) {
-            return call_user_func_array($this->getRecordUsing, [$record]);
-        } else if (isset($this->getStateUsing)) {
-            $record[$this->handle] = call_user_func_array($this->getStateUsing, [$record]);
+            $record = $this->evaluate($this->getRecordUsing, ['record' => $record]);
         }
-        return $record;
+        $data = is_object($record) ? $record->attributesToArray() : $record;
+
+        if (isset($this->getStateUsing)) {
+            $state = $this->evaluate($this->getStateUsing, ['state' => $record[$this->getHandle()] ?? null, 'record' => $record]);
+            $data[$this->getHandle()] = $state;
+        }
+        return $data;
     }
 
     public function whenFilterActived($filter, $value) {

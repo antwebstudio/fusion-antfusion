@@ -24,11 +24,11 @@ trait HasActions {
         return [];
     }
 
-    protected function initActions() {
+    protected function initActions($records = null) {
         if (!$this->isActionInitialized) {
             foreach ((array) $this->actions() as $index => $action) {
                 $this->initializedActions[$action->getHandle()] = $action;
-                $action->setParent($this, $index, 'a');
+                $action->setRecords($records)->setParent($this, $index, 'a');
             }
         }
         return collect($this->initializedActions);
@@ -47,7 +47,7 @@ trait HasActions {
     }
 
     protected function getActionsByFilterForRecord($record, $filterCallback) {
-        $this->initActions();
+        $this->initActions(collect([$record]));
 
         $actionsArray = [];
         foreach ($this->initializedActions as $action) {
@@ -59,7 +59,7 @@ trait HasActions {
     }
 
     protected function actionsArrayForDetail($record) {
-        $this->initActions();
+        $this->initActions(collect([$record]));
 
         $actionsArray = [];
         foreach ($this->initializedActions as $action) {

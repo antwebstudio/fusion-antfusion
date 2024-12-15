@@ -87,6 +87,8 @@ window.Fusion.booting(function (Vue, router, store) {
     Vue.component('antfusion-timer', () => import('./components/Timer'))
     Vue.component('bulk-edit', () => import('./components/BulkEdit'))
     Vue.component('merge', () => import('./components/Merge'))
+    Vue.component('html-component', () => import('./components/Html'))
+    Vue.component('text-component', () => import('./components/Text'))
 
     router.addRoutes([
         {

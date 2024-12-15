@@ -15,7 +15,7 @@ trait HasFields
 
     public function fields() {
         if (isset($this->form)) {
-            return $this->evaluate($this->form);
+            return $this->evaluate($this->form, ['records' => $this->getRecords()]);
         }
         return [];
     }

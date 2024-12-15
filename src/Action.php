@@ -1,4 +1,5 @@
 <?php
+
 namespace Addons\AntFusion;
 
 use Illuminate\Support\Str;
@@ -12,6 +13,7 @@ class Action
     use \Addons\AntFusion\Traits\HasPath;
     use \Addons\AntFusion\Traits\ShowInTrait;
     use \Addons\AntFusion\Traits\HasHooks;
+    use \Addons\AntFusion\Traits\HasRecords;
     use \Addons\AntFusion\Traits\EvaluatesClosures;
 
     protected $confirmButtonText;
@@ -41,6 +43,8 @@ class Action
     protected $successMessage = 'Action performed successfully.';
 
     protected $footerActions;
+
+    protected $fillForm;
 
     public static function make(...$arguments)
     {
@@ -182,6 +186,23 @@ class Action
         return $this->withMeta(['variant' => 'primary']);
     }
 
+    public function fillForm($fillForm)
+    {
+        $this->fillForm = $fillForm;
+        return $this;
+    }
+
+    public function getFillForm()
+    {
+        $data = $this->evaluate($this->fillForm, ['records' => $this->getRecords()]);
+        foreach ($this->fields() as $field) {
+            if (isset($data[$field->getHandle()])) {
+                $data[$field->getHandle()] = $field->getState($data, $field->getHandle());
+            }
+        }
+        return $data;
+    }
+
     public function toArray() {
         $actionSlug = $this->getSlug();
 
@@ -197,6 +218,7 @@ class Action
             'asDropdown' => $this->dropdown,
             'dropdown' => $this->dropdown,
             'path' => $this->getPath(),
+            'fill_form' => $this->getFillForm(),
             'footer_actions' => $this->getFooterActions()->filter(function($action, $index) {
                 $action->setParent($this, $index, 'a');
                 return !$action->isHidden() && !$action->isDropDown();
@@ -225,8 +247,7 @@ class Action
         
         if ($this->hasFields()) {
             foreach ($this->fields() as $field) {
-                $record = $field->processDataTableRecord($record);
-                $array['record'] = $record;
+                $array['record'][$field->getHandle()] = $field->getState($record, $field->getHandle());
             }
             // $array['asDropdown'] = true;
             // $array['component'] = 'action-button';
@@ -314,5 +335,10 @@ class Action
             $this->hide();
         }
         return $this;
+    }
+
+    public function loadAllRecordField($boolean = true)
+    {
+        return $this->withMeta(['load_all' => $boolean]);
     }
 }
