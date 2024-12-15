@@ -33,20 +33,30 @@ abstract class Resource {
     protected $dataTableEndpointParams;
 
     public function register() {
-        $handle = $this->getHandle();
         $slug = $this->getSlug();
-        $name = $this->getName();
-        $icon = $this->getIcon();
         
         app()->bind('resources.'.$slug, function() {
             return $this;
         });
 
-        Menu::set('admin.resource-'.$slug, [
+        Menu::set('admin.resource-'.$slug, $this->_getMenuArray());
+    }
+
+    public static function getMenuArray()
+    {
+        return (new static)->_getMenuArray();
+    }
+
+    protected function _getMenuArray() {
+        $name = $this->getName();
+        $icon = $this->getIcon();
+        $slug = $this->getSlug();
+
+        return [
             'title' => $name,
             'to'    => '/resource/'.$slug,
             'icon'  => $icon,
-        ]);
+        ];
     }
 
     public function getName() {

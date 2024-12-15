@@ -40,6 +40,8 @@ class Action
 
     protected $successMessage = 'Action performed successfully.';
 
+    protected $footerActions;
+
     public static function make(...$arguments)
     {
         return new static(...$arguments);
@@ -63,7 +65,18 @@ class Action
             // Some action not require records, eg: create action
             // throw ValidationException::withMessages(['*' => 'No records is selected. ']);
         }
-        return $this->handle($request, collect($models ?? []));
+
+        if ($request->child_action && $request->path == $this->getPath()) {
+            $action = $this->getComponentBySlugFrom(Str::after($request->child_action, $request->path.'.'), $this->getFooterActions(), 'a');
+            return $action->performAction($request);
+        } else {
+            return $this->handle($request, collect($models ?? []));
+        }
+    }
+
+    public function findByIds($ids)
+    {
+        return $this->parent->findByIds($ids);
     }
 
     public function exceptShowInBulkAction() {
@@ -176,7 +189,7 @@ class Action
             'id' => unique_id(),
             'component' => $this->getComponent(),
             'text' => __($this->getLabel()),
-            'title' => __($this->getName()),
+            'title' => __($this->getLabel()),
             'url' => $this->getActionUrl($actionSlug),
             'to' => $this->getActionUrl($actionSlug), // currently needed or else resource index page will not shown properly
             'fields' => $this->fieldsArray(),
@@ -184,7 +197,27 @@ class Action
             'asDropdown' => $this->dropdown,
             'dropdown' => $this->dropdown,
             'path' => $this->getPath(),
+            'footer_actions' => $this->getFooterActions()->filter(function($action, $index) {
+                $action->setParent($this, $index, 'a');
+                return !$action->isHidden() && !$action->isDropDown();
+            })->map(function($action) {
+                $action = $action->toArray();
+                unset($action['to']);
+                return $action;
+            }),
         ]);
+    }
+
+    protected function getFooterActions()
+    {
+        $actions = $this->evaluate($this->footerActions);
+        return isset($actions) ? collect($actions) : collect();
+    }
+
+    public function footerActions($actions)
+    {
+        $this->footerActions = $actions;
+        return $this;
     }
 
     public function toArrayForDetail($record) {

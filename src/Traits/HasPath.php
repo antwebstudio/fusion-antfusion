@@ -44,6 +44,11 @@ trait HasPath {
             if (isset($component)) return $component;
         }
         
+        if (method_exists($this, 'getFooterActions')) {
+            $component = $this->getComponentBySlugFrom($slug, $this->getFooterActions(), 'a');
+            if (isset($component)) return $component;
+        }
+        
         throw new \Exception(get_class($this).' do not have children with handle: '.$slug);
     }
 

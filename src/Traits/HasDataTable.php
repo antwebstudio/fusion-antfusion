@@ -7,6 +7,8 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Database\Eloquent\Builder;
 
 trait HasDataTable {
+    protected $_resolvedTableFields;
+    
     public function dataTableQuery() {
         return $this->query();
     }
@@ -31,7 +33,19 @@ trait HasDataTable {
         return $columns;
     }
 
+    public function resolveDataTableFields($flattern = false, $scenario = null)
+    {
+        $key = $flattern ? 'flattern' : 'non-flattern';
+        if (isset($this->_resolvedTableFields[$scenario][$key])) {
+            return $this->_resolvedTableFields[$scenario][$key];
+        }
+        return $this->_resolvedTableFields[$scenario][$key] = $this->_resolveFields($this->tableFields(), $flattern, $scenario);
+    }
+
     protected function getFieldsForDataTable() {
+        if (method_exists($this, 'tableFields')) {
+            return $this->resolveDataTableFields(true);
+        }
         return $this->resolveFields(true);
     }
 

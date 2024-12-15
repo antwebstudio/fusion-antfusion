@@ -16,11 +16,16 @@
                 </span>
 
                 <template v-slot:footer="entry">
-                    <ui-button :disabled="loading" @click="submit" class="ml-3 button--primary">
-                        <spinner v-show="loading" />
+                    <ui-button v-modal:[modalName]>Cancel</ui-button>
+
+                    <span class="mr-3" v-for="action in footer_actions" :key="action.id">
+                        <component :record="record" v-if="action.fields && action.fields.length" :is="action.component" v-bind="action" :loading="loading">{{ action.text }}</component>
+                        <ui-button @click.prevent="submit(action)" v-else :is="action.component" v-bind="action" :loading="loading">{{ action.text }}</ui-button>
+                    </span>
+
+                    <ui-button :loading="loading" :disabled="loading" @click="submit" class="mr-3 button--primary">
                         {{ confirmButtonText }}
                     </ui-button>
-                    <ui-button v-modal:[modalName]>Cancel</ui-button>
                 </template>
             </ui-modal>
 
@@ -91,6 +96,9 @@ export default {
         },
         load_record: {
             default: {}
+        },
+        footer_actions: {
+            default: []
         },
         confirmTitle: {
 
@@ -196,11 +204,13 @@ export default {
             this.modalOpened = true
             this.openModal(this.modalName)
         },
-        submit() {
+        submit(action) {
             this.loading = true
+            console.log(action)
             let params = {
                 route: this.route,
                 path: this.path,
+                child_action: action ? action.path : null,
                 resourceIds: this.record.id ? [this.record.id] : null,
             }
             let options = this.blob ? {responseType: 'blob'} : {};

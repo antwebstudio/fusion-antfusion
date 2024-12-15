@@ -3,13 +3,27 @@ namespace Addons\AntFusion\Traits;
 
 use Addons\AntFusion\Contracts\Panel;
 
-trait HasFields {
+trait HasFields
+{
+    use \Addons\AntFusion\Traits\EvaluatesClosures;
+
     protected $_fieldsByHandle;
 
     protected $_resolvedFields;
-    
+
+    protected $form;
+
     public function fields() {
+        if (isset($this->form)) {
+            return $this->evaluate($this->form);
+        }
         return [];
+    }
+
+    public function form($form)
+    {
+        $this->form = $form;
+        return $this;
     }
 
     protected function convertFieldsToArray($fields, $scenario = null, $flattern = false) {
