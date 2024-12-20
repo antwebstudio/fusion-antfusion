@@ -13,7 +13,9 @@
 
     </div>
     <div v-else >
-        <vue-repeater v-model="model"></vue-repeater>
+        {{ value }}
+        <ui-button @click="reset" v-if="!repeater_fields || repeater_fields.length == 0">Add</ui-button>
+        <vue-repeater v-model="repeater_fields" :fields="repeater_fields"></vue-repeater>
     </div>
 </template>
 
@@ -22,6 +24,7 @@
 </style>
 <script>
 import VueRepeater from './Repeater';
+// import VueRepeater from 'vue-repeater'
 // import '~vue-repeater/dist/lib/vue-repeater.css'
 
 export default {
@@ -52,6 +55,17 @@ export default {
         }
     },
     watch: {
+        repeater_fields: {
+            deep: true,
+            handler(value) {
+                // if (this.initialized) {
+                    let values = value.map((row) => {
+                        return row.value;
+                    })
+                    this.$emit('input', values)
+                // }
+            }
+        },
         model: {
             deep: true,
             handler(value) {
@@ -59,8 +73,26 @@ export default {
             }
         }
     },
+    created() {
+        let fields = this.fields.map((row, index) => {
+            let returnValue = {
+                ...row,
+                value: this.value[index],
+            };
+
+            return returnValue;
+        })
+
+        this.repeater_fields = fields;
+
+        this.$nextTick(() => {
+            // this.initialized = true;
+        })
+    },
     data() {
         return {
+            initialized: false,
+            repeater_fields: this.fields,
             model: this.value ? this.value : { count: null, records: {} },
         }
     },
@@ -72,6 +104,9 @@ export default {
         }
     },
     methods: {
+        reset() {
+            this.repeater_fields = {...this.fields}
+        },
         selectNumberOptions() {
             let options = [];
             for (let i = this.min; i <= this.max; i++) {

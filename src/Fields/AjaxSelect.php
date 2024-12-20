@@ -36,6 +36,7 @@ class AjaxSelect extends Fusion
     }
 
     public function resource($resource) {
+        $resource = is_object($resource) ? $resource : $resource::getInstance();
         return $this->mergeSettings([
             'endpoint' => $resource->getDataTableEndpoint(),
             'saved_data_endpoint' => route('antfusion.resource.find', ['resource' => $resource->getSlug()]),

@@ -206,7 +206,7 @@ class Action
     public function toArray() {
         $actionSlug = $this->getSlug();
 
-        return array_merge($this->meta, [
+        return array_merge($this->getMeta(), [
             'id' => unique_id(),
             'component' => $this->getComponent(),
             'text' => __($this->getLabel()),

@@ -1,6 +1,7 @@
 <template>
     <ui-select-group
         v-model="model"
+        :label="label"
         :filterable="filterable"
         :options="options">
         <template v-slot:footer>
@@ -14,6 +15,9 @@
 <script>
 export default {
     props: {
+        label: {
+
+        },
         value: {
             required: false,
             default: null

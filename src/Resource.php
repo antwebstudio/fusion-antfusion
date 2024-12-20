@@ -44,6 +44,13 @@ abstract class Resource {
         Menu::set('admin.resource-'.$slug, $this->_getMenuArray());
     }
 
+    public static function getInstance()
+    {
+        $resource = new static;
+        $slug = $resource->getSlug();
+        return app('resources.'.$slug);
+    }
+
     public static function getMenuArray()
     {
         return (new static)->_getMenuArray();
@@ -207,8 +214,8 @@ abstract class Resource {
     protected function mutateDataBeforeValidation($data)
     {
         foreach ($this->resolveFields(true) as $field) {
-            if (is_object($field) && isset($data[$field->handle])) {
-                $data[$field->handle] = $field->dehydrateStateBeforeValidation($data[$field->handle]);
+            if (is_object($field) && isset($data[$field->getHandle()])) {
+                $data[$field->getHandle()] = $field->dehydrateStateBeforeValidation($data[$field->getHandle()]);
             }
         }
         return $data;
@@ -217,8 +224,8 @@ abstract class Resource {
     protected function mutateDataBeforeSave($validated)
     {
         foreach ($this->resolveFields(true) as $field) {
-            if (is_object($field) && isset($validated[$field->handle])) {
-                $validated[$field->handle] = $field->dehydrateState($validated[$field->handle]);
+            if (is_object($field) && isset($validated[$field->getHandle()])) {
+                $validated[$field->getHandle()] = $field->dehydrateState($validated[$field->getHandle()]);
             }
         }
         return $validated;

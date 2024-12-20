@@ -70,6 +70,11 @@ export default {
                 return []
             },
         },
+        sort: {
+            default: {
+                key: 'id',
+            }
+        },
     },
     watch: {
         value(value) {
@@ -119,10 +124,10 @@ export default {
             if (savedValue && this.field.settings.saved_data_endpoint) {
                 let url = this.field.settings.saved_data_endpoint.replace('{value}', savedValue)
 
-                axios.get(url).then((response) => {
+                axios.get(url, {params: {resourceId: savedValue}}).then((response) => {
                     this.options = [response.data.data] // changed from response.data to response.data.data
                     this.selected = response.data.data; // changed from response.data to response.data.data
-                    console.log(this.options)
+                    // console.log('loaded options', this.options)
                 })
             } else if (this.field.settings.multiple) {
                 savedValue.forEach((value) => {

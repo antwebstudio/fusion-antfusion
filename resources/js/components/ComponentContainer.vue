@@ -45,6 +45,11 @@ export default {
         }
     },
     watch: {
+        value: {
+            handler(value) {
+                this.loadedRecord = value
+            }
+        },
         loadedRecord: {
             deep: true,
             handler(value) {

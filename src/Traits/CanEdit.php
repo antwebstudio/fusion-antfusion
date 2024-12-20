@@ -60,7 +60,7 @@ trait CanEdit {
     }
 
     protected function getEditRecord($model) {
-        return $model;
+        return $this->processDataTableRecord($model);
     }
 
     protected function getEditSubtitle($model) {

@@ -10,7 +10,7 @@ class ResourceController extends Controller
 {
     public function show(Request $request) {
         $resource = app('resources.'.$request->resource);
-        return $resource->getShowRecord($resource->findOrFail($request->resourceId));
+        return ['data' => $resource->getShowRecord($resource->findOrFail($request->resourceId))];
     }
 
     public function store(Request $request) {

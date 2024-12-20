@@ -16,7 +16,7 @@ class Repeater extends Field
         $this->fields = $fields;
 
         $this->withMeta([
-            'label' => 'Number of book copies',
+            // 'label' => 'Number of book copies',
             'fields' => [
                 [
                     'name' => 'component-container',

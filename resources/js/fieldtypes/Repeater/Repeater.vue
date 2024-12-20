@@ -61,7 +61,7 @@
         pFields: this.fields.map(
           el => ({
             ...el,
-            defaultValue: cloneDeep(el.value)
+            // defaultValue: cloneDeep(el.value)
           })
         ),
         entered: -1
@@ -80,7 +80,7 @@
         const newField = cloneDeep(field)
         newField.value = newField.defaultValue
         newField.active = false
-        newFields.splice(index, 0, newField)
+        newFields.splice(index + 1, 0, newField)
         this.setFields(newFields)
       },
       remove (index) {
