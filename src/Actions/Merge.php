@@ -52,6 +52,9 @@ class Merge extends Action
     }
 
     public function fields() {
+        if (request()->from == 'ajax-modal') {
+            return $this->recordFields();
+        }
         return [
             Fusion::make('Main Record', 'main_record')->setComponent('merge'),
         ];

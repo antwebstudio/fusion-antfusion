@@ -63,6 +63,11 @@ class Field {
         return $this;
     }
 
+    public function debug($debug = true)
+    {
+        return $this->withMeta(['debug' => $debug]);
+    }
+
     public function exceptOnForms() {
         foreach ($this->formViews as $scenario) {
             $this->exceptShowIn($scenario);
@@ -98,6 +103,7 @@ class Field {
             'default' => $this->defaultValue,
             'dependsOn' => $this->getDependsOnArray(),
             'path' => $this->getPath(),
+            'hide' => !$this->isVisible(),
         ]);
     }
 

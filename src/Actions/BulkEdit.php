@@ -82,6 +82,9 @@ class BulkEdit extends Action
 
     public function fields()
     {
+        if (request()->from == 'ajax-modal') {
+            return $this->recordFields();
+        }
         return [
             Fusion::make('Batch Edit', 'batch_edit')->setComponent('bulk-edit'),
         ];

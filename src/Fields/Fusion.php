@@ -172,6 +172,7 @@ class Fusion extends Field
             ],
             'dependsOn' => $this->getDependsOnArray(),
             'path' => $this->getPath(),
+            'hide' => !$this->isVisible(),
         ]);
     }
 }

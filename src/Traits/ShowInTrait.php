@@ -60,10 +60,12 @@ trait ShowInTrait {
     }
 
     public function show($show = true) {
+        // $this->showByDefault = true;
         return $this->hide(!$show);
     }
 
     public function hide($hide = true) {
+        // $this->showByDefault = false;
         return $this->visible(!$hide);
     }
 

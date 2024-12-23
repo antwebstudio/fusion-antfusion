@@ -13,9 +13,9 @@
 
     </div>
     <div v-else >
-        {{ value }}
         <ui-button @click="reset" v-if="!repeater_fields || repeater_fields.length == 0">Add</ui-button>
         <vue-repeater v-model="repeater_fields" :fields="repeater_fields"></vue-repeater>
+        <pre v-if="">{{ value }}</pre>
     </div>
 </template>
 
@@ -52,12 +52,34 @@ export default {
         },
         fields: {
             
-        }
+        },
+        debug: {
+            default: false,
+        },
     },
     watch: {
+        value: {
+            deep: true,
+            handler(values) {
+                console.log('value changes')
+                if (this.repeater_fields.length == values.length) {
+                    this.repeater_fields.forEach((row, index) => {
+                        let value = values[index];
+
+                        if (row.value != value) {
+                            row.value = value
+                        }
+                    })
+                } else {
+                    // this.repeater_fields = null;
+                    this.loadValuesToRepeater(values);
+                }
+            }
+        },
         repeater_fields: {
             deep: true,
             handler(value) {
+                console.log('fields changes')
                 // if (this.initialized) {
                     let values = value.map((row) => {
                         return row.value;
@@ -69,21 +91,14 @@ export default {
         model: {
             deep: true,
             handler(value) {
+                
+                console.log('model changes')
                 this.$emit('input', value)
             }
         }
     },
     created() {
-        let fields = this.fields.map((row, index) => {
-            let returnValue = {
-                ...row,
-                value: this.value[index],
-            };
-
-            return returnValue;
-        })
-
-        this.repeater_fields = fields;
+        this.loadValuesToRepeater(this.value);
 
         this.$nextTick(() => {
             // this.initialized = true;
@@ -104,6 +119,18 @@ export default {
         }
     },
     methods: {
+        loadValuesToRepeater(values) {
+            let fields = this.fields.map((row, index) => {
+                let returnValue = {
+                    ...row,
+                    value: values[index] ? values[index] : {},
+                };
+
+                return returnValue;
+            })
+
+            this.repeater_fields = fields;
+        },
         reset() {
             this.repeater_fields = {...this.fields}
         },

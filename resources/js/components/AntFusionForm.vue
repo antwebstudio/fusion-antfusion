@@ -72,6 +72,9 @@ export default {
         fields: {
 
         },
+        record: {
+
+        },
         values: {
             default() {
                 return {}
@@ -115,7 +118,7 @@ export default {
             this.form.errors.record( { errors: this.errors } )
 
             // Register after the form is initialized
-            this.registerComponentsDependency(this.children, this.form)
+            this.registerComponentsDependency(this.children, this.form, this.record)
         },
         submitted() {
             this.$emit('submitted', this.form)
