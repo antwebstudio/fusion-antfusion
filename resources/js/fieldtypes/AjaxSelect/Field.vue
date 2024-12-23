@@ -78,6 +78,7 @@ export default {
     },
     watch: {
         value(value) {
+            this.selected = null
             this.loadSavedData(value)
         },
         selected() {
@@ -128,11 +129,15 @@ export default {
                     this.options = [response.data.data] // changed from response.data to response.data.data
                     this.selected = response.data.data; // changed from response.data to response.data.data
                     // console.log('loaded options', this.options)
+                }).catch((error) => {
+                    // this.selected = null
                 })
             } else if (this.field.settings.multiple) {
                 savedValue.forEach((value) => {
                     this.options.push(value)
                 })
+            } else {
+                this.selected = null
             }
         },
         addTag(newTag) {

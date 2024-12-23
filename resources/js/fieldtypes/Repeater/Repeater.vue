@@ -4,7 +4,7 @@
       class="repeater"
       ref="repeater">
       <repeater-drop-zone
-        v-for="(field, index) in pFields"
+        v-for="(field, index) in fields"
         v-on:drop="move($event.dataTransfer.getData('index'), index)"
         v-on:dragEnter="entered = index"
         :class="{

@@ -5,7 +5,7 @@
 
         <portal to="modals">
             <ui-modal :name="modalName" :title="modalTitle" :key="modalName" @input="modalChanged">
-                <span v-if="initializedForm">
+                <span v-if="initializedForm && !newVersion">
                     <component v-model="initializedForm[field.handle]" v-for="field, index in fields" :key="field.handle" :is="field.component" v-bind="field"
                         :parent="componentData"
                         :record="record"
@@ -14,6 +14,7 @@
                         :errors="initializedForm.errors"
                     />
                 </span>
+                <antfusion-form v-else :children="fields" :record="record" :fields="fields" :syncDependantFieldUrl="syncDependantFieldUrl" :values="fill_form" :debug="debug" />
 
                 <template v-slot:footer="entry">
                     <ui-button v-modal:[modalName]>Cancel</ui-button>
@@ -118,6 +119,18 @@ export default {
         path: { // Path to get the action object at backend
 
         },
+        ajax: {
+            default: false,
+        },
+        newVersion: {
+            default: false,
+        },
+        syncDependantFieldUrl: {
+
+        },
+        debug: {
+            default: false,
+        },
     },
     data() {
         return {
@@ -155,31 +168,35 @@ export default {
         }
     },
     mounted() {
-        this.initForm()
+        if (this.ajax) {
+            this.loadAjaxForm()
+        } else {
+            this.initForm(this.fields, this.record)
+        }
     },
     methods: {
-        initForm() {
-            let fields = {}
+        initForm(fields, record) {
+            let data = {}
             this.fields.forEach((field) => {
                 if (this.load_record[field.handle]) {
-                    fields[field.handle] = _.get(this.record, this.load_record[field.handle])
+                    data[field.handle] = _.get(this.record, this.load_record[field.handle])
                 } else {
-                    fields[field.handle] = null
+                    data[field.handle] = null
                 }
 
                 if (this.load_all) {
-                    fields[field.handle] = _.get(this.record, field.handle)
+                    data[field.handle] = _.get(this.record, field.handle)
                 }
 
                 if (this.fill_form && this.fill_form[field.handle]) {
-                    fields[field.handle] = _.get(this.fill_form, field.handle)
+                    data[field.handle] = _.get(this.fill_form, field.handle)
                 }
             })
 
             if (this.form) {
                 this.initializedForm = this.form
             } else {
-                this.initializedForm = new Form(fields)
+                this.initializedForm = new Form(data)
             }
         },
         performAction() {
@@ -264,12 +281,24 @@ export default {
         },
         modalChanged(isActive) {
             if (isActive && this.resetWhenClose) {
-                this.initForm()
+                this.initForm(this.fields, this.record)
             }
         },
         toggle() { // Needed so that ui-dropdown-link can work normally
             this.$parent.toggle()
         },
+        loadAjaxForm() {
+            this.loading = true;
+            axios.post(this.url, { from: 'ajax-modal', records: [this.record.id] }).then((response) => {
+                this.loading = false
+
+                this.initForm(response.data.fields, records.length ? records[0] : null)
+                // this.records = response.data.records
+
+            }).catch((error) => {
+                this.loading = false;
+            })
+        }
     }
 }
 </script>

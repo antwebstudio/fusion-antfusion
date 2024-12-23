@@ -70,7 +70,21 @@ class Action
             // throw ValidationException::withMessages(['*' => 'No records is selected. ']);
         }
 
-        if ($request->child_action && $request->path == $this->getPath()) {
+        if ($request->from == 'ajax-modal') {
+            $records = [];
+            foreach ($models as $model) {
+                $record = [];
+                foreach ($this->fields() as $field) {
+                    $record[$field->getHandle()] = $field->getState($model, $field->getHandle());
+                }
+                $records[] = $record;
+            }
+
+            return [
+                'fields' => $this->convertFieldsToArray($this->fields()),
+                'records' => $records,
+            ];
+        } else if ($request->child_action && $request->path == $this->getPath()) {
             $action = $this->getComponentBySlugFrom(Str::after($request->child_action, $request->path.'.'), $this->getFooterActions(), 'a');
             return $action->performAction($request);
         } else {
@@ -94,6 +108,16 @@ class Action
     public function onlyBulkAction()
     {
         return $this->exceptShowIn('inline');
+    }
+
+    public function debug()
+    {
+        return $this->withMeta(['debug' => true]);
+    }
+
+    public function newVersion()
+    {
+        return $this->withMeta(['newVersion' => true]);
     }
 
     public function onlyInline() {
