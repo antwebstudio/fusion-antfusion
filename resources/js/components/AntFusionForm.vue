@@ -101,7 +101,13 @@ export default {
     watch: {
         values(value) {
             this.initForm()
-        }
+        },
+        form: {
+            deep: true,
+            handler(value) {
+                this.$emit('input', this.form);
+            },
+        },
     },
     methods: {
         initForm() {

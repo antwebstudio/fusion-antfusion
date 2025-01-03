@@ -1,5 +1,7 @@
 <template>
-    <ui-select-group
+    <Dropdown v-if="newVersion" v-model="model" :options="options" optionLabel="label" optionValue="value" :filterable="filterable" />
+
+    <ui-select-group v-else
         v-model="model"
         :label="label"
         :filterable="filterable"
@@ -13,10 +15,18 @@
 </template>
 
 <script>
+import Dropdown from 'primevue/dropdown';
+
 export default {
+    components: {
+        Dropdown,
+    },
     props: {
         label: {
 
+        },
+        newVersion: {
+            default: false,
         },
         value: {
             required: false,

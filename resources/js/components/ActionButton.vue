@@ -14,7 +14,7 @@
                         :errors="initializedForm.errors"
                     />
                 </span>
-                <antfusion-form v-else :children="fields" :record="record" :fields="fields" :syncDependantFieldUrl="syncDependantFieldUrl" :values="fill_form" :debug="debug" />
+                <antfusion-form v-else :children="fields" :record="record" :fields="fields" :syncDependantFieldUrl="syncDependantFieldUrl" v-model="initializedForm" :values="fill_form" :debug="debug" />
 
                 <template v-slot:footer="entry">
                     <ui-button v-modal:[modalName]>Cancel</ui-button>
