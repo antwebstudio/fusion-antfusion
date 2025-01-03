@@ -45,9 +45,13 @@
       'repeater-block': RepeaterBlock,
       'repeater-drop-zone': RepeaterDropZone
     },
+    model: {
+      prop: 'fields',
+      event: 'change'
+    },
     props: ['fields'],
     mounted () {
-      document.body.addEventListener('click', this.clickOutside)
+      // document.body.addEventListener('click', this.clickOutside)
     },
     beforeDestroy () {
       document.body.removeEventListener('click', this.clickOutside)

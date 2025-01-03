@@ -15,7 +15,7 @@
     <div v-else >
         <ui-button @click="reset" v-if="!repeater_fields || repeater_fields.length == 0">Add</ui-button>
         <vue-repeater v-model="repeater_fields" :fields="repeater_fields"></vue-repeater>
-        <pre v-if="">{{ value }}</pre>
+        <pre v-if="debug">{{ value }}</pre>
     </div>
 </template>
 
@@ -120,14 +120,24 @@ export default {
     },
     methods: {
         loadValuesToRepeater(values) {
-            let fields = this.fields.map((row, index) => {
-                let returnValue = {
-                    ...row,
-                    value: values[index] ? values[index] : {},
-                };
+            let fields = null;
+            if (values.length > this.fields.length) {
+                fields = values.map((value, index) => {
+                    return {
+                        ...this.fields[0],
+                        value: value ? value : {},
+                    }
+                })
+            } else {
+                fields = this.fields.map((row, index) => {
+                    let returnValue = {
+                        ...row,
+                        value: values[index] ? values[index] : {},
+                    };
 
-                return returnValue;
-            })
+                    return returnValue;
+                })
+            }
 
             this.repeater_fields = fields;
         },
