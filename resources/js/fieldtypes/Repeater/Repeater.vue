@@ -50,6 +50,14 @@
       event: 'change'
     },
     props: ['fields'],
+    watch: {
+      fields: {
+        deep: true,
+        handler(value) {
+          this.pFields = value;
+        }
+      }
+    },
     mounted () {
       // document.body.addEventListener('click', this.clickOutside)
     },
@@ -78,7 +86,7 @@
       add (index, field) {
         const newFields = cloneDeep(this.pFields)
         const newField = cloneDeep(field)
-        newField.value = newField.defaultValue
+        newField.value = newField.defaultValue ? newField.defaultValue : {}
         newField.active = false
         newFields.splice(index + 1, 0, newField)
         this.setFields(newFields)
