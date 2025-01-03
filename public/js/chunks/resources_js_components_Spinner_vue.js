@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@-webkit-keyframes spin{\nto { transform:rotate(1turn)\n}\n}\n.animate-spin {\r\n    -webkit-animation:spin 1s linear infinite;\r\n    animation:spin 1s linear infinite\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@-webkit-keyframes spin{\nto { transform:rotate(1turn)\n}\n}\n.animate-spin {\n    -webkit-animation:spin 1s linear infinite;\n    animation:spin 1s linear infinite\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

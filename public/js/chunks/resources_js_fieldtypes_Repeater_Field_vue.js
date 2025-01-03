@@ -242,6 +242,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     event: 'change'
   },
   props: ['fields'],
+  watch: {
+    fields: {
+      deep: true,
+      handler: function handler(value) {
+        this.pFields = value;
+      }
+    }
+  },
   mounted: function mounted() {// document.body.addEventListener('click', this.clickOutside)
   },
   beforeDestroy: function beforeDestroy() {
@@ -266,7 +274,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     add: function add(index, field) {
       var newFields = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.cloneDeep)(this.pFields);
       var newField = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.cloneDeep)(field);
-      newField.value = newField.defaultValue;
+      console.log('default value', newField.defaultValue);
+      newField.value = newField.defaultValue ? newField.defaultValue : {};
       newField.active = false;
       newFields.splice(index + 1, 0, newField);
       this.setFields(newFields);
