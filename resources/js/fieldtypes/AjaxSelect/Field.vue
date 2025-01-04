@@ -78,14 +78,16 @@ export default {
     },
     watch: {
         value(value) {
-            this.selected = null
-            this.loadSavedData(value)
+            if (value.substr(0, 4) != 'new_' && value.length > 0) {
+                this.selected = null
+                this.loadSavedData(value)
+            }
         },
         selected() {
-            if (this.field.settings.multiple || this.field.settings.allow_auto_new || this.field.settings.object_as_value) {
+            if (this.field.settings.multiple || this.field.settings.object_as_value) {
                 this.$emit('input', this.selected)
             } else {
-                this.$emit('input', this.selected.id)
+                this.$emit('input', this.selected ? this.selected.id : null)
             }
             if (this.field.settings.clear_selected_on_select) {
                 this.selected = null
