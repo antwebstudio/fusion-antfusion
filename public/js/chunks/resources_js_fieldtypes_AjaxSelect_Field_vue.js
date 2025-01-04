@@ -94,14 +94,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   watch: {
     value: function value(_value) {
-      this.selected = null;
-      this.loadSavedData(_value);
+      if (_value.substr(0, 4) != 'new_' && _value.length > 0) {
+        this.selected = null;
+        this.loadSavedData(_value);
+      }
     },
     selected: function selected() {
-      if (this.field.settings.multiple || this.field.settings.allow_auto_new || this.field.settings.object_as_value) {
+      if (this.field.settings.multiple || this.field.settings.object_as_value) {
         this.$emit('input', this.selected);
       } else {
-        this.$emit('input', this.selected.id);
+        this.$emit('input', this.selected ? this.selected.id : null);
       }
 
       if (this.field.settings.clear_selected_on_select) {

@@ -274,7 +274,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     add: function add(index, field) {
       var newFields = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.cloneDeep)(this.pFields);
       var newField = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.cloneDeep)(field);
-      console.log('default value', newField.defaultValue);
       newField.value = newField.defaultValue ? newField.defaultValue : {};
       newField.active = false;
       newFields.splice(index + 1, 0, newField);
