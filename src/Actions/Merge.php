@@ -17,6 +17,8 @@ class Merge extends Action
 
     protected $model;
 
+    protected $forceMerge = false;
+
     public function __construct()
     {
         // $this->confirmText('Are you sure you want to merge these?');
@@ -24,6 +26,12 @@ class Merge extends Action
         // $this->confirmButtonText('Merge');
         $this->onlyBulkAction();
         $this->withMeta(['ajax_modal' => true]);
+    }
+
+    public function force($boolean = true)
+    {
+        $this->forceMerge = $boolean;
+        return $this;
     }
 
     public function model($model = null)
@@ -82,7 +90,7 @@ class Merge extends Action
         // ray($mainRecord->id, $mergeRecords);
         
         activity()->withoutLogs(function () use($mainRecord, $mergeRecords) {
-            $mainRecord->mergeRecords($mergeRecords);
+            $mainRecord->mergeRecords($mergeRecords, $this->forceMerge);
         });
         return [
             'message' => $this->successMessage,
