@@ -54,6 +54,10 @@ class Action
     public function __construct($name = null)
     {
         $this->name = $name;
+        
+        $this->withMeta('syncDependantFieldUrl', function() {
+            return route('antfusion.resource.sync_fields', ['resource' => $this->parent->getSlug()]);
+        });
     }
 
     public function performAction($request)

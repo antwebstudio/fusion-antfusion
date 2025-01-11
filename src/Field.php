@@ -96,9 +96,9 @@ class Field {
             'component' => $this->component,
             'id' => $this->id ?? $this->handle,
             'name' => __($this->label),
-            'handle' => $this->handle,
+            'handle' => $this->getHandle(),
             'field' => [
-                'handle' => $this->handle,
+                'handle' => $this->getHandle(),
             ],
             'default' => $this->defaultValue,
             'dependsOn' => $this->getDependsOnArray(),
