@@ -9,6 +9,11 @@ trait HasRules
 {
     protected $rules = [];
 
+    public function required()
+    {
+        return $this->rule('required');
+    }
+
     public function getRules($scenario = null, $record = null) {
         $rules = $this->evaluate($this->rules, ['record' => $record]);
         $rules = collect($rules)->reduce(function($rules, $rule) use($record) {

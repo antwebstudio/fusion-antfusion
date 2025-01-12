@@ -40,8 +40,16 @@ class Select extends Field
         ]);
     }
 
-    public function options($options) 
+    public function options($options, $keyValuePair = true) 
     {
+        if ($keyValuePair) {
+            $options = collect($options)->map(function($label, $value) {
+                return [
+                    'value' => $value,
+                    'label' => (string) $label,
+                ];
+            })->values()->toArray();
+        }
         return $this->withMeta(['options' => $options]);
     }
 

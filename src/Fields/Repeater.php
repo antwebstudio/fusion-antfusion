@@ -28,6 +28,14 @@ class Repeater extends Field
         ]);  
     }
 
+    public function getRules($scenario = null, $record = null, &$rules = null)
+    {
+        foreach ($this->fields as $field) {
+            $rules = array_merge($rules, [$this->getHandle().'.*.'.$field->getHandle() => $field->getRules($scenario, $record)]);
+        }
+        return $rules;
+    }
+
     public function selectNumber($selectNumber = true)
     {
         return $this->withMeta([

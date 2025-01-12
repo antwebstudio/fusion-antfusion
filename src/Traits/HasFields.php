@@ -80,7 +80,7 @@ trait HasFields
         $rules = [];
         foreach ($this->resolveFields(true, $scenario) as $field) {
             if ($this->shouldShowField($field, $scenario)) {
-                $rules[$field->handle] = $field->setScenario($scenario)->getRules($scenario, $record);
+                $rules[$field->handle] = $field->setScenario($scenario)->getRules($scenario, $record, $rules);
             }
         }
         return $rules;
