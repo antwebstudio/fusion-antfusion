@@ -4,6 +4,7 @@ import Fragment from 'vue-fragment'
 import './fieldtypes-views'
 import PrimeVue from 'primevue/config';
 import MultiSelect from 'primevue/multiselect';
+import Checkbox from 'primevue/checkbox';
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
@@ -45,6 +46,7 @@ window.Fusion.booting(function (Vue, router, store) {
     Vue.use(Fragment.Plugin)
     Vue.component('MultiSelect', MultiSelect);
     Vue.component('Treeselect', Treeselect);
+    Vue.component('Checkbox', Checkbox);
 
     Vue.component('date-range-picker', DateRangePicker)
     Vue.component('antfusion-form', () => import('./components/AntFusionForm'))

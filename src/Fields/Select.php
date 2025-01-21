@@ -44,6 +44,13 @@ class Select extends Field
     {
         if ($keyValuePair) {
             $options = collect($options)->map(function($label, $value) {
+				// Old options format
+                if (is_array($label) && isset($label['label']) && isset($label['value'])) {
+                    deprecate(); // 2025-1-21: old options format deprecated
+                    return $label;
+                }
+
+				// New options format
                 return [
                     'value' => $value,
                     'label' => (string) $label,

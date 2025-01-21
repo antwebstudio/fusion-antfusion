@@ -112,7 +112,7 @@ export default {
     methods: {
         initForm() {
             console.log('init form', this.values)
-            let form = {}
+            let form = this.values
             _.each(this.fields, (field) => {
                 form[field.handle] = this.values[field.handle] || field.default
                 //console.log('register field', field.handle)
