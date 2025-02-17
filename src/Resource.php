@@ -187,6 +187,7 @@ abstract class Resource {
             [
                 'is' => config('antfusion.datatable.component', 'resource-datatable'),
                 'show_order' => false,
+                'saveState' => true,
                 'id' => 'data-table-'.$this->getSlug(),
                 'endpoint' => $this->getDataTableEndpoint(),
                 'endpoint_params' => $this->getDataTableEndpointParams(),

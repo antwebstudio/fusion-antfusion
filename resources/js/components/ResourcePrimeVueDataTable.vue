@@ -102,6 +102,10 @@ export default {
             type: String,
             default: 'id'
         },
+        saveState: {
+            type: Boolean,
+            default: false,
+        },
         saveSortBy: {
             type: Boolean,
             default: true,
