@@ -246,8 +246,11 @@ export default {
             this.selectedRecords = event.selection
             // this.pagination.currentPage = event.page + 1;
             this.pagination.perPage = event.rows;
-            this.sort.key = event.sortField;
-            this.sort.order = event.sortOrder > 0 ? 'asc' : 'desc';
+            if (event.sortField) {
+                console.error(event.sortField);
+                this.sort.key = event.sortField;
+                this.sort.order = event.sortOrder > 0 ? 'asc' : 'desc';
+            }
         },
         onPage(event) {
             console.log(event)
