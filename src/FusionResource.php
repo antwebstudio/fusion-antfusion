@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 abstract class FusionResource extends Resource {
     protected $matrix;
+    
+    protected $taxonomy;
 
     protected $excludeSections = ['system', 'meta'];
 
@@ -32,7 +34,7 @@ abstract class FusionResource extends Resource {
     }
 
     protected function persistRelationships($model, $data) {
-        foreach ($this->getMatrix()->blueprint->relationships() as $field) {
+        foreach ($this->getBlueprint()->relationships() as $field) {
             if (isset($data[$field->handle])) {
                 $field->type()->persistRelationship($model, $field, $data[$field->handle]);
             }
@@ -50,11 +52,24 @@ abstract class FusionResource extends Resource {
         return $data;
     }
 
+    protected function getBlueprint()
+    {
+        $matrix = $this->getMatrix();
+        if (isset($matrix)) {
+            return $matrix->blueprint;
+        }
+        $taxonomy = $this->getTaxonomy();
+        if (isset($taxonomy)) {
+            return $taxonomy->blueprint;
+        }
+    }
+
     protected function getMatrix()
     {
         if (!isset($this->matrix)) {
+            $model = get_class($this->model());
             foreach (\Fusion\Models\Matrix::get() as $matrix) {
-                if ($this->model == $matrix->getBuilderModelNamespace() || is_subclass_of($this->model, $matrix->getBuilderModelNamespace())) {
+                if ($model == $matrix->getBuilderModelNamespace() || is_subclass_of($model, $matrix->getBuilderModelNamespace())) {
                     $this->matrix = $matrix;
                     return $this->matrix;
                 }
@@ -63,10 +78,27 @@ abstract class FusionResource extends Resource {
         return $this->matrix;
     }
 
+    protected function getTaxonomy()
+    {
+        if (!isset($this->taxonomy)) {
+            $model = get_class($this->model());
+            foreach (\Fusion\Models\Taxonomy::get() as $taxonomy) {
+                if ($model == $taxonomy->getBuilderModelNamespace() || is_subclass_of($model, $taxonomy->getBuilderModelNamespace())) {
+                    $this->taxonomy = $taxonomy;
+                    return $this->taxonomy;
+                }
+            }
+        }
+        return $this->taxonomy;
+    }
+
     protected function fieldsDefaultValues() {
         $matrix = $this->getMatrix();
+        $taxonomy = $this->getTaxonomy();
         if (isset($matrix)) {
             $handle = $matrix->handle;
+        } else if (isset($taxonomy)) {
+            $handle = $taxonomy->handle;
         }
         $handle = $handle ?? $this->getHandle();
         return [
@@ -97,8 +129,7 @@ abstract class FusionResource extends Resource {
     protected function getTabFromSections($excludeSections = [])
     {
         return \Addons\AntFusion\Components\Tabs::make()->addDynamicTabs(function($tab) use($excludeSections) {
-            $matrix = $this->getMatrix();
-            foreach ($matrix->blueprint->sections as $section) {
+            foreach ($this->getBlueprint()->sections as $section) {
                 if (!in_array($section->handle, $excludeSections)) {
                     $fields = [];
                     foreach ($section->fields as $field) {

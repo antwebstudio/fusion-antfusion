@@ -47,7 +47,7 @@ trait ShowInTrait {
     public function isVisible()
     {
         // if ($this->visible) {
-            return $this->evaluate($this->visible, ['record' => null, 'filter' => request()->filter, 'scenario' => $this->scenario]);
+            return $this->evaluate($this->visible, ['record' => null, 'filter' => request()->filter, 'scenario' => $this->scenario, 'request' => request()]);
         // } else {
         //     return !$this->hide;
         // }
