@@ -114,7 +114,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       console.log('init form', this.values);
-      var form = {};
+      var form = this.values;
 
       _.each(this.fields, function (field) {
         form[field.handle] = _this.values[field.handle] || field["default"]; //console.log('register field', field.handle)

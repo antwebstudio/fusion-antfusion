@@ -98,6 +98,11 @@ class Fusion extends Field
         return $this->componentProps ?? [];
     }
 
+    public function whenFilterActived($filter, $value) {
+        $filterHandle = app($filter)->getHandle();
+        return $this->mergeComponentProps(['show_in_filters' => ['name' => $filterHandle, 'value' => $value]]);
+    }
+
     public function mergeSettings($settings) {
         if (is_object($settings)) $settings = $settings->toArray();
         $this->settings = array_merge($this->settings, $settings);
@@ -160,7 +165,7 @@ class Fusion extends Field
     }
 
     public function toArrayWithoutDependant() {
-        return array_merge($this->meta, [
+        return array_merge($this->getMeta(), [
             'component' => $this->component,
             'id' => $this->id ?? $this->handle,
             'handle' => $this->handle,

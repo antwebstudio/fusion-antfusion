@@ -110,6 +110,10 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": 'id'
     },
+    saveState: {
+      type: Boolean,
+      "default": false
+    },
     saveSortBy: {
       type: Boolean,
       "default": true

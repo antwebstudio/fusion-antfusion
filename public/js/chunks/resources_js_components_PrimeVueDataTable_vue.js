@@ -2155,6 +2155,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
  //optional for column grouping
@@ -2328,8 +2329,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.selectedRecords = event.selection; // this.pagination.currentPage = event.page + 1;
 
       this.pagination.perPage = event.rows;
-      this.sort.key = event.sortField;
-      this.sort.order = event.sortOrder > 0 ? 'asc' : 'desc';
+
+      if (event.sortField) {
+        console.error(event.sortField);
+        this.sort.key = event.sortField;
+        this.sort.order = event.sortOrder > 0 ? 'asc' : 'desc';
+      }
     },
     onPage: function onPage(event) {
       console.log(event);
@@ -16963,6 +16968,23 @@ var render = function () {
                                       _vm.column_types[column.field],
                                       _vm._b(
                                         {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value:
+                                                !_vm.column_props[column.field]
+                                                  .show_in_filters ||
+                                                _vm.filters[
+                                                  _vm.column_props[column.field]
+                                                    .show_in_filters.name
+                                                ] ==
+                                                  _vm.column_props[column.field]
+                                                    .show_in_filters.value,
+                                              expression:
+                                                "!column_props[column.field].show_in_filters || filters[column_props[column.field].show_in_filters.name] == column_props[column.field].show_in_filters.value",
+                                            },
+                                          ],
                                           tag: "component",
                                           attrs: {
                                             value: slotProps.data[column.field],

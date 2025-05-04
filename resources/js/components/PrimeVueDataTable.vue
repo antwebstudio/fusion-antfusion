@@ -46,6 +46,7 @@
                 <template #body="slotProps">
                     <component
                         v-if="column_types[column.field] && isComponentExist(column_types[column.field])" 
+                        v-show="!column_props[column.field].show_in_filters || filters[column_props[column.field].show_in_filters.name] == column_props[column.field].show_in_filters.value"
                         :is="column_types[column.field]"
                         v-bind="column_props[column.field]"
                         :value="slotProps.data[column.field]"

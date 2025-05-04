@@ -320,6 +320,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'ui-flatpickr',
@@ -2416,6 +2417,7 @@ var render = function () {
     "div",
     { ref: "flatpickr", staticClass: "input-group" },
     [
+      _vm._v("\n    " + _vm._s(_vm.value) + "\n    "),
       _c("ui-input", {
         staticClass: "field-input field",
         attrs: {
