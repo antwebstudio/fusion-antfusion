@@ -16,6 +16,7 @@ Example usage:
  */
 class Tabs extends Component implements PanelContract {
     use \Addons\AntFusion\Traits\HasFields;
+    use \Addons\AntFusion\Traits\HasScenario;
 
     protected $tabs = [];
 
@@ -34,7 +35,7 @@ class Tabs extends Component implements PanelContract {
         foreach ($this->tabs as $name => $tab) {
             $grandchildren = [];
             foreach ($tab as $component) {
-                $grandchildren[] = $component->toArray();
+                $grandchildren[] = $component->setScenario($this->scenario)->toArray();
             }
             $children[] = [
                 'component' => $this->tabComponent,
@@ -50,7 +51,7 @@ class Tabs extends Component implements PanelContract {
             'component' => 'nested-component',
             'as' => $this->component,
             'children' => $children,
-            'fields' => $this->flatternFieldsArray(),
+            'fields' => $this->flatternFieldsArray($this->scenario),
         ]);
     }
 

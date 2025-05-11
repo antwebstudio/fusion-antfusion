@@ -103,6 +103,9 @@ trait HasFields
     }
 
     protected function shouldShowField($field, $scenario) {
+        if (is_object($field)) {
+            $field->setScenario($scenario);
+        }
         return (is_object($field) && !$field->isHidden()) && (is_object($field) && (!isset($scenario) || $field->shouldShowIn($scenario)));
     }
 

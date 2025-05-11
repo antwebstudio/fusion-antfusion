@@ -8,6 +8,7 @@ use Addons\AntFusion\Contracts\Panel as PanelInterface;
 
 class Panel extends Component implements PanelInterface {
     use \Addons\AntFusion\Traits\HasFields;
+    use \Addons\AntFusion\Traits\HasScenario;
 
     protected $label = '';
 
@@ -36,7 +37,7 @@ class Panel extends Component implements PanelInterface {
         // foreach ($this->fields as $name => $tab) {
             $grandchildren = [];
             foreach ($this->fields as $index => $component) {
-                $grandchildren[] = $component->setParent($this, $index, 'f')->toArray();
+                $grandchildren[] = $component->setScenario($this->scenario)->setParent($this, $index, 'f')->toArray();
             }
             $children[] = [
                 'component' => $this->childComponent,
@@ -53,7 +54,7 @@ class Panel extends Component implements PanelInterface {
             'component' => 'nested-component',
             'as' => $this->component,
             'children' => $children,
-            'fields' => $this->flatternFieldsArray(),
+            'fields' => $this->flatternFieldsArray($this->scenario),
         ]);
     }
 
