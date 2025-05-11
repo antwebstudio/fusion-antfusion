@@ -1,6 +1,6 @@
 <template>
     <div v-if="selectNumber">
-        <ui-select-group :label="label" v-model="model.count" :options="selectNumberOptions()" ></ui-select-group>
+        <ui-select-group name="repeater_count" :label="label" v-model="model.count" :options="selectNumberOptions()" ></ui-select-group>
         <div v-for="i in selectedInteger" :key="i">
             <div class="card border border-solid border-slate-500 p-2">
                 <component
@@ -62,17 +62,19 @@ export default {
             deep: true,
             handler(values) {
                 console.log('value changes')
-                if (this.repeater_fields.length == values.length) {
-                    this.repeater_fields.forEach((row, index) => {
-                        let value = values[index];
+                if (!this.selectNumber) {
+                    if (this.repeater_fields.length == values.length) {
+                        this.repeater_fields.forEach((row, index) => {
+                            let value = values[index];
 
-                        if (row.value != value) {
-                            row.value = value
-                        }
-                    })
-                } else {
-                    // this.repeater_fields = null;
-                    this.loadValuesToRepeater(values);
+                            if (row.value != value) {
+                                row.value = value
+                            }
+                        })
+                    } else {
+                        // this.repeater_fields = null;
+                        this.loadValuesToRepeater(values);
+                    }
                 }
             }
         },

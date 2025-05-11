@@ -49,6 +49,10 @@ trait HasPath {
             if (isset($component)) return $component;
         }
         
+        if (isset($this->initializedActions[$slug])) {
+            return $this->initializedActions[$slug];
+        }
+        
         throw new \Exception(get_class($this).' do not have children with handle: '.$slug);
     }
 

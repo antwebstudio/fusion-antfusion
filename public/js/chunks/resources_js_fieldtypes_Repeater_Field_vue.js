@@ -41,7 +41,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
  // import VueRepeater from 'vue-repeater'
 // import '~vue-repeater/dist/lib/vue-repeater.css'
 
@@ -75,17 +74,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       handler: function handler(values) {
         console.log('value changes');
 
-        if (this.repeater_fields.length == values.length) {
-          this.repeater_fields.forEach(function (row, index) {
-            var value = values[index];
+        if (!this.selectNumber) {
+          if (this.repeater_fields.length == values.length) {
+            this.repeater_fields.forEach(function (row, index) {
+              var value = values[index];
 
-            if (row.value != value) {
-              row.value = value;
-            }
-          });
-        } else {
-          // this.repeater_fields = null;
-          this.loadValuesToRepeater(values);
+              if (row.value != value) {
+                row.value = value;
+              }
+            });
+          } else {
+            // this.repeater_fields = null;
+            this.loadValuesToRepeater(values);
+          }
         }
       }
     },
@@ -18604,7 +18605,11 @@ var render = function () {
         "div",
         [
           _c("ui-select-group", {
-            attrs: { label: _vm.label, options: _vm.selectNumberOptions() },
+            attrs: {
+              name: "repeater_count",
+              label: _vm.label,
+              options: _vm.selectNumberOptions(),
+            },
             model: {
               value: _vm.model.count,
               callback: function ($$v) {
