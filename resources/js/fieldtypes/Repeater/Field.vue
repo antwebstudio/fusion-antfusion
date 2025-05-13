@@ -36,7 +36,7 @@ export default {
 
         },
         value: {
-            default: {},
+            // default: {}, // having {} default value will cause error when selectNumber is true
         },
         label: {
 

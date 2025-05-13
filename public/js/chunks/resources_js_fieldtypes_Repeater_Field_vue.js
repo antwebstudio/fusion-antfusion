@@ -41,6 +41,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
  // import VueRepeater from 'vue-repeater'
 // import '~vue-repeater/dist/lib/vue-repeater.css'
 
@@ -50,8 +51,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   props: {
     handle: {},
-    value: {
-      "default": {}
+    value: {// default: {}, // having {} default value will cause error when selectNumber is true
     },
     label: {},
     selectNumber: {
