@@ -8,10 +8,39 @@ use Illuminate\Database\Eloquent\Builder;
 class Filter {
     use \Addons\AntFusion\Traits\HasMeta;
     use \Addons\AntFusion\Traits\Makeable;
+    use \Addons\AntFusion\Traits\EvaluatesClosures;
 
     protected $component = 'filter-tabs';
 
     protected $builtin = false;
+
+    protected $queryCallback;
+
+    protected $convertOptions = false;
+
+    protected $defaultValue;
+
+    public function selectType()
+    {
+        $this->convertOptions = true;
+        $this->component = 'Treeselect';
+        return $this->withMeta([
+            'placeholder' => 'Please Select',
+            // 'multiple' => true,
+        ]);
+    }
+
+    public function default($callback)
+    {
+        $this->defaultValue = $callback;
+        return $this;
+    }
+
+    public function query($callback)
+    {
+        $this->queryCallback = $callback;
+        return $this;
+    }
 
     public function apply($request, $query, $value) {
     }
@@ -26,6 +55,9 @@ class Filter {
 
     public function getAllowedFilter() {
         return AllowedFilter::callback($this->getHandle(), function (Builder $query, $value) {
+            if (isset($this->queryCallback)) {
+                return $this->evaluate($this->queryCallback, ['query' => $query, 'request' => request(), 'value' => $value, 'filter' => $this]);
+            }
             return $this->apply(request(), $query, $value);
         });
     }
@@ -34,6 +66,16 @@ class Filter {
         $options = collect($this->options(request()))->mapWithKeys(function($option, $key) {
             return [__($key) => $option];
         })->toArray();
+
+        if ($this->convertOptions) {
+            $options = collect($options)->map(function ($value, $label) {
+                return [
+                    'id' => $value,
+                    'label' => $label,
+                    // 'children' => [],
+                ];
+            })->values()->toArray();
+        }
         
         return array_merge($this->meta, [
             'id' => 'filter_'.unique_id(),
@@ -51,6 +93,9 @@ class Filter {
 
     public function defaultValue()
     {
+        if ($this->defaultValue) {
+            return $this->evaluate($this->defaultValue);
+        }
         return collect($this->options(request()))->first();
     }
 }
