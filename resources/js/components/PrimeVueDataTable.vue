@@ -170,6 +170,7 @@ export default {
     },
     data() {
         return {
+            currentController: null,
             hasError: false,
             loading: false,
             records: null,
@@ -296,7 +297,15 @@ export default {
             this.loading = true
             this.hasError = false
 
-            return axios.get(`${this.endpoint}?${this.getQueryParameters()}`).then((response) => {
+            if (this.currentController) {
+                this.currentController.abort();
+            }
+
+            this.currentController = new AbortController();
+
+            return axios.get(`${this.endpoint}?${this.getQueryParameters()}`, {
+                signal: this.currentController.signal
+            }).then((response) => {
                 this.records = response.data.records.data
                 this.displayable = response.data.displayable
                 this.sortable = response.data.sortable
@@ -309,6 +318,7 @@ export default {
                 this.pagination.totalPages = response.data.records.last_page
 
                 this.loading = false
+
                 // this.initialLoad = false
 
                 // if (this.refresh && ! self._timer) {
@@ -317,8 +327,11 @@ export default {
 
                 // this.$emit('loaded', this.records)
             }).catch((error) => {
-                this.hasError = true
-                this.loading = false
+                if (axios.isCancel(error) || error.name === 'CanceledError') {
+                } else {
+                    this.hasError = true
+                    this.loading = false
+                }
             })
         },
     }
