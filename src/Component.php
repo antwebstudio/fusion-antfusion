@@ -52,6 +52,7 @@ class Component {
             'component' => $component,
             'handle' => $this->getHandle(),
             'components' => $this->childrenToArray(),
+            'hide' => !$this->isVisible(),
         ]);
     }
 

@@ -12,6 +12,7 @@
     </div>
     <fragment v-else>
         <component
+            v-show="!component.hide"
             :loading="loading"
             @load="onLoading" @loaded="onLoaded"
             v-for="(component, index) in processedComponents" :key="index"
