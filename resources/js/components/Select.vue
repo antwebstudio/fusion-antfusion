@@ -4,6 +4,8 @@
     <ui-select-group v-else
         v-model="model"
         :label="label"
+        :id="id"
+        :multiple="multiple"
         :filterable="filterable"
         :options="options">
         <template v-slot:footer>
@@ -22,8 +24,14 @@ export default {
         Dropdown,
     },
     props: {
+        id: {
+
+        },
         label: {
 
+        },
+        multiple: {
+            default: false,
         },
         newVersion: {
             default: false,

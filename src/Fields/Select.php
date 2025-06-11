@@ -18,12 +18,17 @@ class Select extends Field
         return $this;
     }
 
+    public function multiple()
+    {
+        return $this->withMeta(['multiple' => true]);
+    }
+
     public function actions() {
         return $this->actions;
     }
 
     public function toArrayWithoutDependant() {
-        return array_merge($this->meta, [
+        return array_merge($this->getMeta(), [
             'actions' => $this->actionsArray(),
             'component' => $this->component,
             'id' => $this->id ?? $this->handle,
