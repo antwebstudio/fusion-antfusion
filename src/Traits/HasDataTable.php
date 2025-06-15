@@ -179,6 +179,11 @@ trait HasDataTable {
         return [];
     }
 
+    public function getDataTableWith()
+    {
+        return [];
+    }
+
     public function getDataTableRecords($records) {
         return $records;
     }
@@ -216,7 +221,7 @@ trait HasDataTable {
     }
 
     public function processDataTableRecord($record): mixed {
-        $data = is_object($record) ? $record->attributesToArray() : $record;
+        $data = is_object($record) ? $record->toArray() : $record; // Use toArray() to keep relation data
         
         foreach ($this->getFieldsForDataTable() as $field) {
             if (is_object($field)) {

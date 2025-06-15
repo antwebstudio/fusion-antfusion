@@ -37,18 +37,21 @@ class ResourceController extends DataTableController {
 
     public function getRecords(Request $request) {
         $paginate = parent::getRecords($request);
-        if ($paginate !== []) {
+        // if ($paginate !== []) {
             $resource = $this->resource();
             $paginate = $resource->getDataTableRecords($paginate);
-            $records = collect($paginate->all())->keyBy('id');
-            $return = json_decode($paginate->toJson(), true);
-            foreach ($return['data'] as $i => &$record) {
-                $record = $resource->processDataTableRecord($records[$record['id']]);
-                $record['resource'] = ['slug' => $resource->getSlug(), 'handle' => $resource->getHandle()];
-                $record['actions'] = $resource->getActionsForRecord($records[$record['id']]);
-            }
-        }
-        return $return ?? ['data' => []];
+
+            $paginate->through(function($record) use($resource) {
+                $data = $resource->processDataTableRecord($record);
+                $data['resource'] = ['slug' => $resource->getSlug(), 'handle' => $resource->getHandle()];
+                $data['actions'] = $resource->getActionsForRecord($record);
+
+                return $data;
+            });
+
+            return $paginate;
+        // }
+        // return ['data' => []];
     }
 
     public function builder() {
@@ -92,7 +95,7 @@ class ResourceController extends DataTableController {
 
     public function getRelationships()
     {
-        return [];
+        return $this->resource()->getDataTableWith();
     }
     
     protected function getAllowedFilters()
