@@ -31,7 +31,13 @@ class PageController extends Controller
 
         if ($request->path) {
             $action = $page->getComponentByPath(Str::after($request->path, '.'));
-            return $action->performAction($request);
+            
+            if ($request->action) {
+                ray($request->path, $request->action)->blue();
+                return $action->performAction($request->action, $request);
+            } else {
+                return $action->performAction($request);
+            }
         }
         return $page->performAction($request->action, $request);
     }

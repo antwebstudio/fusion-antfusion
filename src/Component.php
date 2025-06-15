@@ -63,8 +63,8 @@ class Component {
     protected function childrenToArray()
     {
         $children = [];
-        foreach ($this->components() as $component) {
-            $children[] = $component->toArray();
+        foreach ($this->components() as $index => $component) {
+            $children[] = $component->setParent($this, $index, 'c')->toArray();
         }
         return $children;
     }
