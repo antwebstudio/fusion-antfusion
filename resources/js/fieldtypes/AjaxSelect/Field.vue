@@ -70,11 +70,6 @@ export default {
                 return []
             },
         },
-        sort: {
-            default: {
-                key: 'id',
-            }
-        },
     },
     watch: {
         value(value) {
@@ -106,6 +101,9 @@ export default {
         }
     },
     computed: {
+        sort() {
+            return this.field.settings.sort ? this.field.settings.sort : 'id'
+        },
         endpoint() {
             return this.field.settings.endpoint
         }
