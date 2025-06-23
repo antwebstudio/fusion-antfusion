@@ -11,7 +11,9 @@ trait HasFilters {
     protected function filtersArray() {
         $array = [];
         foreach ($this->filters() as $filter) {
-            $array[] = $filter->toArray();
+            if ($filter->isEnabled()) {
+                $array[] = $filter->toArray();
+            }
         }
         return $array;
     }
@@ -26,7 +28,9 @@ trait HasFilters {
     {
         $array = [];
         foreach ($this->filters() as $filter) {
-            $array[$filter->getHandle()] = $filter->defaultValue();
+            if ($filter->isEnabled()) {
+                $array[$filter->getHandle()] = $filter->defaultValue();
+            }
         }
         return $array;
     }

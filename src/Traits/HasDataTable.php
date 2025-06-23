@@ -139,7 +139,9 @@ trait HasDataTable {
         $filters = [];
 
         foreach ($this->filters() as $filter) {
-            $filters[] = $filter->getAllowedFilter();
+            if ($filter->isEnabled()) {
+                $filters[] = $filter->getAllowedFilter();
+            }
         }
 
         $filters[] = AllowedFilter::callback('search', function (Builder $query, $value) {

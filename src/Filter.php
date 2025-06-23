@@ -20,6 +20,8 @@ class Filter {
 
     protected $defaultValue;
 
+    protected $enabled = true;
+
     public function selectType()
     {
         $this->convertOptions = true;
@@ -84,6 +86,17 @@ class Filter {
             'options' => $options,
             'builtin' => $this->builtin,
         ]);
+    }
+
+    public function enabled($value)
+    {
+        $this->enabled = $value;
+        return $this;
+    }
+
+    public function isEnabled()
+    {
+        return $this->evaluate($this->enabled);
     }
 
     public function options($request)
