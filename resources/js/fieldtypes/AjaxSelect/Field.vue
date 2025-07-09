@@ -73,7 +73,9 @@ export default {
     },
     watch: {
         value(value) {
-            if (value.substr(0, 4) != 'new_' && value.length > 0) {
+            if (this.field.settings.object_as_value) {
+                this.selected = value
+            } else if (value.substr(0, 4) != 'new_' && value.length > 0) {
                 this.selected = null
                 this.loadSavedData(value)
             }
@@ -109,7 +111,9 @@ export default {
         }
     },
     mounted() {
-        this.loadSavedData(this.value)
+        if (!this.field.settings.object_as_value) {
+            this.loadSavedData(this.value)
+        }
     },
     methods: {
         clearOptions() {
