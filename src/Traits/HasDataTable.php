@@ -186,6 +186,45 @@ trait HasDataTable {
         return [];
     }
 
+    protected function _getDataTableRecords($request)
+    {
+        return $this->getQueryBuilder()->paginate(
+            $request->query('perPage', 50),
+            ['*'], // fix issue where displayable columns cannot be configured properly when there is column which is not exist in the table (eg, column generated using aggregate function)
+            get_class($this),
+            $request->query('page', 1)
+        );
+    }
+
+    public static function getDataTablePaginate($resourceName = null, $mainResourceName = null)
+    {
+        if (request()->has('filterValues')) {
+            request()->merge(['filter' => request()->filterValues]);
+        }
+
+        $resourceName = $resourceName ?? (new static)->getSlug();
+        $resource = app('resources.'.$resourceName);
+        if (isset($mainResourceName)) {
+            $resource->setMainResource($mainResourceName);
+        }
+        return $resource->_getDataTablePaginate();
+    }
+
+    protected function _getDataTablePaginate()
+    {
+        $paginate = $this->_getDataTableRecords(request());
+
+        $paginate->through(function($record) {
+            $data = $this->processDataTableRecord($record);
+            $data['resource'] = ['slug' => $this->getSlug(), 'handle' => $this->getHandle()];
+            $data['actions'] = $this->getActionsForRecord($record);
+
+            return $data;
+        });
+
+        return $paginate;
+    }
+
     public function getDataTableRecords($records) {
         return $records;
     }
