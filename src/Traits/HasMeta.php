@@ -17,7 +17,7 @@ trait HasMeta {
         return $this;
     }
 
-    protected function getMeta()
+    public function getMeta()
     {
         foreach ($this->evaluableMeta as $meta => $value) {
             $this->meta[$meta] = $this->evaluate($value);

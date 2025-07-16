@@ -27,7 +27,7 @@ class Filter {
         $this->convertOptions = true;
         $this->component = 'Treeselect';
         return $this->withMeta([
-            'placeholder' => 'Please Select',
+            // 'placeholder' => 'Please Select',
             // 'multiple' => true,
         ]);
     }
