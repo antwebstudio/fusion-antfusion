@@ -75,6 +75,7 @@ class AddonServiceProvider extends ServiceProvider
         \Fusion::asset(url('antfusion-admin-routes.js'));
 
         fieldtypes()->register(\Addons\AntFusion\Fieldtypes\AjaxSelect::class);
+        fieldtypes()->register(\Addons\AntFusion\Fieldtypes\SoftDeleted::class);
     }
 
     protected function resourcesIn($path) {
