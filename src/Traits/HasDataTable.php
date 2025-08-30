@@ -210,17 +210,19 @@ trait HasDataTable {
         return $resource->_getDataTablePaginate();
     }
 
-    protected function _getDataTablePaginate()
+    protected function _getDataTablePaginate($processItem = false)
     {
         $paginate = $this->_getDataTableRecords(request());
 
-        $paginate->through(function($record) {
-            $data = $this->processDataTableRecord($record);
-            $data['resource'] = ['slug' => $this->getSlug(), 'handle' => $this->getHandle()];
-            $data['actions'] = $this->getActionsForRecord($record);
+        if ($processItem) {
+            $paginate->through(function($record) {
+                $data = $this->processDataTableRecord($record);
+                $data['resource'] = ['slug' => $this->getSlug(), 'handle' => $this->getHandle()];
+                $data['actions'] = $this->getActionsForRecord($record);
 
-            return $data;
-        });
+                return $data;
+            });
+        }
 
         return $paginate;
     }
