@@ -196,10 +196,16 @@ trait HasDataTable {
         );
     }
 
-    public static function getDataTablePaginate($resourceName = null, $mainResourceName = null)
+    public static function getDataTablePaginate($resourceName = null, $mainResourceName = null, $filters = [])
     {
         if (request()->has('filterValues')) {
-            request()->merge(['filter' => request()->filterValues]);
+            $filterValues = request()->filterValues;
+            foreach ($filters as $filter) {
+                if (!isset($filterValues[$filter->getHandle()])) {
+                    $filterValues[$filter->getHandle()] = $filter->getDefaultValue();
+                }
+            }
+            request()->merge(['filter' => $filterValues]);
         }
 
         $resourceName = $resourceName ?? (new static)->getSlug();
