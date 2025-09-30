@@ -14,6 +14,7 @@ class ExportExcel extends \Addons\AntFusion\Action
     protected $exporter;
     protected $filename;
     protected $download = false;
+    protected $successMessage;
 
     protected $disk = 'local_public';
 
@@ -26,6 +27,12 @@ class ExportExcel extends \Addons\AntFusion\Action
     public function downloadDirectly() {
         $this->download = true;
         return $this->withMeta(['blob' => true]);
+    }
+
+    public function setSuccessMessage($successMessage)
+    {
+        $this->successMessage = $successMessage;
+        return $this;
     }
 
     public function handle($request, $models)
@@ -43,7 +50,7 @@ class ExportExcel extends \Addons\AntFusion\Action
             return Excel::download($exporter, $this->filename);
         } else {
             $exporter->queue($this->filename, $this->disk)->chain([
-                new \Addons\AntFusion\Jobs\NotifyUserOfCompletedExport(auth()->user(), $this->filename, $this->disk),
+                (new \Addons\AntFusion\Jobs\NotifyUserOfCompletedExport(auth()->user(), $this->filename, $this->disk))->setNotification($this->successMessage),
             ]);
             return [
                 'message' => 'Export is started, you will get notification will it is done.',

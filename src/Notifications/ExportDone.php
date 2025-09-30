@@ -15,14 +15,17 @@ class ExportDone extends Notification
 
     protected $disk;
 
+    protected $message;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($filename, $disk)
+    public function __construct($filename, $disk, $message = null)
     {
         //
+        $this->message = $message ?? 'Your export has completed.'; // TODO: Enhance message, for eg: Your cake step export has completed and 2 rows exported.
         $this->filename = $filename;
         $this->disk = $disk;
     }
@@ -64,7 +67,7 @@ class ExportDone extends Notification
             //
             'filename' => $this->filename,
             'disk' => $this->disk,
-            'body' => 'Your export has completed.', // TODO: Enhance message, for eg: Your cake step export has completed and 2 rows exported.
+            'body' => $this->message,
             'status' => 'success',
             'title' => 'Export completed',
         ];

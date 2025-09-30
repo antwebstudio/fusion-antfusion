@@ -15,6 +15,8 @@ class NotifyUserOfCompletedExport implements ShouldQueue
     public $filename;
 
     public $disk;
+
+    public $message;
     
     public function __construct($user, $filename, $disk)
     {
@@ -23,8 +25,14 @@ class NotifyUserOfCompletedExport implements ShouldQueue
         $this->disk = $disk;
     }
 
+    public function setNotification($message)
+    {
+        $this->message = $message;
+        return $this;
+    }
+
     public function handle()
     {
-        $this->user->notify(new \Addons\AntFusion\Notifications\ExportDone($this->filename, $this->disk));
+        $this->user->notify(new \Addons\AntFusion\Notifications\ExportDone($this->filename, $this->disk, $this->message));
     }
 }

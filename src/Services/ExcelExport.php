@@ -7,6 +7,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -16,7 +17,7 @@ use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 
-class ExcelExport extends DefaultValueBinder implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize, WithEvents, WithCustomValueBinder, WithStrictNullComparison
+class ExcelExport extends DefaultValueBinder implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize, WithEvents, WithCustomValueBinder, WithStrictNullComparison, WithStyles
 {
     use \Maatwebsite\Excel\Concerns\Exportable;
     use RegistersEventListeners;
@@ -54,6 +55,20 @@ class ExcelExport extends DefaultValueBinder implements FromQuery, WithMapping, 
                 }
             },
         ];
+    }
+
+    public function styles($sheet)
+    {
+        // Apply wrap text to the entire sheet
+        $highestRow = $sheet->getHighestRow();
+        $highestColumn = $sheet->getHighestColumn();
+        $range = "A1:{$highestColumn}{$highestRow}";
+
+        $sheet->getStyle($range)
+              ->getAlignment()
+              ->setWrapText(true);
+        
+        return [];
     }
 
     protected function getHeadingRange()
