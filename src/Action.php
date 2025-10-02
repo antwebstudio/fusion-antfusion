@@ -60,7 +60,7 @@ class Action
         });
     }
 
-    public function performAction($request)
+    public function performAction($request, $action = null)
     {
         $request->validate($this->getRules());
 
