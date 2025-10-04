@@ -46,15 +46,16 @@ class ExportExcel extends \Addons\AntFusion\Action
                 $exporter = new \Addons\AntFusion\Services\QueuedExcelExport($exporter->forQueuedExporter());
             }
         }
-        if ($this->download) {
-            return Excel::download($exporter, $this->filename);
-        } else {
+
+        if ($exporter instanceof \Illuminate\Contracts\Queue\ShouldQueue) {
             $exporter->queue($this->filename, $this->disk)->chain([
                 (new \Addons\AntFusion\Jobs\NotifyUserOfCompletedExport(auth()->user(), $this->filename, $this->disk))->setNotification($this->successMessage),
             ]);
             return [
                 'message' => 'Export is started, you will get notification will it is done.',
             ];
+        } else {
+            return Excel::download($exporter, $this->filename);
         }
     }
 

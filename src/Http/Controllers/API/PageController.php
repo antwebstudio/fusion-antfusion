@@ -39,6 +39,6 @@ class PageController extends Controller
                 return $action->performAction($request);
             }
         }
-        return $page->performAction($request->action, $request);
+        return $page->performAction($request, $request->action);
     }
 }

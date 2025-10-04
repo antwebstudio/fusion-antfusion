@@ -5,7 +5,7 @@
         </portal>
 
         <portal to="actions">
-            <div v-if="actions && actions.length" >
+            <div v-if="actions && actions.length">
                 <span v-for="action, index in actions" :key="index">
                     <component v-if="!action.dropdown" @submitted="load" :is="action.component" v-bind="action">
                         {{ action.text }}
@@ -13,7 +13,7 @@
                 </span>
                 <ui-actions v-if="dropdownActions && dropdownActions.length" :id="'entry_actions'" :key="'entry_actions'">
                     <div v-for="action, index in dropdownActions" :key="index">
-                        <component v-if="action.dropdown" @submitted="load" :is="action.component" v-bind="action">
+                        <component v-if="action.dropdown" @submitted="load" :is="action.component" v-bind="action" :form="meta">
                             {{ action.text }}
                         </component>
                     </div>
@@ -82,6 +82,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

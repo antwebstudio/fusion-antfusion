@@ -11,7 +11,7 @@ trait HasActions {
         return $action;
     }
 
-    public function performAction($actionName, $request) {
+    public function performAction($request, $actionName) {
         $this->initActions();
         if (isset($this->initializedActions[$actionName])) {
             return $this->initializedActions[$actionName]->performAction($request);

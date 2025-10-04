@@ -43,6 +43,12 @@ export default {
         record: {
 
         },
+		blob: {
+			default: true,
+		},
+        form: {
+
+        },
         resourceId: {
 
         },
@@ -89,7 +95,7 @@ export default {
             if (this.$parent && this.$parent.toggle) {
                 this.$parent.toggle()
             }
-        }, 
+        },
         performAction() {
             if (!this.to) {
                 if (this.needConfirmation) {
@@ -108,13 +114,13 @@ export default {
             // this.record is null when action standalone
             let params = this.record ? [this.record.id] : []
 
-            let options = this.blob ? {responseType: 'blob'} : {}
+            let options = this.blob ? { responseType: 'blob' } : {}
 
-            axios.post(this.url, { resourceIds: params }, options).then((response) => {
+            axios.post(this.url, { resourceIds: params, form: this.form }, options).then((response) => {
                 console.log('action button', response)
-                
+
                 this.processBlobResponse(response);
-                
+
                 if (response.data.redirect) {
                     if (response.data.target) {
                         window.open(response.data.redirect, response.data.target)
@@ -143,6 +149,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -6,7 +6,7 @@ export default {
             default: false,
         }
     },
-	methods: {
+    methods: {
         processActionError(error) {
             if (error.response && error.response.data && error.response.data.message) {
                 toast(error.response.data.message, 'error')
@@ -24,7 +24,9 @@ export default {
                     filename = decodeURIComponent(headerFilename);
                 }
                 var url = window.URL || window.webkitURL;
-                var blobUrl = url.createObjectURL(response.data);
+                const contentType = response.headers['content-type'];
+                const blob = new Blob([response.data], { type: contentType });
+                var blobUrl = url.createObjectURL(blob);
 
                 this.downloadBlob(blobUrl, filename);
                 // window.open(blobUrl);
@@ -38,7 +40,7 @@ export default {
             }
             document.body.appendChild(link);
             link.click();
-			link.remove();
+            link.remove();
         },
         processActionResponse(response) {
             if (response.data instanceof Blob) {

@@ -186,6 +186,7 @@ abstract class Resource {
         $components = [
             [
                 'is' => config('antfusion.datatable.component', 'resource-datatable'),
+                'handle' => 'datatable',
                 'show_order' => false,
                 'saveState' => true,
                 'id' => 'data-table-'.$this->getSlug(),

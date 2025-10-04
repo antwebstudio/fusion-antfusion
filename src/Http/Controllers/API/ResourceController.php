@@ -48,7 +48,7 @@ class ResourceController extends Controller
             $action = $resource->getComponentByPath(Str::after($request->path, '.'));
             return $action->performAction($request);
         }
-        return $resource->performAction($request->action, $request);
+        return $resource->performAction($request, $request->action);
     }
 
     public function index(Request $request) {

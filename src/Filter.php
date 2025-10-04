@@ -44,6 +44,14 @@ class Filter {
         return $this;
     }
 
+    public function applyToQuery($request, $query, $value)
+    {
+        if (isset($this->queryCallback)) {
+            return $this->evaluate($this->queryCallback, ['query' => $query, 'request' => $request, 'value' => $value, 'filter' => $this]);
+        }
+        return $this->apply(request(), $query, $value);
+    }
+
     public function apply($request, $query, $value) {
     }
 
@@ -57,10 +65,7 @@ class Filter {
 
     public function getAllowedFilter() {
         return AllowedFilter::callback($this->getHandle(), function (Builder $query, $value) {
-            if (isset($this->queryCallback)) {
-                return $this->evaluate($this->queryCallback, ['query' => $query, 'request' => request(), 'value' => $value, 'filter' => $this]);
-            }
-            return $this->apply(request(), $query, $value);
+            return $this->applyToQuery(request(), $query, $value);
         });
     }
 

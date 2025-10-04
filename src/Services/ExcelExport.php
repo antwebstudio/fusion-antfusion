@@ -24,6 +24,8 @@ class ExcelExport extends DefaultValueBinder implements FromQuery, WithMapping, 
 
     protected $resource;
 
+    protected $query;
+
     public function __construct(Resource $resource)
     {
         $this->resource = $resource;
@@ -99,12 +101,21 @@ class ExcelExport extends DefaultValueBinder implements FromQuery, WithMapping, 
         return $this->resource->exportToExcelMap($response);
     }
 
+    public function setQuery($query)
+    {
+        $this->query = \Laravie\SerializesQuery\Eloquent::serialize($query);
+        return $this;
+    }
+
     /**
     * @return \Illuminate\Support\Collection
     */
     public function query()
     {
         //
+        if ($this->query) {
+            return \Laravie\SerializesQuery\Eloquent::unserialize($this->query);
+        }
         return $this->resource->exportToExcelQuery();
     }
 }
