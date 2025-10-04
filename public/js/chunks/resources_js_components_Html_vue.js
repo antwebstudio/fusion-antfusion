@@ -18,15 +18,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     hide: {
       "default": false
     },
     containerClass: {},
+    loadingContent: {},
     content: {},
     record: {},
-    value: {}
+    value: {},
+    action: {}
+  },
+  data: function data() {
+    return {
+      loading: false,
+      html_content: this.content
+    };
+  },
+  mounted: function mounted() {
+    if (this.action && this.action.url) {
+      this.loadAjax();
+    }
+  },
+  methods: {
+    loadAjax: function loadAjax() {
+      var _this = this;
+
+      this.loading = true;
+      axios.post(this.action.url, this.action).then(function (response) {
+        _this.loading = false;
+        _this.html_content = response.data.content;
+      })["catch"](function (error) {
+        _this.loading = false;
+      });
+    }
   }
 });
 
@@ -116,25 +145,41 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      directives: [
+  return _vm.loading
+    ? _c(
+        "div",
         {
-          name: "show",
-          rawName: "v-show",
-          value: !_vm.hide,
-          expression: "!hide",
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.hide,
+              expression: "!hide",
+            },
+          ],
+          class: _vm.containerClass,
         },
-      ],
-      class: _vm.containerClass,
-    },
-    [
-      _vm.content
-        ? _c("div", { domProps: { innerHTML: _vm._s(_vm.content) } })
-        : _c("div", { domProps: { innerHTML: _vm._s(_vm.value) } }),
-    ]
-  )
+        [_c("div", { domProps: { innerHTML: _vm._s(_vm.loadingContent) } })]
+      )
+    : _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.hide,
+              expression: "!hide",
+            },
+          ],
+          class: _vm.containerClass,
+        },
+        [
+          _vm.html_content
+            ? _c("div", { domProps: { innerHTML: _vm._s(_vm.html_content) } })
+            : _c("div", { domProps: { innerHTML: _vm._s(_vm.value) } }),
+        ]
+      )
 }
 var staticRenderFns = []
 render._withStripped = true

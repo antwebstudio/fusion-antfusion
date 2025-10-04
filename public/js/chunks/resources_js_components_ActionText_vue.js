@@ -89,7 +89,11 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         var url = window.URL || window.webkitURL;
-        var blobUrl = url.createObjectURL(response.data);
+        var contentType = response.headers['content-type'];
+        var blob = new Blob([response.data], {
+          type: contentType
+        });
+        var blobUrl = url.createObjectURL(blob);
         this.downloadBlob(blobUrl, filename); // window.open(blobUrl);
       }
     },

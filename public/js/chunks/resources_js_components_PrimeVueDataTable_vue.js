@@ -325,13 +325,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getRecords: function getRecords() {
       var _this4 = this;
 
-      console.log('new get records');
       this.loading = true;
       this.hasError = false;
 
       if (this.currentController) {
         this.currentController.abort();
-        console.log('axios abort');
       }
 
       this.currentController = new AbortController();
@@ -348,16 +346,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this4.pagination.totalRecords = response.data.records.total;
         _this4.pagination.totalPages = response.data.records.last_page;
-        _this4.loading = false;
-        console.log('axios loaded data'); // this.initialLoad = false
+        _this4.loading = false; // this.initialLoad = false
         // if (this.refresh && ! self._timer) {
         //     this._timer = setTimeout(() => this.getRecords(), this.refresh)
         // }
         // this.$emit('loaded', this.records)
       })["catch"](function (error) {
-        if (axios__WEBPACK_IMPORTED_MODULE_10__["default"].isCancel(error) || error.name === 'CanceledError') {
-          console.log('axios request cancelled');
-        } else {
+        if (axios__WEBPACK_IMPORTED_MODULE_10__["default"].isCancel(error) || error.name === 'CanceledError') {} else {
           _this4.hasError = true;
           _this4.loading = false;
         }

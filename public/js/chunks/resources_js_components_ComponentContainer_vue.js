@@ -37,6 +37,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -228,6 +229,14 @@ var render = function () {
             component.component,
             _vm._b(
               {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !component.hide,
+                    expression: "!component.hide",
+                  },
+                ],
                 key: index,
                 tag: "component",
                 attrs: { loading: _vm.loading },

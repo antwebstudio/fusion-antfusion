@@ -244,6 +244,7 @@ var render = function () {
                                   _vm._b(
                                     {
                                       tag: "component",
+                                      attrs: { form: _vm.meta },
                                       on: { submitted: _vm.load },
                                     },
                                     "component",

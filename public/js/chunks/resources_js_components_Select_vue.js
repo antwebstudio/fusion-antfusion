@@ -28,13 +28,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Dropdown: primevue_dropdown__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   props: {
+    id: {},
     label: {},
+    multiple: {
+      "default": false
+    },
     newVersion: {
       "default": false
     },
@@ -1122,6 +1128,8 @@ var render = function () {
     : _c("ui-select-group", {
         attrs: {
           label: _vm.label,
+          id: _vm.id,
+          multiple: _vm.multiple,
           filterable: _vm.filterable,
           options: _vm.options,
         },

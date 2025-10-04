@@ -85,16 +85,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       "default": function _default() {
         return [];
       }
-    },
-    sort: {
-      "default": {
-        key: 'id'
-      }
     }
   },
   watch: {
     value: function value(_value) {
-      if (_value.substr(0, 4) != 'new_' && _value.length > 0) {
+      if (this.field.settings.object_as_value) {
+        this.selected = _value;
+      } else if (_value.substr(0, 4) != 'new_' && _value.length > 0) {
         this.selected = null;
         this.loadSavedData(_value);
       }
@@ -124,12 +121,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: {
+    sort: function sort() {
+      return this.field.settings.sort ? this.field.settings.sort : 'id';
+    },
     endpoint: function endpoint() {
       return this.field.settings.endpoint;
     }
   },
   mounted: function mounted() {
-    this.loadSavedData(this.value);
+    if (!this.field.settings.object_as_value) {
+      this.loadSavedData(this.value);
+    }
   },
   methods: {
     clearOptions: function clearOptions() {
