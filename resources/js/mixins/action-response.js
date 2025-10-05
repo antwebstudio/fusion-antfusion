@@ -12,9 +12,18 @@ export default {
                 toast(error.response.data.message, 'error')
             }
         },
-        processBlobResponse(response) {
+        async processBlobResponse(response) {
             console.log('blob response', response, (response.data instanceof Blob), filename);
             if (response.data instanceof Blob) {
+                const contentType = response.headers['content-type'];
+                if (contentType.includes('application/json')) {
+                    const text = await new Response(response.data).text();
+                    const json = JSON.parse(text);
+
+                    this.processActionResponseData(json)
+                    return response;
+                }
+
                 var contentDisposition = response.headers['content-disposition'];
                 var headerFilename, filename;
                 if (contentDisposition) {
@@ -24,7 +33,6 @@ export default {
                     filename = decodeURIComponent(headerFilename);
                 }
                 var url = window.URL || window.webkitURL;
-                const contentType = response.headers['content-type'];
                 const blob = new Blob([response.data], { type: contentType });
                 var blobUrl = url.createObjectURL(blob);
 
@@ -42,10 +50,20 @@ export default {
             link.click();
             link.remove();
         },
-        processActionResponse(response) {
-            if (response.data instanceof Blob) {
-                this.processBlobResponse(response);
+        processActionResponseData(data) {
+            if (data.message) {
+                toast(data.message, 'success')
             }
+            if (data.redirect) {
+                if (data.target) {
+                    window.open(data.redirect, data.target)
+                } else {
+                    // location.href = data.redirect
+                    this.$router.push(data.redirect)
+                }
+            }
+        },
+        processActionResponse(response) {
             if (response.message) {
                 toast(response.message, 'success')
             }
