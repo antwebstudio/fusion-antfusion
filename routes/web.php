@@ -35,3 +35,5 @@ Route::get('antfusion-routes.js', function() {
         })
     ';
 });
+
+Route::get('antfusion/resource/{resource}/print', [Addons\AntFusion\Http\Controllers\Web\PrintController::class, 'index'])->name('resource.print');

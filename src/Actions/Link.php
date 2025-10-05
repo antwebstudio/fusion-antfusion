@@ -15,11 +15,16 @@ class Link extends Action {
     }
 
     public function getActionUrl($actionSlug) {
-        if ($this->standalone) {
+        if ($this->isUrlLink()) {
             return $this->redirect;
         } else {
             return parent::getActionUrl($actionSlug);
         }
+    }
+
+    protected function isUrlLink()
+    {
+        return !is_callable($this->redirect);
     }
 
     public function handle($request, $entries) {
@@ -47,5 +52,13 @@ class Link extends Action {
 
     public function openInNewTab() {
         return $this->target('_blank');
+    }
+
+    public function toArray() {
+        $array = parent::toArray();
+        if (!$this->isUrlLink()) {
+            unset($array['to']);
+        }
+        return $array;
     }
 }

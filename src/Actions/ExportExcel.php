@@ -24,6 +24,39 @@ class ExportExcel extends \Addons\AntFusion\Action
         $this->filename = $filename;
     }
 
+    public function baseOnResourceAndFilters($resource)
+    {
+        $this->exporter = function($request) use($resource) {
+                $query = $resource->exportToExcelQuery();
+
+                $filters = collect($resource->filters())->keyBy(function($filter) {
+                    return $filter->getHandle();
+                });
+
+                $dataTable = collect($request->form['components'])->firstWhere(function($component) {
+                    return $component['handle'];
+                });
+
+                foreach($dataTable['default_filter_values'] as $filterName => $value) {
+                    if (isset($value)) {
+                        $filters[$filterName]->applyToQuery($request, $query, $value);
+                    }
+                }
+
+                if ($query->count() > 300) {
+                    $exporter = new \Addons\AntFusion\Services\QueuedExcelExport($resource->forQueuedExporter());
+                    $exporter->setQuery($query);
+                } else {
+                    $exporter = new \Addons\AntFusion\Services\ExcelExport($resource);
+                    $exporter->setQuery($query);
+                }
+
+                return $exporter;
+        };
+
+        return $this;
+    }
+
     public function downloadDirectly() {
         $this->download = true;
         return $this->withMeta(['blob' => true]);
