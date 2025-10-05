@@ -24,7 +24,7 @@ __webpack_require__.r(__webpack_exports__);
   // mixins: [field],
   props: {
     /*form: {
-      },*/
+     },*/
     content: {},
     children: {}
   },

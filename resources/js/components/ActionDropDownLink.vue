@@ -1,12 +1,9 @@
 <template>
     <div>
-        <ui-dropdown-link
-            @click.prevent="performAction"
-            v-bind="$props" :class="cssClass"
-            >
+        <ui-dropdown-link @click.prevent="performAction" v-bind="$props" :class="cssClass">
             {{ text }}
         </ui-dropdown-link>
-        
+
         <portal to="modals" v-if="needConfirmation">
             <ui-modal :name="modalName" :title="modalTitle" :key="modalName">
                 <p>{{ confirmText }}</p>
@@ -43,9 +40,9 @@ export default {
         record: {
 
         },
-		blob: {
-			default: true,
-		},
+        blob: {
+            default: true,
+        },
         form: {
 
         },
@@ -119,21 +116,9 @@ export default {
             axios.post(this.url, { resourceIds: params, form: this.form }, options).then((response) => {
                 console.log('action button', response)
 
-                this.processBlobResponse(response);
-
-                if (response.data.redirect) {
-                    if (response.data.target) {
-                        window.open(response.data.redirect, response.data.target)
-                    } else {
-                        this.$router.push(response.data.redirect)
-                    }
-                } else {
-                    this.loading = false
-                    toast(response.data.message, 'success')
-                    this.closeModal(this.modalName)
-
-                    this.$emit('updated')
-                }
+                this.processBlobResponse(response).then((response) => {
+                    console.log('next')
+                });
             }).catch((error) => {
                 this.loading = false
                 this.processActionError(error);
