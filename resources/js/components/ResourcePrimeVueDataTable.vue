@@ -226,10 +226,12 @@ export default {
             this.working = true
 
             this.form.submit('post', `${action.route}`, formData).then((response) => {
+                dataTable.clearSelected()
+
                 toast('Bulk action completed successfully.', 'success')
 
-                dataTable.selected = []
-                
+                // dataTable.selected = []
+
                 vm.reload()
 
                 vm.showBulkActionConfirmation = false
@@ -268,6 +270,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
