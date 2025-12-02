@@ -74,13 +74,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -230,8 +223,9 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.working = true;
       this.form.submit('post', "".concat(action.route), formData).then(function (response) {
-        toast('Bulk action completed successfully.', 'success');
-        dataTable.selected = [];
+        dataTable.clearSelected();
+        toast('Bulk action completed successfully.', 'success'); // dataTable.selected = []
+
         vm.reload();
         vm.showBulkActionConfirmation = false;
         vm.action = null;
