@@ -24,6 +24,7 @@
 </template>
 <script>
 import Form from '@/services/Form'
+import _ from "lodash"
 export default {
     props: {
         action: null,
@@ -81,6 +82,9 @@ export default {
                     fields[field.handle] = _.get(this.action.record, this.action.load_record[field.handle])
                 } else {
                     fields[field.handle] = null
+                }
+                if (this.action.fill_form && this.action.fill_form[field.handle]) {
+                    fields[field.handle] = _.get(this.action.fill_form, field.handle)
                 }
             })
             this.form = new Form(fields)
