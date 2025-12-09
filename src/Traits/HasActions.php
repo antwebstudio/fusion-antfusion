@@ -26,6 +26,9 @@ trait HasActions {
 
     protected function initActions($records = null) {
         if (!$this->isActionInitialized) {
+            foreach ($this->initializedActions as $action) {
+                $action->setRecords($records);
+            }
             foreach ((array) $this->actions() as $index => $action) {
                 $this->initializedActions[$action->getHandle()] = $action;
                 $action->setRecords($records)->setParent($this, $index, 'a');
