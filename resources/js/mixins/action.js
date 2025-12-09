@@ -3,7 +3,7 @@ import errorHandler from "../mixins/error-handler"
 
 export default {
     mixins: [actionResponse, errorHandler],
-    props:{
+    props: {
         path: { // Path to get the action object at backend
 
         },
@@ -28,11 +28,21 @@ export default {
             }
 
             if (form) {
-                return form.post(this.url, params).then(this.processActionResponse).catch(this.catchError);
+                return form.post(this.url, params).then((response) => {
+                    this.processActionResponse(response)
+                    return response;
+                }).catch((error) => {
+                    this.catchError(error)
+                    return error;
+                });
             } else {
                 return axios.post(this.url, params).then((response) => {
                     this.processActionResponse(response.data);
-                }).catch(this.catchError);
+                    return response;
+                }).catch((error) => {
+                    this.catchError(error)
+                    return error;
+                });
             }
         }
     }

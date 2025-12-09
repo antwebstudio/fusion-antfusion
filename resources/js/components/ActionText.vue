@@ -27,8 +27,13 @@ export default {
             if (this.clearOnSubmit) {
                 this.model = null;
             }
+            this.$emit('submitting')
             return this.performAction({
                 value: this.model,
+            }).then(() => {
+                this.$emit('submitted')
+            }).catch(() => {
+                this.$emit('failed');
             });
         },
     },

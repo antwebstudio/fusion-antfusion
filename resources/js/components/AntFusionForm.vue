@@ -9,7 +9,7 @@
                 </span>
                 <ui-actions v-if="dropdownActions && dropdownActions.length" :id="'entry_actions'" :key="'entry_actions'">
                     <div v-for="action, index in dropdownActions" :key="index">
-                        <component v-if="action.dropdown" :is="action.component" v-bind="action" @submitted="submitted" @refreshed="refreshed" :loading="loading" :record="record" :form="form">
+                        <component v-if="action.dropdown" :is="action.component" v-bind="action" @failed="loading = false" @submitting="loading = true" @submitted="submitted" @refreshed="refreshed" :loading="loading" :record="record" :form="form">
                             {{ action.text }}
                         </component>
                     </div>
@@ -21,7 +21,7 @@
         
         <div :class="classes">
             <template v-for="field in children">
-            <component :debug="debug" :key="field.id" v-if="!field.is_panel" v-show="!field.hide" @refreshed="refreshed" @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
+            <component :debug="debug" :key="field.id" v-if="!field.is_panel" v-show="!field.hide" @failed="loading = false" @submitting="loading = true" @submitted="submitted" @refreshed="refreshed" @load="$emit('load')" @loaded="$emit('loaded')" :loading="loading" :parent="componentData" v-model="form[field.handle]" :is="field.component" v-bind="field" 
                 :form="form"
                 :has-error="form.errors.has(field.handle)"
                 :error-message="form.errors.get(field.handle)"
@@ -127,6 +127,7 @@ export default {
             this.registerComponentsDependency(this.children, this.form, this.record)
         },
         submitted() {
+            this.loading = false;
             this.$emit('submitted', this.form)
         },
         refreshed() {

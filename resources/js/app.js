@@ -59,6 +59,7 @@ window.Fusion.booting(function (Vue, router, store) {
     Vue.component('antfusion-repeater-fieldtype', () => import('./fieldtypes/Repeater/Field'))
     Vue.component('page-as-component', () => import('./components/PageAsComponent'))
     Vue.component('spinner', () => import('./components/Spinner'))
+    Vue.component('loader', () => import('./components/Loader'))
     Vue.component('parent-value', () => import('./components/ParentValue'))
     Vue.component('print-button', () => import('./components/PrintButton'))
     Vue.component('action-button', () => import('./components/ActionButton'))
