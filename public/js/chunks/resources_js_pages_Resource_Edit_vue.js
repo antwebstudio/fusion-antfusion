@@ -489,7 +489,8 @@ var Form = /*#__PURE__*/function () {
     this.blockNav = blockNav;
     this.orig = data;
     this.errors = new _services_Errors__WEBPACK_IMPORTED_MODULE_0__["default"]();
-    this.hasChanges = false; // --
+    this.hasChanges = false;
+    this.loading = false; // --
 
     var form = this;
     var handler = {
@@ -583,11 +584,16 @@ var Form = /*#__PURE__*/function () {
       var _this4 = this;
 
       return new Promise(function (resolve, reject) {
+        _this4.loading = true;
         axios[rType](url, data).then(function (response) {
+          _this4.loading = false;
+
           _this4.onSuccess(response.data);
 
           resolve(response.data);
         })["catch"](function (errors) {
+          _this4.loading = false;
+
           _this4.onFailure(errors.response.data);
 
           reject(errors.response.data);
@@ -606,6 +612,11 @@ var Form = /*#__PURE__*/function () {
     key: "onFailure",
     value: function onFailure(errors) {
       this.errors.record(errors);
+    }
+  }, {
+    key: "isLoading",
+    value: function isLoading() {
+      return this.loading;
     }
   }]);
 

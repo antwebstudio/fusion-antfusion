@@ -45,12 +45,19 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submit: function submit() {
+      var _this = this;
+
       if (this.clearOnSubmit) {
         this.model = null;
       }
 
+      this.$emit('submitting');
       return this.performAction({
         value: this.model
+      }).then(function () {
+        _this.$emit('submitted');
+      })["catch"](function () {
+        _this.$emit('failed');
       });
     }
   }
@@ -248,11 +255,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
 
       if (form) {
-        return form.post(this.url, params).then(this.processActionResponse)["catch"](this.catchError);
+        return form.post(this.url, params).then(function (response) {
+          _this.processActionResponse(response);
+
+          return response;
+        })["catch"](function (error) {
+          _this.catchError(error);
+
+          return error;
+        });
       } else {
         return axios.post(this.url, params).then(function (response) {
           _this.processActionResponse(response.data);
-        })["catch"](this.catchError);
+
+          return response;
+        })["catch"](function (error) {
+          _this.catchError(error);
+
+          return error;
+        });
       }
     }
   }

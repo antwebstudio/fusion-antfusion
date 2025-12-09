@@ -74,6 +74,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -215,6 +222,8 @@ __webpack_require__.r(__webpack_exports__);
       this.showBulkActionConfirmation = false;
     },
     confirmBulkAction: function confirmBulkAction(dataTable, allowedBulkActions) {
+      var _this2 = this;
+
       var action = allowedBulkActions[this.action];
       var vm = this;
       var formData = this.form.formdata();
@@ -224,6 +233,18 @@ __webpack_require__.r(__webpack_exports__);
       this.working = true;
       this.form.submit('post', "".concat(action.route), formData).then(function (response) {
         dataTable.clearSelected();
+
+        if (response.redirect) {
+          if (response.target) {
+            window.open(response.redirect, response.target);
+          } else {
+            // location.href = response.redirect
+            _this2.$router.push(response.redirect);
+          }
+        } else if (response.action) {
+          _this2.modalAction = response.action;
+        }
+
         toast('Bulk action completed successfully.', 'success'); // dataTable.selected = []
 
         vm.reload();
@@ -379,7 +400,8 @@ var Form = /*#__PURE__*/function () {
     this.blockNav = blockNav;
     this.orig = data;
     this.errors = new _services_Errors__WEBPACK_IMPORTED_MODULE_0__["default"]();
-    this.hasChanges = false; // --
+    this.hasChanges = false;
+    this.loading = false; // --
 
     var form = this;
     var handler = {
@@ -473,11 +495,16 @@ var Form = /*#__PURE__*/function () {
       var _this4 = this;
 
       return new Promise(function (resolve, reject) {
+        _this4.loading = true;
         axios[rType](url, data).then(function (response) {
+          _this4.loading = false;
+
           _this4.onSuccess(response.data);
 
           resolve(response.data);
         })["catch"](function (errors) {
+          _this4.loading = false;
+
           _this4.onFailure(errors.response.data);
 
           reject(errors.response.data);
@@ -496,6 +523,11 @@ var Form = /*#__PURE__*/function () {
     key: "onFailure",
     value: function onFailure(errors) {
       this.errors.record(errors);
+    }
+  }, {
+    key: "isLoading",
+    value: function isLoading() {
+      return this.loading;
     }
   }]);
 

@@ -130,6 +130,7 @@ __webpack_require__.r(__webpack_exports__);
       this.registerComponentsDependency(this.children, this.form, this.record);
     },
     submitted: function submitted() {
+      this.loading = false;
       this.$emit('submitted', this.form);
     },
     refreshed: function refreshed() {
@@ -1758,6 +1759,12 @@ var render = function () {
                                     form: _vm.form,
                                   },
                                   on: {
+                                    failed: function ($event) {
+                                      _vm.loading = false
+                                    },
+                                    submitting: function ($event) {
+                                      _vm.loading = true
+                                    },
                                     submitted: _vm.submitted,
                                     refreshed: _vm.refreshed,
                                   },
@@ -1819,6 +1826,13 @@ var render = function () {
                           "error-message": _vm.form.errors.get(field.handle),
                         },
                         on: {
+                          failed: function ($event) {
+                            _vm.loading = false
+                          },
+                          submitting: function ($event) {
+                            _vm.loading = true
+                          },
+                          submitted: _vm.submitted,
                           refreshed: _vm.refreshed,
                           load: function ($event) {
                             return _vm.$emit("load")
