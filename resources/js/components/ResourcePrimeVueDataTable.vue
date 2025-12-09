@@ -227,6 +227,17 @@ export default {
 
             this.form.submit('post', `${action.route}`, formData).then((response) => {
                 dataTable.clearSelected()
+                
+                if (response.redirect) {
+                    if (response.target) {
+                        window.open(response.redirect, response.target)
+                    } else {
+                        // location.href = response.redirect
+                        this.$router.push(response.redirect)
+                    }
+                } else if (response.action) {
+                    this.modalAction = response.action
+                }
 
                 toast('Bulk action completed successfully.', 'success')
 
