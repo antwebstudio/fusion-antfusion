@@ -194,6 +194,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     search: _.debounce(function (value) {
       // this.pagination.currentPage = 1
+      this.$emit('onSearch', value);
       this.getRecords();
     }, 300)
   },
@@ -281,6 +282,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.error(event.sortField);
         this.sort.key = event.sortField;
         this.sort.order = event.sortOrder > 0 ? 'asc' : 'desc';
+        this.$emit('onSort', this.sort);
       }
     },
     onPage: function onPage(event) {
@@ -292,6 +294,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     onSort: function onSort(event) {
       this.sort.key = event.sortField;
       this.sort.order = event.sortOrder > 0 ? 'asc' : 'desc';
+      this.$emit('onSort', this.sort);
       this.getRecords();
     },
     isComponentExist: function isComponentExist(componentName) {

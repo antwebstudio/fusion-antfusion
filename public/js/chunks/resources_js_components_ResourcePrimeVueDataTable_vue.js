@@ -106,6 +106,7 @@ __webpack_require__.r(__webpack_exports__);
       required: true,
       type: String
     },
+    sorting: {},
     sortBy: {
       type: String,
       "default": 'id'
@@ -197,6 +198,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       filterValues: this.default_filter_values,
+      sort: this.sorting,
       metricValues: {},
       form: null,
       action: null,
@@ -214,6 +216,13 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    onSort: function onSort(sort) {
+      this.sort.key = sort.key;
+      this.sort.order = sort.order;
+    },
+    onSearch: function onSearch(queryString) {
+      this.filterValues['search'] = queryString;
+    },
     updateMetrics: function updateMetrics(metricValues) {
       this.metricValues = metricValues;
     },
@@ -273,6 +282,7 @@ __webpack_require__.r(__webpack_exports__);
         action.params.fields.forEach(function (field) {
           fields[field.handle] = null;
         });
+        console.log('fields', fields);
         this.form = new _services_Form__WEBPACK_IMPORTED_MODULE_0__["default"](fields);
       }
     },
@@ -1803,7 +1813,11 @@ var render = function () {
         _vm._b(
           {
             attrs: { filters: _vm.filterValues },
-            on: { "update-metrics": _vm.updateMetrics },
+            on: {
+              onSort: _vm.onSort,
+              onSearch: _vm.onSearch,
+              "update-metrics": _vm.updateMetrics,
+            },
             scopedSlots: _vm._u([
               {
                 key: "bulkActions",
