@@ -34,7 +34,7 @@ class ExportExcel extends \Addons\AntFusion\Action
                 });
 
                 $dataTable = collect($request->form['components'])->firstWhere(function($component) {
-                    return $component['handle'];
+                    return $component['handle'] == 'datatable';
                 });
 
                 foreach($dataTable['default_filter_values'] as $filterName => $value) {

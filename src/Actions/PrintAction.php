@@ -12,9 +12,13 @@ class PrintAction extends Link {
         $this->redirect = function() use($resource) {
             $request = request();
             $dataTable = collect($request->form['components'])->firstWhere(function($component) {
-                return $component['handle'];
+                return $component['handle'] == 'datatable';
             });
-            $params = ['resource' => $resource->getSlug(), 'filters' => $dataTable['default_filter_values']];
+            $sort = null;
+            if (isset($dataTable['sorting']['order']) && isset($dataTable['sorting']['key'])) {
+                $sort = ($dataTable['sorting']['order'] == 'desc' ? '-' : '').$dataTable['sorting']['key'];
+            }
+            $params = ['resource' => $resource->getSlug(), 'sort' => $sort, 'filters' => $dataTable['default_filter_values']];
             return route('resource.print', $params);
         };
         return $this;

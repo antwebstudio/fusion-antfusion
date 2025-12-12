@@ -9,15 +9,15 @@ class PrintController extends Controller
     public function index(Request $request) 
     {
         $resource = app('resources.'.$request->resource);
-        $query = $resource->dataTableQuery();
+        $query = $resource->getQueryBuilder();
 
-        $filters = collect($resource->filters())->keyBy(function($filter) {
-            return $filter->getHandle();
+        $filters = collect($resource->getAllowedFilters())->keyBy(function($filter, $name) {
+            return $filter->getName();
         });
 
         foreach($request->filters as $filterName => $value) {
             if (isset($value)) {
-                $filters[$filterName]->applyToQuery($request, $query, $value);
+                $filters[$filterName]->filter($query, $value);
             }
         }
         return view('antfusion::print.index', [

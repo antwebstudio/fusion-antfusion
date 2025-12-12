@@ -194,6 +194,7 @@ abstract class Resource {
                 'endpoint_params' => $this->getDataTableEndpointParams(),
                 'filters' => $this->filtersArray(),
                 'default_filter_values' => $this->defaultFilterValues(),
+                'sorting' => ['key' => null, 'order' => null],
                 'metrics' => $this->metricsArray(),
             ],
         ];

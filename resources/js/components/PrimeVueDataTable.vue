@@ -164,6 +164,7 @@ export default {
         },
         search: _.debounce(function(value) {
             // this.pagination.currentPage = 1
+            this.$emit('onSearch', value)
 
             this.getRecords()
         }, 300)
@@ -252,6 +253,7 @@ export default {
                 console.error(event.sortField);
                 this.sort.key = event.sortField;
                 this.sort.order = event.sortOrder > 0 ? 'asc' : 'desc';
+                this.$emit('onSort', this.sort)
             }
         },
         onPage(event) {
@@ -263,6 +265,7 @@ export default {
         onSort(event) {
             this.sort.key = event.sortField;
             this.sort.order = event.sortOrder > 0 ? 'asc' : 'desc';
+            this.$emit('onSort', this.sort);
             this.getRecords();
         },
         isComponentExist(componentName) {

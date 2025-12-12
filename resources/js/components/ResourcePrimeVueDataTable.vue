@@ -6,7 +6,7 @@
         <span v-for="filter in filters" :key="filter.handle">
             <component v-if="!filter.builtin" :is="filter.component" v-bind="filter" v-model="filterValues[filter.handle]" />
         </span>
-        <antfusion-primevue-datatable v-bind="$props" :filters="filterValues" @update-metrics="updateMetrics">
+        <antfusion-primevue-datatable @onSort="onSort" @onSearch="onSearch" v-bind="$props" :filters="filterValues" @update-metrics="updateMetrics">
             <template v-slot:bulkActions="{ parent, allowedBulkActions, selected }">
                 <div class="ml-auto">
                     <!-- Bulk action selector -->
@@ -97,6 +97,9 @@ export default {
         endpoint: {
             required: true,
             type: String
+        },
+        sorting: {
+
         },
         sortBy: {
             type: String,
@@ -191,6 +194,7 @@ export default {
     data() {
         return {
             filterValues : this.default_filter_values,
+            sort: this.sorting,
             metricValues: {},
             form: null,
             action: null,
@@ -207,6 +211,13 @@ export default {
         })
     },
     methods: {
+        onSort(sort) {
+            this.sort.key = sort.key
+            this.sort.order = sort.order
+        },
+        onSearch(queryString) {
+            this.filterValues['search'] = queryString
+        },
         updateMetrics(metricValues) {
             this.metricValues = metricValues
         },
@@ -271,6 +282,7 @@ export default {
                 action.params.fields.forEach((field) => {
                     fields[field.handle] = null
                 })
+                console.log('fields', fields)
                 this.form = new Form(fields)
             }
         },
