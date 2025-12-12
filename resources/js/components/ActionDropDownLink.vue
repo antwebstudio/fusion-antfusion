@@ -114,7 +114,13 @@ export default {
             let options = this.blob ? { responseType: 'blob' } : {}
 
             axios.post(this.url, { resourceIds: params, form: this.form }, options).then((response) => {
+                this.loading = false
+                
+                this.$emit('submitted')
+                this.$emit('refreshed')
+                
                 console.log('action button', response)
+                this.closeModal(this.modalName)
 
                 this.processBlobResponse(response).then((response) => {
                     console.log('next')
