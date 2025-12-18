@@ -30,7 +30,8 @@ trait HasDataTable {
                 $columns[] = $field;
             }
         }
-        return $columns;
+        
+        return array_merge($columns, $this->getSpatieQueryDateTableFields());;
     }
 
     public function resolveDataTableFields($flattern = false, $scenario = null)
@@ -186,6 +187,11 @@ trait HasDataTable {
         return [];
     }
 
+    public function getSpatieQueryDateTableFields()
+    {
+        return [];
+    }
+
     protected function _getDataTableRecords($request)
     {
         return $this->getQueryBuilder()->paginate(
@@ -216,6 +222,11 @@ trait HasDataTable {
         return $resource->_getDataTablePaginate();
     }
 
+    public function getDataTableRecordsForController()
+    {
+        return $this->_getDataTablePaginate(true);
+    }
+
     protected function _getDataTablePaginate($processItem = false)
     {
         $paginate = $this->_getDataTableRecords(request());
@@ -239,6 +250,8 @@ trait HasDataTable {
 
     public function getQueryBuilder()
     {
+        request()->merge(['fields' => $this->getSpatieQueryDateTableFields(), 'include' => implode(',', $this->getDataTableWith())]);
+
         return QueryBuilder::for($this->dataTableQuery())
 
             // Allowed selectable fields   (e.g. fields['name']=John)
@@ -248,7 +261,7 @@ trait HasDataTable {
             ->allowedFilters($this->getAllowedFilters())
 
             // Allowed relationship includes (e.g. include=posts)
-            // ->allowedIncludes($this->getRelationships())
+            ->allowedIncludes($this->getDataTableWith())
 
             // Allowed sortable columns    (e.g. sort=name)
             ->allowedSorts($this->getAllowedSorts())
@@ -273,7 +286,7 @@ trait HasDataTable {
         $data = is_object($record) ? $record->toArray() : $record; // Use toArray() to keep relation data
         
         foreach ($this->getFieldsForDataTable() as $field) {
-            if (is_object($field)) {
+            if (is_object($field) && $field->shouldShowIn('index')) {
                 $data[$field->getHandle()] = $field->getState($record, $field->getHandle());
             }
         }

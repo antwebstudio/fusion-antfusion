@@ -30,6 +30,9 @@ class Field {
     protected $dehydrateStateUsing;
     protected $dehydrateStateBeforeValidationUsing;
 
+    protected $_toArrayWithoutDependency;
+    protected $_toArray;
+
     public function __construct($label, $handle) {
         $this->label = $label;
         $this->handle = $handle;
@@ -78,9 +81,15 @@ class Field {
     public function toArray() {
         $request = request();
         if (isset($request)) {
-            return $this->toArrayWithDependant($request);
+            if (!isset($this->_toArray)) {
+                $this->_toArray = $this->toArrayWithDependant($request);
+            }
+            return $this->_toArray;
         } else {
-            return $this->toArrayWithoutDependant($request);
+            if (!isset($this->_toArrayWithoutDependency)) {
+                $this->_toArrayWithoutDependency = $this->toArrayWithoutDependant($request);
+            }
+            return $this->_toArrayWithoutDependency;
         }
     }
 

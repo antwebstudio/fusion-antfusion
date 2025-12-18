@@ -36,6 +36,9 @@ class ResourceController extends DataTableController {
     }
 
     public function getRecords(Request $request) {
+
+        return $this->resource()->getDataTableRecordsForController();
+
         $paginate = parent::getRecords($request);
         // if ($paginate !== []) {
             $resource = $this->resource();

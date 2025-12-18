@@ -46,6 +46,8 @@ class Action
 
     protected $fillForm;
 
+    protected $_toArray;
+
     public static function make(...$arguments)
     {
         return new static(...$arguments);
@@ -232,9 +234,16 @@ class Action
     }
 
     public function toArray() {
+
+        if (isset($this->_toArray)) {
+            return $this->_toArray;
+        }
+        
         $actionSlug = $this->getSlug();
 
-        return array_merge($this->getMeta(), [
+        $fillForm = $this->getFillForm();
+
+        $this->_toArray = array_merge($this->getMeta(), [
             'id' => unique_id(),
             'component' => $this->getComponent(),
             'text' => __($this->getLabel()),
@@ -246,7 +255,7 @@ class Action
             'asDropdown' => $this->dropdown,
             'dropdown' => $this->dropdown,
             'path' => $this->getPath(),
-            'fill_form' => $this->getFillForm(),
+            'fill_form' => $fillForm,
             'footer_actions' => $this->getFooterActions()->filter(function($action, $index) {
                 $action->setParent($this, $index, 'a');
                 return !$action->isHidden() && !$action->isDropDown();
@@ -256,6 +265,7 @@ class Action
                 return $action;
             }),
         ]);
+        return $this->_toArray;
     }
 
     protected function getFooterActions()
