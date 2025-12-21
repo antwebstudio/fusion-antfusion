@@ -7,7 +7,7 @@
         </div>
 
         <DataTable v-else :lazy="true" :totalRecords="pagination.totalRecords" :rowsPerPageOptions="pagination.perPageOptions" :loading="loading" :paginator="true" :rows="10" ref="dt" :value="records"
-            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageInput RowsPerPageDropdown"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
             :selection.sync="selectedRecords" dataKey="id"
             stateStorage="local" :stateKey="stateKey"
@@ -190,6 +190,7 @@ export default {
                 perPage: this.perPage,
                 perPageOptions: [
                     10,
+                    20,
                     50,
                     100,
                     250
