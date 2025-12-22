@@ -136,7 +136,7 @@ export default {
                 }).catch((error) => {
                     // this.selected = null
                 })
-            } else if (this.field.settings.multiple) {
+            } else if (this.field.settings.multiple && savedValue) {
                 savedValue.forEach((value) => {
                     this.options.push(value)
                 })

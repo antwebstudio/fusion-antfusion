@@ -123,14 +123,14 @@ export default {
     methods: {
         loadValuesToRepeater(values) {
             let fields = null;
-            if (values.length > this.fields.length) {
+            if (values && values.length > this.fields.length) {
                 fields = values.map((value, index) => {
                     return {
                         ...this.fields[0],
                         value: value ? value : {},
                     }
                 })
-            } else {
+            } else if(values) {
                 fields = this.fields.map((row, index) => {
                     let returnValue = {
                         ...row,
