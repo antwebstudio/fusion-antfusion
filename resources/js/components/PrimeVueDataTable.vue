@@ -59,13 +59,17 @@
             <!-- actions -->
             <Column v-if="displayableColumns" :exportable="false" :styles="{'min-width':'8rem'}">
                 <template #body="slotProps">
-                    <div class="flex justify-end" v-if="slotProps.data.actions && slotProps.data.actions.length">
-                        <component :ref="action.id" :form="false" :record="slotProps.data" @submitted="reload" @updated="reload" v-for="action, index in slotProps.data.actions" :key="index" :is="action.component" v-bind="action">
+                    <div class="flex justify-end" v-if="!lazy && slotProps.data.actions && slotProps.data.actions.length">
+                        <component :form="false" :record="slotProps.data" @submitted="reload" @updated="reload" v-for="action, index in slotProps.data.actions" :key="index" :is="action.component" v-bind="action">
                             {{ action.text }}
                         </component>
                     </div>
                     <div class="flex justify-end" v-else>
-                         <datatable-actions :id="'actions-' + slotProps.data.id" @click="fetchActions(slotProps.data)" :loading="slotProps.data.loadingActions"/>
+                         <datatable-actions @click="fetchActions(slotProps.data)" :loading="slotProps.data.loadingActions">
+                            <component :form="false" :record="slotProps.data" @submitted="reload" @updated="reload" v-for="action, index in slotProps.data.actions" :key="index" :is="action.component" v-bind="action">
+                                {{ action.text }}
+                            </component>
+                         </datatable-actions>
                     </div>
                 </template>
             </Column>
@@ -142,6 +146,10 @@ export default {
         endpoint_params: {
             default: {}
         },
+        lazy: {
+            type: Boolean,
+            default: true
+        }
     },
     mounted() {
         // this.lazyParams = {
@@ -342,29 +350,14 @@ export default {
             })
         },
         fetchActions(record) {
+            if (record.actions && record.actions.length > 0) return;
+
             this.$set(record, 'loadingActions', true);
             axios.get(`/api/antfusion/resource/${record.resource.slug}/${record.id}/actions`)
                 .then(response => {
                     this.$set(record, 'actions', response.data);
                     this.$set(record, 'loadingActions', false);
 
-                    setTimeout(() => {
-                        const btn = this.$refs['actions-' + record.id];
-                        if (btn) {
-                            // If it's a component array (from v-for), pick the first one
-                            const target = Array.isArray(btn) ? btn[0] : btn;
-                            // Check if it's the datatable-actions component and use its internal click if needed
-                            // or just find the button inside it. 
-                            // ui-dropdown trigger is a button.
-                            const el = target.$el || target;
-                            const innerBtn = el.querySelector('button');
-                            if (innerBtn) {
-                                innerBtn.click();
-                            }
-                        } else {
-                            console.log('not found actions-' + record.id)
-                        }
-                    }, 100);
                 })
                 .catch(error => {
                     console.error("Error fetching actions:", error);
