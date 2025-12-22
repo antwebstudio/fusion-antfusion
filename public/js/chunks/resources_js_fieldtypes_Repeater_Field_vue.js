@@ -137,13 +137,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       var fields = null;
 
-      if (values.length > this.fields.length) {
+      if (values && values.length > this.fields.length) {
         fields = values.map(function (value, index) {
           return _objectSpread(_objectSpread({}, _this.fields[0]), {}, {
             value: value ? value : {}
           });
         });
-      } else {
+      } else if (values) {
         fields = this.fields.map(function (row, index) {
           var returnValue = _objectSpread(_objectSpread({}, row), {}, {
             value: values[index] ? values[index] : {}

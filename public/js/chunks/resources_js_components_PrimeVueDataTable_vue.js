@@ -102,6 +102,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
  //optional for column grouping
@@ -216,7 +219,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         currentPage: 1,
         totalPages: 0,
         perPage: this.perPage,
-        perPageOptions: [10, 50, 100, 250]
+        perPageOptions: [10, 20, 50, 100, 250]
       },
       selectedRecords: null // selectAll: false,
       // filters: {
@@ -359,6 +362,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this4.hasError = true;
           _this4.loading = false;
         }
+      });
+    },
+    fetchActions: function fetchActions(record) {
+      var _this5 = this;
+
+      this.$set(record, 'loadingActions', true);
+      axios__WEBPACK_IMPORTED_MODULE_10__["default"].get("/api/antfusion/resource/".concat(record.resource.slug, "/").concat(record.id, "/actions")).then(function (response) {
+        _this5.$set(record, 'actions', response.data);
+
+        _this5.$set(record, 'loadingActions', false);
+
+        setTimeout(function () {
+          var btn = _this5.$refs['actions-' + record.id];
+
+          if (btn) {
+            // If it's a component array (from v-for), pick the first one
+            var target = Array.isArray(btn) ? btn[0] : btn; // Check if it's the datatable-actions component and use its internal click if needed
+            // or just find the button inside it. 
+            // ui-dropdown trigger is a button.
+
+            var el = target.$el || target;
+            var innerBtn = el.querySelector('button');
+
+            if (innerBtn) {
+              innerBtn.click();
+            }
+          } else {
+            console.log('not found actions-' + record.id);
+          }
+        }, 100);
+      })["catch"](function (error) {
+        console.error("Error fetching actions:", error);
+
+        _this5.$set(record, 'loadingActions', false);
       });
     }
   }
@@ -16815,7 +16852,7 @@ var render = function () {
                 rows: 10,
                 value: _vm.records,
                 paginatorTemplate:
-                  "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
+                  "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageInput RowsPerPageDropdown",
                 currentPageReportTemplate:
                   "Showing {first} to {last} of {totalRecords}",
                 selection: _vm.selectedRecords,
@@ -17098,14 +17135,34 @@ var render = function () {
                                     ),
                                     1
                                   )
-                                : _vm._e(),
+                                : _c(
+                                    "div",
+                                    { staticClass: "flex justify-end" },
+                                    [
+                                      _c("datatable-actions", {
+                                        attrs: {
+                                          id: "actions-" + slotProps.data.id,
+                                          loading:
+                                            slotProps.data.loadingActions,
+                                        },
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.fetchActions(
+                                              slotProps.data
+                                            )
+                                          },
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
                             ]
                           },
                         },
                       ],
                       null,
                       false,
-                      148509318
+                      334769976
                     ),
                   })
                 : _vm._e(),

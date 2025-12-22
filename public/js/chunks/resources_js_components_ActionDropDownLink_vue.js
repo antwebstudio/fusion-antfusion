@@ -119,7 +119,15 @@ __webpack_require__.r(__webpack_exports__);
         resourceIds: params,
         form: this.form
       }, options).then(function (response) {
+        _this.loading = false;
+
+        _this.$emit('submitted');
+
+        _this.$emit('refreshed');
+
         console.log('action button', response);
+
+        _this.closeModal(_this.modalName);
 
         _this.processBlobResponse(response).then(function (response) {
           console.log('next');

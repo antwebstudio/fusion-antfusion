@@ -155,7 +155,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           // console.log('loaded options', this.options)
         })["catch"](function (error) {// this.selected = null
         });
-      } else if (this.field.settings.multiple) {
+      } else if (this.field.settings.multiple && savedValue) {
         savedValue.forEach(function (value) {
           _this.options.push(value);
         });
