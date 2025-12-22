@@ -12,6 +12,8 @@ Route::get('antfusion/resource/{resource}/{resourceId}', 'ResourceController@sho
 Route::get('antfusion/resource/{resource}/{resourceId}/edit', 'ResourceController@edit');
 Route::get('antfusion/resource/{resource}/{resourceId}/view', 'ResourceController@view');
 
+Route::get('antfusion/resource/{resource}/{resourceId}/actions', 'ResourceController@actions');
+
 Route::post('antfusion/resource/{resource}/{resourceId}/action/{action}', 'ResourceController@performAction');
 Route::post('antfusion/resource/{resource}/action/{action}', 'ResourceController@performAction');
 

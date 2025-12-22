@@ -119,14 +119,14 @@ abstract class Resource {
     public function getActionsForRecord($record) {
         if ($this->hasAction()) {
             $actions = $this->getNonDropDownActionsForRecord($record);
+
             $dropdownActions = $this->getDropDownActionsForRecord($record);
 
             if (count($dropdownActions)) {
                 $dropdown = [
                     'component' => 'nested-component',
-                    'as' => 'ui-actions',
+                    'as' => 'datatable-actions',
                     'props' => [
-                        
                     ],
                     'children' => $dropdownActions,
                 ];

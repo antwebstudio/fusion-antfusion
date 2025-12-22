@@ -60,9 +60,12 @@
             <Column v-if="displayableColumns" :exportable="false" :styles="{'min-width':'8rem'}">
                 <template #body="slotProps">
                     <div class="flex justify-end" v-if="slotProps.data.actions && slotProps.data.actions.length">
-                        <component :form="false" :record="slotProps.data" @submitted="reload" @updated="reload" v-for="action, index in slotProps.data.actions" :key="index" :is="action.component" v-bind="action">
+                        <component :ref="action.id" :form="false" :record="slotProps.data" @submitted="reload" @updated="reload" v-for="action, index in slotProps.data.actions" :key="index" :is="action.component" v-bind="action">
                             {{ action.text }}
                         </component>
+                    </div>
+                    <div class="flex justify-end" v-else>
+                         <datatable-actions :id="'actions-' + slotProps.data.id" @click="fetchActions(slotProps.data)" :loading="slotProps.data.loadingActions"/>
                     </div>
                 </template>
             </Column>
@@ -337,6 +340,36 @@ export default {
                     this.loading = false
                 }
             })
+        },
+        fetchActions(record) {
+            this.$set(record, 'loadingActions', true);
+            axios.get(`/api/antfusion/resource/${record.resource.slug}/${record.id}/actions`)
+                .then(response => {
+                    this.$set(record, 'actions', response.data);
+                    this.$set(record, 'loadingActions', false);
+
+                    setTimeout(() => {
+                        const btn = this.$refs['actions-' + record.id];
+                        if (btn) {
+                            // If it's a component array (from v-for), pick the first one
+                            const target = Array.isArray(btn) ? btn[0] : btn;
+                            // Check if it's the datatable-actions component and use its internal click if needed
+                            // or just find the button inside it. 
+                            // ui-dropdown trigger is a button.
+                            const el = target.$el || target;
+                            const innerBtn = el.querySelector('button');
+                            if (innerBtn) {
+                                innerBtn.click();
+                            }
+                        } else {
+                            console.log('not found actions-' + record.id)
+                        }
+                    }, 100);
+                })
+                .catch(error => {
+                    console.error("Error fetching actions:", error);
+                    this.$set(record, 'loadingActions', false);
+                });
         },
     }
 }

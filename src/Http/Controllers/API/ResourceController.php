@@ -38,6 +38,11 @@ class ResourceController extends Controller
         return $resource->update($request);
     }
     
+        public function actions(Request $request, $resource, $resourceId) {
+        $record = app('resources.'.$resource)->find($resourceId);
+        return app('resources.'.$resource)->getActionsForRecord($record);
+    }
+
     public function performAction(Request $request)
     {
         $resource = app('resources.'.$request->resource);

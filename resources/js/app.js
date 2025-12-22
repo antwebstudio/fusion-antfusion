@@ -92,6 +92,7 @@ window.Fusion.booting(function (Vue, router, store) {
     Vue.component('merge', () => import('./components/Merge'))
     Vue.component('html-component', () => import('./components/Html'))
     Vue.component('text-component', () => import('./components/Text'))
+    Vue.component('datatable-actions', () => import('./components/DataTableAction'))
 
     router.addRoutes([
         {

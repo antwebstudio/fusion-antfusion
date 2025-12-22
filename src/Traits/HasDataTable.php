@@ -235,7 +235,7 @@ trait HasDataTable {
             $paginate->through(function($record) {
                 $data = $this->processDataTableRecord($record);
                 $data['resource'] = ['slug' => $this->getSlug(), 'handle' => $this->getHandle()];
-                $data['actions'] = $this->getActionsForRecord($record);
+                // $data['actions'] = $this->getActionsForRecord($record);
 
                 return $data;
             });
@@ -283,7 +283,8 @@ trait HasDataTable {
     }
 
     public function processDataTableRecord($record): mixed {
-        $data = is_object($record) ? $record->toArray() : $record; // Use toArray() to keep relation data
+        // $data = is_object($record) ? $record->toArray() : $record; // Use toArray() to keep relation data
+        $data = [];
         
         foreach ($this->getFieldsForDataTable() as $field) {
             if (is_object($field) && $field->shouldShowIn('index')) {
