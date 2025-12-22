@@ -105,6 +105,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
  //optional for column grouping
@@ -172,6 +177,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     endpoint_params: {
       "default": {}
+    },
+    lazy: {
+      type: Boolean,
+      "default": true
     }
   },
   mounted: function mounted() {
@@ -372,26 +381,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this5.$set(record, 'actions', response.data);
 
         _this5.$set(record, 'loadingActions', false);
-
-        setTimeout(function () {
-          var btn = _this5.$refs['actions-' + record.id];
-
-          if (btn) {
-            // If it's a component array (from v-for), pick the first one
-            var target = Array.isArray(btn) ? btn[0] : btn; // Check if it's the datatable-actions component and use its internal click if needed
-            // or just find the button inside it. 
-            // ui-dropdown trigger is a button.
-
-            var el = target.$el || target;
-            var innerBtn = el.querySelector('button');
-
-            if (innerBtn) {
-              innerBtn.click();
-            }
-          } else {
-            console.log('not found actions-' + record.id);
-          }
-        }, 100);
       })["catch"](function (error) {
         console.error("Error fetching actions:", error);
 
@@ -17096,6 +17085,7 @@ var render = function () {
                           key: "body",
                           fn: function (slotProps) {
                             return [
+                              !_vm.lazy &&
                               slotProps.data.actions &&
                               slotProps.data.actions.length
                                 ? _c(
@@ -17139,20 +17129,58 @@ var render = function () {
                                     "div",
                                     { staticClass: "flex justify-end" },
                                     [
-                                      _c("datatable-actions", {
-                                        attrs: {
-                                          id: "actions-" + slotProps.data.id,
-                                          loading:
-                                            slotProps.data.loadingActions,
-                                        },
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.fetchActions(
-                                              slotProps.data
-                                            )
+                                      _vm._v(
+                                        "\n                    123\n                         "
+                                      ),
+                                      _c(
+                                        "datatable-actions",
+                                        {
+                                          attrs: {
+                                            loading:
+                                              slotProps.data.loadingActions,
+                                          },
+                                          on: {
+                                            click: function ($event) {
+                                              return _vm.fetchActions(
+                                                slotProps.data
+                                              )
+                                            },
                                           },
                                         },
-                                      }),
+                                        _vm._l(
+                                          slotProps.data.actions,
+                                          function (action, index) {
+                                            return _c(
+                                              action.component,
+                                              _vm._b(
+                                                {
+                                                  key: index,
+                                                  tag: "component",
+                                                  attrs: {
+                                                    form: false,
+                                                    record: slotProps.data,
+                                                  },
+                                                  on: {
+                                                    submitted: _vm.reload,
+                                                    updated: _vm.reload,
+                                                  },
+                                                },
+                                                "component",
+                                                action,
+                                                false
+                                              ),
+                                              [
+                                                _vm._v(
+                                                  "\n                                " +
+                                                    _vm._s(action.text) +
+                                                    "\n                            "
+                                                ),
+                                              ]
+                                            )
+                                          }
+                                        ),
+                                        1
+                                      ),
                                     ],
                                     1
                                   ),
@@ -17162,7 +17190,7 @@ var render = function () {
                       ],
                       null,
                       false,
-                      334769976
+                      906228599
                     ),
                   })
                 : _vm._e(),
