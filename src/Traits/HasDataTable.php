@@ -283,8 +283,8 @@ trait HasDataTable {
     }
 
     public function processDataTableRecord($record): mixed {
-        // $data = is_object($record) ? $record->toArray() : $record; // Use toArray() to keep relation data
-        $data = [];
+        $data = is_object($record) ? $record->toArray() : $record; // Use toArray() to keep relation data
+        // $data = [];
         
         foreach ($this->getFieldsForDataTable() as $field) {
             if (is_object($field) && $field->shouldShowIn('index')) {
