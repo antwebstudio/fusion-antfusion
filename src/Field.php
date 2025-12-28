@@ -20,6 +20,7 @@ class Field {
     
     public $label;
     public $handle;
+    public $shouldPrint = true;
     protected $slug;
 
     protected $id;
@@ -64,6 +65,17 @@ class Field {
     public function default($defaultValue) {
         $this->defaultValue = $defaultValue;
         return $this;
+    }
+
+    public function shouldPrint($shouldPrint = true)
+    {
+        $this->shouldPrint = $shouldPrint;
+        return $this;
+    }
+
+    public function isShouldPrint()
+    {
+        return $this->shouldPrint;
     }
 
     public function debug($debug = true)

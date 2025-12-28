@@ -24,6 +24,7 @@ class Fusion extends Field
     {
         return static::make($field->name, $field->handle)
             ->rules(static::getFieldRules($field))
+            ->shouldPrint($field->should_print)
             ->dehydrateStateBeforeValidationUsing(function($state) use($field) {
                 $fieldType = $field->type();
                 if (method_exists($fieldType, 'onBeforeValidation')) {

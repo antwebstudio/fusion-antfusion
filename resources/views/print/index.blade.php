@@ -75,7 +75,7 @@
 <table>
     <thead>
         <tr>
-            @foreach($resource->exportToExcelHeadings() as $handle => $header)
+            @foreach($resource->printHeadings() as $handle => $header)
                 <th>{{ $header }}</th>
             @endforeach
         </tr>
@@ -83,7 +83,7 @@
     <tbody>
         @foreach($paginate as $model)
             <tr>
-                @foreach($resource->exportToExcelMap($model) as $cell)
+                @foreach($resource->printMap($model) as $cell)
                     <td>{{ $cell }}</td>
                 @endforeach
             </tr>

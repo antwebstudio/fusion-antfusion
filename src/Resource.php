@@ -13,6 +13,7 @@ abstract class Resource {
     use \Addons\AntFusion\Traits\CanEdit;
     use \Addons\AntFusion\Traits\CanView;
     use \Addons\AntFusion\Traits\CanExport;
+    use \Addons\AntFusion\Traits\CanPrint;
     use \Addons\AntFusion\Traits\HasDataTable;
     use \Addons\AntFusion\Traits\HasFields;
     use \Addons\AntFusion\Traits\HasActions;
