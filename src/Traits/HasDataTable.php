@@ -287,7 +287,7 @@ trait HasDataTable {
         // $data = [];
         
         foreach ($this->getFieldsForDataTable() as $field) {
-            if (is_object($field) && $field->shouldShowIn('index')) {
+            if (is_object($field)) {
                 $data[$field->getHandle()] = $field->getState($record, $field->getHandle());
             }
         }
