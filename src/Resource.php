@@ -253,7 +253,7 @@ abstract class Resource {
 
         $this->initializedActions = [];
 
-        $resource = unserialize(serialize($this));
+        $resource = new ResourceForExporter($this);
 
         $this->initializedActions = $initActions;
         
