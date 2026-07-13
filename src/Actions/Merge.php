@@ -50,10 +50,9 @@ class Merge extends Action
             $records = $this->model()->find(request()->records);
         }
         return [
-            Select::make('Main records', 'main_record')->options($records->map(function($record) {
+            Select::make('Main records', 'main_record')->options($records->mapWithKeys(function($record) {
                 return [
-                    'label' => '['.$record->getKey().'] '.$record->name,
-                    'value' => $record->getKey(),
+                    $record->getKey() => '['.$record->getKey().'] '.$record->name,
                 ];
             }))
         ];
